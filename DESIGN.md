@@ -8,7 +8,7 @@ yeni bir bileşen eklemeden önce buradaki kurallara bakın.
 
 > B2B ürün kataloğu ve teklif sitesi; otel, ofis ve mağaza satın alma ekipleri için.
 > Dil: lüks mekân kokulandırma. Koyu, sinematik bir girişten sonra sakin, editoryal bir katalog.
-> Parfüm evlerinin tipografisi (Didone başlık, geometrik sans), tek vurgu rengi, ölçülü hareket.
+> Editoryal serif başlık, okunaklı sans gövde, üç renkli palet (gece mavisi, şampanya, porselen), ölçülü hareket.
 
 | Ayar | Değer | Gerekçe |
 | :--- | :--- | :--- |
@@ -16,12 +16,28 @@ yeni bir bileşen eklemeden önce buradaki kurallara bakın.
 | Hareket yoğunluğu | 5 / 10 | Durum değişimi, mekânsal süreklilik ve geri bildirim için hareket; sık tekrarlanan işlemler animasyonsuz. |
 | Görsel yoğunluk | 3 / 10 (katalog: 5) | Bol boşluk; katalog ve teknik tablolarda bilgi yoğunluğu artar. |
 
-**Tema:** Açık içerik teması, koyu çerçeve. Ana sayfa girişi (hero) ve footer noir zeminde; aradaki tüm
-içerik porselen fildişi zeminde. Bu tek, bilinçli bir renk bloğu kompozisyonudur (sayfa koyu açılır,
-açık akar, koyu kapanır). İçerik bölümleri arasında ters renkli bölüm yoktur. Koyu tema sunulmaz:
-ürün fotoğrafları açık iç mekân sahneleri.
+**Tema:** Açık içerik, koyu çerçeve, renk bantlarıyla ayrılan bölümler. Hero, koyu bantlar ve footer gece
+mavisi; içerik porselen; ayrılması gereken bölümler şampanya bant. Ana sayfa sırası:
+koyu giriş → porselen tanıtım → şampanya küratör → porselen öne çıkanlar → koyu ev ve masaüstü →
+şampanya kapanış → koyu footer. Koyu tema (tüm site) sunulmaz.
 
-### Tur 2 değişikliği ve nedeni
+### Tur 4 değişikliği ve nedeni
+
+Talep: ana sayfa yazıları zor okunuyor; bölümler "tek A4 sayfa" gibi; butonlar açık zemin üzerine koyu yazı;
+palet sıfırdan, 2-3 renk.
+
+| Önce | Sonra | Neden |
+| :--- | :--- | :--- |
+| Bodoni Moda başlık | **Newsreader** (optik boyut 36) | Sekiz aday aynı metinle karşılaştırıldı. Didone'lar (Bodoni, Playfair) ince çizgileriyle yoruyor, Garamond ve Gilda küçük boyutta silikleşiyor; Newsreader büyük boyutta şık, orta kontrastı ve açık harf içleriyle rahat okunuyor |
+| Büyük harf navigasyon ve buton etiketleri | Cümle düzeni, 15 px | Büyük harfli küçük metin kelime şeklini yok eder, okumayı yavaşlatır. Büyük harf yalnızca kısa etiketlerde (eyebrow, bölüm etiketi, footer başlıkları) |
+| Noir + fildişi + yosun yeşili | **Gece mavisi + şampanya + porselen** | Dört palet adayı (gece/şampanya, patlıcan/pudra, mürekkep/sis, bordo/kum) gerçek ana sayfada denendi. Gece mavisi ve şampanya otel lüksünün klasik ikilisi; gümüş ve beyaz cihazlarla, sıcak lobi fotoğraflarıyla en uyumlu olanı. Pudra fazla kozmetik, sis fazla soğuk, bordo ağır kaldı |
+| Koyu zemin + açık yazılı buton | Şampanya zemin + gece mavisi yazı (şampanya bantta porselen zemin) | Talep: açık üzeri koyu. Kontrast 10,8:1 |
+| Bölümler aynı zeminde, yalnızca boşlukla ayrılıyor | Renk bantları + her bölümü açan etiket ve uzanan çizgi | Bölümlerin farklı konular olduğu ilk bakışta anlaşılır |
+
+Şampanya, premium segmentte sık kullanılan pirinç/altın klişesine yakın bir aile. Burada metalik vurgu olarak
+değil, açık bir zemin tonu (buton, bant) olarak kullanılıyor; metin rengi olarak hiç kullanılmıyor.
+
+### Tur 2 değişikliği ve nedeni (tarihçe; renk ve başlık fontu Tur 4'te değişti)
 
 Tur 1'de palet sıcak taş grisi (`#EEEBE5`) ve çam yeşili, yazı tipleri Cormorant Garamond + Geist idi.
 Tur 2'de sektöre daha uygun bir lüks dil istendi (referans: samtida.com.tr girişi):
@@ -36,68 +52,68 @@ Tur 2'de sektöre daha uygun bir lüks dil istendi (referans: samtida.com.tr gir
 
 ## 2. Renk
 
-Porselen fildişi zemin, noir çerçeve, tek vurgu: yosun yeşili. Altın, pirinç, bordo, kil tonları kullanılmaz.
+Üç renk ve türevleri: **gece mavisi** (koyu), **şampanya** (ikincil), **porselen** (zemin). Metin tonları gece
+mavisinden, bant ve buton tonları şampanyadan türer. Dağılım yaklaşık %60 porselen, %25 gece mavisi, %15 şampanya.
 
 | Değişken | Değer | Kullanım |
 | :--- | :--- | :--- |
-| `--c-bg` | `#F3F0EA` | Sayfa zemini (porselen fildişi) |
-| `--c-bg-deep` | `#E8E3DA` | Bir ton koyusu; ayrılması gereken bant bölümler, yivli doku zemini |
-| `--c-surface` | `#FAF8F4` | Paneller, form alanları, modal, çekmece |
-| `--c-ink` | `#171615` | Başlık ve gövde metni |
-| `--c-ink-2` | `#4E4A44` | İkincil metin |
-| `--c-ink-3` | `#69645C` | Etiketler, küçük meta bilgi |
-| `--c-line` | `rgba(23,22,21,.12)` | Ayırıcı çizgiler |
-| `--c-line-strong` | `#807A70` | Form alanı kenarı, ikincil buton kenarı (3:1 UI kontrastı) |
-| `--c-accent` | `#2C463B` | Tek vurgu: birincil buton, odak halkası, aktif durum, eyebrow çizgisi |
-| `--c-accent-hover` | `#213529` | Birincil buton hover |
-| `--c-accent-tint` | `#DDE4DD` | Bilgi bandı zemini, odak halkası dış ışığı |
-| `--c-on-accent` | `#F5F2EC` | Vurgu zemini üzerindeki metin |
-| `--c-error` | `#963A2C` | Form hata metni ve kenarı |
-| `--c-noir` | `#141312` | Hero ve footer zemini |
-| `--c-noir-2` | `#1E1C1A` | Noir üzerinde görsel yer tutucu |
-| `--c-ivory` | `#F2EEE6` | Noir üzerinde başlık, birincil açık buton zemini |
-| `--c-ivory-2` | `#C9C3B8` | Noir üzerinde gövde metni |
-| `--c-ivory-3` | `#A39D92` | Noir üzerinde etiket ve meta |
-| `--c-line-dark` | `rgba(242,238,230,.16)` | Noir üzerinde ayırıcı ve çip kenarı |
+| `--c-bg` | `#F7F4EF` | Porselen: ana zemin |
+| `--c-bg-deep` | `#EDE3D2` | Şampanya açık: ayrılan bantlar (`.section--deep`), yivli doku zemini |
+| `--c-surface` | `#FCFBF8` | Kart, form, panel; şampanya bantta birincil buton zemini |
+| `--c-ink` | `#141C27` | Gece mavisi: başlık ve metin |
+| `--c-ink-2` | `#434D5B` | İkincil metin |
+| `--c-ink-3` | `#5C6573` | Etiket, meta |
+| `--c-line` | `rgba(20,28,39,.12)` | Ayırıcı çizgiler |
+| `--c-line-strong` | `#7A8290` | Form alanı ve ikincil buton kenarı (3:1 UI kontrastı) |
+| `--c-accent` | `#141C27` | Metin düzeyi vurgu, aktif durum, odak halkası (gece mavisi) |
+| `--c-champagne` | `#DDCBAA` | Şampanya: birincil buton zemini, rozet, aktif sekme, koyu zemindeki italik vurgu |
+| `--c-champagne-deep` | `#CDB68E` | Buton hover ve kenarı |
+| `--c-gold-line` | `#B79C6E` | Yalnızca süs çizgileri (eyebrow çizgisi, bölüm etiketi baklavası); metin için kullanılmaz |
+| `--c-error` | `#9A3B2E` | Form hata metni (işlevsel, palet dışı) |
+| `--c-noir` | `#141C27` | Koyu yüzeyler: hero, `.section--dark`, footer |
+| `--c-noir-2` | `#1D2735` | Koyu zeminde görsel yer tutucu |
+| `--c-ivory` | `#F4EFE6` | Koyu zeminde başlık |
+| `--c-ivory-2` | `#C3C8D0` | Koyu zeminde gövde |
+| `--c-ivory-3` | `#9AA2AE` | Koyu zeminde etiket |
+| `--c-line-dark` | `rgba(244,239,230,.16)` | Koyu zeminde ayırıcı |
 
 **Kontrast (WCAG 2.1, hesaplanmış):**
 
-| Ön plan | `--c-bg` | `--c-bg-deep` | `--c-surface` |
+| Ön plan | `--c-bg` porselen | `--c-bg-deep` şampanya bant | `--c-surface` |
 | :--- | :--- | :--- | :--- |
-| `--c-ink` | 15.9:1 | 14.1:1 | 17.0:1 |
-| `--c-ink-2` | 7.7:1 | 6.9:1 | 8.3:1 |
-| `--c-ink-3` | 5.2:1 | 4.6:1 | 5.5:1 |
-| `--c-accent` | 9.0:1 | 8.0:1 | 9.7:1 |
-| `--c-error` | 6.3:1 | 5.6:1 | 6.7:1 |
-| `--c-line-strong` (UI) | 3.7:1 | 3.3:1 | 4.0:1 |
+| `--c-ink` | 15.6:1 | 13.5:1 | 16.6:1 |
+| `--c-ink-2` | 7.8:1 | 6.7:1 | 8.3:1 |
+| `--c-ink-3` | 5.4:1 | 4.6:1 | 5.7:1 |
+| `--c-line-strong` (UI) | 3.5:1 | 3.1:1 | 3.7:1 |
+| `--c-error` | 6.3:1 | 5.4:1 | 6.7:1 |
 
-| Noir üzerinde | Oran |
+| Gece mavisi üzerinde | Oran |
 | :--- | :--- |
-| `--c-ivory` | 16.0:1 |
-| `--c-ivory-2` | 10.6:1 |
-| `--c-ivory-3` | 6.9:1 |
-| Footer dekoratif marka yazısı `#6A645D` | 3.2:1 (yalnızca büyük metin; ekran okuyucudan gizli) |
+| `--c-ivory` | 15.0:1 |
+| `--c-ivory-2` | 10.2:1 |
+| `--c-ivory-3` | 6.7:1 |
+| `--c-champagne` (italik vurgu, buton zemini) | 10.8:1 |
+| Footer dekoratif marka yazısı `#65707F` | 3.4:1 (yalnızca büyük metin; ekran okuyucudan gizli) |
 
-`--c-on-accent` / `--c-accent`: 9.2:1. Açık buton (noir / ivory): 16.0:1.
+Butonlar: gece mavisi yazı / şampanya zemin 10.8:1, hover zemininde 8.7:1, porselen zeminde 16.6:1.
 
-**Hero görsel üzerindeki metin:** örtü, en kötü durumda (beyaz görsel) bile metin bölgesinde en az %80 noir
-yoğunluk verir: `--c-ivory-2` için 5.7:1 ve üzeri, `--c-ivory` için 8.7:1 ve üzeri.
+**Hero görsel üzerindeki metin:** örtü metin bölgesinde en az %80 gece mavisi; `--c-ivory-2` için 5.4:1 ve üzeri,
+giriş paragrafı (`#DCDFE4`) ve başlık için daha yüksek.
 
 **Kurallar**
-- Vurgu rengi her yerde aynıdır. İkinci bir vurgu rengi eklenmez. Noir üzerinde vurgu yerine fildişi kullanılır.
+- Üç rengin dışına çıkılmaz. Hata rengi yalnızca form hatalarında.
+- Butonlar her zaman açık zemin üzerine koyu yazıdır (bkz. bölüm 7). Koyu zeminli, açık yazılı buton yoktur.
 - Saf siyah (`#000`) ve saf beyaz (`#fff`) kullanılmaz.
-- Gölgeler mürekkep tonundan türetilir, siyahtan değil.
+- Gölgeler gece mavisinden türetilir.
 - Zemine çok hafif bir doku (grain) eklenir: sabit, `pointer-events: none` bir katmanda, opaklık 0.035.
 
 ## 3. Tipografi
 
-Tur 3'te okunabilirlik için yeniden düzenlendi: Bodoni Moda'nın ince çizgileri küçük boyutta, Jost'un küçük
-x-yüksekliği uzun metinde okumayı zorlaştırıyordu. Didone yalnızca büyük boyutta kaldı; geri kalan her şey
-Manrope'a geçti.
+Tur 3'te gövde Manrope'a, Tur 4'te başlıklar Bodoni Moda'dan Newsreader'a geçti (gerekçe bölüm 1).
 
 | Rol | Font | Ağırlık | Not |
 | :--- | :--- | :--- | :--- |
-| Display, h1, h2, büyük rakamlar, footer marka yazısı | Bodoni Moda | 500, italik | Değişken; `font-optical-sizing: auto`. 28 px altında kullanılmaz |
+| Display, h1, h2, büyük rakamlar, footer marka yazısı | Newsreader | 400, italik 400 (marka 500) | Değişken ağırlık 400-600, optik boyut 36'ya sabit (dosya boyutu için). 28 px altında kullanılmaz |
 | Gövde, arayüz, h3 ve altı, kart başlıkları, etiketler | Manrope | 400 gövde, 600 başlık/etiket | Büyük x-yüksekliği, ekranda yüksek okunabilirlik, tam Türkçe desteği |
 | Teknik sayılar (tablo, kart) | Manrope, `tabular-nums` | | Hizalı durur |
 
@@ -107,7 +123,7 @@ Fontlar `site/fonts/` altında yerel barındırılır (değişken woff2, latin +
 
 | Token | Değer | Kullanım |
 | :--- | :--- | :--- |
-| `--fs-display` | `clamp(2.6rem, 1.7rem + 4.2vw, 5.6rem)` | Ana sayfa hero başlığı |
+| `--fs-display` | `clamp(2.75rem, 1.8rem + 4vw, 5.5rem)` | Ana sayfa hero başlığı |
 | `--fs-h1` | `clamp(2.3rem, 1.7rem + 2.5vw, 4rem)` | Sayfa başlıkları |
 | `--fs-h2` | `clamp(1.85rem, 1.5rem + 1.5vw, 2.8rem)` | Bölüm başlıkları |
 | `--fs-h3` | `clamp(1.125rem, 1.05rem + 0.35vw, 1.3rem)` | Kart, ürün, liste başlıkları (Manrope 600) |
@@ -118,14 +134,15 @@ Fontlar `site/fonts/` altında yerel barındırılır (değişken woff2, latin +
 | `--tracking-caps` | `0.1em` | Büyük harf etiket, buton ve navigasyon aralığı |
 
 **Kurallar**
-- Başlıklarda harf aralığı negatif (`-0.015em`, display `-0.025em`); satır yüksekliği 1.04-1.3.
+- Başlıklarda harf aralığı hafif negatif (`-0.01em`, display `-0.015em`); satır yüksekliği 1.05-1.3.
 - Paragraf genişliği en fazla `62ch`; makale gövdesi `68ch`.
 - Vurgu için aynı fontun italiği kullanılır, başka font karıştırılmaz.
-- Butonlar, navigasyon, çipler ve etiketler: Manrope 600, büyük harf, `--tracking-caps`. Üçüncül metin bağlantıları
-  (`.link-arrow`) cümle düzeninde kalır.
-- Marka adı Bodoni Moda, büyük harf, `0.22em` aralık ("MEIRA"). Marka bağlantısı `lang="en"` taşır; aksi halde
+- Navigasyon, butonlar ve çipler cümle düzeninde (Manrope 500-600, 14-16 px). Büyük harf yalnızca kısa
+  etiketlerde: eyebrow, bölüm etiketi, footer sütun başlıkları, içindekiler başlığı.
+- Marka adı Newsreader 500, büyük harf, `0.2em` aralık ("MEIRA"). Marka bağlantısı `lang="en"` taşır; aksi halde
   Türkçe büyük harf kuralı "i" harfini "İ" yapar. Alt yazı ("Türkiye") `lang="tr"`.
-- Büyük harfli üst etiket (eyebrow), başında 36 px vurgu çizgisiyle, en fazla her üç bölümde bir.
+- Büyük harfli üst etiket (eyebrow), başında 36 px şampanya çizgisiyle; yalnızca hero'da.
+- Vurgu italiği açık zeminde metin renginde, koyu zeminde şampanya.
 - Uzun tire ve orta uzunlukta tire kullanılmaz; aralıklarda kısa tire (`-`) kullanılır.
 - Başlıklarda `text-wrap: balance`, paragraflarda `text-wrap: pretty`.
 
@@ -178,26 +195,37 @@ temiz) ve iç sayfa başlıklarının boş sağ yarısı (sola doğru maskeyle k
 
 ## 7. Bileşenler
 
+**Bölüm etiketi (`.section-label`, Tur 4):** Ana sayfa bölümlerini açar: 10 px'lik döndürülmüş kare (şampanya
+çizgi), büyük harf kısa etiket (13 px, 0.14em) ve satırın geri kalanını dolduran ince çizgi. Dekoratif
+olduğu için `aria-hidden`; bölümün adı başlığında ya da `aria-label`'ında.
+
+**Koyu bant (`.section--dark`, Tur 4):** Gece mavisi zemin; içindeki metin token'ları (`--c-ink`, `--c-line` vb.)
+yerel olarak açık tonlara döner. İçindeki açık paneller `.theme-light` ile varsayılan tonlara geri alınır.
+Odak halkası koyu bantta şampanya.
+
 **Başlık (header):** 72 px, yapışkan. Açık sayfalarda şeffaf başlar; kaydırınca `--c-bg` %88 + bulanıklık
 ve alt çizgi. Ana sayfada hero'nun üstündeyken (`.on-dark`, IntersectionObserver) metin fildişi, kaydırınca
-noir %62 + bulanıklık. Navigasyon büyük harf aralıklı; aktif sayfa 1 px vurgu çizgisi, fareyle üzerine
-gelince çizgi soldan çizilir. 1100 px altında menü butonu.
+gece mavisi %62 + bulanıklık. Navigasyon cümle düzeninde 15 px; aktif sayfa 1 px vurgu çizgisi, fareyle
+üzerine gelince çizgi soldan çizilir. 1100 px altında menü butonu.
 
-**Ana sayfa girişi (hero):** `min-height: 100svh`, noir zemin; başlığın altına girer (negatif margin).
+**Ana sayfa girişi (hero):** `min-height: 100svh`, gece mavisi zemin; başlığın altına girer (negatif margin).
 - Arkada görsel duvarı: üç sıra 4:5 karo (cihazlar, mekânlar, ev ve çubuklu ürünler), zıt yönlerde
   110-140 s'de bir tur atan sabit hızlı akış (`linear`; sürekli hareket için doğru eğri). İçerik iki kez
   yazılır, iz yarısı kadar kayınca kesintisiz başa döner. Görseller `images/hero/` altında 360 x 450 küçük
-  kopyalardır (toplam ~1 MB). `site.js` doldurur; JS yoksa noir zemin görünür.
+  kopyalardır (toplam ~1 MB). `site.js` doldurur; JS yoksa gece mavisi zemin görünür.
 - Görsel akışı için **durdur/oynat düğmesi** (WCAG 2.2.2). Ekran dışındayken otomatik durur.
   Azaltılmış harekette akış hiç başlamaz ve düğme gizlenir.
 - Örtü: soldan sağa %94 → %50, alttan %92 → 0. Mobilde yukarıdan aşağı %80 → %95.
 - İçerik: eyebrow, display başlık, giriş paragrafı, ürün grubu çipleri (`urunler.html?cat=` bağlantıları),
   iki buton (açık ve hayalet). Altta katalog verileri şeridi (ürün sayısı `data-product-count`'tan).
 
-**Butonlar** (yükseklik 50 px, büyük boy 56 px, metin tek satır, büyük harf aralıklı):
-- `.btn--primary`: vurgu zemini. Hover: `--c-accent-hover`.
-- `.btn--quiet`: şeffaf, `--c-line-strong` kenar. Hover: mürekkep %4 zemin.
-- `.btn--light` (noir üzerinde): fildişi zemin, noir metin. `.btn--ghost-light`: fildişi %42 kenar.
+**Butonlar** (yükseklik 50 px, büyük boy 56 px, metin tek satır, cümle düzeni, Manrope 600). Kural: **açık
+zemin üzerine koyu yazı.**
+- `.btn--primary`: şampanya zemin, şampanya-derin kenar, gece mavisi yazı. Hover: şampanya-derin zemin.
+  Şampanya bant (`.section--deep`) içinde: porselen yüzey zemin, ince gece mavisi kenar.
+- `.btn--quiet`: şeffaf, `--c-line-strong` kenar, gece mavisi yazı. Hover: gece mavisi %4 zemin.
+- `.btn--light` (koyu zeminde): `.btn--primary` ile aynı (şampanya). `.btn--ghost-light`: fildişi %42 kenar.
+- `.btn-add` (Listeye ekle): kenarlı; hover ve "Eklendi" durumunda şampanya zemin, gece mavisi yazı.
 - `.link-arrow`: üçüncül metin bağlantısı, ok ikonu hover'da 3 px kayar.
 - Aynı niyet için tek etiket: teklif = "Teklif iste", listeye ekleme = "Listeye ekle",
   katalog = "Ürünleri incele".
@@ -221,7 +249,7 @@ yanda yapışkan teknik veri tablosu. Ardından dolum, SSS akordeonu (`<details>
 `z-index` ile onun üstündedir. Odak halkası kartın çevresine çizilir.
 
 **Blog ve belge sayfaları:** Blog dizininde ilk yazı yatay öne çıkan kart, diğerleri üç sütun. Makale gövdesi
-`.prose--article` (68ch, h2 Bodoni, h3 Manrope, ince çizgili liste işaretleri, yatay kaydırılabilir ve klavyeyle
+`.prose--article` (68ch, h2 Newsreader, h3 Manrope, ince çizgili liste işaretleri, yatay kaydırılabilir ve klavyeyle
 odaklanabilir tablolar), altında numaralı kaynak listesi. Sürdürülebilirlik sayfası yapışkan içindekiler +
 gövde düzenindedir.
 
@@ -251,7 +279,7 @@ Odak: kenar vurgu rengi + 3 px `--c-accent-tint` halka.
 **Video:** `<figure>` içinde, altında "Görsel temsilidir." notu ve durdur/oynat butonu.
 `prefers-reduced-motion: reduce` durumunda otomatik oynatılmaz.
 
-**Footer:** Noir zemin, fildişi tonlarında metin; beş sütun (marka, ürün grupları, kurumsal, kaynaklar, iletişim). En altta büyük Bodoni marka yazısı
+**Footer:** Gece mavisi zemin, fildişi tonlarında metin, şampanya sütun başlıkları; beş sütun (marka, ürün grupları, kurumsal, kaynaklar, iletişim). En altta büyük Newsreader marka yazısı
 (`.footer-wordmark`, `aria-hidden`, adı `site-config.js`'ten gelir).
 
 **İkonlar:** Phosphor Icons Light, tek SVG sprite (`site/images/icons.svg`). Boyut 16-20 px,
