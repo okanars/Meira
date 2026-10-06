@@ -1,0 +1,27 @@
+{
+  "name": "Meira Türkiye",
+  "short_name": "Meira",
+  "description": "Profesyonel koku difüzörleri ve mekân kokulandırma.",
+  "lang": "tr-TR",
+  "start_url": "index.html",
+  "display": "browser",
+  "background_color": "#F7F4EF",
+  "theme_color": "#141C27",
+  "icons": [
+    {
+      "src": "images/brand/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "images/brand/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

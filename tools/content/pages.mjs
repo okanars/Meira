@@ -120,3 +120,101 @@ export const FAQ = {
     }
   ]
 };
+
+// Gizlilik ve KVKK aydınlatma metni (taslak).
+// [DOĞRULANACAK] Bu metin 6698 sayılı KVKK m.10 bilgilendirme başlıklarına göre hazırlanmış bir taslaktır;
+// yayından önce hukuk danışmanınızca gözden geçirilmelidir. Şirket kimliği alanları (ticaret unvanı, MERSİS,
+// adres, KEP) ve saklama süreleri doldurulmalıdır. Hukuki niteleme ve sürelerde kesin ifade kullanılmamıştır.
+export const PRIVACY = {
+  title: 'Gizlilik ve KVKK Aydınlatma Metni | Meira',
+  h1: 'Gizlilik ve KVKK aydınlatma metni',
+  description: 'Teklif ve iletişim formu aracılığıyla toplanan kişisel verilerin hangi amaçla işlendiği, kimlere aktarılabileceği, saklama süresi ve KVKK kapsamındaki haklarınız.',
+  updated: '2026-10-07',
+  lead: 'Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında, web sitemizdeki teklif ve iletişim formu aracılığıyla paylaştığınız kişisel verilerin nasıl işlendiğini açıklar.',
+  sections: [
+    {
+      id: 'veri-sorumlusu',
+      title: 'Veri sorumlusu',
+      html: `<p>Kişisel verileriniz, veri sorumlusu sıfatıyla aşağıda bilgileri yer alan şirket tarafından işlenir.</p>
+<dl class="legal-facts">
+  <div><dt>Ticaret unvanı</dt><dd>Yayından önce eklenecek</dd></div>
+  <div><dt>MERSİS numarası</dt><dd>Yayından önce eklenecek</dd></div>
+  <div><dt>Adres</dt><dd><span data-site="city">İstanbul, Türkiye</span> (açık adres yayından önce eklenecek)</dd></div>
+  <div><dt>E-posta</dt><dd><a href="mailto:info@meira.com.tr" data-site-href="email"><span data-site="email">info@meira.com.tr</span></a></dd></div>
+  <div><dt>KEP adresi</dt><dd>Yayından önce eklenecek</dd></div>
+</dl>
+<!-- [DOĞRULANACAK] Ticaret unvanı, MERSİS, açık adres, KEP ve gerçek e-posta (6563 sayılı Kanun kapsamında hizmet sağlayıcı bilgileri de bu bölümde yer alabilir). -->`
+    },
+    {
+      id: 'islenen-veriler',
+      title: 'İşlenen kişisel veriler',
+      html: `<p>Teklif ve iletişim formunu doldurduğunuzda yalnızca formda paylaştığınız bilgiler işlenir:</p>
+<ul>
+  <li><strong>Kimlik:</strong> ad soyad.</li>
+  <li><strong>İletişim:</strong> e-posta adresi, telefon numarası (isteğe bağlı).</li>
+  <li><strong>Müşteri işlem:</strong> kurum veya firma adı, talep konusu, mesaj içeriği ve teklif listenizdeki ürünler ile adetleri.</li>
+  <li><strong>İşlem güvenliği:</strong> talebin gönderildiği IP adresi ve zaman bilgisi (kötüye kullanımın önlenmesi için).</li>
+</ul>
+<p>Formda özel nitelikli kişisel veri (sağlık, inanç vb.) istenmez; lütfen mesaj alanında bu tür bilgileri paylaşmayın.</p>`
+    },
+    {
+      id: 'amaclar',
+      title: 'İşleme amaçları ve hukuki sebepler',
+      html: `<p>Kişisel verileriniz şu amaçlarla işlenir:</p>
+<ul>
+  <li>Teklif talebinizi değerlendirmek, fiyat ve teslim bilgisi içeren teklif hazırlamak,</li>
+  <li>Talebiniz, numune, OEM / ODM veya teknik destek isteğiniz hakkında sizinle iletişime geçmek,</li>
+  <li>Formun kötüye kullanımını ve istenmeyen gönderileri önlemek.</li>
+</ul>
+<p>Bu işleme, KVKK'nın 5. maddesinin 2. fıkrası kapsamında, bir sözleşmenin kurulmasıyla doğrudan ilgili olması (teklif süreci) ve veri sorumlusunun meşru menfaati (bilgi güvenliği) hukuki sebeplerine dayanır.</p>
+<!-- [DOĞRULANACAK] Hukuki sebeplerin nitelendirmesi hukuk danışmanınca teyit edilmeli. -->`
+    },
+    {
+      id: 'aktarim',
+      title: 'Aktarım',
+      html: `<p>Kişisel verileriniz yalnızca yukarıdaki amaçlar için ve gerektiği ölçüde aktarılabilir:</p>
+<ul>
+  <li><strong>Hizmet sağlayıcılar:</strong> web sitesinin barındırma ve e-posta hizmetini sağlayan şirketler.</li>
+  <li><strong>Üretici:</strong> özel markalı üretim (OEM / ODM) veya ürüne özgü teknik talepleriniz, talebin yerine getirilebilmesi için yurt dışındaki üreticiye (Çin) iletilebilir. Bu aktarım, KVKK'nın 9. maddesinde öngörülen şartlara uygun olarak yapılır ve yalnızca talebiniz için gerekli bilgilerle sınırlıdır.</li>
+  <li><strong>Yetkili kurumlar:</strong> kanuni bir yükümlülük olması halinde yetkili kamu kurum ve kuruluşları.</li>
+</ul>
+<!-- [DOĞRULANACAK] Barındırma ve e-posta sağlayıcısının konumu (yurt içi / yurt dışı) ve üreticiye aktarımın KVKK m.9 kapsamındaki dayanağı (açık rıza, standart sözleşme vb.) netleştirilmeli. -->`
+    },
+    {
+      id: 'saklama',
+      title: 'Saklama süresi',
+      html: `<p>Kişisel verileriniz, işleme amacının gerektirdiği süre ve ilgili mevzuatta öngörülen süreler boyunca saklanır; bu sürelerin sonunda silinir, yok edilir veya anonim hale getirilir.</p>
+<!-- [DOĞRULANACAK] Somut saklama süreleri (ör. sonuçlanmayan teklifler için X ay; api/submissions.log kayıtları için Y ay) belirlenmeli ve bu paragrafa yazılmalı. -->`
+    },
+    {
+      id: 'haklar',
+      title: 'Haklarınız',
+      html: `<p>KVKK'nın 11. maddesi uyarınca veri sorumlusuna başvurarak:</p>
+<ul>
+  <li>Kişisel verilerinizin işlenip işlenmediğini öğrenme ve işlenmişse buna ilişkin bilgi talep etme,</li>
+  <li>İşlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme,</li>
+  <li>Yurt içinde veya yurt dışında aktarıldığı üçüncü kişileri bilme,</li>
+  <li>Eksik veya yanlış işlenmişse düzeltilmesini, KVKK'nın 7. maddesindeki şartlar çerçevesinde silinmesini veya yok edilmesini isteme ve bu işlemlerin aktarıldığı üçüncü kişilere bildirilmesini isteme,</li>
+  <li>Münhasıran otomatik sistemlerle analiz edilmesi sonucu aleyhinize bir sonucun ortaya çıkmasına itiraz etme,</li>
+  <li>Kanuna aykırı işleme nedeniyle zarara uğramanız halinde zararın giderilmesini talep etme</li>
+</ul>
+<p>haklarına sahipsiniz.</p>`
+    },
+    {
+      id: 'basvuru',
+      title: 'Başvuru',
+      html: `<p>Haklarınıza ilişkin taleplerinizi, Veri Sorumlusuna Başvuru Usul ve Esasları Hakkında Tebliğ'e uygun olarak, kimliğinizi doğrulayan bilgilerle birlikte <a href="mailto:info@meira.com.tr" data-site-href="email"><span data-site="email">info@meira.com.tr</span></a> adresine e-posta ile ya da yazılı olarak iletebilirsiniz. Başvurular en geç 30 gün içinde sonuçlandırılır.</p>`
+    },
+    {
+      id: 'cerezler',
+      title: 'Çerezler ve tarayıcı depolama',
+      html: `<p>Bu site çerez kullanmaz ve ziyaretçi takibi ya da reklam amaçlı analiz aracı içermez. Sitenin çalışması için tarayıcınızın yerel depolama alanı şu iki amaçla kullanılır:</p>
+<ul>
+  <li><strong>Teklif listesi:</strong> listeye eklediğiniz ürünler ve adetleri (<code>localStorage</code>). Bu bilgi yalnızca tarayıcınızda tutulur; teklif formunu gönderdiğinizde mesajın bir parçası olarak iletilir.</li>
+  <li><strong>Açılış efekti:</strong> ana sayfa açılış animasyonunun oturum başına bir kez gösterilmesi için bir işaret (<code>sessionStorage</code>); tarayıcı sekmesi kapanınca silinir.</li>
+</ul>
+<p>Bu bilgileri tarayıcınızın site verilerini temizleyerek istediğiniz zaman silebilirsiniz.</p>
+<!-- [DOĞRULANACAK] Sonradan analiz veya reklam aracı eklenirse bu bölüm ve çerez onayı mekanizması güncellenmeli. -->`
+    }
+  ]
+};

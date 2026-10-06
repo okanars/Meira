@@ -12,7 +12,7 @@
   const SITE = {
     brand: 'Meira',
     email: 'info@meira.com.tr',
-    phone: '+90 212 000 00 00',
+    phone: '+90\u00A0212\u00A0000\u00A000\u00A000', // bölünmez boşluk: numara satır sonunda bölünmez
     phoneHref: '+902120000000',
     city: 'İstanbul, Türkiye'
   };

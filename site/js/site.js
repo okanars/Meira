@@ -56,37 +56,44 @@
   }
 
   // Tanıtım videoları: durdur/oynat butonu, azaltılmış harekette otomatik oynatma yok
+  // Tanıtım videoları: ekrana yaklaşınca yüklenip sessiz oynar, ekrandan çıkınca durur (gereksiz indirme yok).
+  // Durdur/oynat düğmesiyle durdurulan video kendiliğinden yeniden başlamaz. Azaltılmış harekette otomatik oynatma yok.
   function initVideos() {
+    const autoplayAllowed = !reduceMotion.matches && 'IntersectionObserver' in window;
     document.querySelectorAll('[data-video]').forEach(figure => {
       const video = figure.querySelector('video');
       const toggle = figure.querySelector('.video-toggle');
       if (!video || !toggle) return;
       const label = toggle.querySelector('.video-toggle__label');
+      let userPaused = false;
 
       function sync() {
         const paused = video.paused;
         toggle.dataset.state = paused ? 'paused' : 'playing';
         if (label) label.textContent = paused ? 'Videoyu oynat' : 'Videoyu durdur';
       }
-
-      if (reduceMotion.matches) {
-        video.removeAttribute('autoplay');
-        video.pause();
+      function play() {
+        const p = video.play();
+        if (p && typeof p.catch === 'function') p.catch(() => {});
       }
 
       toggle.addEventListener('click', () => {
-        if (video.paused) {
-          const p = video.play();
-          if (p && typeof p.catch === 'function') p.catch(() => {});
-        } else {
-          video.pause();
-        }
+        if (video.paused) { userPaused = false; play(); }
+        else { userPaused = true; video.pause(); }
       });
       video.addEventListener('play', sync);
       video.addEventListener('pause', sync);
       sync();
+
+      if (autoplayAllowed && video.hasAttribute('data-autoplay')) {
+        new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) { if (!userPaused) play(); }
+          else if (!video.paused) video.pause();
+        }, { rootMargin: '200px 0px' }).observe(video);
+      }
     });
   }
+
 
   // Ana sayfa görsel duvarı: üç sıra, zıt yönlerde yavaş akış.
   // Durdur/oynat düğmesi (WCAG 2.2.2); ekran dışındayken ve azaltılmış harekette durur.
@@ -99,10 +106,11 @@
   function initHeroWall() {
     const wall = document.querySelector('[data-hero-wall]');
     if (!wall) return;
-    const tile = (name, eager) => `<figure class="hero-row__item"><img src="images/hero/${name}.jpg" alt="" width="360" height="450" decoding="async"${eager ? '' : ' loading="lazy"'}></figure>`;
+    // Her karo: WebP (modern tarayıcı) + JPEG yedeği. İlk 4 karo hemen, gerisi tembel ve düşük öncelikle yüklenir.
+    const tile = (name, eager) => `<figure class="hero-row__item"><picture><source type="image/webp" srcset="images/hero/${name}.webp"><img src="images/hero/${name}.jpg" alt="" width="360" height="450" decoding="async"${eager ? '' : ' loading="lazy" fetchpriority="low"'}></picture></figure>`;
     wall.innerHTML = HERO_ROWS.map(row => {
       // İçerik iki kez yazılır: iz yarısı kadar kayınca kesintisiz başa döner
-      const once = row.items.map((n, i) => tile(n, i < 6)).join('');
+      const once = row.items.map((n, i) => tile(n, i < 4)).join('');
       const twice = row.items.map(n => tile(n, false)).join('');
       return `<div class="hero-row${row.rev ? ' hero-row--rev' : ''}"><div class="hero-row__track" style="--dur:${row.dur}s">${once}${twice}</div></div>`;
     }).join('');

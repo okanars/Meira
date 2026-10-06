@@ -19,14 +19,17 @@ import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
+import crypto from 'node:crypto';
 import { POSTS } from './content/blog.mjs';
-import { SUSTAINABILITY, FAQ } from './content/pages.mjs';
+import { SUSTAINABILITY, FAQ, PRIVACY } from './content/pages.mjs';
 
 // [DOĞRULANACAK] Alan adı yer tutucudur. Kesinleşince yalnızca bu değeri değiştirip betiği çalıştırın.
 const SITE_URL = 'https://www.meira.com.tr';
 const BRAND = 'Meira';
 const EMAIL = 'info@meira.com.tr';
-const TODAY = '2026-10-06';
+const TODAY = '2026-10-07';
+const DEFAULT_OG = 'images/brand/og-meira.jpg';
+const DEFAULT_OG_ALT = 'Meira: oteller, ofisler ve mağazalar için profesyonel koku difüzörleri';
 const MANUFACTURER = 'Dongguan Zhiliangzhi Fragrance Technology Co., Ltd.';
 
 const DIR = path.dirname(fileURLToPath(import.meta.url));
@@ -61,6 +64,47 @@ const write = (file, html) => fs.writeFileSync(path.join(SITE, file),
   html.replace(/<div class="table-wrap">/g, '<div class="table-wrap" tabindex="0" role="region" aria-label="Tablo (yatay kaydırılabilir)">'));
 const ld = obj => `  <script type="application/ld+json">${JSON.stringify(obj)}</script>\n`;
 
+// Görsel boyutu: JPEG SOF ya da PNG IHDR başlığından (og:image:width/height ve img width/height için)
+const sizeCache = new Map();
+function imageSize(rel) {
+  if (sizeCache.has(rel)) return sizeCache.get(rel);
+  let out = null;
+  try {
+    const b = fs.readFileSync(path.join(SITE, rel));
+    if (b[0] === 0x89 && b[1] === 0x50) out = { w: b.readUInt32BE(16), h: b.readUInt32BE(20) };
+    else if (b[0] === 0xFF && b[1] === 0xD8) {
+      let i = 2;
+      while (i < b.length) {
+        if (b[i] !== 0xFF) { i++; continue; }
+        const m = b[i + 1];
+        if ([0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF].includes(m)) { out = { w: b.readUInt16BE(i + 7), h: b.readUInt16BE(i + 5) }; break; }
+        i += 2 + b.readUInt16BE(i + 2);
+      }
+    }
+  } catch (e) { out = null; }
+  sizeCache.set(rel, out);
+  return out;
+}
+const dims = rel => { const d = imageSize(rel); return d ? ` width="${d.w}" height="${d.h}"` : ''; };
+
+// Önbellek sürümü: dosya içeriğinin özeti. CSS/JS değişince adres değişir, uzun önbellek güvenle kullanılır.
+const hashOf = rel => crypto.createHash('sha256').update(fs.readFileSync(path.join(SITE, rel))).digest('hex').slice(0, 10);
+const JS_FILES = ['site-config', 'products', 'components', 'site'];
+const VER = { css: hashOf('css/style.css'), ...Object.fromEntries(JS_FILES.map(n => [n, hashOf(`js/${n}.js`)])) };
+
+// Ürün görseli: modern tarayıcıya 640 px WebP, diğerlerine özgün JPEG (images/products/w640/*.webp)
+const webpPath = (p, suffix = '') => p.external ? '' : `images/products/w640/${p.img}${suffix}.webp`;
+function pictureFor(rel, { alt = '', sizes = '(min-width: 1100px) 400px, 92vw', attrs = '' } = {}) {
+  const m = rel.match(/^images\/products\/([\w-]+)\.jpg$/);
+  const w = m && fs.existsSync(path.join(SITE, `images/products/w640/${m[1]}.webp`)) ? `images/products/w640/${m[1]}.webp` : '';
+  return `<picture>${w ? `<source type="image/webp" srcset="${w} 640w" sizes="${sizes}">` : ''}<img src="${rel}" alt="${esc(alt)}"${dims(rel)}${attrs}></picture>`;
+}
+function productPicture(p, { alt = '', sizes = '(min-width: 1100px) 300px, (min-width: 640px) 45vw, 92vw', suffix = '', attrs = '' } = {}) {
+  const src = imgPath(p, suffix);
+  const w = webpPath(p, suffix);
+  return `<picture>${w ? `<source type="image/webp" srcset="${w} 640w" sizes="${sizes}">` : ''}<img src="${src}" alt="${esc(alt)}"${dims(src)}${attrs}></picture>`;
+}
+
 // Kapsama metnindeki m³ değerleri (ör. "2.000 / 4.000 / 7.000 m³" -> [2000, 4000, 7000])
 function coverageValues(p) {
   const s = spec(p, /kapsama/i);
@@ -81,7 +125,9 @@ const ORG = {
   email: EMAIL,
   description: 'JVCK koku difüzörleri ve esanslarının Türkiye distribütörü. Oteller, ofisler, mağazalar ve yaşam alanları için profesyonel mekân kokulandırma ürünleri ve teklif.',
   address: { '@type': 'PostalAddress', addressLocality: 'İstanbul', addressCountry: 'TR' },
-  areaServed: 'TR'
+  areaServed: 'TR',
+  logo: { '@type': 'ImageObject', url: abs('images/brand/logo-meira.png'), width: 640, height: 160 },
+  image: abs(DEFAULT_OG)
 };
 const WEBSITE = { '@context': 'https://schema.org', '@type': 'WebSite', '@id': `${SITE_URL}/#website`, url: `${SITE_URL}/`, name: BRAND, inLanguage: 'tr-TR', publisher: { '@id': ORG_ID } };
 
@@ -107,7 +153,8 @@ function breadcrumbHtml(items) {
 // tercih ediliyorsa perde hiç gösterilmez (no-intro). site.js her sayfada 'meira-visited' bayrağını yazar.
 const INTRO_SCRIPT = `<script>(function(d){try{if(sessionStorage.getItem('meira-visited')||matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('no-intro')}else{d.classList.add('has-intro')}}catch(e){d.classList.add('no-intro')}})(document.documentElement);</script>`;
 
-function head({ title, description, url, image = 'images/products/ck686.jpg', type = 'website', jsonld = [], noindex = false, dark = false, published, intro = false }) {
+function head({ title, description, url, image = DEFAULT_OG, imageAlt = DEFAULT_OG_ALT, type = 'website', jsonld = [], noindex = false, dark = false, published, intro = false }) {
+  const og = imageSize(image);
   return `
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -122,11 +169,15 @@ ${noindex ? '' : `  <link rel="canonical" href="${abs(url)}">\n`}  <meta propert
   <meta property="og:description" content="${esc(description)}">
   <meta property="og:url" content="${abs(url)}">
   <meta property="og:image" content="${abs(image)}">
-${published ? `  <meta property="article:published_time" content="${published}">\n` : ''}  <meta name="twitter:card" content="summary_large_image">
+${og ? `  <meta property="og:image:width" content="${og.w}">\n  <meta property="og:image:height" content="${og.h}">\n` : ''}  <meta property="og:image:alt" content="${esc(imageAlt)}">
+${published ? `  <meta property="article:published_time" content="${published}">\n  <meta property="article:modified_time" content="${published}">\n` : ''}  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="images/brand/icon-180.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="alternate" type="application/rss+xml" title="${BRAND} Blog" href="feed.xml">
   <link rel="preload" href="fonts/newsreader-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=${VER.css}">
   <script>document.documentElement.classList.add('js');</script>
 ${intro ? `  ${INTRO_SCRIPT}\n` : ''}${jsonld.map(ld).join('')}`;
 }
@@ -197,6 +248,7 @@ function footer() {
             <li><a href="sss.html">Sık sorulan sorular</a></li>
             <li><a href="cozumler.html#hesaplayici">Hacim hesaplayıcı</a></li>
             <li><a href="iletisim.html">Teklif formu</a></li>
+            <li><a href="gizlilik.html">Gizlilik ve KVKK</a></li>
           </ul>
         </div>
         <div class="footer-col footer-col--d">
@@ -204,7 +256,7 @@ function footer() {
           <!-- [DOĞRULANACAK] E-posta, telefon ve adres yer tutucudur (js/site-config.js). -->
           <ul>
             <li><a href="mailto:${EMAIL}" data-site-href="email"><span data-site="email">${EMAIL}</span></a></li>
-            <li><a href="tel:+902120000000" data-site-href="phone"><span data-site="phone">+90 212 000 00 00</span></a></li>
+            <li><a href="tel:+902120000000" data-site-href="phone"><span data-site="phone">+90&nbsp;212&nbsp;000&nbsp;00&nbsp;00</span></a></li>
             <li><span data-site="city">İstanbul, Türkiye</span></li>
           </ul>
         </div>
@@ -212,16 +264,13 @@ function footer() {
       <p class="footer-wordmark" aria-hidden="true" lang="en"><span data-site="brand">${BRAND}</span></p>
       <div class="footer-bottom">
         <span>© <span data-year>2026</span> <span data-site="brand">${BRAND}</span>. Tüm hakları saklıdır.</span>
-        <span>Teknik veriler üreticinin 2025 ürün kataloğundan alınmıştır.</span>
+        <span>Teknik veriler üreticinin 2025 ürün kataloğundan alınmıştır. <a href="gizlilik.html">Gizlilik ve KVKK</a></span>
       </div>
     </div>
   </footer>`;
 }
 
-const SCRIPTS = `<script src="js/site-config.js"></script>
-  <script src="js/products.js"></script>
-  <script src="js/components.js"></script>
-  <script src="js/site.js"></script>`;
+const SCRIPTS = JS_FILES.map(n => `<script src="js/${n}.js?v=${VER[n]}"></script>`).join('\n  ');
 
 function page({ meta, section = '', main, after = '', dark = false }) {
   return `<!DOCTYPE html>
@@ -252,7 +301,7 @@ function productCard(p, headingTag = 'h2') {
   const area = spec(p, /kapsama/i);
   const cap = spec(p, /kapasite/i);
   return `<article class="product-card" data-id="${esc(p.id)}">
-            <div class="media"><img src="${imgPath(p)}" alt="${esc(p.model + ' ' + p.title)}" loading="lazy" width="1100" height="825" style="object-position:${esc(p.pos || 'center')}"></div>
+            <div class="media">${productPicture(p, { alt: p.model + ' ' + p.title, attrs: ` loading="lazy" decoding="async" style="object-position:${esc(p.pos || 'center')}"` })}</div>
             <div class="product-card__body">
               <div class="product-card__top">
                 <span class="product-card__code">${esc(p.model)}</span>
@@ -378,9 +427,9 @@ function productPage(p) {
 
     <section class="pd wrap" aria-labelledby="pd-title">
       <div class="pd__gallery" data-gallery>
-        <button type="button" class="modal-zoom" data-zoom aria-pressed="false" aria-label="Görseli yakınlaştır"><img src="${images[0]}" alt="${esc(p.model + ' ' + p.title)}" class="modal-main-img" data-main width="1100" height="825" fetchpriority="high" style="object-position:${esc(p.pos || 'center')}"></button>
+        <button type="button" class="modal-zoom" data-zoom aria-pressed="false" aria-label="Görseli yakınlaştır"><img src="${images[0]}" alt="${esc(p.model + ' ' + p.title)}" class="modal-main-img" data-main${dims(images[0])} fetchpriority="high" style="object-position:${esc(p.pos || 'center')}"></button>
         ${images.length > 1 ? `<div class="modal-thumb-row">
-          ${images.map((src, i) => `<button type="button" class="modal-thumb${i === 0 ? ' active' : ''}" data-src="${src}" data-pos="${i === 0 ? esc(p.pos || 'center') : 'center'}" aria-label="Görsel ${i + 1} / ${images.length}" aria-pressed="${i === 0}"><img src="${src}" alt="" width="72" height="72" loading="lazy"></button>`).join('\n          ')}
+          ${images.map((src, i) => `<button type="button" class="modal-thumb${i === 0 ? ' active' : ''}" data-src="${src}" data-pos="${i === 0 ? esc(p.pos || 'center') : 'center'}" aria-label="Görsel ${i + 1} / ${images.length}" aria-pressed="${i === 0}">${productPicture(p, { suffix: i === 0 ? '' : `-g${i}`, sizes: '72px', attrs: ' loading="lazy" decoding="async"' })}</button>`).join('\n          ')}
         </div>` : ''}
       </div>
 
@@ -471,7 +520,7 @@ function productPage(p) {
     </section>
 `;
   return page({
-    meta: { title, description, url: productUrl(p), image: images[0], type: 'product', jsonld: [productLd, breadcrumbLd(crumbs), faqLd] },
+    meta: { title, description, url: productUrl(p), image: images[0], imageAlt: `${p.model} ${p.title}`, type: 'product', jsonld: [productLd, breadcrumbLd(crumbs), faqLd] },
     section: 'urunler.html',
     main
   });
@@ -482,7 +531,7 @@ function productPage(p) {
 // ---------------------------------------------------------------------------
 function postCard(post, featured = false) {
   return `<article class="post-card${featured ? ' post-card--featured' : ''}">
-          <div class="media media--3x2"><img src="${post.image}" alt="" loading="lazy"></div>
+          <div class="media media--3x2">${pictureFor(post.image, { sizes: featured ? '(min-width: 1100px) 700px, 92vw' : '(min-width: 1100px) 400px, (min-width: 700px) 45vw, 92vw', attrs: ' loading="lazy" decoding="async"' })}</div>
           <div class="post-card__body">
             <p class="post-card__meta"><span>${esc(post.tags[0])}</span><span><time datetime="${post.date}">${trDate(post.date)}</time></span><span>${post.minutes} dk okuma</span></p>
             <h2 class="post-card__title"><a href="${postUrl(post)}" class="post-card__link">${esc(post.title)}</a></h2>
@@ -544,7 +593,7 @@ function blogPost(post) {
         <h1 id="post-title">${esc(post.title)}</h1>
       </header>
       <figure class="article__figure wrap">
-        <div class="media media--21x9"><img src="${post.image}" alt="${esc(post.imageAlt)}" fetchpriority="high"></div>
+        <div class="media media--21x9"><img src="${post.image}" alt="${esc(post.imageAlt)}"${dims(post.image)} fetchpriority="high"></div>
       </figure>
       <div class="article__body wrap">
         <div class="prose prose--article">
@@ -578,7 +627,7 @@ ${post.body}
     </section>
 `;
   return page({
-    meta: { title: `${post.title} | ${BRAND}`.length > 70 ? `${post.navTitle} | ${BRAND}` : `${post.title} | ${BRAND}`, description: post.description, url: postUrl(post), image: post.image, type: 'article', published: post.date, jsonld: [articleLd, breadcrumbLd(crumbs)] },
+    meta: { title: `${post.title} | ${BRAND}`.length > 70 ? `${post.navTitle} | ${BRAND}` : `${post.title} | ${BRAND}`, description: post.description, url: postUrl(post), image: post.image, imageAlt: post.imageAlt, type: 'article', published: post.date, jsonld: [articleLd, breadcrumbLd(crumbs)] },
     section: 'blog.html',
     main
   });
@@ -660,6 +709,81 @@ function faqPage() {
   });
 }
 
+function privacyPage() {
+  const P = PRIVACY;
+  const crumbs = [{ name: 'Ana sayfa', href: 'index.html' }, { name: 'Gizlilik ve KVKK' }];
+  const main = `
+    <section class="page-head" aria-labelledby="page-title">
+      <div class="wrap">
+        <h1 id="page-title">${esc(P.h1)}</h1>
+        <p class="lead">${esc(P.lead)}</p>
+        <p class="meta mt-4">Son güncelleme: <time datetime="${P.updated}">${trDate(P.updated)}</time></p>
+      </div>
+    </section>
+
+    <section class="section section--flush-top" aria-label="Metin">
+      <div class="wrap doc">
+        <nav class="doc__toc" aria-label="Bu sayfada">
+          <p class="doc__toc-title">Bu sayfada</p>
+          <ol>
+            ${P.sections.map(x => `<li><a href="#${x.id}">${esc(x.title)}</a></li>`).join('\n            ')}
+          </ol>
+        </nav>
+        <div class="doc__body prose prose--article">
+          ${P.sections.map(x => `<section id="${x.id}" aria-labelledby="${x.id}-t">
+            <h2 id="${x.id}-t">${esc(x.title)}</h2>
+            ${x.html}
+          </section>`).join('\n          ')}
+        </div>
+      </div>
+    </section>
+`;
+  return page({ meta: { title: P.title, description: P.description, url: 'gizlilik.html', jsonld: [breadcrumbLd(crumbs)] }, main });
+}
+
+// RSS 2.0 beslemesi (blog)
+function feed() {
+  const rfc = iso => new Date(`${iso}T09:00:00+03:00`).toUTCString();
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>${BRAND} Blog</title>
+    <link>${abs('blog.html')}</link>
+    <description>Mekân kokulandırma, cihaz seçimi ve esans güvenliği üzerine kaynaklı rehberler.</description>
+    <language>tr-TR</language>
+    <lastBuildDate>${rfc(TODAY)}</lastBuildDate>
+    <atom:link href="${abs('feed.xml')}" rel="self" type="application/rss+xml"/>
+${POSTS.map(p => `    <item>
+      <title>${esc(p.title)}</title>
+      <link>${abs(postUrl(p))}</link>
+      <guid isPermaLink="true">${abs(postUrl(p))}</guid>
+      <pubDate>${rfc(p.date)}</pubDate>
+      <description>${esc(p.description)}</description>
+    </item>`).join('\n')}
+  </channel>
+</rss>
+`;
+}
+
+// Web uygulama manifesti (ikonlar, renkler)
+function manifest() {
+  return JSON.stringify({
+    name: `${BRAND} Türkiye`,
+    short_name: BRAND,
+    description: 'Profesyonel koku difüzörleri ve mekân kokulandırma.',
+    lang: 'tr-TR',
+    start_url: 'index.html',
+    display: 'browser',
+    background_color: '#F7F4EF',
+    theme_color: '#141C27',
+    icons: [
+      { src: 'images/brand/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { src: 'images/brand/icon-512.png', sizes: '512x512', type: 'image/png' },
+      { src: 'favicon.svg', sizes: 'any', type: 'image/svg+xml' }
+    ]
+  }, null, 2) + '\n';
+}
+
 function notFoundPage() {
   const main = `
     <section class="page-head not-found" aria-labelledby="page-title">
@@ -683,7 +807,7 @@ const HAND_PAGES = {
   'index.html': {
     title: `${BRAND} | Profesyonel Koku Difüzörleri ve Mekân Kokulandırma`,
     description: 'Oteller, ofisler ve mağazalar için profesyonel koku difüzörleri, esanslar ve dolum ürünleri. JVCK ürünlerinin Türkiye distribütörü; ürün seçimi ve teklif.',
-    image: 'images/products/ck686.jpg', dark: true, intro: true, jsonld: [ORG, WEBSITE]
+    dark: true, intro: true, jsonld: [ORG, WEBSITE]
   },
   'urunler.html': {
     title: `Koku Difüzörü Kataloğu: Duvar Tipi, Klima ve Masaüstü | ${BRAND}`,
@@ -772,6 +896,7 @@ function processHandPage(file, cfg) {
   html = html.replace(/<body[^>]*>/, `<body data-section="${file}">`);
   html = html.replace(/<header class="site-header"[\s\S]*?<\/header>/, header({ dark: !!cfg.dark }));
   html = html.replace(/<footer class="site-footer">[\s\S]*?<\/footer>/, footer());
+  html = html.replace(/<script src="js\/([\w-]+)\.js(?:\?v=[\w]+)?"><\/script>/g, (m, n) => VER[n] ? `<script src="js/${n}.js?v=${VER[n]}"></script>` : m);
   if (file === 'urunler.html') {
     html = replaceBetween(html, /<div class="product-grid" id="catalogGrid">/, '</div>\n      <div class="empty-state"', `\n          ${catalogGridHtml()}\n        `, file);
   }
@@ -787,12 +912,12 @@ function processHandPage(file, cfg) {
 // ---------------------------------------------------------------------------
 function sitemap(urls) {
   return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map(([u, pr]) => `  <url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+${urls.map(([u, pr, imgs = []]) => `  <url>
     <loc>${abs(u)}</loc>
     <lastmod>${TODAY}</lastmod>
     <priority>${pr}</priority>
-  </url>`).join('\n')}
+${imgs.map(im => `    <image:image><image:loc>${abs(im)}</image:loc></image:image>\n`).join('')}  </url>`).join('\n')}
 </urlset>
 `;
 }
@@ -807,15 +932,18 @@ for (const post of POSTS) write(postUrl(post), blogPost(post));
 write('surdurulebilirlik.html', sustainabilityPage());
 write('sss.html', faqPage());
 write('404.html', notFoundPage());
+write('gizlilik.html', privacyPage());
+write('feed.xml', feed());
+write('site.webmanifest', manifest());
 
 const urls = [
   ['index.html', '1.0'], ['urunler.html', '0.9'], ['cozumler.html', '0.8'], ['teknoloji.html', '0.7'],
   ['esanslar.html', '0.8'], ['kurumsal.html', '0.6'], ['iletisim.html', '0.7'], ['blog.html', '0.6'],
-  ['surdurulebilirlik.html', '0.5'], ['sss.html', '0.6'],
-  ...PRODUCTS.map(p => [productUrl(p), '0.8']),
-  ...POSTS.map(p => [postUrl(p), '0.6'])
+  ['surdurulebilirlik.html', '0.5'], ['sss.html', '0.6'], ['gizlilik.html', '0.2'],
+  ...PRODUCTS.map(p => [productUrl(p), '0.8', [imgPath(p), ...Array.from({ length: p.gallery || 0 }, (_, i) => imgPath(p, `-g${i + 1}`))]]),
+  ...POSTS.map(p => [postUrl(p), '0.6', [p.image]])
 ];
 write('sitemap.xml', sitemap(urls));
 write('robots.txt', `User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: ${SITE_URL}/sitemap.xml\n`);
 
-console.log(`Yazıldı: ${Object.keys(HAND_PAGES).length} sayfa güncellendi, ${PRODUCTS.length} ürün, ${POSTS.length} yazı, blog, sürdürülebilirlik, sss, 404, sitemap (${urls.length} adres), robots.`);
+console.log(`Yazıldı: ${Object.keys(HAND_PAGES).length} sayfa güncellendi, ${PRODUCTS.length} ürün, ${POSTS.length} yazı, blog, sürdürülebilirlik, sss, gizlilik, 404, feed.xml, site.webmanifest, sitemap (${urls.length} adres), robots. Sürümler: css ${VER.css}`);

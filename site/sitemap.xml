@@ -1,208 +1,283 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://www.meira.com.tr/index.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urunler.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.meira.com.tr/cozumler.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.meira.com.tr/teknoloji.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.meira.com.tr/esanslar.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.meira.com.tr/kurumsal.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.meira.com.tr/iletisim.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.meira.com.tr/blog.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.meira.com.tr/surdurulebilirlik.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.meira.com.tr/sss.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.meira.com.tr/gizlilik.html</loc>
+    <lastmod>2026-10-07</lastmod>
+    <priority>0.2</priority>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ck628.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck628.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck628-g1.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck628-g2.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck628-g3.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ck638.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck638.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck638-g1.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck638-g2.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck638-g3.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ck648.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck648.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck648-g1.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck648-g2.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck648-g3.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ck688.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck688.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck688-g1.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck688-g2.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck688-g3.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ck689.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck689.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck689-g1.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck689-g2.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck689-g3.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ck687.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck687.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck687-g1.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck687-g2.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck687-g3.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ck631.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck631.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck631-g1.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck631-g2.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck631-g3.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ck620.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck620.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck620-g1.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck620-g2.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck620-g3.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ck611.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck611.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck611-g1.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck611-g2.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck611-g3.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ck621.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck621.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck621-g1.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck621-g2.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck621-g3.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ck686.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck686.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck686-g1.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck686-g2.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck686-g3.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ck683.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck683.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck683-g1.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck683-g2.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck683-g3.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ck656.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck656.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ck644.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck644.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ck645.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck645.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ck613.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck613.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck613-g1.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck613-g2.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck613-g3.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ck608ab.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck608ab.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ck608d.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck608d.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ads622.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ads622.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ads611.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ads611.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ck85.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/general/reed1.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ck013.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/general/reed3.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ck014.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/general/reed2.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ck015.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/general/reed4.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/blog-koku-pazarlamasi-nedir.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.6</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck631-g1.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/blog-mekan-hacmine-gore-difuzor-secimi.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.6</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck686-g1.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/blog-ultrasonik-ve-cift-akiskanli-difuzor-farki.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.6</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/general/video-hero-poster.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/blog-klima-sistemine-koku-difuzoru-baglama.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.6</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck611-g1.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/blog-koku-yorgunlugu-ve-dogru-yogunluk.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.6</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/general/video-living-poster.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/blog-ifra-standartlari-nedir.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.6</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/general/perfumer.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/blog-otel-icin-koku-secimi.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <priority>0.6</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck687-g1.jpg</image:loc></image:image>
   </url>
 </urlset>

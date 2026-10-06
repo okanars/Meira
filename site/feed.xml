@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Meira Blog</title>
+    <link>https://www.meira.com.tr/blog.html</link>
+    <description>Mekân kokulandırma, cihaz seçimi ve esans güvenliği üzerine kaynaklı rehberler.</description>
+    <language>tr-TR</language>
+    <lastBuildDate>Wed, 07 Oct 2026 06:00:00 GMT</lastBuildDate>
+    <atom:link href="https://www.meira.com.tr/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Koku pazarlaması nedir? Araştırmalar mekân kokusu hakkında ne söylüyor</title>
+      <link>https://www.meira.com.tr/blog-koku-pazarlamasi-nedir.html</link>
+      <guid isPermaLink="true">https://www.meira.com.tr/blog-koku-pazarlamasi-nedir.html</guid>
+      <pubDate>Tue, 06 Oct 2026 06:00:00 GMT</pubDate>
+      <description>Ortam kokusunun müşteri algısına etkisini inceleyen üç temel çalışma ve bu bulguların otel, mağaza ve ofislerde nasıl doğru kullanılacağı.</description>
+    </item>
+    <item>
+      <title>Mekân hacmine göre koku difüzörü seçimi: m³ hesabı adım adım</title>
+      <link>https://www.meira.com.tr/blog-mekan-hacmine-gore-difuzor-secimi.html</link>
+      <guid isPermaLink="true">https://www.meira.com.tr/blog-mekan-hacmine-gore-difuzor-secimi.html</guid>
+      <pubDate>Tue, 06 Oct 2026 06:00:00 GMT</pubDate>
+      <description>Koku difüzörünün kapsama değeri neden m² değil m³ ile verilir, hacim nasıl hesaplanır ve hangi durumlarda birden fazla cihaz gerekir.</description>
+    </item>
+    <item>
+      <title>Ultrasonik ve çift akışkanlı (nano) difüzör arasındaki fark</title>
+      <link>https://www.meira.com.tr/blog-ultrasonik-ve-cift-akiskanli-difuzor-farki.html</link>
+      <guid isPermaLink="true">https://www.meira.com.tr/blog-ultrasonik-ve-cift-akiskanli-difuzor-farki.html</guid>
+      <pubDate>Tue, 06 Oct 2026 06:00:00 GMT</pubDate>
+      <description>İki yaygın atomizasyon yöntemi nasıl çalışır, hangisi hangi mekâna uygundur? Ses, bakım, esans kullanımı ve kapsama açısından karşılaştırma.</description>
+    </item>
+    <item>
+      <title>Klima (HVAC) sistemine koku difüzörü bağlama rehberi</title>
+      <link>https://www.meira.com.tr/blog-klima-sistemine-koku-difuzoru-baglama.html</link>
+      <guid isPermaLink="true">https://www.meira.com.tr/blog-klima-sistemine-koku-difuzoru-baglama.html</guid>
+      <pubDate>Tue, 06 Oct 2026 06:00:00 GMT</pubDate>
+      <description>Büyük mekânlarda kokuyu havalandırma kanalıyla dağıtmak: bağlantı noktaları, cihazın konumu, bakım ve proje öncesi toplanması gereken bilgiler.</description>
+    </item>
+    <item>
+      <title>Koku yorgunluğu: mekân kokusunun yoğunluğu nasıl ayarlanır?</title>
+      <link>https://www.meira.com.tr/blog-koku-yorgunlugu-ve-dogru-yogunluk.html</link>
+      <guid isPermaLink="true">https://www.meira.com.tr/blog-koku-yorgunlugu-ve-dogru-yogunluk.html</guid>
+      <pubDate>Tue, 06 Oct 2026 06:00:00 GMT</pubDate>
+      <description>İnsanlar sürekli maruz kaldıkları kokuya neden alışır, bu durum yoğunluk ayarını nasıl etkiler ve iç hava kalitesi için nelere dikkat edilmeli?</description>
+    </item>
+    <item>
+      <title>IFRA standartları nedir? Esans tedarikçisinden hangi belgeleri istemelisiniz</title>
+      <link>https://www.meira.com.tr/blog-ifra-standartlari-nedir.html</link>
+      <guid isPermaLink="true">https://www.meira.com.tr/blog-ifra-standartlari-nedir.html</guid>
+      <pubDate>Tue, 06 Oct 2026 06:00:00 GMT</pubDate>
+      <description>Uluslararası Koku Birliği (IFRA) standartları neyi düzenler, bir esansın uygunluğu nasıl belgelenir ve kurumsal alımlarda hangi belgeler istenmeli?</description>
+    </item>
+    <item>
+      <title>Otel için koku seçimi: lobi, koridor ve odalarda koku aileleri</title>
+      <link>https://www.meira.com.tr/blog-otel-icin-koku-secimi.html</link>
+      <guid isPermaLink="true">https://www.meira.com.tr/blog-otel-icin-koku-secimi.html</guid>
+      <pubDate>Tue, 06 Oct 2026 06:00:00 GMT</pubDate>
+      <description>Bir otelin farklı alanları için koku ailesi ve cihaz seçimi: lobi, koridor, oda, spa ve restoran için pratik öneriler.</description>
+    </item>
+  </channel>
+</rss>

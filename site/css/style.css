@@ -758,6 +758,10 @@ p { text-wrap: pretty; }
   border-radius: var(--r);
   background: var(--c-bg-deep);
 }
+.media > picture,
+.modal-thumb > picture,
+.hero-row__item > picture { display: block; width: 100%; height: 100%; }
+.drawer-item > picture { grid-area: img; align-self: start; }
 .media img,
 .media video {
   width: 100%;
@@ -2404,6 +2408,13 @@ a.media img,
 
 .not-found { min-height: 50vh; }
 
+/* Gizlilik: veri sorumlusu bilgileri */
+.legal-facts { display: grid; border-top: 1px solid var(--c-line); }
+.legal-facts > div { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: var(--s-4); padding: var(--s-3) 0; border-bottom: 1px solid var(--c-line); font-size: var(--fs-small); }
+.legal-facts dt { color: var(--c-ink-3); }
+.legal-facts dd { color: var(--c-ink); font-weight: 600; overflow-wrap: anywhere; }
+.prose--article code { padding: 1px 6px; background: var(--c-bg-deep); border-radius: var(--r); font-size: 0.875em; }
+
 /* 21. Yardımcı sınıflar ----------------------------------------------------- */
 .mt-1 { margin-top: var(--s-1); }
 .mt-2 { margin-top: var(--s-2); }
@@ -2527,9 +2538,9 @@ a.media img,
 }
 .js .reveal.is-in .media,
 .js .media.reveal.is-in { clip-path: inset(-24px); }
-.js .reveal.is-in .media > img,
+.js .reveal.is-in .media img,
 .js .reveal.is-in .media video,
-.js .media.reveal.is-in > img { animation: media-settle 1200ms var(--ease-out) backwards; }
+.js .media.reveal.is-in img { animation: media-settle 1200ms var(--ease-out) backwards; }
 
 /* Bölüm etiketi: çizgi soldan çizilir, baklava dönerek yerine gelir */
 .js .section-label.reveal::after { transform: scaleX(0); transform-origin: left center; transition: transform 900ms var(--ease-in-out) 150ms; }
@@ -2615,7 +2626,7 @@ a.media img,
   .js .hero__wall { animation: fade-in var(--t-base) ease both; }
   .js .reveal:is(.section-head, .curator__head, .statement, .closing, .overlap__panel, .band-head > *) { filter: none; transform: none; transition: opacity var(--t-fast) ease; transition-delay: 0ms; }
   .js .reveal .media, .js .media.reveal { clip-path: none; transition: none; }
-  .js .reveal.is-in .media > img, .js .reveal.is-in .media video, .js .media.reveal.is-in > img { animation: none; }
+  .js .reveal.is-in .media img, .js .reveal.is-in .media video, .js .media.reveal.is-in img { animation: none; }
   .js .section-label.reveal::after, .js .section-label.reveal::before { transition: none; }
   .js .section-label.reveal::after { transform: none; }
   .js .section-label.reveal::before { transform: rotate(45deg); }

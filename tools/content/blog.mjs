@@ -343,8 +343,8 @@ export const POSTS = [
 <h2>Koleksiyondan örnek eşleşmeler</h2>
 <ul>
   <li><strong>Lobi:</strong> Encountering White Tea (yeşil çay, beyaz çay, beyaz amber) ya da Gardenya Beyaz Çay. Ferah ve tanıdık; geniş kitleler tarafından rahatsız edici bulunma ihtimali düşük.</li>
-  <li><strong>Akşam saatleri ve bar:</strong> Bergamot & Sandal Ağacı ya da Gül & Sedir gibi odunsu dipli kokular.</li>
-  <li><strong>Spa ve oda:</strong> Fougère No. 2 (lavanta, papatya, beyaz misk) ya da Misket Limonu & Adaçayı.</li>
+  <li><strong>Akşam saatleri ve bar:</strong> Bergamot &amp; Sandal Ağacı ya da Gül &amp; Sedir gibi odunsu dipli kokular.</li>
+  <li><strong>Spa ve oda:</strong> Fougère No. 2 (lavanta, papatya, beyaz misk) ya da Misket Limonu &amp; Adaçayı.</li>
 </ul>
 <p>Tüm kokuların üst, kalp ve dip notalarını <a href="esanslar.html">koku koleksiyonu</a> sayfasında bulabilirsiniz.</p>
 

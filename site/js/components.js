@@ -24,6 +24,12 @@
     return `images/${p.external ? 'general' : 'products'}/${p.img}.jpg`;
   }
 
+  // Küçük ürün görseli: modern tarayıcıya 640 px WebP, diğerlerine özgün JPEG
+  function productThumb(p, cls, extra) {
+    const webp = p.external ? '' : `images/products/w640/${p.img}.webp`;
+    return `<picture>${webp ? `<source type="image/webp" srcset="${webp}">` : ''}<img src="${productImage(p)}" alt="" class="${cls || ''}" loading="lazy" decoding="async"${extra || ''}></picture>`;
+  }
+
   function specValue(p, pattern) {
     const row = p.specs.find(s => pattern.test(s[0]));
     return row ? row[1] : '';
@@ -296,7 +302,7 @@
       if (!p) return '';
       return `
         <div class="drawer-item" data-id="${esc(p.id)}">
-          <img src="${productImage(p)}" alt="" class="drawer-item-img" loading="lazy">
+          ${productThumb(p, 'drawer-item-img')}
           <div class="drawer-item-info">
             <span class="drawer-item-model">${esc(p.model)}</span>
             <div class="drawer-item-title">${esc(p.title)}</div>
@@ -702,7 +708,7 @@
         const modeNote = result.mode === 'preview'
           ? '<p class="note">Yerel önizleme: PHP çalışmadığı için talep sunucuya gönderilmedi.</p>'
           : result.mode === 'demo'
-            ? '<p class="note">Demo modu açık: e-posta gönderilmedi. Canlıya alırken api/send-quote.php içindeki $DEMO_MODE değerini false yapın.</p>'
+            ? '<p class="note">Not: Site şu anda deneme modunda; talebiniz e-posta ile iletilmedi. Acil talepler için e-posta adresimize yazabilirsiniz.</p>'
             : '';
         form.innerHTML = `
           <div class="form-success" tabindex="-1" id="formSuccess">
@@ -714,6 +720,7 @@
             </div>
           </div>
         `;
+        if (result.mode === 'demo') console.info('Teklif formu demo modunda: e-posta gönderilmedi. Yayına alırken api/send-quote.php içinde $DEMO_MODE = false yapın.');
         document.getElementById('formSuccess')?.focus();
         if (quoteBanner) quoteBanner.hidden = true;
         saveCart([]);
@@ -971,7 +978,8 @@
     buildQuoteMessageText,
     trapFocus,
     icon,
-    esc
+    esc,
+    productThumb
   };
 
 })(window);
