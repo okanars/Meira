@@ -1,158 +1,234 @@
 <?php
 /**
- * Meira – Kurumsal İletişim ve Teklif Formu API Endpoint'i
- * Hosting ortamında info@meira.com.tr adresine bildirim gönderir.
- * 
- * Gerçek sunucuya taşındığında aşağıdaki AYARLAR bölümünden
- * $DEMO_MODE değerini false yapmanız yeterlidir.
+ * Meira: teklif ve iletişim formu uç noktası.
+ *
+ * İstemci (components.js) JSON gönderir ve JSON yanıt bekler:
+ *   başarı: { success: true, message, reference, mode: 'demo' | 'production' }
+ *   hata:   { success: false, error }
+ * JavaScript kapalıysa form düz POST olarak gelir; bu durumda sade bir HTML yanıt sayfası döner.
+ *
+ * Yayına alma:
+ *   1. $TO_EMAIL ve $FROM_EMAIL değerlerini gerçek adreslerle değiştirin. $FROM_EMAIL, sitenin alan adında olmalı
+ *      (SPF/DKIM için). [DOĞRULANACAK] Şu anki adresler yer tutucudur.
+ *   2. $DEMO_MODE = false yapın. Demo modunda e-posta gönderilmez, yalnızca submissions.log'a satır yazılır.
+ *   3. api/submissions.log dosyası web'den erişilemez olmalı (.htaccess bunu engeller; nginx için README).
  */
 
-header('Content-Type: application/json; charset=UTF-8');
-header('X-Content-Type-Options: nosniff');
+declare(strict_types=1);
+date_default_timezone_set('Europe/Istanbul');
 
 // ==========================================
-// 1. AYARLAR (İleride gerçek sunucuya göre düzenleyin)
+// 1. AYARLAR
 // ==========================================
-$DEMO_MODE   = true; // Test/Demo modunda mailler yerel log dosyasına kaydedilir ve başarılı yanıt döner.
+$DEMO_MODE   = true;
 $TO_EMAIL    = 'info@meira.com.tr';
 $FROM_EMAIL  = 'noreply@meira.com.tr';
 $BRAND_NAME  = 'Meira Türkiye';
 $LOG_FILE    = __DIR__ . '/submissions.log';
+$RATE_LIMIT  = 5;     // aynı IP'den en fazla bu kadar talep
+$RATE_WINDOW = 600;   // ... bu kadar saniye içinde (10 dakika)
 
-// Sadece POST isteklerine izin ver
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode(['success' => false, 'error' => 'Geçersiz istek türü (POST gereklidir).']);
+// Formdaki konu seçenekleriyle aynı olmalı (iletisim.html, #contactSubject)
+$ALLOWED_SUBJECTS = [
+    'Fiyat ve Numune Teklifi',
+    'Toptan Satış & Bayilik',
+    'Özel Markalı Üretim (OEM/ODM)',
+    'Merkezi Klima (HVAC) Projelendirme',
+    'Teknik Destek ve Servis',
+];
+
+// ==========================================
+// 2. YANIT YARDIMCILARI
+// ==========================================
+$contentType = $_SERVER['CONTENT_TYPE'] ?? '';
+$wantsJson   = stripos($contentType, 'application/json') !== false
+            || stripos($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json') !== false;
+
+header('X-Content-Type-Options: nosniff');
+header('Cache-Control: no-store');
+header('Referrer-Policy: same-origin');
+
+function h(string $s): string
+{
+    return htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
+/** JSON (JS istemcisi) ya da sade HTML (JS kapalı) yanıt verir ve çıkar. */
+function respond(bool $ok, int $status, array $payload): void
+{
+    global $wantsJson;
+    http_response_code($status);
+    if ($wantsJson) {
+        header('Content-Type: application/json; charset=UTF-8');
+        echo json_encode(['success' => $ok] + $payload, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    header('Content-Type: text/html; charset=UTF-8');
+    $title = $ok ? 'Talebiniz alındı' : 'Talebiniz gönderilemedi';
+    $body  = $ok
+        ? 'Teklif talebiniz alındı. Referans numaranız: <strong>' . h($payload['reference'] ?? '-') . '</strong>'
+        : h($payload['error'] ?? 'Bir hata oluştu.');
+    echo '<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
+       . '<meta name="robots" content="noindex"><title>' . h($title) . '</title>'
+       . '<style>body{margin:0;font:17px/1.7 system-ui,sans-serif;background:#F7F4EF;color:#141C27;display:grid;place-items:center;min-height:100vh}'
+       . 'main{max-width:36rem;padding:2rem}h1{font:400 2rem/1.2 Georgia,serif;margin:0 0 1rem}a{color:#141C27}</style></head>'
+       . '<body><main><h1>' . h($title) . '</h1><p>' . $body . '</p><p><a href="../iletisim.html">İletişim sayfasına dön</a></p></main></body></html>';
     exit;
 }
 
-// Girdi verilerini topla (JSON veya form-data)
-$rawInput = file_get_contents('php://input');
+/** Başlık ve log satırları için: satır sonlarını ve kontrol karakterlerini kaldırır. */
+function oneLine(string $s, int $max): string
+{
+    $s = preg_replace('/[\x00-\x1F\x7F]+/u', ' ', $s) ?? '';
+    $s = trim(preg_replace('/\s+/u', ' ', $s) ?? '');
+    return mb_substr($s, 0, $max, 'UTF-8');
+}
+
+/** E-posta başlığı için UTF-8 kodlama (RFC 2047). */
+function encodeHeader(string $s): string
+{
+    return '=?UTF-8?B?' . base64_encode($s) . '?=';
+}
+
+// ==========================================
+// 3. İSTEK KONTROLLERİ
+// ==========================================
+if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+    header('Allow: POST');
+    respond(false, 405, ['error' => 'Geçersiz istek türü (POST gereklidir).']);
+}
+
+$raw = file_get_contents('php://input', false, null, 0, 64 * 1024) ?: '';
 $data = [];
-if (!empty($rawInput)) {
-    $json = json_decode($rawInput, true);
+if ($raw !== '' && stripos($contentType, 'application/json') !== false) {
+    $json = json_decode($raw, true);
     if (is_array($json)) {
         $data = $json;
     }
 }
-if (empty($data)) {
+if (!$data) {
     $data = $_POST;
 }
 
-// Anti-Spam: Honeypot kontrolü (botlar gizli alanı doldurur)
+// Honeypot: botlar gizli alanı doldurur; sessizce başarılı görünür
 if (!empty($data['hp_company_website'])) {
-    // Bot yakalandı; sessizce başarılı dön
-    echo json_encode(['success' => true, 'message' => 'Talebiniz alındı.']);
-    exit;
+    respond(true, 200, ['message' => 'Talebiniz alındı.', 'reference' => '-', 'mode' => $DEMO_MODE ? 'demo' : 'production']);
 }
 
-// Alanları temizle
-$name    = trim($data['name'] ?? '');
-$email   = trim($data['email'] ?? '');
-$phone   = trim($data['phone'] ?? '');
-$company = trim($data['company'] ?? '');
-$subject = trim($data['subject'] ?? 'Teklif Talebi');
-$message = trim($data['message'] ?? '');
-$items   = $data['items'] ?? [];
-
-// Doğrulama
-if (empty($name) || empty($email) || empty($message)) {
-    http_response_code(400);
-    echo json_encode(['success' => false, 'error' => 'Lütfen zorunlu alanları (Ad Soyad, E-posta, Mesaj) doldurun.']);
-    exit;
+// Hız sınırı: IP'nin kendisi değil, özeti tutulur; dosya web kökünün dışında (sistem geçici klasörü)
+$ip     = $_SERVER['REMOTE_ADDR'] ?? 'bilinmiyor';
+$ipKey  = hash('sha256', $ip . '|meira');
+$rlFile = sys_get_temp_dir() . '/meira-quote-ratelimit.json';
+$now    = time();
+$fh = @fopen($rlFile, 'c+');
+if ($fh && flock($fh, LOCK_EX)) {
+    $rl = json_decode(stream_get_contents($fh) ?: '{}', true) ?: [];
+    foreach ($rl as $k => $times) {
+        $rl[$k] = array_values(array_filter((array) $times, fn($t) => $t > $now - $RATE_WINDOW));
+        if (!$rl[$k]) unset($rl[$k]);
+    }
+    if (count($rl[$ipKey] ?? []) >= $RATE_LIMIT) {
+        flock($fh, LOCK_UN);
+        fclose($fh);
+        respond(false, 429, ['error' => 'Kısa sürede çok sayıda talep gönderildi. Lütfen birkaç dakika sonra tekrar deneyin.']);
+    }
+    $rl[$ipKey][] = $now;
+    ftruncate($fh, 0);
+    rewind($fh);
+    fwrite($fh, json_encode($rl));
+    flock($fh, LOCK_UN);
+    fclose($fh);
 }
 
+// ==========================================
+// 4. ALANLAR VE DOĞRULAMA
+// ==========================================
+$name    = oneLine((string) ($data['name'] ?? ''), 120);
+$email   = oneLine((string) ($data['email'] ?? ''), 254);
+$phone   = oneLine((string) ($data['phone'] ?? ''), 40);
+$company = oneLine((string) ($data['company'] ?? ''), 160);
+$subject = oneLine((string) ($data['subject'] ?? ''), 120);
+$message = trim(mb_substr(str_replace("\r\n", "\n", (string) ($data['message'] ?? '')), 0, 6000, 'UTF-8'));
+
+if (!in_array($subject, $ALLOWED_SUBJECTS, true)) {
+    $subject = 'Teklif Talebi';
+}
+
+if ($name === '' || $email === '' || $message === '') {
+    respond(false, 400, ['error' => 'Lütfen zorunlu alanları (ad soyad, e-posta, mesaj) doldurun.']);
+}
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    http_response_code(400);
-    echo json_encode(['success' => false, 'error' => 'Lütfen geçerli bir e-posta adresi girin.']);
-    exit;
+    respond(false, 400, ['error' => 'Lütfen geçerli bir e-posta adresi girin.']);
+}
+if ($phone !== '' && !preg_match('/^[0-9+()\s.\-]{6,40}$/', $phone)) {
+    $phone = ''; // geçersiz telefon gönderimi engellemez, yalnızca kullanılmaz
 }
 
-$refNo = 'DC-' . date('Ymd') . '-' . strtoupper(substr(md5(uniqid(rand(), true)), 0, 6));
-$timestamp = date('d.m.Y H:i:s');
+$refNo     = 'MR-' . date('Ymd') . '-' . strtoupper(bin2hex(random_bytes(3)));
+$timestamp = date('d.m.Y H:i');
 
-// E-posta İçeriği Hazırla
+// ==========================================
+// 5. E-POSTA
+// ==========================================
 $mailSubject = "[$BRAND_NAME] $subject - $refNo";
 
-$plainContent = "DUMMYCOSMETICS WEB SİTESİ TEKLİF & İLETİŞİM TALEBİ\n";
-$plainContent .= "====================================================\n";
-$plainContent .= "Referans No : $refNo\n";
-$plainContent .= "Tarih        : $timestamp\n";
-$plainContent .= "Ad Soyad     : $name\n";
-$plainContent .= "E-posta      : $email\n";
-$plainContent .= "Telefon      : " . ($phone ?: '-') . "\n";
-$plainContent .= "Firma        : " . ($company ?: '-') . "\n";
-$plainContent .= "Konu         : $subject\n";
-$plainContent .= "----------------------------------------------------\n";
-$plainContent .= "MESAJ İÇERİĞİ VE TEKLİF EDİLEN ÜRÜNLER:\n\n";
-$plainContent .= $message . "\n";
-$plainContent .= "====================================================\n";
-$plainContent .= "İstemci IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'Bilinmiyor') . "\n";
+$rows = [
+    ['Referans', h($refNo)],
+    ['Tarih', h($timestamp)],
+    ['Ad soyad', h($name)],
+    ['E-posta', '<a href="mailto:' . h($email) . '" style="color:#141C27;">' . h($email) . '</a>'],
+    ['Telefon', $phone !== '' ? h($phone) : '-'],
+    ['Firma', $company !== '' ? h($company) : '-'],
+    ['Konu', h($subject)],
+    ['IP', h($ip)],
+];
+$rowsHtml = '';
+foreach ($rows as [$label, $value]) {
+    $rowsHtml .= '<tr><td style="padding:6px 0;color:#5C6573;width:120px;vertical-align:top;">' . $label . '</td><td style="padding:6px 0;">' . $value . '</td></tr>';
+}
 
-// HTML E-posta Gövdesi
-$htmlContent = "
-<!DOCTYPE html>
-<html>
-<head><meta charset='UTF-8'></head>
-<body style='font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;background:#f4f4f5;color:#18181b;padding:24px;margin:0;'>
-  <div style='max-width:620px;margin:0 auto;background:#ffffff;border:1px solid #e4e4e7;border-radius:12px;overflow:hidden;'>
-    <div style='background:#1e1b18;padding:20px 24px;color:#f7f5f0;'>
-      <h2 style='margin:0;font-size:18px;font-weight:600;letter-spacing:-0.02em;'>$BRAND_NAME</h2>
-      <p style='margin:4px 0 0;font-size:12px;color:#b2aba2;'>Web Sitesi Teklif & İletişim Bildirimi · Ref: $refNo</p>
-    </div>
-    <div style='padding:24px;'>
-      <table style='width:100%;border-collapse:collapse;font-size:14px;margin-bottom:20px;'>
-        <tr><td style='padding:6px 0;color:#71717a;width:120px;'>Tarih:</td><td style='font-weight:500;'>$timestamp</td></tr>
-        <tr><td style='padding:6px 0;color:#71717a;'>Gönderen:</td><td style='font-weight:600;'>$name</td></tr>
-        <tr><td style='padding:6px 0;color:#71717a;'>E-posta:</td><td><a href='mailto:$email' style='color:#1e1b18;'>$email</a></td></tr>
-        <tr><td style='padding:6px 0;color:#71717a;'>Telefon:</td><td>" . ($phone ? "<a href='tel:$phone' style='color:#1e1b18;'>$phone</a>" : "-") . "</td></tr>
-        <tr><td style='padding:6px 0;color:#71717a;'>Firma:</td><td>" . htmlspecialchars($company ?: '-') . "</td></tr>
-        <tr><td style='padding:6px 0;color:#71717a;'>Konu:</td><td style='font-weight:500;'>" . htmlspecialchars($subject) . "</td></tr>
-      </table>
-      <div style='background:#fafafa;border:1px solid #e4e4e7;border-radius:8px;padding:16px;margin-top:16px;'>
-        <div style='font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:#71717a;margin-bottom:8px;font-weight:600;'>Talep & Ürün Detayları</div>
-        <pre style='margin:0;white-space:pre-wrap;font-family:inherit;font-size:13px;line-height:1.6;color:#18181b;'>" . htmlspecialchars($message) . "</pre>
-      </div>
-    </div>
-    <div style='background:#f4f4f5;padding:12px 24px;font-size:11px;color:#a1a1aa;text-align:center;'>
-      Bu e-posta Meira web sitesi teklif formundan iletilmiştir.
-    </div>
-  </div>
-</body>
-</html>";
+$htmlContent = '<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"></head>'
+    . '<body style="font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#F7F4EF;color:#141C27;padding:24px;margin:0;">'
+    . '<div style="max-width:620px;margin:0 auto;background:#FCFBF8;border:1px solid #E1D9CB;">'
+    . '<div style="background:#141C27;padding:20px 24px;color:#F4EFE6;">'
+    . '<div style="font-family:Georgia,serif;font-size:20px;letter-spacing:0.2em;">MEIRA</div>'
+    . '<div style="margin-top:4px;font-size:12px;color:#C3C8D0;">Web sitesi teklif ve iletişim talebi</div></div>'
+    . '<div style="padding:24px;"><table style="width:100%;border-collapse:collapse;font-size:14px;">' . $rowsHtml . '</table>'
+    . '<div style="margin-top:20px;padding:16px;background:#F7F4EF;border:1px solid #E1D9CB;">'
+    . '<div style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:#5C6573;margin-bottom:8px;">Mesaj ve teklif listesi</div>'
+    . '<pre style="margin:0;white-space:pre-wrap;font-family:inherit;font-size:14px;line-height:1.6;">' . h($message) . '</pre></div></div>'
+    . '<div style="padding:12px 24px;font-size:11px;color:#5C6573;text-align:center;">Bu e-posta ' . h($BRAND_NAME) . ' web sitesi teklif formundan iletilmiştir.</div>'
+    . '</div></body></html>';
 
-$mailSent = false;
-
+$mailSent = true;
 if (!$DEMO_MODE) {
-    // Gerçek Gönderim: PHP mail() fonksiyonu
     $headers = [
         'MIME-Version: 1.0',
         'Content-Type: text/html; charset=UTF-8',
-        'From: ' . $BRAND_NAME . ' <' . $FROM_EMAIL . '>',
-        'Reply-To: ' . $name . ' <' . $email . '>',
-        'X-Mailer: PHP/' . phpversion()
+        'Content-Transfer-Encoding: 8bit',
+        'From: ' . encodeHeader($BRAND_NAME) . ' <' . $FROM_EMAIL . '>',
+        'Reply-To: ' . encodeHeader($name) . ' <' . $email . '>',
     ];
-    $mailSent = @mail($TO_EMAIL, $mailSubject, $htmlContent, implode("\r\n", $headers));
-} else {
-    // Demo Modu: Başarılı say ve yerel loga yaz
-    $mailSent = true;
+    $mailSent = @mail($TO_EMAIL, encodeHeader($mailSubject), $htmlContent, implode("\r\n", $headers), '-f' . $FROM_EMAIL);
 }
 
-// Log kaydı oluştur
-$logEntry = "[" . date('Y-m-d H:i:s') . "] REF: $refNo | KIM: $name <$email> | TEL: $phone | FIRMA: $company | KONU: $subject | DEMO: " . ($DEMO_MODE ? 'EVET' : 'HAYIR') . "\n";
+// ==========================================
+// 6. KAYIT (tek satır; kişisel veri saklama süresi için bkz. gizlilik.html)
+// ==========================================
+$logEntry = '[' . date('Y-m-d H:i:s') . '] REF: ' . $refNo
+    . ' | KİŞİ: ' . $name . ' <' . $email . '>'
+    . ' | TEL: ' . ($phone ?: '-')
+    . ' | FİRMA: ' . ($company ?: '-')
+    . ' | KONU: ' . $subject
+    . ' | GÖNDERİM: ' . ($DEMO_MODE ? 'demo' : ($mailSent ? 'ok' : 'hata')) . "\n";
 @file_put_contents($LOG_FILE, $logEntry, FILE_APPEND | LOCK_EX);
 
 if ($mailSent) {
-    echo json_encode([
-        'success'   => true,
-        'message'   => 'Teklif talebiniz başarıyla alındı. Satış ve teknik ekibimiz en kısa sürede sizinle iletişime geçecektir.',
+    respond(true, 200, [
+        'message'   => 'Teklif talebiniz alındı. Ekibimiz en kısa sürede sizinle iletişime geçecek.',
         'reference' => $refNo,
-        'mode'      => $DEMO_MODE ? 'demo' : 'production'
-    ]);
-} else {
-    http_response_code(500);
-    echo json_encode([
-        'success' => false,
-        'error'   => 'E-posta gönderilirken bir sunucu hatası oluştu. Lütfen doğrudan info@meira.com.tr adresine yazınız.'
+        'mode'      => $DEMO_MODE ? 'demo' : 'production',
     ]);
 }
+
+respond(false, 500, ['error' => 'E-posta gönderilirken bir sunucu hatası oluştu. Lütfen doğrudan ' . $TO_EMAIL . ' adresine yazın.']);
