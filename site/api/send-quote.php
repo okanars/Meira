@@ -1,7 +1,7 @@
 <?php
 /**
- * DummyCosmetics – Kurumsal İletişim ve Teklif Formu API Endpoint'i
- * Hosting ortamında info@dummycosmetics.com.tr adresine bildirim gönderir.
+ * Meira – Kurumsal İletişim ve Teklif Formu API Endpoint'i
+ * Hosting ortamında info@meira.com.tr adresine bildirim gönderir.
  * 
  * Gerçek sunucuya taşındığında aşağıdaki AYARLAR bölümünden
  * $DEMO_MODE değerini false yapmanız yeterlidir.
@@ -14,9 +14,9 @@ header('X-Content-Type-Options: nosniff');
 // 1. AYARLAR (İleride gerçek sunucuya göre düzenleyin)
 // ==========================================
 $DEMO_MODE   = true; // Test/Demo modunda mailler yerel log dosyasına kaydedilir ve başarılı yanıt döner.
-$TO_EMAIL    = 'info@dummycosmetics.com.tr';
-$FROM_EMAIL  = 'noreply@dummycosmetics.com.tr';
-$BRAND_NAME  = 'DummyCosmetics Türkiye';
+$TO_EMAIL    = 'info@meira.com.tr';
+$FROM_EMAIL  = 'noreply@meira.com.tr';
+$BRAND_NAME  = 'Meira Türkiye';
 $LOG_FILE    = __DIR__ . '/submissions.log';
 
 // Sadece POST isteklerine izin ver
@@ -115,7 +115,7 @@ $htmlContent = "
       </div>
     </div>
     <div style='background:#f4f4f5;padding:12px 24px;font-size:11px;color:#a1a1aa;text-align:center;'>
-      Bu e-posta DummyCosmetics web sitesi teklif formundan iletilmiştir.
+      Bu e-posta Meira web sitesi teklif formundan iletilmiştir.
     </div>
   </div>
 </body>
@@ -153,6 +153,6 @@ if ($mailSent) {
     http_response_code(500);
     echo json_encode([
         'success' => false,
-        'error'   => 'E-posta gönderilirken bir sunucu hatası oluştu. Lütfen doğrudan info@dummycosmetics.com.tr adresine yazınız.'
+        'error'   => 'E-posta gönderilirken bir sunucu hatası oluştu. Lütfen doğrudan info@meira.com.tr adresine yazınız.'
     ]);
 }

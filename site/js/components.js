@@ -5,7 +5,7 @@
  */
 
 (function (root) {
-  const SITE_CFG = root.SITE || { brand: 'DummyCosmetics', email: 'info@dummycosmetics.com.tr' };
+  const SITE_CFG = root.SITE || { brand: 'Meira', email: 'info@meira.com.tr' };
   const ICONS = 'images/icons.svg';
 
   function icon(name, cls) {
@@ -370,7 +370,7 @@
 
   // Listeye ekleme butonları 1,6 s boyunca "Eklendi" durumuna geçer (geri bildirim tıklanan yerde).
   // Butonların kendi tıklama işleyicileri değişmez; bu dinleyici yalnızca görünümü günceller.
-  const ADD_SELECTOR = '[data-act="add-quote"], [data-add], [data-add-product], #mBtnAddQuote';
+  const ADD_SELECTOR = '[data-act="add-quote"], [data-add], [data-add-product], [data-add-to-list]';
   function confirmAdded(btn) {
     const label = btn.querySelector('span');
     const use = btn.querySelector('use');
@@ -386,6 +386,65 @@
       if (use && btn.dataset.icon) use.setAttribute('href', btn.dataset.icon);
     }, 1600);
   }
+  // Ürün sayfası düğmeleri: [data-add-to-list] listeye ekler, [data-quote-now] ekleyip forma gider
+  function initProductActions() {
+    document.addEventListener('click', (e) => {
+      const add = e.target.closest('[data-add-to-list]');
+      if (add) { addToCart(add.dataset.addToList, 1); return; }
+      const quote = e.target.closest('[data-quote-now]');
+      if (quote) {
+        const id = quote.dataset.quoteNow;
+        if (!getCart().some(i => i.id === id)) addToCart(id, 1);
+        window.location.href = 'iletisim.html?teklif=1';
+      }
+    });
+  }
+
+  // Ürün galerisi: küçük görsel seçimi ve tıklanan noktadan 2x yakınlaştırma
+  function initGallery() {
+    document.querySelectorAll('[data-gallery]').forEach(gallery => {
+      const zoom = gallery.querySelector('[data-zoom]');
+      const main = gallery.querySelector('[data-main]');
+      if (!zoom || !main) return;
+      function setZoom(on, x = 50, y = 50) {
+        if (on) main.style.transformOrigin = `${x}% ${y}%`;
+        zoom.classList.toggle('is-zoomed', on);
+        zoom.setAttribute('aria-pressed', String(on));
+        zoom.setAttribute('aria-label', on ? 'Yakınlaştırmayı kapat' : 'Görseli yakınlaştır');
+      }
+      zoom.addEventListener('click', (e) => {
+        const on = !zoom.classList.contains('is-zoomed');
+        if (on && e.detail > 0) {
+          const r = zoom.getBoundingClientRect();
+          setZoom(true, ((e.clientX - r.left) / r.width) * 100, ((e.clientY - r.top) / r.height) * 100);
+        } else {
+          setZoom(on);
+        }
+      });
+      gallery.querySelectorAll('.modal-thumb').forEach(thumb => {
+        thumb.addEventListener('click', (e) => {
+          setZoom(false);
+          main.src = thumb.dataset.src;
+          main.style.objectPosition = thumb.dataset.pos || 'center';
+          gallery.querySelectorAll('.modal-thumb').forEach(t => {
+            const on = t === thumb;
+            t.classList.toggle('active', on);
+            t.setAttribute('aria-pressed', String(on));
+          });
+          // Fareyle seçimde kısa opaklık + bulanıklık köprüsü; klavyede (detail 0) animasyon yok
+          if (e.detail > 0 && main.animate) {
+            main.animate(
+              reduceMotion.matches
+                ? [{ opacity: 0.5 }, { opacity: 1 }]
+                : [{ opacity: 0.4, filter: 'blur(3px)' }, { opacity: 1, filter: 'blur(0)' }],
+              { duration: 200, easing: EASE_OUT }
+            );
+          }
+        });
+      });
+    });
+  }
+
   function initAddFeedback() {
     // Yakalama aşaması: katalog kartı stopPropagation kullandığı için kabarcık aşamasına ulaşmaz
     document.addEventListener('click', (e) => {
@@ -408,10 +467,11 @@
   }
 
   function initNavigation() {
-    const path = window.location.pathname.split('/').pop() || 'index.html';
+    // Ürün ve blog sayfaları kendi bölümlerini <body data-section> ile bildirir
+    const path = document.body.dataset.section || window.location.pathname.split('/').pop() || 'index.html';
     document.querySelectorAll('.nav-item').forEach(link => {
       const href = link.getAttribute('href');
-      const isActive = href === path || (path === '' && href === 'index.html');
+      const isActive = href === path;
       link.classList.toggle('active', isActive);
       if (isActive) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
@@ -690,7 +750,7 @@
           </div>` : ''}
           <div class="btn-row">
             <button type="button" class="btn btn--primary" data-add-product="${esc(p.id)}">${icon('plus', 'icon--sm')}<span>Listeye ekle</span></button>
-            <a href="urunler.html?model=${encodeURIComponent(p.id)}" class="link-arrow">Ürünü incele ${icon('arrow-right')}</a>
+            <a href="urun-${encodeURIComponent(p.id)}.html" class="link-arrow">Ürünü incele ${icon('arrow-right')}</a>
           </div>
         </div>
       </div>
@@ -813,6 +873,8 @@
     initNavigation();
     updateBadge();
     initAddFeedback();
+    initProductActions();
+    initGallery();
     initContactPage();
     initAtmosphereSelector();
     initParticleSimulator();
@@ -831,7 +893,7 @@
   });
 
   // Global API
-  root.DummyApp = {
+  root.MeiraApp = {
     addToCart,
     updateCartQty,
     removeFromCart,

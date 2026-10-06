@@ -132,7 +132,7 @@
     const d = Object.fromEntries(new FormData(form));
     const items = quote.map(id => PRODUCTS.find(p => p.id === id)).filter(Boolean).map(p => p.model).join(', ');
     const body = `Ad Soyad: ${d.name}\nFirma: ${d.company}\nE-posta: ${d.email}\nTelefon: ${d.phone}\n\n${d.message}${items ? '\n\nİlgilenilen ürünler: ' + items : ''}`;
-    window.location.href = `mailto:info@dummycosmetics.com.tr?subject=${encodeURIComponent('[Web] ' + d.subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:info@meira.com.tr?subject=${encodeURIComponent('[Web] ' + d.subject)}&body=${encodeURIComponent(body)}`;
     note.textContent = 'E-posta uygulamanız açılıyor. Teşekkür ederiz!';
   });
 
