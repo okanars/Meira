@@ -110,7 +110,7 @@ function head({ title, description, url, image = 'images/products/ck686.jpg', ty
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(description)}">
   <meta name="robots" content="${noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}">
-  <meta name="theme-color" content="${dark ? '#141312' : '#F3F0EA'}">
+  <meta name="theme-color" content="${dark ? '#141C27' : '#F7F4EF'}">
 ${noindex ? '' : `  <link rel="canonical" href="${abs(url)}">\n`}  <meta property="og:type" content="${type}">
   <meta property="og:locale" content="tr_TR">
   <meta property="og:site_name" content="${BRAND}">
@@ -120,7 +120,7 @@ ${noindex ? '' : `  <link rel="canonical" href="${abs(url)}">\n`}  <meta propert
   <meta property="og:image" content="${abs(image)}">
 ${published ? `  <meta property="article:published_time" content="${published}">\n` : ''}  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="fonts/bodoni-moda-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/newsreader-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css">
   <script>document.documentElement.classList.add('js');</script>
