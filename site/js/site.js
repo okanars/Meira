@@ -13,11 +13,17 @@
       items.forEach(el => el.classList.add('is-in'));
       return;
     }
+    // Aynı anda görünüme giren kardeşler kademeli girer (60 ms arayla, en fazla 4 kademe)
     const io = new IntersectionObserver(entries => {
+      const perParent = new Map();
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-in');
-        io.unobserve(entry.target);
+        const el = entry.target;
+        const n = perParent.get(el.parentElement) || 0;
+        el.style.setProperty('--i', Math.min(n, 4));
+        perParent.set(el.parentElement, n + 1);
+        el.classList.add('is-in');
+        io.unobserve(el);
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
     items.forEach(el => io.observe(el));
