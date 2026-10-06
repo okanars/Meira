@@ -1,15 +1,59 @@
 /**
- * DummyCosmetics – Shared Components & State System
- * Emil Kowalski Sonner Toasts · Vaul-Style Cart Drawer · Auto-Quote Generator
+ * Paylaşılan bileşenler ve durum: teklif listesi (sepet), çekmece, bildirim,
+ * navigasyon, iletişim formu, koku küratörü, atomizasyon simülatörü.
+ * Görsel sınıflar DESIGN.md / css/style.css ile eşleşir.
  */
 
 (function (root) {
+  const SITE_CFG = root.SITE || { brand: 'DummyCosmetics', email: 'info@dummycosmetics.com.tr' };
+  const ICONS = 'images/icons.svg';
+
+  function icon(name, cls) {
+    return `<svg class="icon${cls ? ' ' + cls : ''}" aria-hidden="true" focusable="false"><use href="${ICONS}#i-${name}"></use></svg>`;
+  }
+
+  function esc(value) {
+    return String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+
+  function findProduct(id) {
+    return (typeof PRODUCTS !== 'undefined') ? PRODUCTS.find(p => p.id === id) : null;
+  }
+
+  function productImage(p) {
+    return `images/${p.external ? 'general' : 'products'}/${p.img}.jpg`;
+  }
+
+  function specValue(p, pattern) {
+    const row = p.specs.find(s => pattern.test(s[0]));
+    return row ? row[1] : '';
+  }
+
+  const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+  // Modal ve çekmecede odağı içeride tutar
+  function trapFocus(container, event) {
+    if (event.key !== 'Tab') return;
+    const items = Array.from(container.querySelectorAll(FOCUSABLE)).filter(el => el.offsetParent !== null);
+    if (!items.length) return;
+    const first = items[0];
+    const last = items[items.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
   // =========================================================================
-  // 1. STATE & STORAGE: TEKLİF SEPETİ (QUOTE CART)
+  // 1. TEKLİF LİSTESİ (SEPET) DURUMU
   // =========================================================================
   const STORAGE_KEY = 'dc_quote_cart_v2';
 
   function getCart() {
+    let cart = [];
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) {
@@ -17,26 +61,37 @@
         const legacy = localStorage.getItem('dc_quote');
         if (legacy) {
           const arr = JSON.parse(legacy);
-          return arr.map(id => ({ id, qty: 1 }));
+          cart = arr.map(id => ({ id, qty: 1 }));
         }
-        return [];
+      } else {
+        cart = JSON.parse(raw);
       }
-      return JSON.parse(raw);
     } catch (e) {
-      return [];
+      cart = [];
     }
+    if (!Array.isArray(cart)) return [];
+    // Katalogda olmayan kayıtları yok say (eski sürümden kalan geçersiz kimlikler)
+    if (typeof PRODUCTS !== 'undefined') {
+      cart = cart.filter(item => item && findProduct(item.id));
+    }
+    return cart;
   }
 
   function saveCart(cart) {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
-      window.dispatchEvent(new CustomEvent('dc:cart-updated', { detail: { cart } }));
     } catch (e) {
       console.warn('Storage error', e);
     }
+    window.dispatchEvent(new CustomEvent('dc:cart-updated', { detail: { cart } }));
   }
 
   function addToCart(productId, qty = 1) {
+    const product = findProduct(productId);
+    if (typeof PRODUCTS !== 'undefined' && !product) {
+      toast.show({ message: 'Bu ürün katalogda bulunamadı.', type: 'error' });
+      return;
+    }
     const cart = getCart();
     const existing = cart.find(item => item.id === productId);
     if (existing) {
@@ -46,10 +101,9 @@
     }
     saveCart(cart);
 
-    const product = (typeof PRODUCTS !== 'undefined') ? PRODUCTS.find(p => p.id === productId) : null;
-    const name = product ? `${product.model} (${product.title})` : 'Ürün';
+    const name = product ? `${product.model} ${product.title}` : 'Ürün';
     toast.show({
-      message: `<strong>${name}</strong> teklif listesine eklendi.`,
+      message: `<strong>${esc(name)}</strong> teklif listesine eklendi.`,
       type: 'accent'
     });
   }
@@ -89,31 +143,33 @@
     const cart = getCart();
     if (!cart.length || typeof PRODUCTS === 'undefined') return '';
 
-    let text = `Merhaba DummyCosmetics Satış Ekibi,\n\n`;
-    text += `Aşağıda listelediğim profesyonel koku sistemleri için toptan birim fiyat, stok durumu ve teslimat süresi teklifi rica ediyorum:\n\n`;
+    let text = `Merhaba ${SITE_CFG.brand} Satış Ekibi,\n\n`;
+    text += `Aşağıda listelediğim ürünler için birim fiyat, stok durumu ve teslimat süresi içeren bir teklif rica ediyorum:\n\n`;
 
-    cart.forEach((item, idx) => {
-      const p = PRODUCTS.find(prod => prod.id === item.id);
+    let line = 0;
+    cart.forEach(item => {
+      const p = findProduct(item.id);
       if (!p) return;
+      line += 1;
 
-      const cap = p.specs.find(s => /kapasite/i.test(s[0]))?.[1] || '-';
-      const area = p.specs.find(s => /kapsama/i.test(s[0]))?.[1] || '-';
+      const cap = specValue(p, /kapasite/i) || '-';
+      const area = specValue(p, /kapsama/i) || '-';
 
-      text += `${idx + 1}. [${p.model}] ${p.title}\n`;
-      text += `   • Talep Adedi : ${item.qty} adet\n`;
-      text += `   • Kapsama / Hacim: ${area} | Kapasite: ${cap}\n\n`;
+      text += `${line}. [${p.model}] ${p.title}\n`;
+      text += `   - Talep adedi: ${item.qty} adet\n`;
+      text += `   - Kapsama: ${area} | Kapasite: ${cap}\n\n`;
     });
 
-    text += `PROJE / UYGULAMA ALANI DETAYLARI:\n`;
-    text += `Mekân Tipi: [Örn: Otel Lobisi / Mağaza Zinciri / Ofis Plaza]\n`;
-    text += `Metrekare / Hacim: [Örn: ~1.200 m²]\n`;
-    text += `Ek İstekler: [Montaj desteği, özel koku tasarımı vb.]\n`;
+    text += `PROJE / UYGULAMA ALANI:\n`;
+    text += `Mekân tipi: [Örn: Otel lobisi / Mağaza / Ofis]\n`;
+    text += `Alan veya hacim: [Örn: ~1.200 m²]\n`;
+    text += `Ek istekler: [Montaj, özel koku vb.]\n`;
 
     return text;
   }
 
   // =========================================================================
-  // 2. EMIL KOWALSKI SONNER-STYLE TOAST SİSTEMİ
+  // 2. BİLDİRİM (TOAST)
   // =========================================================================
   const toast = {
     show({ message, type = 'accent', duration = 3400 }) {
@@ -122,18 +178,16 @@
         container = document.createElement('div');
         container.id = 'dc-toast-container';
         container.className = 'toast-container';
+        container.setAttribute('role', 'status');
+        container.setAttribute('aria-live', 'polite');
         document.body.appendChild(container);
       }
 
       const el = document.createElement('div');
       el.className = 'toast';
-      
-      const iconSvg = type === 'success' 
-        ? `<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>`
-        : `<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v4a1 1 0 102 0V7zm-1 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>`;
-
+      const glyph = type === 'error' ? 'warning-circle' : 'check';
       el.innerHTML = `
-        <span class="toast-icon ${type}">${iconSvg}</span>
+        <span class="toast-icon ${type}">${icon(glyph)}</span>
         <span class="toast-msg">${message}</span>
       `;
 
@@ -142,158 +196,202 @@
 
       setTimeout(() => {
         el.classList.remove('show');
-        setTimeout(() => el.remove(), 260);
+        setTimeout(() => el.remove(), 200);
       }, duration);
     }
   };
 
   // =========================================================================
-  // 3. VAUL-STYLE QUOTE CART DRAWER
+  // 3. TEKLİF LİSTESİ ÇEKMECESİ (animasyonsuz)
   // =========================================================================
-  function renderDrawer() {
+  let drawerReturnFocus = null;
+
+  function ensureDrawer() {
     let overlay = document.getElementById('dc-cart-drawer');
-    if (!overlay) {
-      overlay = document.createElement('div');
-      overlay.id = 'dc-cart-drawer';
-      overlay.className = 'drawer-overlay';
-      overlay.innerHTML = `
-        <div class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
-          <div class="drawer-header">
-            <h3 id="drawer-title">Teklif Listesi</h3>
-            <button class="modal-close-btn" id="dc-drawer-close" aria-label="Kapat">
-              <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-            </button>
-          </div>
-          <div class="drawer-body" id="dc-drawer-items"></div>
-          <div class="drawer-footer" id="dc-drawer-footer"></div>
+    if (overlay) return overlay;
+
+    overlay = document.createElement('div');
+    overlay.id = 'dc-cart-drawer';
+    overlay.className = 'drawer-overlay';
+    overlay.innerHTML = `
+      <div class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+        <div class="drawer-header">
+          <h2 id="drawer-title">Teklif listesi</h2>
+          <button type="button" class="icon-btn" id="dc-drawer-close" aria-label="Teklif listesini kapat">${icon('x')}</button>
         </div>
-      `;
-      document.body.appendChild(overlay);
+        <div class="drawer-body" id="dc-drawer-items"></div>
+        <div class="drawer-footer" id="dc-drawer-footer"></div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
 
-      overlay.addEventListener('click', (e) => {
-        if (e.target === overlay || e.target.closest('#dc-drawer-close')) {
-          closeDrawer();
-        }
-      });
-    }
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay || e.target.closest('#dc-drawer-close') || e.target.closest('#dc-btn-browse')) {
+        closeDrawer();
+      }
+    });
+    overlay.addEventListener('keydown', (e) => trapFocus(overlay.querySelector('.drawer-panel'), e));
 
-    const itemsContainer = document.getElementById('dc-drawer-items');
-    const footerContainer = document.getElementById('dc-drawer-footer');
+    // Satır işlemleri: adet artır/azalt, kaldır
+    overlay.querySelector('#dc-drawer-items').addEventListener('click', (e) => {
+      const row = e.target.closest('.drawer-item');
+      const control = e.target.closest('[data-act]');
+      if (!row || !control) return;
+      const id = row.dataset.id;
+      const act = control.dataset.act;
+      if (act === 'plus') updateCartQty(id, 1);
+      else if (act === 'minus') updateCartQty(id, -1);
+      else if (act === 'remove') removeFromCart(id);
+      restoreDrawerFocus(id, act);
+    });
+
+    overlay.querySelector('#dc-drawer-footer').addEventListener('click', (e) => {
+      if (e.target.closest('#dc-btn-go-quote')) {
+        closeDrawer();
+        window.location.href = 'iletisim.html?teklif=1';
+      } else if (e.target.closest('#dc-btn-clear-cart')) {
+        clearCart();
+        document.getElementById('dc-drawer-close')?.focus();
+      }
+    });
+
+    return overlay;
+  }
+
+  // Liste yeniden çizildikten sonra odağı aynı kontrole (yoksa kapat butonuna) taşır
+  function restoreDrawerFocus(id, act) {
+    const overlay = document.getElementById('dc-cart-drawer');
+    if (!overlay || !overlay.classList.contains('open')) return;
+    const target = overlay.querySelector(`.drawer-item[data-id="${CSS.escape(id)}"] [data-act="${act}"]`)
+      || overlay.querySelector('.drawer-item [data-act="remove"]')
+      || document.getElementById('dc-drawer-close');
+    target?.focus();
+  }
+
+  function renderDrawer() {
+    const overlay = ensureDrawer();
+    const itemsContainer = overlay.querySelector('#dc-drawer-items');
+    const footerContainer = overlay.querySelector('#dc-drawer-footer');
     const cart = getCart();
 
     if (!cart.length || typeof PRODUCTS === 'undefined') {
       itemsContainer.innerHTML = `
         <div class="drawer-empty-state">
-          <p style="margin-bottom:8px;font-size:14px;color:var(--text-secondary);">Teklif listeniz henüz boş.</p>
-          <p style="font-size:12px;">Ürün kataloğundan dilediğiniz cihaz ve esansı ekleyerek toplu teklif talebi oluşturabilirsiniz.</p>
+          <h3>Listeniz boş</h3>
+          <p>Katalogdan cihaz ve esans ekleyerek tek seferde teklif isteyebilirsiniz.</p>
         </div>
       `;
       footerContainer.innerHTML = `
-        <a href="urunler.html" class="btn btn-secondary btn-full" onclick="DummyApp.closeDrawer()">Ürün Kataloğuna Git</a>
+        <a href="urunler.html" class="btn btn--quiet btn--block" id="dc-btn-browse">Ürünleri incele</a>
       `;
       return;
     }
 
     itemsContainer.innerHTML = cart.map(item => {
-      const p = PRODUCTS.find(prod => prod.id === item.id);
+      const p = findProduct(item.id);
       if (!p) return '';
-      const imgPath = `images/${p.external ? 'general' : 'products'}/${p.img}.jpg`;
       return `
-        <div class="drawer-item" data-id="${p.id}">
-          <img src="${imgPath}" alt="${p.model}" class="drawer-item-img">
+        <div class="drawer-item" data-id="${esc(p.id)}">
+          <img src="${productImage(p)}" alt="" class="drawer-item-img" loading="lazy">
           <div class="drawer-item-info">
-            <span class="drawer-item-model">${p.model}</span>
-            <div class="drawer-item-title">${p.title}</div>
+            <span class="drawer-item-model">${esc(p.model)}</span>
+            <div class="drawer-item-title">${esc(p.title)}</div>
           </div>
-          <div class="qty-controls">
-            <button class="qty-btn" data-act="minus" aria-label="Azalt">–</button>
+          <button type="button" class="icon-btn drawer-item-remove" data-act="remove" aria-label="${esc(p.model)} ürününü listeden kaldır">${icon('trash')}</button>
+          <div class="qty-controls" role="group" aria-label="${esc(p.model)} adedi">
+            <button type="button" class="qty-btn" data-act="minus" aria-label="Adedi azalt">${icon('minus')}</button>
             <span class="qty-val">${item.qty}</span>
-            <button class="qty-btn" data-act="plus" aria-label="Artır">+</button>
+            <button type="button" class="qty-btn" data-act="plus" aria-label="Adedi artır">${icon('plus')}</button>
           </div>
-          <button class="drawer-item-remove" data-act="remove" aria-label="Kaldır">
-            <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
-          </button>
         </div>
       `;
     }).join('');
 
+    const total = getCartTotalCount();
     footerContainer.innerHTML = `
-      <button class="btn btn-accent btn-full" id="dc-btn-go-quote">
-        <span>Teklif Formunu Otomatik Doldur (${getCartTotalCount()} Ürün)</span>
-        <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+      <button type="button" class="btn btn--primary btn--lg btn--block" id="dc-btn-go-quote">
+        <span>Teklif formuna aktar</span>
+        ${icon('arrow-right', 'icon--move')}
       </button>
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:0 4px;">
-        <span style="font-size:11.5px;color:var(--text-tertiary);">${cart.length} farklı model seçili</span>
-        <button id="dc-btn-clear-cart" style="font-size:11.5px;color:var(--text-tertiary);text-decoration:underline;">Listeyi Temizle</button>
+      <div class="drawer-footer__meta">
+        <span class="num">${cart.length} model, toplam ${total} adet</span>
+        <button type="button" id="dc-btn-clear-cart">Listeyi temizle</button>
       </div>
     `;
-
-    // Click handler for drawer items
-    itemsContainer.onclick = (e) => {
-      const row = e.target.closest('.drawer-item');
-      if (!row) return;
-      const id = row.dataset.id;
-      if (e.target.closest('[data-act="plus"]')) updateCartQty(id, 1);
-      else if (e.target.closest('[data-act="minus"]')) updateCartQty(id, -1);
-      else if (e.target.closest('[data-act="remove"]')) removeFromCart(id);
-    };
-
-    document.getElementById('dc-btn-go-quote')?.addEventListener('click', () => {
-      closeDrawer();
-      window.location.href = 'iletisim.html?teklif=1';
-    });
-
-    document.getElementById('dc-btn-clear-cart')?.addEventListener('click', () => {
-      clearCart();
-    });
   }
 
   function openDrawer() {
     renderDrawer();
     const overlay = document.getElementById('dc-cart-drawer');
-    if (overlay) {
-      overlay.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
+    if (!overlay) return;
+    drawerReturnFocus = document.activeElement;
+    closeMobileMenu();
+    // Açık bildirimler çekmecenin üzerinde kalmasın
+    document.querySelectorAll('#dc-toast-container .toast').forEach(t => t.remove());
+    overlay.classList.add('open');
+    document.body.classList.add('is-locked');
+    document.getElementById('dc-drawer-close')?.focus();
   }
 
   function closeDrawer() {
     const overlay = document.getElementById('dc-cart-drawer');
-    if (overlay) {
-      overlay.classList.remove('open');
-      document.body.style.overflow = '';
-    }
+    if (!overlay || !overlay.classList.contains('open')) return;
+    overlay.classList.remove('open');
+    document.body.classList.remove('is-locked');
+    if (drawerReturnFocus && document.contains(drawerReturnFocus)) drawerReturnFocus.focus();
+    drawerReturnFocus = null;
   }
 
   function updateBadge() {
-    const badges = document.querySelectorAll('.dc-cart-count');
     const total = getCartTotalCount();
-    badges.forEach(b => {
+    document.querySelectorAll('.dc-cart-count').forEach(b => {
       b.textContent = total;
       b.classList.toggle('empty', total === 0);
+    });
+    document.querySelectorAll('.quote-trigger').forEach(btn => {
+      btn.setAttribute('aria-label', `Teklif listesi, ${total} adet ürün`);
     });
   }
 
   // =========================================================================
-  // 4. SHARED HEADER & FOOTER AKTİF MENÜ EŞLEME
+  // 4. BAŞLIK, MENÜ, AKTİF SAYFA
   // =========================================================================
+  function closeMobileMenu() {
+    const burger = document.getElementById('burgerBtn');
+    const navLinks = document.getElementById('navLinks');
+    if (!navLinks || !navLinks.classList.contains('mobile-open')) return;
+    navLinks.classList.remove('mobile-open');
+    burger?.setAttribute('aria-expanded', 'false');
+    document.querySelector('.site-header')?.classList.remove('menu-open');
+    document.body.classList.remove('is-locked');
+  }
+
   function initNavigation() {
     const path = window.location.pathname.split('/').pop() || 'index.html';
     document.querySelectorAll('.nav-item').forEach(link => {
       const href = link.getAttribute('href');
-      if (href === path || (path === '' && href === 'index.html')) {
-        link.classList.add('active');
-      } else {
-        link.classList.remove('active');
-      }
+      const isActive = href === path || (path === '' && href === 'index.html');
+      link.classList.toggle('active', isActive);
+      if (isActive) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
     });
 
     const burger = document.getElementById('burgerBtn');
     const navLinks = document.getElementById('navLinks');
+    const header = document.querySelector('.site-header');
     if (burger && navLinks) {
       burger.addEventListener('click', () => {
-        navLinks.classList.toggle('mobile-open');
+        const open = !navLinks.classList.contains('mobile-open');
+        navLinks.classList.toggle('mobile-open', open);
+        burger.setAttribute('aria-expanded', String(open));
+        header?.classList.toggle('menu-open', open);
+        document.body.classList.toggle('is-locked', open);
       });
+      navLinks.addEventListener('click', (e) => {
+        if (e.target.closest('a')) closeMobileMenu();
+      });
+      const desktop = window.matchMedia('(min-width: 1100px)');
+      desktop.addEventListener('change', (e) => { if (e.matches) closeMobileMenu(); });
     }
 
     document.querySelectorAll('.quote-trigger').forEach(btn => {
@@ -303,17 +401,54 @@
       });
     });
 
-    window.addEventListener('scroll', () => {
-      const header = document.querySelector('.site-header');
-      if (header) {
-        header.classList.toggle('scrolled', window.scrollY > 30);
-      }
-    }, { passive: true });
+    // Başlık zemin durumu: scroll dinleyicisi yerine IntersectionObserver
+    if (header && 'IntersectionObserver' in window) {
+      const sentinel = document.createElement('div');
+      sentinel.setAttribute('aria-hidden', 'true');
+      sentinel.style.cssText = 'position:absolute;top:0;left:0;width:1px;height:24px;pointer-events:none;';
+      document.body.prepend(sentinel);
+      new IntersectionObserver(([entry]) => {
+        header.classList.toggle('scrolled', !entry.isIntersecting);
+      }).observe(sentinel);
+    }
   }
 
   // =========================================================================
-  // 5. İLETİŞİM SAYFASI: TEKLİF FORMUNU OTOMATİK DOLDURMA & API ENTEGRASYONU
+  // 5. İLETİŞİM SAYFASI: FORM DOLDURMA, DOĞRULAMA, GÖNDERİM
   // =========================================================================
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  function setFieldError(field, message) {
+    const errorEl = document.getElementById(field.getAttribute('aria-describedby')?.split(' ').find(id => id.startsWith('err-')) || '');
+    if (message) {
+      field.setAttribute('aria-invalid', 'true');
+      if (errorEl) {
+        errorEl.innerHTML = `${icon('warning-circle')}<span>${esc(message)}</span>`;
+        errorEl.hidden = false;
+      }
+    } else {
+      field.removeAttribute('aria-invalid');
+      if (errorEl) {
+        errorEl.hidden = true;
+        errorEl.textContent = '';
+      }
+    }
+  }
+
+  function validateField(field) {
+    const value = field.value.trim();
+    if (field.required && !value) {
+      setFieldError(field, field.dataset.requiredMsg || 'Bu alan zorunludur.');
+      return false;
+    }
+    if (field.type === 'email' && value && !EMAIL_RE.test(value)) {
+      setFieldError(field, 'Geçerli bir e-posta adresi girin (ör. ad@firma.com).');
+      return false;
+    }
+    setFieldError(field, '');
+    return true;
+  }
+
   function initContactPage() {
     const form = document.getElementById('contactForm');
     const messageField = document.getElementById('contactMessage');
@@ -325,212 +460,247 @@
     const cart = getCart();
 
     if (cart.length > 0) {
-      // Mesaj kutusu boşsa veya teklif linkinden gelinmişse otomatik doldur
+      // Mesaj kutusu boşsa veya teklif bağlantısından gelinmişse otomatik doldur
       if (!messageField.value.trim() || hasQuoteParam) {
         messageField.value = buildQuoteMessageText();
-        
+
         if (quoteBanner) {
-          quoteBanner.style.display = 'flex';
+          quoteBanner.hidden = false;
           quoteBanner.innerHTML = `
-            <span>
-              <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-              Teklif listenizdeki <strong>${getCartTotalCount()} adet ürün</strong> teklif mesajına otomatik aktarıldı.
-            </span>
-            <button type="button" class="btn btn-sm btn-secondary" onclick="DummyApp.openDrawer()">Listeyi Düzenle</button>
+            <span>${icon('check')} Teklif listenizdeki <strong class="num">${getCartTotalCount()} adet ürün</strong> mesaja aktarıldı.</span>
+            <button type="button" class="inline-action" id="bannerEditList">Listeyi düzenle</button>
           `;
+          document.getElementById('bannerEditList')?.addEventListener('click', openDrawer);
         }
       }
     }
 
-    // Form Gönderim İşleyicisi
+    const required = Array.from(form.querySelectorAll('[required]'));
+    required.forEach(field => {
+      field.addEventListener('blur', () => { if (field.value.trim() || field.hasAttribute('aria-invalid')) validateField(field); });
+      field.addEventListener('input', () => { if (field.hasAttribute('aria-invalid')) validateField(field); });
+    });
+
+    const formError = document.getElementById('formError');
+    function showFormError(message) {
+      if (!formError) {
+        toast.show({ message: esc(message), type: 'error' });
+        return;
+      }
+      formError.innerHTML = `${icon('warning-circle')}<span>${esc(message)}</span>`;
+      formError.hidden = false;
+    }
+
+    // Form gönderim işleyicisi
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (formError) formError.hidden = true;
 
-      const submitBtn = form.querySelector('button[type="submit"]');
-      const originalText = submitBtn.innerHTML;
-
-      // Temel doğrulama
-      const name = form.querySelector('[name="name"]')?.value.trim();
-      const email = form.querySelector('[name="email"]')?.value.trim();
-      const message = messageField.value.trim();
-
-      if (!name || !email || !message) {
-        toast.show({ message: 'Lütfen zorunlu alanları doldurun.', type: 'error' });
+      const invalid = required.filter(field => !validateField(field));
+      if (invalid.length) {
+        invalid[0].focus();
         return;
       }
 
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerHTML;
       submitBtn.disabled = true;
-      submitBtn.innerHTML = `<span>İletiliyor...</span>`;
+      submitBtn.innerHTML = `<span>Gönderiliyor</span>`;
 
       const payload = {
-        name,
-        email,
+        name: form.querySelector('[name="name"]').value.trim(),
+        email: form.querySelector('[name="email"]').value.trim(),
         phone: form.querySelector('[name="phone"]')?.value.trim() || '',
         company: form.querySelector('[name="company"]')?.value.trim() || '',
         subject: form.querySelector('[name="subject"]')?.value || 'Teklif Talebi',
-        message,
-        items: cart
+        message: messageField.value.trim(),
+        hp_company_website: form.querySelector('[name="hp_company_website"]')?.value || '',
+        items: getCart()
       };
 
+      function restoreButton() {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+      }
+
+      let response;
       try {
-        const response = await fetch('api/send-quote.php', {
+        response = await fetch('api/send-quote.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-
-        // Sunucu PHP destekliyorsa JSON döner
-        if (response.ok) {
-          const res = await response.json();
-          handleSuccess(res);
-        } else {
-          // Statik test sunucusunda (Python http.server gibi) PHP derlenmeyebilir,
-          // bu durumda kullanıcıyı mağdur etmemek için simüle edilmiş başarı sun
-          throw new Error('Server returned ' + response.status);
-        }
-      } catch (err) {
-        // Yerel test simülasyonu
-        console.info('API fallback (Yerel statik sunucu tespit edildi): Simüle edilen başarı.');
-        setTimeout(() => {
-          handleSuccess({
-            success: true,
-            message: 'Teklif talebiniz başarıyla alındı. Satış ve teknik ekibimiz en kısa sürede sizinle iletişime geçecektir.',
-            reference: 'DC-' + Math.random().toString(36).substr(2, 9).toUpperCase()
-          });
-        }, 500);
+      } catch (networkError) {
+        restoreButton();
+        showFormError(`Bağlantı kurulamadı. Lütfen tekrar deneyin veya ${SITE_CFG.email} adresine yazın.`);
+        return;
       }
 
-      function handleSuccess(data) {
-        toast.show({ message: data.message || 'Talebiniz başarıyla iletildi!', type: 'success' });
+      const isJson = (response.headers.get('content-type') || '').includes('application/json');
+
+      if (!isJson) {
+        // PHP çalıştırmayan yerel statik sunucu (ör. python3 -m http.server): önizleme amaçlı simülasyon
+        console.info('API fallback: PHP çalışmıyor, gönderim simüle edildi.');
+        handleSuccess({
+          reference: 'DEMO-' + Math.random().toString(36).slice(2, 8).toUpperCase(),
+          mode: 'preview'
+        });
+        return;
+      }
+
+      let data = {};
+      try { data = await response.json(); } catch (parseError) { data = {}; }
+
+      if (response.ok && data.success) {
+        handleSuccess(data);
+      } else {
+        restoreButton();
+        showFormError(data.error || `Talebiniz gönderilemedi. Lütfen tekrar deneyin veya ${SITE_CFG.email} adresine yazın.`);
+      }
+
+      function handleSuccess(result) {
+        const modeNote = result.mode === 'preview'
+          ? '<p class="note">Yerel önizleme: PHP çalışmadığı için talep sunucuya gönderilmedi.</p>'
+          : result.mode === 'demo'
+            ? '<p class="note">Demo modu açık: e-posta gönderilmedi. Canlıya alırken api/send-quote.php içindeki $DEMO_MODE değerini false yapın.</p>'
+            : '';
         form.innerHTML = `
-          <div style="background:var(--surface-raised);border:1px solid var(--border-hover);border-radius:var(--radius-lg);padding:2.5rem;text-align:center;">
-            <div style="width:48px;height:48px;border-radius:50%;background:var(--success-subtle);color:var(--success);display:grid;place-items:center;margin:0 auto 1.25rem;">
-              <svg viewBox="0 0 20 20" fill="currentColor" width="24" height="24"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+          <div class="form-success" tabindex="-1" id="formSuccess">
+            <h2>Talebiniz alındı</h2>
+            <p>Teklif listeniz ve proje bilgileriniz satış ekibine iletildi. Referans numaranız: <span class="ref">${esc(result.reference || '-')}</span></p>
+            ${modeNote}
+            <div class="btn-row">
+              <a href="urunler.html" class="btn btn--quiet">Ürünleri incele</a>
             </div>
-            <h3 style="margin-bottom:0.5rem;font-size:1.4rem;">Talebiniz Başarıyla Alındı</h3>
-            <p style="color:var(--text-secondary);font-size:13.5px;max-width:440px;margin:0 auto 1.5rem;">
-              Teklif listeniz ve proje detaylarınız satış departmanımıza iletildi. Referans numaranız: <strong style="font-family:var(--mono);color:var(--accent);">${data.reference || 'DC-REF'}</strong>
-            </p>
-            <a href="urunler.html" class="btn btn-secondary">Kataloğa Dön</a>
           </div>
         `;
-        clearCart();
+        document.getElementById('formSuccess')?.focus();
+        if (quoteBanner) quoteBanner.hidden = true;
+        saveCart([]);
       }
     });
   }
 
   // =========================================================================
-  // ATMOSPHERE SCENT SELECTOR (Curiosity & Discovery)
+  // 6. KOKU KÜRATÖRÜ (Ana sayfa)
+  // Cihazlar PRODUCTS'tan, koku notaları SCENTS'ten okunur; burada uydurma veri yok.
   // =========================================================================
   const ATMOSPHERES = {
     hotel: {
-      title: 'Beş Yıldızlı Otel Lobisi & Karşılama Salonları',
-      desc: 'Ziyaretçilerinizin lobiden içeri adım attığı ilk saniyede prestij, dinginlik ve lüks hissi uyandıran imza koku mimarisi.',
-      model: 'CK-631 HVAC Merkezi Sistem',
-      modelId: 'ck-631',
-      coverage: '5.000 – 15.000 m³',
-      fragrance: 'Shangri-La White Tea & Amber',
-      notes: 'Beyaz Çay, Bergamot, Taze Zencefil, Sedir Ağacı',
-      image: 'images/general/hotel.jpg'
+      title: 'Otel lobisi ve karşılama alanları',
+      desc: 'Yüksek tavanlı, sürekli kullanılan alanlar için klima sistemine bağlanabilen, geniş kapsamalı bir cihaz ve yumuşak, ferah bir çay kokusu.',
+      productId: 'ck631',
+      scent: 'Encountering White Tea',
+      image: 'images/products/ck631.jpg',
+      alt: 'Otel resepsiyonunda duvara monte CK-631 difüzör'
     },
     office: {
-      title: 'Kurumsal Plaza, Yönetim Ofisleri & Bankalar',
-      desc: 'Odaklanmayı artıran, zihinsel berraklık sağlayan ve kurumsal güven telkin eden modern botanik esans kombinasyonları.',
-      model: 'CK-620 Bağımsız Kule Tipi',
-      modelId: 'ck-620',
-      coverage: '3.000 – 5.000 m³',
-      fragrance: 'Hilton Blue Executive Scent',
-      notes: 'Mavi Adaçayı, Deniz Tuzu, Gri Kehribar, Vetiver',
-      image: 'images/general/reed2.jpg'
+      title: 'Ofis ve toplantı alanları',
+      desc: 'Çalışma alanları ve toplantı odaları için ince gövdeli, uygulamayla zamanlanabilen bir duvar cihazı ve hafif, temiz bir koku.',
+      productId: 'ck688',
+      scent: 'Gardenya Beyaz Çay',
+      image: 'images/products/ck688.jpg',
+      alt: 'Aydınlık bir salonda duvara monte CK-688 difüzör ve telefon uygulaması'
     },
     retail: {
-      title: 'Premium Mağazacılık, Butik & Showroomlar',
-      desc: 'Müşterilerin mağazada geçirdiği süreyi %40 artıran, satın alma arzusunu ve marka bağlılığını tetikleyen koku kimliği.',
-      model: 'CK-610 Çok Yönlü Difüzör',
-      modelId: 'ck-610',
-      coverage: '1.000 – 2.000 m³',
-      fragrance: 'Marriott Grapefruit & Blossom',
-      notes: 'Pembe Greyfurt, Frezya, Manolya, Sandal Ağacı',
-      image: 'images/general/reed1.jpg'
+      title: 'Mağaza ve showroom',
+      desc: 'Satış alanının büyüklüğüne göre seçilebilen üç farklı kapasitede seri ve meyvemsi, ferah bir koku.',
+      productId: 'ck620',
+      scent: 'Stellar Encounters',
+      image: 'images/products/ck620.jpg',
+      alt: 'Butik bir iç mekânda zemine yerleştirilmiş siyah CK-620 difüzör'
     },
     residence: {
-      title: 'Lüks Rezidans, Villa & Özel Yaşam Alanları',
-      desc: 'Akıllı telefon uygulamasıyla programlanabilir, fısıltı sessizliğinde (<8dB) çalışan ve mobilyalarda nem bırakmayan nano sis.',
-      model: 'CK-667 Akıllı Ev Difüzörü',
-      modelId: 'ck-667',
-      coverage: '500 – 1.000 m³',
-      fragrance: 'Pure Lavender & Cashmere Wood',
-      notes: 'Fransız Lavantası, Kaşmir Ağacı, Beyaz Misk',
-      image: 'images/general/app.jpg'
+      title: 'Rezidans ve özel yaşam alanları',
+      desc: 'Yatak odası ve salon gibi küçük alanlar için pilli, taşınabilir alüminyum bir cihaz ve lavantalı, sakin bir koku.',
+      productId: 'ck683',
+      scent: 'Fougère No. 2',
+      image: 'images/products/ck683.jpg',
+      alt: 'Mermer komodin üzerinde gümüş renkli CK-683 difüzör'
     }
   };
 
+  function renderAtmosphere(key) {
+    const data = ATMOSPHERES[key];
+    const p = findProduct(data.productId);
+    const s = (typeof SCENTS !== 'undefined') ? SCENTS.find(x => x.name === data.scent) : null;
+    if (!p) return '';
+
+    const coverage = specValue(p, /kapsama/i);
+    const noise = specValue(p, /ses/i);
+
+    return `
+      <div class="curator__panel">
+        <div class="media"><img src="${data.image}" alt="${esc(data.alt)}" loading="lazy"></div>
+        <div class="curator__body">
+          <h3>${esc(data.title)}</h3>
+          <p>${esc(data.desc)}</p>
+          <dl class="spec-pairs">
+            <div class="span-2"><dt>Önerilen cihaz</dt><dd>${esc(p.model)}, ${esc(p.title)}</dd></div>
+            ${coverage ? `<div><dt>Kapsama alanı</dt><dd>${esc(coverage)}</dd></div>` : ''}
+            ${noise ? `<div><dt>Ses seviyesi (üretici verisi)</dt><dd>${esc(noise)}</dd></div>` : ''}
+            ${s ? `<div class="span-2"><dt>Önerilen koku</dt><dd>${esc(s.name)} <span class="meta">(${esc(s.family)})</span></dd></div>` : ''}
+          </dl>
+          ${s ? `
+          <div class="notes-line">
+            <span><b>Üst nota</b>${esc(s.top)}</span>
+            <span><b>Kalp notası</b>${esc(s.mid)}</span>
+            <span><b>Dip nota</b>${esc(s.base)}</span>
+          </div>` : ''}
+          <div class="btn-row">
+            <button type="button" class="btn btn--primary" data-add-product="${esc(p.id)}">${icon('plus', 'icon--sm')}<span>Listeye ekle</span></button>
+            <a href="urunler.html?model=${encodeURIComponent(p.id)}" class="link-arrow">Ürünü incele ${icon('arrow-right')}</a>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
   function initAtmosphereSelector() {
-    const tabs = document.querySelectorAll('.atmosphere-tab');
+    const tabs = Array.from(document.querySelectorAll('.atmosphere-tab'));
     const box = document.getElementById('atmosphereContent');
     if (!tabs.length || !box) return;
 
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
+    function select(tab, moveFocus) {
+      const key = tab.dataset.atmosphere;
+      if (!ATMOSPHERES[key]) return;
+      tabs.forEach(t => {
+        const on = t === tab;
+        t.classList.toggle('active', on);
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+      });
+      box.setAttribute('aria-labelledby', tab.id);
+      box.innerHTML = renderAtmosphere(key);
+      if (moveFocus) tab.focus();
+    }
 
-        const key = tab.dataset.atmosphere;
-        const data = ATMOSPHERES[key];
-        if (!data) return;
-
-        box.style.opacity = '0';
-        box.style.transform = 'translateY(6px)';
-
-        setTimeout(() => {
-          box.innerHTML = `
-            <div class="atmosphere-media">
-              <img src="${data.image}" alt="${data.title}">
-            </div>
-            <div class="atmosphere-specs">
-              <div>
-                <span class="mono-tag" style="color:var(--amber);">ÖNERİLEN KURUMSAL FORMÜLASYON</span>
-                <h3 style="font-size:1.45rem;margin:6px 0 10px;">${data.title}</h3>
-                <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;">${data.desc}</p>
-              </div>
-
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.15rem;display:grid;gap:8px;">
-                <div style="display:flex;justify-content:space-between;font-size:12.5px;">
-                  <span style="color:var(--text-tertiary);">İdeal Cihaz:</span>
-                  <strong style="color:var(--text-primary);">${data.model}</strong>
-                </div>
-                <div style="display:flex;justify-content:space-between;font-size:12.5px;">
-                  <span style="color:var(--text-tertiary);">Kapsama Hacmi:</span>
-                  <span style="font-family:var(--mono);color:var(--moss);font-weight:600;">${data.coverage}</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;font-size:12.5px;">
-                  <span style="color:var(--text-tertiary);">İmza Koku Reçetesi:</span>
-                  <span style="font-weight:600;color:var(--amber);">${data.fragrance}</span>
-                </div>
-                <div style="font-size:11.5px;color:var(--text-secondary);padding-top:4px;border-top:1px dashed var(--border);">
-                  <strong style="color:var(--text-primary);">Notalar:</strong> ${data.notes}
-                </div>
-              </div>
-
-              <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
-                <button class="btn btn-primary" onclick="DummyApp.addToCart('${data.modelId}')">
-                  Bu Çözümü Teklife Ekle +
-                </button>
-                <a href="cozumler.html" class="btn btn-secondary">
-                  Sektörel İnceleme →
-                </a>
-              </div>
-            </div>
-          `;
-          box.style.opacity = '1';
-          box.style.transform = 'translateY(0)';
-        }, 180);
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(tab, false));
+      tab.addEventListener('keydown', (e) => {
+        let next = null;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = tabs[(i + 1) % tabs.length];
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = tabs[(i - 1 + tabs.length) % tabs.length];
+        else if (e.key === 'Home') next = tabs[0];
+        else if (e.key === 'End') next = tabs[tabs.length - 1];
+        if (next) {
+          e.preventDefault();
+          select(next, true);
+        }
       });
     });
+
+    box.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-add-product]');
+      if (btn) addToCart(btn.dataset.addProduct, 1);
+    });
+
+    select(tabs.find(t => t.classList.contains('active')) || tabs[0], false);
   }
 
   // =========================================================================
-  // PARTICLE SIMULATOR (Teknoloji Page)
+  // 7. ATOMİZASYON KARŞILAŞTIRMASI (Teknoloji sayfası)
+  // Sayısal değer yok: üreticinin teknoloji açıklamasına dayanan nitel karşılaştırma.
   // =========================================================================
   function initParticleSimulator() {
     const btns = document.querySelectorAll('.particle-toggle-btn');
@@ -539,59 +709,52 @@
 
     const SIM_DATA = {
       nano: {
-        size: '< 3-5 Mikron',
-        stayTime: '4 – 6 Saat',
-        residue: '%0 Sıfır Tortu',
-        desc: 'İki akışkanlı patentli nozül hava akımıyla esansı nano boyuta indirger. Havada molekül gibi süzülür, mobilyalara çarpınca sekip havada kalır.',
-        status: 'Kuru Sis (Dry Mist)',
-        color: 'var(--moss)'
+        status: 'Çift akışkanlı (basınçlı hava) atomizasyon',
+        desc: 'Basınçlı hava esansı mikro parçacıklara ayırır; üreticinin açıklamasına göre iyonize, yüksek hızlı bir hızlandırıcı bu parçacıkları nano ölçeğe indirir. Çok ince parçacıklar yüzeye çarptığında kırılmadan geri seker.',
+        size: 'Nano ölçekli parçacık',
+        contact: 'Yüzeyden seker, yapışmaz',
+        residue: 'Islak kalıntı bırakmaz'
       },
       aerosol: {
-        size: '> 25-50 Mikron',
-        stayTime: '8 – 15 Dakika',
-        residue: 'Ağır Yağlı Kalıntı',
-        desc: 'Ağır sıvı damlacıkları hızla yere ve mobilyaların üzerine çöker. Hem leke bırakır hem de koku havada uzun süre asılı kalamaz.',
-        status: 'Islak Sprey (Wet Drop)',
-        color: 'var(--accent-hover)'
+        status: 'Büyük damlacıklı püskürtme',
+        desc: 'Büyük yağ damlacıkları yüzeye çarptığında kırılır. Temas ettiği mobilya, cam ve tekstil yüzeylerinde ıslak kalıntı bırakabilir.',
+        size: 'Büyük yağ damlacığı',
+        contact: 'Çarpınca kırılır',
+        residue: 'Islak kalıntı bırakabilir'
       }
     };
 
+    function render(mode) {
+      const d = SIM_DATA[mode];
+      if (!d) return;
+      simDisplay.innerHTML = `
+        <p class="sim__status">${esc(d.status)}</p>
+        <p class="sim__desc">${esc(d.desc)}</p>
+        <dl class="sim-metrics">
+          <div class="sim-metric"><dt>Parçacık</dt><dd>${esc(d.size)}</dd></div>
+          <div class="sim-metric"><dt>Yüzeyle temas</dt><dd>${esc(d.contact)}</dd></div>
+          <div class="sim-metric"><dt>Kalıntı</dt><dd>${esc(d.residue)}</dd></div>
+        </dl>
+      `;
+    }
+
     btns.forEach(btn => {
       btn.addEventListener('click', () => {
-        btns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        const mode = btn.dataset.sim;
-        const d = SIM_DATA[mode];
-        if (!d) return;
-
-        simDisplay.innerHTML = `
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
-            <span class="mono-tag" style="color:${d.color};font-weight:700;">DİFÜZYON STATÜSÜ: ${d.status}</span>
-            <span class="mono-tag">PARTİKÜL ÇAPI: ${d.size}</span>
-          </div>
-          <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:1.25rem;">${d.desc}</p>
-          <div class="sim-metrics-grid">
-            <div class="sim-metric-cell">
-              <b>${d.size}</b>
-              <span>Partikül Boyutu</span>
-            </div>
-            <div class="sim-metric-cell">
-              <b>${d.stayTime}</b>
-              <span>Havada Asılı Kalma</span>
-            </div>
-            <div class="sim-metric-cell">
-              <b>${d.residue}</b>
-              <span>Yüzey Yapışkanlığı</span>
-            </div>
-          </div>
-        `;
+        btns.forEach(b => {
+          const on = b === btn;
+          b.classList.toggle('active', on);
+          b.setAttribute('aria-pressed', String(on));
+        });
+        render(btn.dataset.sim);
       });
     });
+
+    const active = Array.from(btns).find(b => b.classList.contains('active')) || btns[0];
+    render(active.dataset.sim);
   }
 
   // =========================================================================
-  // INITIALIZATION
+  // BAŞLATMA
   // =========================================================================
   document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
@@ -606,11 +769,14 @@
     });
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeDrawer();
+      if (e.key === 'Escape') {
+        closeDrawer();
+        closeMobileMenu();
+      }
     });
   });
 
-  // Export Global API
+  // Global API
   root.DummyApp = {
     addToCart,
     updateCartQty,
@@ -620,7 +786,10 @@
     openDrawer,
     closeDrawer,
     toast,
-    buildQuoteMessageText
+    buildQuoteMessageText,
+    trapFocus,
+    icon,
+    esc
   };
 
 })(window);
