@@ -87,7 +87,7 @@
 
     <section class="section section--flush-top" aria-labelledby="sim-title">
       <div class="wrap">
-        <div class="sim reveal">
+        <div class="sim reveal" data-mode="nano">
           <div class="sim__head">
             <div>
               <h2 id="sim-title">İki yöntemin farkı</h2>
@@ -98,6 +98,12 @@
               <button type="button" class="particle-toggle-btn" data-sim="aerosol" aria-pressed="false">Büyük damlacıklı püskürtme</button>
             </div>
           </div>
+          <figure class="sim-visual" aria-hidden="true">
+            <div class="sim-visual__layer sim-visual__layer--nano"></div>
+            <div class="sim-visual__layer sim-visual__layer--aerosol"></div>
+            <div class="sim-visual__surface"></div>
+          </figure>
+          <p class="note sim-visual__note">Şematik gösterim; ölçekli değildir.</p>
           <div id="simDisplay" aria-live="polite">
             <p class="sim__status">Çift akışkanlı (basınçlı hava) atomizasyon</p>
             <p class="sim__desc">Basınçlı hava esansı mikro parçacıklara ayırır; üreticinin açıklamasına göre iyonize, yüksek hızlı bir hızlandırıcı bu parçacıkları nano ölçeğe indirir. Çok ince parçacıklar yüzeye çarptığında kırılmadan geri seker.</p>

@@ -97,7 +97,7 @@
       <button type="button" class="icon-btn modal-close-btn" id="modalCloseBtn" aria-label="Ürün detayını kapat"><svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-x"></use></svg></button>
 
       <div class="modal-gallery">
-        <img alt="" class="modal-main-img" id="mMainImg">
+        <button type="button" class="modal-zoom" id="mZoom" aria-pressed="false" aria-label="Görseli yakınlaştır"><img alt="" class="modal-main-img" id="mMainImg"></button>
         <div class="modal-thumb-row" id="mThumbRow"></div>
       </div>
 
@@ -193,6 +193,7 @@
       const catButtons = Array.from(catGroup.querySelectorAll('.segment-btn'));
       const searchInput = document.getElementById('searchInput');
 
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
       const imgPath = (p, suffix = '') => `images/${p.external ? 'general' : 'products'}/${p.img}${suffix}.jpg`;
       const spec = (p, re) => (p.specs.find(s => re.test(s[0])) || [])[1] || '';
 
@@ -299,6 +300,25 @@
       const modalCard = modal.querySelector('.modal-card');
       const modalCloseBtn = document.getElementById('modalCloseBtn');
 
+      // Görsel yakınlaştırma: tıklanan noktadan 2 kat (klavyede merkezden); tekrar tıklayınca kapanır
+      const zoomBtn = document.getElementById('mZoom');
+      function setZoom(on, x = 50, y = 50) {
+        const img = document.getElementById('mMainImg');
+        if (on) img.style.transformOrigin = `${x}% ${y}%`;
+        zoomBtn.classList.toggle('is-zoomed', on);
+        zoomBtn.setAttribute('aria-pressed', String(on));
+        zoomBtn.setAttribute('aria-label', on ? 'Yakınlaştırmayı kapat' : 'Görseli yakınlaştır');
+      }
+      zoomBtn.addEventListener('click', (e) => {
+        const on = !zoomBtn.classList.contains('is-zoomed');
+        if (on && e.detail > 0) {
+          const r = zoomBtn.getBoundingClientRect();
+          setZoom(true, ((e.clientX - r.left) / r.width) * 100, ((e.clientY - r.top) / r.height) * 100);
+        } else {
+          setZoom(on);
+        }
+      });
+
       function openModal(id, trigger) {
         const p = PRODUCTS.find(prod => prod.id === id);
         if (!p) return;
@@ -309,6 +329,7 @@
         mainImg.src = imgPath(p);
         mainImg.alt = `${p.model} ${p.title}`;
         mainImg.style.objectPosition = p.pos || 'center';
+        setZoom(false);
 
         // Galeri küçük görselleri
         const thumbRow = document.getElementById('mThumbRow');
@@ -369,7 +390,17 @@
         const thumb = e.target.closest('.modal-thumb');
         if (thumb) {
           const mainImg = document.getElementById('mMainImg');
+          setZoom(false);
           mainImg.src = thumb.dataset.src;
+          // Fareyle seçimde kısa opaklık + bulanıklık köprüsü; klavyede (detail 0) animasyon yok
+          if (e.detail > 0 && mainImg.animate) {
+            mainImg.animate(
+              reduceMotion.matches
+                ? [{ opacity: 0.5 }, { opacity: 1 }]
+                : [{ opacity: 0.4, filter: 'blur(3px)' }, { opacity: 1, filter: 'blur(0)' }],
+              { duration: 200, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' }
+            );
+          }
           mainImg.style.objectPosition = thumb.dataset.i === '0' ? (currentModalProduct.pos || 'center') : 'center';
           modal.querySelectorAll('.modal-thumb').forEach(t => {
             const on = t === thumb;

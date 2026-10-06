@@ -29,6 +29,9 @@
     return row ? row[1] : '';
   }
 
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const EASE_OUT = 'cubic-bezier(0.23, 1, 0.32, 1)';
+
   const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
   // Modal ve çekmecede odağı içeride tutar
@@ -344,15 +347,51 @@
     drawerReturnFocus = null;
   }
 
+  let lastBadgeTotal = null;
   function updateBadge() {
     const total = getCartTotalCount();
+    const grew = lastBadgeTotal !== null && total > lastBadgeTotal;
+    lastBadgeTotal = total;
     document.querySelectorAll('.dc-cart-count').forEach(b => {
       b.textContent = total;
       b.classList.toggle('empty', total === 0);
+      // Liste büyüdüğünde rozet kısa bir büyüme yapar: eklenen ürünün nereye gittiğini gösterir
+      if (grew && !reduceMotion.matches && b.animate) {
+        b.animate(
+          [{ transform: 'scale(1)' }, { transform: 'scale(1.22)' }, { transform: 'scale(1)' }],
+          { duration: 260, easing: EASE_OUT }
+        );
+      }
     });
     document.querySelectorAll('.quote-trigger').forEach(btn => {
       btn.setAttribute('aria-label', `Teklif listesi, ${total} adet ürün`);
     });
+  }
+
+  // Listeye ekleme butonları 1,6 s boyunca "Eklendi" durumuna geçer (geri bildirim tıklanan yerde).
+  // Butonların kendi tıklama işleyicileri değişmez; bu dinleyici yalnızca görünümü günceller.
+  const ADD_SELECTOR = '[data-act="add-quote"], [data-add], [data-add-product], #mBtnAddQuote';
+  function confirmAdded(btn) {
+    const label = btn.querySelector('span');
+    const use = btn.querySelector('use');
+    if (!btn.dataset.label && label) btn.dataset.label = label.textContent;
+    if (!btn.dataset.icon && use) btn.dataset.icon = use.getAttribute('href');
+    clearTimeout(btn._addedTimer);
+    btn.classList.add('is-added');
+    if (label) label.textContent = 'Eklendi';
+    if (use) use.setAttribute('href', `${ICONS}#i-check`);
+    btn._addedTimer = setTimeout(() => {
+      btn.classList.remove('is-added');
+      if (label && btn.dataset.label) label.textContent = btn.dataset.label;
+      if (use && btn.dataset.icon) use.setAttribute('href', btn.dataset.icon);
+    }, 1600);
+  }
+  function initAddFeedback() {
+    // Yakalama aşaması: katalog kartı stopPropagation kullandığı için kabarcık aşamasına ulaşmaz
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest(ADD_SELECTOR);
+      if (btn && !btn.disabled) confirmAdded(btn);
+    }, true);
   }
 
   // =========================================================================
@@ -663,7 +702,7 @@
     const box = document.getElementById('atmosphereContent');
     if (!tabs.length || !box) return;
 
-    function select(tab, moveFocus) {
+    function select(tab, moveFocus, animate) {
       const key = tab.dataset.atmosphere;
       if (!ATMOSPHERES[key]) return;
       tabs.forEach(t => {
@@ -674,11 +713,21 @@
       });
       box.setAttribute('aria-labelledby', tab.id);
       box.innerHTML = renderAtmosphere(key);
+      if (animate && box.animate) {
+        const frames = reduceMotion.matches
+          ? [{ opacity: 0 }, { opacity: 1 }]
+          : [{ opacity: 0, filter: 'blur(4px)', transform: 'translateY(6px)' }, { opacity: 1, filter: 'blur(0)', transform: 'none' }];
+        box.animate(frames, { duration: 220, easing: EASE_OUT });
+      }
       if (moveFocus) tab.focus();
     }
 
     tabs.forEach((tab, i) => {
-      tab.addEventListener('click', () => select(tab, false));
+      // event.detail === 0: klavyeyle (Enter/Boşluk) tetiklenen tıklama; animasyonsuz
+      tab.addEventListener('click', (e) => {
+        if (tab.classList.contains('active')) return;
+        select(tab, false, e.detail > 0);
+      });
       tab.addEventListener('keydown', (e) => {
         let next = null;
         if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = tabs[(i + 1) % tabs.length];
@@ -687,7 +736,7 @@
         else if (e.key === 'End') next = tabs[tabs.length - 1];
         if (next) {
           e.preventDefault();
-          select(next, true);
+          select(next, true, false);
         }
       });
     });
@@ -697,7 +746,7 @@
       if (btn) addToCart(btn.dataset.addProduct, 1);
     });
 
-    select(tabs.find(t => t.classList.contains('active')) || tabs[0], false);
+    select(tabs.find(t => t.classList.contains('active')) || tabs[0], false, false);
   }
 
   // =========================================================================
@@ -726,9 +775,11 @@
       }
     };
 
+    const simRoot = simDisplay.closest('.sim');
     function render(mode) {
       const d = SIM_DATA[mode];
       if (!d) return;
+      if (simRoot) simRoot.dataset.mode = mode;
       simDisplay.innerHTML = `
         <p class="sim__status">${esc(d.status)}</p>
         <p class="sim__desc">${esc(d.desc)}</p>
@@ -761,6 +812,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
     updateBadge();
+    initAddFeedback();
     initContactPage();
     initAtmosphereSelector();
     initParticleSimulator();
