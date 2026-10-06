@@ -1,32 +1,35 @@
 <!DOCTYPE html>
-<!-- Marka adı "DummyCosmetics" geçicidir. Tek yerden yönetim: js/site-config.js (ayrıntı README.md). -->
+<!-- Baş bölüm, üst menü ve alt bilgi tools/build.mjs ile yazılır; ana içerik elle düzenlenir. -->
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Esanslar ve Koku Koleksiyonu | DummyCosmetics</title>
-  <meta name="description" content="Otel lobisi karakterinde 12 koku ve nota piramitleri, 500 ml ve 5 L difüzör esansları, koku giderici ürünler.">
+  <title>Mekân Kokuları ve Difüzör Esansları | Meira</title>
+  <meta name="description" content="Otel lobisi karakterinde 12 koku, üst, kalp ve dip notalarıyla. 500 ml ve 5 L difüzör esansları, kartuşlar ve koku giderme ürünleri.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#F3F0EA">
-  <link rel="canonical" href="https://www.dummycosmetics.com.tr/esanslar.html">
+  <link rel="canonical" href="https://www.meira.com.tr/esanslar.html">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="tr_TR">
-  <meta property="og:site_name" content="DummyCosmetics">
-  <meta property="og:title" content="Esanslar ve Koku Koleksiyonu | DummyCosmetics">
-  <meta property="og:description" content="Otel lobisi karakterinde 12 koku ve nota piramitleri, 500 ml ve 5 L difüzör esansları, koku giderici ürünler.">
-  <meta property="og:url" content="https://www.dummycosmetics.com.tr/esanslar.html">
-  <meta property="og:image" content="https://www.dummycosmetics.com.tr/images/general/video-hotel-poster.jpg">
+  <meta property="og:site_name" content="Meira">
+  <meta property="og:title" content="Mekân Kokuları ve Difüzör Esansları | Meira">
+  <meta property="og:description" content="Otel lobisi karakterinde 12 koku, üst, kalp ve dip notalarıyla. 500 ml ve 5 L difüzör esansları, kartuşlar ve koku giderme ürünleri.">
+  <meta property="og:url" content="https://www.meira.com.tr/esanslar.html">
+  <meta property="og:image" content="https://www.meira.com.tr/images/general/oilrange.jpg">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preload" href="fonts/bodoni-moda-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="fonts/jost-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css">
   <script>document.documentElement.classList.add('js');</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Ana sayfa","item":"https://www.meira.com.tr/index.html"},{"@type":"ListItem","position":2,"name":"Esanslar"}]}</script>
 </head>
-<body>
+<body data-section="esanslar.html">
   <a class="skip-link" href="#main">İçeriğe geç</a>
 
   <header class="site-header">
     <div class="wrap site-header__inner">
-      <a href="index.html" class="brand" lang="en"><span data-site="brand">DummyCosmetics</span><span class="brand__sub" lang="tr">Türkiye</span></a>
+      <a href="index.html" class="brand" lang="en"><span data-site="brand">Meira</span><span class="brand__sub" lang="tr">Türkiye</span></a>
 
       <nav class="nav" id="navLinks" aria-label="Ana menü">
         <a href="urunler.html" class="nav-item">Ürünler</a>
@@ -34,6 +37,7 @@
         <a href="teknoloji.html" class="nav-item">Teknoloji</a>
         <a href="esanslar.html" class="nav-item">Esanslar</a>
         <a href="kurumsal.html" class="nav-item">Kurumsal &amp; OEM</a>
+        <a href="blog.html" class="nav-item">Blog</a>
         <a href="iletisim.html" class="nav-item">İletişim</a>
       </nav>
 
@@ -83,7 +87,130 @@
           <h2 id="scents-title">12 koku, üç katmanlı notalar</h2>
           <p class="lead">Koku adları betimleyicidir; notalar üreticinin koku kartlarından alınmıştır.</p>
         </div>
-        <div class="scent-index" id="scentsContainer"></div>
+        <div class="scent-index" id="scentsContainer">
+          <!-- kokular:basla (tools/build.mjs) -->
+          <article class="scent">
+            <span class="scent__family">Çiçeksi · Pudralı</span>
+            <h3>Yasemin &amp; Vanilya</h3>
+            <dl>
+              <div><dt>Üst nota</dt><dd>Portakal, limon</dd></div>
+              <div><dt>Kalp notası</dt><dd>Leylak, yasemin, gül, ylang-ylang</dd></div>
+              <div><dt>Dip nota</dt><dd>Vanilya, misk</dd></div>
+            </dl>
+            <a class="link-arrow" href="iletisim.html?esans=Yasemin%20%26%20Vanilya">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
+          </article>
+          <article class="scent">
+            <span class="scent__family">Ferah · Çiçeksi</span>
+            <h3>Gardenya Beyaz Çay</h3>
+            <dl>
+              <div><dt>Üst nota</dt><dd>Beyaz çay</dd></div>
+              <div><dt>Kalp notası</dt><dd>Gardenya, yeşil çay, zencefil</dd></div>
+              <div><dt>Dip nota</dt><dd>Beyaz misk</dd></div>
+            </dl>
+            <a class="link-arrow" href="iletisim.html?esans=Gardenya%20Beyaz%20%C3%87ay">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
+          </article>
+          <article class="scent">
+            <span class="scent__family">Çiçeksi · Meyvemsi</span>
+            <h3>Falling in Love with Paris</h3>
+            <dl>
+              <div><dt>Üst nota</dt><dd>Ananas, manolya, şeftali, limon</dd></div>
+              <div><dt>Kalp notası</dt><dd>Papatya, menekşe, yasemin, gül</dd></div>
+              <div><dt>Dip nota</dt><dd>Vanilya, misk</dd></div>
+            </dl>
+            <a class="link-arrow" href="iletisim.html?esans=Falling%20in%20Love%20with%20Paris">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
+          </article>
+          <article class="scent">
+            <span class="scent__family">Çiçeksi · Odunsu</span>
+            <h3>Bergamot &amp; Sandal Ağacı</h3>
+            <dl>
+              <div><dt>Üst nota</dt><dd>Limon, bergamot, hindistan cevizi</dd></div>
+              <div><dt>Kalp notası</dt><dd>Yasemin, vadi zambağı</dd></div>
+              <div><dt>Dip nota</dt><dd>Sandal, amber, meşe yosunu</dd></div>
+            </dl>
+            <a class="link-arrow" href="iletisim.html?esans=Bergamot%20%26%20Sandal%20A%C4%9Fac%C4%B1">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
+          </article>
+          <article class="scent">
+            <span class="scent__family">Ferah · Çay</span>
+            <h3>Encountering White Tea</h3>
+            <dl>
+              <div><dt>Üst nota</dt><dd>Yeşil çay, limon, mandalina</dd></div>
+              <div><dt>Kalp notası</dt><dd>Beyaz çay</dd></div>
+              <div><dt>Dip nota</dt><dd>Beyaz amber, misk</dd></div>
+            </dl>
+            <a class="link-arrow" href="iletisim.html?esans=Encountering%20White%20Tea">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
+          </article>
+          <article class="scent">
+            <span class="scent__family">Ferah · Çay</span>
+            <h3>Beyaz Gül &amp; Misk</h3>
+            <dl>
+              <div><dt>Üst nota</dt><dd>Aldehit, narenciye</dd></div>
+              <div><dt>Kalp notası</dt><dd>Yasemin, vadi zambağı, beyaz gül</dd></div>
+              <div><dt>Dip nota</dt><dd>Misk</dd></div>
+            </dl>
+            <a class="link-arrow" href="iletisim.html?esans=Beyaz%20G%C3%BCl%20%26%20Misk">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
+          </article>
+          <article class="scent">
+            <span class="scent__family">Narenciye · Odunsu</span>
+            <h3>Frenk Üzümü &amp; İris</h3>
+            <dl>
+              <div><dt>Üst nota</dt><dd>Siyah frenk üzümü, Sicilya bergamotu</dd></div>
+              <div><dt>Kalp notası</dt><dd>Portakal çiçeği, iris, sedir</dd></div>
+              <div><dt>Dip nota</dt><dd>Sandal, amber, meşe yosunu</dd></div>
+            </dl>
+            <a class="link-arrow" href="iletisim.html?esans=Frenk%20%C3%9Cz%C3%BCm%C3%BC%20%26%20%C4%B0ris">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
+          </article>
+          <article class="scent">
+            <span class="scent__family">Meyvemsi · Ferah</span>
+            <h3>Stellar Encounters</h3>
+            <dl>
+              <div><dt>Üst nota</dt><dd>Greyfurt, elma</dd></div>
+              <div><dt>Kalp notası</dt><dd>Beyaz çiçekler, yasemin, gül</dd></div>
+              <div><dt>Dip nota</dt><dd>Misk</dd></div>
+            </dl>
+            <a class="link-arrow" href="iletisim.html?esans=Stellar%20Encounters">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
+          </article>
+          <article class="scent">
+            <span class="scent__family">Çiçeksi · Baharatlı</span>
+            <h3>Kiraz &amp; Beyaz Çiçek</h3>
+            <dl>
+              <div><dt>Üst nota</dt><dd>Kiraz, limon, bergamot</dd></div>
+              <div><dt>Kalp notası</dt><dd>Beyaz çiçek, gül, hindistan cevizi</dd></div>
+              <div><dt>Dip nota</dt><dd>Sandal, amber, misk</dd></div>
+            </dl>
+            <a class="link-arrow" href="iletisim.html?esans=Kiraz%20%26%20Beyaz%20%C3%87i%C3%A7ek">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
+          </article>
+          <article class="scent">
+            <span class="scent__family">Gül · Odunsu</span>
+            <h3>Gül &amp; Sedir</h3>
+            <dl>
+              <div><dt>Üst nota</dt><dd>Portakal, limon</dd></div>
+              <div><dt>Kalp notası</dt><dd>Gül, lavanta</dd></div>
+              <div><dt>Dip nota</dt><dd>Sedir, amber</dd></div>
+            </dl>
+            <a class="link-arrow" href="iletisim.html?esans=G%C3%BCl%20%26%20Sedir">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
+          </article>
+          <article class="scent">
+            <span class="scent__family">Ferah · Lavanta</span>
+            <h3>Fougère No. 2</h3>
+            <dl>
+              <div><dt>Üst nota</dt><dd>Taze narenciye</dd></div>
+              <div><dt>Kalp notası</dt><dd>Lavanta, papatya, gül</dd></div>
+              <div><dt>Dip nota</dt><dd>Beyaz misk, amber</dd></div>
+            </dl>
+            <a class="link-arrow" href="iletisim.html?esans=Foug%C3%A8re%20No.%202">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
+          </article>
+          <article class="scent">
+            <span class="scent__family">Narenciye · Tatlı</span>
+            <h3>Misket Limonu &amp; Adaçayı</h3>
+            <dl>
+              <div><dt>Üst nota</dt><dd>Limon, misket limonu</dd></div>
+              <div><dt>Kalp notası</dt><dd>Adaçayı, biberiye, portakal çiçeği</dd></div>
+              <div><dt>Dip nota</dt><dd>Kar çamı, amber</dd></div>
+            </dl>
+            <a class="link-arrow" href="iletisim.html?esans=Misket%20Limonu%20%26%20Ada%C3%A7ay%C4%B1">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
+          </article>
+          <!-- kokular:bitir -->
+        </div>
       </div>
     </section>
 
@@ -111,7 +238,28 @@
         <div class="split__a reveal">
           <h2 id="oils-title">Dolum esansları ve koku giderme</h2>
           <p class="mt-4 lead">Cihazlarınız için kartuş ve dolum esansları, koku giderici ürünler.</p>
-          <div class="mt-7 refill-groups" id="oilsListContainer"></div>
+          <div class="mt-7 refill-groups" id="oilsListContainer">
+          <!-- dolum:basla (tools/build.mjs) -->
+          <div class="refill-group">
+            <h3>Difüzör esansları</h3>
+            <ul class="refill-list">
+              <li><span class="refill-list__code">ADS-168</span><span><span class="refill-list__name">Esans Kartuşu</span><span class="refill-list__note">168 ml · 72 adet/koli</span></span></li>
+              <li><span class="refill-list__code">ADS-500W</span><span><span class="refill-list__name">Difüzör Esansı</span><span class="refill-list__note">500 ml · 12 adet/koli</span></span></li>
+              <li><span class="refill-list__code">ADS-5000W</span><span><span class="refill-list__name">Difüzör Esansı</span><span class="refill-list__note">5 L · 2 adet/koli</span></span></li>
+              <li><span class="refill-list__code">ADS-500</span><span><span class="refill-list__name">Suda Çözünür Esans</span><span class="refill-list__note">500 ml · 12 adet/koli</span></span></li>
+              <li><span class="refill-list__code">ADS-5000Y</span><span><span class="refill-list__name">Suda Çözünür Esans</span><span class="refill-list__note">5 L · 2 adet/koli</span></span></li>
+            </ul>
+          </div>
+          <div class="refill-group">
+            <h3>Koku giderme</h3>
+            <ul class="refill-list">
+              <li><span class="refill-list__code">ADS-103</span><span><span class="refill-list__name">Koku Giderici Poşet</span><span class="refill-list__note">100 adet/koli</span></span></li>
+              <li><span class="refill-list__code">ADS-001</span><span><span class="refill-list__name">Aromatik Poşet</span><span class="refill-list__note">100 adet/koli</span></span></li>
+              <li><span class="refill-list__code">ADS-002</span><span><span class="refill-list__name">Pisuvar Koku Tableti</span><span class="refill-list__note">100 adet/koli · limon / lavanta / geranyum</span></span></li>
+            </ul>
+          </div>
+          <!-- dolum:bitir -->
+          </div>
           <div class="mt-7 btn-row">
             <a href="iletisim.html?teklif=1" class="btn btn--primary">Teklif iste <svg class="icon icon--move" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
           </div>
@@ -128,33 +276,52 @@
     <div class="wrap">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="index.html" class="brand" lang="en"><span data-site="brand">DummyCosmetics</span></a>
+          <a href="index.html" class="brand" lang="en"><span data-site="brand">Meira</span></a>
           <!-- [DOĞRULANACAK] Distribütörlüğün kapsamı (resmi / tek yetkili) belgelenmeden bu ifadeler kullanılmamalı. -->
           <p>JVCK koku difüzörleri ve esanslarının Türkiye distribütörü. Oteller, ofisler, mağazalar ve yaşam alanları için ürün seçimi ve teklif.</p>
         </div>
         <div class="footer-col footer-col--a">
-          <h2>Site</h2>
+          <h2>Ürünler</h2>
           <ul>
-            <li><a href="urunler.html">Ürünler</a></li>
+            <li><a href="urunler.html?cat=wall">Duvar tipi</a></li>
+            <li><a href="urunler.html?cat=pro">Profesyonel ve klima</a></li>
+            <li><a href="urunler.html?cat=plug">Prize takılan ve pasif</a></li>
+            <li><a href="urunler.html?cat=home">Ev, araç ve masaüstü</a></li>
+            <li><a href="urunler.html?cat=reed">Çubuklu kokular</a></li>
+          </ul>
+        </div>
+        <div class="footer-col footer-col--b">
+          <h2>Kurumsal</h2>
+          <ul>
             <li><a href="cozumler.html">Çözümler</a></li>
             <li><a href="teknoloji.html">Teknoloji</a></li>
             <li><a href="esanslar.html">Esanslar</a></li>
             <li><a href="kurumsal.html">Kurumsal &amp; OEM</a></li>
+            <li><a href="surdurulebilirlik.html">Sürdürülebilirlik</a></li>
           </ul>
         </div>
-        <div class="footer-col footer-col--b">
-          <h2>İletişim</h2>
+        <div class="footer-col footer-col--c">
+          <h2>Kaynaklar</h2>
           <ul>
-            <li><a href="mailto:info@dummycosmetics.com.tr" data-site-href="email"><span data-site="email">info@dummycosmetics.com.tr</span></a></li>
-            <li><a href="tel:+902120000000" data-site-href="phone"><span data-site="phone">+90 212 000 00 00</span></a></li>
-            <li><span data-site="city">İstanbul, Türkiye</span></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="sss.html">Sık sorulan sorular</a></li>
+            <li><a href="cozumler.html#hesaplayici">Hacim hesaplayıcı</a></li>
             <li><a href="iletisim.html">Teklif formu</a></li>
           </ul>
         </div>
+        <div class="footer-col footer-col--d">
+          <h2>İletişim</h2>
+          <!-- [DOĞRULANACAK] E-posta, telefon ve adres yer tutucudur (js/site-config.js). -->
+          <ul>
+            <li><a href="mailto:info@meira.com.tr" data-site-href="email"><span data-site="email">info@meira.com.tr</span></a></li>
+            <li><a href="tel:+902120000000" data-site-href="phone"><span data-site="phone">+90 212 000 00 00</span></a></li>
+            <li><span data-site="city">İstanbul, Türkiye</span></li>
+          </ul>
+        </div>
       </div>
-      <p class="footer-wordmark" aria-hidden="true" lang="en"><span data-site="brand">DummyCosmetics</span></p>
+      <p class="footer-wordmark" aria-hidden="true" lang="en"><span data-site="brand">Meira</span></p>
       <div class="footer-bottom">
-        <span>© <span data-year>2026</span> <span data-site="brand">DummyCosmetics</span>. Tüm hakları saklıdır.</span>
+        <span>© <span data-year>2026</span> <span data-site="brand">Meira</span>. Tüm hakları saklıdır.</span>
         <span>Teknik veriler üreticinin 2025 ürün kataloğundan alınmıştır.</span>
       </div>
     </div>
@@ -164,47 +331,5 @@
   <script src="js/products.js"></script>
   <script src="js/components.js"></script>
   <script src="js/site.js"></script>
-  <script>
-    (function () {
-      const { icon, esc } = DummyApp;
-
-      if (typeof SCENTS !== 'undefined') {
-        const scentsEl = document.getElementById('scentsContainer');
-        scentsEl.innerHTML = SCENTS.map(s => `
-          <article class="scent reveal is-in">
-            <span class="scent__family">${esc(s.family)}</span>
-            <h3>${esc(s.name)}</h3>
-            <dl>
-              <div><dt>Üst nota</dt><dd>${esc(s.top)}</dd></div>
-              <div><dt>Kalp notası</dt><dd>${esc(s.mid)}</dd></div>
-              <div><dt>Dip nota</dt><dd>${esc(s.base)}</dd></div>
-            </dl>
-            <a class="link-arrow" href="iletisim.html?esans=${encodeURIComponent(s.name)}">Numune iste ${icon('arrow-right')}</a>
-          </article>
-        `).join('');
-      }
-
-      if (typeof OILS !== 'undefined') {
-        const oilsEl = document.getElementById('oilsListContainer');
-        const groups = [
-          { type: 'Esans', title: 'Difüzör esansları' },
-          { type: 'Koku Giderme', title: 'Koku giderme' }
-        ];
-        oilsEl.innerHTML = groups.map(g => `
-          <div class="refill-group">
-            <h3>${esc(g.title)}</h3>
-            <ul class="refill-list">
-              ${OILS.filter(o => o.type === g.type).map(o => `
-                <li>
-                  <span class="refill-list__code">${esc(o.code)}</span>
-                  <span><span class="refill-list__name">${esc(o.name)}</span><span class="refill-list__note">${esc(o.note)}</span></span>
-                </li>
-              `).join('')}
-            </ul>
-          </div>
-        `).join('');
-      }
-    })();
-  </script>
 </body>
 </html>

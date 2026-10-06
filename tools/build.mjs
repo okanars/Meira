@@ -1,0 +1,817 @@
+#!/usr/bin/env node
+/**
+ * Meira site üreticisi (isteğe bağlı bakım aracı; yalnızca Node yerleşik modülleri).
+ *
+ * Site düz HTML'dir ve çalışmak için bu betiğe ihtiyaç duymaz. Betik, tekrarlanan parçaları
+ * tek kaynaktan yazmak için vardır:
+ *   - Tüm sayfaların <head> bölümü (başlık, açıklama, kanonik adres, Open Graph, JSON-LD),
+ *     başlık (header) ve footer'ı
+ *   - Ürün sayfaları (urun-<id>.html) products.js verisinden
+ *   - Blog dizini ve yazıları (tools/content/blog.mjs), Sürdürülebilirlik ve SSS (tools/content/pages.mjs)
+ *   - urunler.html katalog ızgarası ve esanslar.html koku listesinin önceden basılmış HTML'i
+ *   - sitemap.xml, robots.txt, 404.html
+ *
+ * Kullanım:  node tools/build.mjs
+ * products.js, içerik dosyaları ya da başlık/footer değiştiğinde yeniden çalıştırın.
+ * Elle yazılmış sayfaların <main> içeriğine dokunmaz (katalog ve koku listesi işaretli bölümler hariç).
+ */
+import fs from 'node:fs';
+import path from 'node:path';
+import vm from 'node:vm';
+import { fileURLToPath } from 'node:url';
+import { POSTS } from './content/blog.mjs';
+import { SUSTAINABILITY, FAQ } from './content/pages.mjs';
+
+// [DOĞRULANACAK] Alan adı yer tutucudur. Kesinleşince yalnızca bu değeri değiştirip betiği çalıştırın.
+const SITE_URL = 'https://www.meira.com.tr';
+const BRAND = 'Meira';
+const EMAIL = 'info@meira.com.tr';
+const TODAY = '2026-10-06';
+const MANUFACTURER = 'Dongguan Zhiliangzhi Fragrance Technology Co., Ltd.';
+
+const DIR = path.dirname(fileURLToPath(import.meta.url));
+const SITE = path.resolve(DIR, '../site');
+
+// ---------------------------------------------------------------------------
+// Veri
+// ---------------------------------------------------------------------------
+const ctx = {};
+vm.createContext(ctx);
+vm.runInContext(fs.readFileSync(path.join(SITE, 'js/products.js'), 'utf8') + ';globalThis.__D={PRODUCTS,CATEGORIES,SCENTS,OILS};', ctx);
+const { PRODUCTS, CATEGORIES, SCENTS, OILS } = ctx.__D;
+
+const CAT_LABEL = Object.fromEntries(CATEGORIES.map(c => [c.id, c.label]));
+const CAT_SHORT = { wall: 'Duvar tipi', pro: 'Profesyonel ve klima', plug: 'Prize takılan ve pasif', home: 'Ev, araç ve masaüstü', reed: 'Çubuklu kokular' };
+
+// ---------------------------------------------------------------------------
+// Yardımcılar
+// ---------------------------------------------------------------------------
+const esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const abs = p => `${SITE_URL}/${p}`;
+const icon = (name, cls = '') => `<svg class="icon${cls ? ' ' + cls : ''}" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-${name}"></use></svg>`;
+const imgPath = (p, suffix = '') => `images/${p.external ? 'general' : 'products'}/${p.img}${suffix}.jpg`;
+const spec = (p, re) => (p.specs.find(s => re.test(s[0])) || [])[1] || '';
+const productUrl = p => `urun-${p.id}.html`;
+const postUrl = post => `blog-${post.slug}.html`;
+const MONTHS = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+const trDate = iso => { const [y, m, d] = iso.split('-').map(Number); return `${d} ${MONTHS[m - 1]} ${y}`; };
+const fmt = n => n.toLocaleString('tr-TR');
+const clip = (s, n) => (s.length <= n ? s : s.slice(0, s.lastIndexOf(' ', n - 1)).replace(/[,;:]$/, '') + '.');
+const write = (file, html) => fs.writeFileSync(path.join(SITE, file),
+  html.replace(/<div class="table-wrap">/g, '<div class="table-wrap" tabindex="0" role="region" aria-label="Tablo (yatay kaydırılabilir)">'));
+const ld = obj => `  <script type="application/ld+json">${JSON.stringify(obj)}</script>\n`;
+
+// Kapsama metnindeki m³ değerleri (ör. "2.000 / 4.000 / 7.000 m³" -> [2000, 4000, 7000])
+function coverageValues(p) {
+  const s = spec(p, /kapsama/i);
+  if (!/m³/.test(s)) return [];
+  return (s.match(/\d[\d.]*/g) || []).map(n => parseInt(n.replace(/\./g, ''), 10)).filter(Boolean);
+}
+
+// ---------------------------------------------------------------------------
+// Ortak parçalar
+// ---------------------------------------------------------------------------
+const ORG_ID = `${SITE_URL}/#organization`;
+const ORG = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': ORG_ID,
+  name: BRAND,
+  url: `${SITE_URL}/`,
+  email: EMAIL,
+  description: 'JVCK koku difüzörleri ve esanslarının Türkiye distribütörü. Oteller, ofisler, mağazalar ve yaşam alanları için profesyonel mekân kokulandırma ürünleri ve teklif.',
+  address: { '@type': 'PostalAddress', addressLocality: 'İstanbul', addressCountry: 'TR' },
+  areaServed: 'TR'
+};
+const WEBSITE = { '@context': 'https://schema.org', '@type': 'WebSite', '@id': `${SITE_URL}/#website`, url: `${SITE_URL}/`, name: BRAND, inLanguage: 'tr-TR', publisher: { '@id': ORG_ID } };
+
+function breadcrumbLd(items) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((it, i) => ({ '@type': 'ListItem', position: i + 1, name: it.name, ...(it.href ? { item: abs(it.href) } : {}) }))
+  };
+}
+
+function breadcrumbHtml(items) {
+  return `<nav class="breadcrumb" aria-label="Sayfa konumu">
+        <ol>
+          ${items.map((it, i) => i === items.length - 1
+            ? `<li aria-current="page">${esc(it.name)}</li>`
+            : `<li><a href="${esc(it.href)}">${esc(it.name)}</a></li>`).join('\n          ')}
+        </ol>
+      </nav>`;
+}
+
+function head({ title, description, url, image = 'images/products/ck686.jpg', type = 'website', jsonld = [], noindex = false, dark = false, published }) {
+  return `
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${esc(title)}</title>
+  <meta name="description" content="${esc(description)}">
+  <meta name="robots" content="${noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}">
+  <meta name="theme-color" content="${dark ? '#141312' : '#F3F0EA'}">
+${noindex ? '' : `  <link rel="canonical" href="${abs(url)}">\n`}  <meta property="og:type" content="${type}">
+  <meta property="og:locale" content="tr_TR">
+  <meta property="og:site_name" content="${BRAND}">
+  <meta property="og:title" content="${esc(title)}">
+  <meta property="og:description" content="${esc(description)}">
+  <meta property="og:url" content="${abs(url)}">
+  <meta property="og:image" content="${abs(image)}">
+${published ? `  <meta property="article:published_time" content="${published}">\n` : ''}  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/bodoni-moda-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+  <script>document.documentElement.classList.add('js');</script>
+${jsonld.map(ld).join('')}`;
+}
+
+const NAV = [
+  ['urunler.html', 'Ürünler'],
+  ['cozumler.html', 'Çözümler'],
+  ['teknoloji.html', 'Teknoloji'],
+  ['esanslar.html', 'Esanslar'],
+  ['kurumsal.html', 'Kurumsal &amp; OEM'],
+  ['blog.html', 'Blog'],
+  ['iletisim.html', 'İletişim']
+];
+
+function header({ dark = false } = {}) {
+  return `<header class="site-header"${dark ? ' data-header' : ''}>
+    <div class="wrap site-header__inner">
+      <a href="index.html" class="brand" lang="en"><span data-site="brand">${BRAND}</span><span class="brand__sub" lang="tr">Türkiye</span></a>
+
+      <nav class="nav" id="navLinks" aria-label="Ana menü">
+        ${NAV.map(([href, label]) => `<a href="${href}" class="nav-item">${label}</a>`).join('\n        ')}
+      </nav>
+
+      <div class="nav-actions">
+        <button type="button" class="quote-trigger" aria-label="Teklif listesi">
+          ${icon('clipboard-text')}
+          <span class="quote-trigger__label">Teklif listesi</span>
+          <span class="quote-badge dc-cart-count empty" aria-hidden="true">0</span>
+        </button>
+        <button type="button" class="burger-btn" id="burgerBtn" aria-label="Menü" aria-expanded="false" aria-controls="navLinks">
+          ${icon('list', 'icon--lg icon-open')}${icon('x', 'icon--lg icon-close')}
+        </button>
+      </div>
+    </div>
+  </header>`;
+}
+
+function footer() {
+  const cats = CATEGORIES.filter(c => c.id !== 'all');
+  return `<footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand" lang="en"><span data-site="brand">${BRAND}</span></a>
+          <!-- [DOĞRULANACAK] Distribütörlüğün kapsamı (resmi / tek yetkili) belgelenmeden bu ifadeler kullanılmamalı. -->
+          <p>JVCK koku difüzörleri ve esanslarının Türkiye distribütörü. Oteller, ofisler, mağazalar ve yaşam alanları için ürün seçimi ve teklif.</p>
+        </div>
+        <div class="footer-col footer-col--a">
+          <h2>Ürünler</h2>
+          <ul>
+            ${cats.map(c => `<li><a href="urunler.html?cat=${c.id}">${esc(CAT_SHORT[c.id])}</a></li>`).join('\n            ')}
+          </ul>
+        </div>
+        <div class="footer-col footer-col--b">
+          <h2>Kurumsal</h2>
+          <ul>
+            <li><a href="cozumler.html">Çözümler</a></li>
+            <li><a href="teknoloji.html">Teknoloji</a></li>
+            <li><a href="esanslar.html">Esanslar</a></li>
+            <li><a href="kurumsal.html">Kurumsal &amp; OEM</a></li>
+            <li><a href="surdurulebilirlik.html">Sürdürülebilirlik</a></li>
+          </ul>
+        </div>
+        <div class="footer-col footer-col--c">
+          <h2>Kaynaklar</h2>
+          <ul>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="sss.html">Sık sorulan sorular</a></li>
+            <li><a href="cozumler.html#hesaplayici">Hacim hesaplayıcı</a></li>
+            <li><a href="iletisim.html">Teklif formu</a></li>
+          </ul>
+        </div>
+        <div class="footer-col footer-col--d">
+          <h2>İletişim</h2>
+          <!-- [DOĞRULANACAK] E-posta, telefon ve adres yer tutucudur (js/site-config.js). -->
+          <ul>
+            <li><a href="mailto:${EMAIL}" data-site-href="email"><span data-site="email">${EMAIL}</span></a></li>
+            <li><a href="tel:+902120000000" data-site-href="phone"><span data-site="phone">+90 212 000 00 00</span></a></li>
+            <li><span data-site="city">İstanbul, Türkiye</span></li>
+          </ul>
+        </div>
+      </div>
+      <p class="footer-wordmark" aria-hidden="true" lang="en"><span data-site="brand">${BRAND}</span></p>
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> <span data-site="brand">${BRAND}</span>. Tüm hakları saklıdır.</span>
+        <span>Teknik veriler üreticinin 2025 ürün kataloğundan alınmıştır.</span>
+      </div>
+    </div>
+  </footer>`;
+}
+
+const SCRIPTS = `<script src="js/site-config.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/site.js"></script>`;
+
+function page({ meta, section = '', main, after = '', dark = false }) {
+  return `<!DOCTYPE html>
+<!-- Bu sayfa tools/build.mjs ile üretilir. Elle düzenlemeyin; içerik kaynağı için betiğe bakın. -->
+<html lang="tr">
+<head>${head({ ...meta, dark })}</head>
+<body${section ? ` data-section="${section}"` : ''}>
+  <a class="skip-link" href="#main">İçeriğe geç</a>
+
+  ${header({ dark })}
+
+  <main id="main">
+${main}
+  </main>
+
+  ${footer()}
+
+  ${SCRIPTS}${after}
+</body>
+</html>
+`;
+}
+
+// ---------------------------------------------------------------------------
+// Ürün kartı (katalog ızgarası, ilgili ürünler). urunler.html içindeki şablonla aynı tutulmalı.
+// ---------------------------------------------------------------------------
+function productCard(p, headingTag = 'h2') {
+  const area = spec(p, /kapsama/i);
+  const cap = spec(p, /kapasite/i);
+  return `<article class="product-card" data-id="${esc(p.id)}">
+            <div class="media"><img src="${imgPath(p)}" alt="${esc(p.model + ' ' + p.title)}" loading="lazy" width="1100" height="825" style="object-position:${esc(p.pos || 'center')}"></div>
+            <div class="product-card__body">
+              <div class="product-card__top">
+                <span class="product-card__code">${esc(p.model)}</span>
+                ${p.badge ? `<span>${esc(p.badge)}</span>` : ''}
+              </div>
+              <${headingTag} class="product-card__title"><a href="${productUrl(p)}" class="product-card__link">${esc(p.title)}</a></${headingTag}>
+              <p class="product-card__desc">${esc(p.short)}</p>
+              <p class="product-card__meta">${[area, cap].filter(Boolean).map(x => `<span>${esc(x)}</span>`).join('')}</p>
+              <div class="product-card__actions">
+                <span class="link-arrow" aria-hidden="true">İncele ${icon('arrow-right')}</span>
+                <button type="button" class="btn-add" data-act="add-quote" aria-label="${esc(p.model)} ürününü teklif listesine ekle">${icon('plus')}<span>Listeye ekle</span></button>
+              </div>
+            </div>
+          </article>`;
+}
+
+// ---------------------------------------------------------------------------
+// Ürün sayfaları
+// ---------------------------------------------------------------------------
+function techOf(p) {
+  const f = p.features.join(' ');
+  if (/ultrason/i.test(f)) return 'ultrasonik';
+  if (/çift akışkanlı|iki akışkanlı/i.test(f)) return 'çift akışkanlı';
+  if (/nano/i.test(f)) return 'nano';
+  return '';
+}
+
+function productFaq(p) {
+  const items = [];
+  const cov = spec(p, /kapsama/i);
+  const vals = coverageValues(p);
+  if (cov) {
+    const tail = vals.length
+      ? ` 3 m tavan yüksekliğinde bu, yaklaşık ${vals.map(v => fmt(Math.floor(v / 3 / 5) * 5) + ' m²').join(' / ')} taban alanına karşılık gelir.`
+      : '';
+    items.push([`${p.model} ne kadar alanı kokulandırır?`, `Üretici verisine göre kapsama alanı ${cov}.${tail} Bölmeli alanlar, güçlü havalandırma ya da yoğun ziyaretçi trafiği birden fazla cihaz gerektirebilir.`]);
+  }
+  const tech = techOf(p);
+  if (tech === 'ultrasonik') items.push([`${p.model} hangi yöntemle çalışır?`, 'Ultrasonik atomizasyonla çalışır: esans, yüksek frekansta titreşen bir plakayla ince bir sise dönüştürülür. Isı kullanılmaz.']);
+  else if (tech === 'çift akışkanlı') items.push([`${p.model} hangi yöntemle çalışır?`, 'Çift akışkanlı (basınçlı hava) atomizasyonla çalışır: hava akımı esansı çok ince parçacıklara ayırır. Su ve ısı kullanılmaz.']);
+  else if (tech === 'nano') items.push([`${p.model} hangi yöntemle çalışır?`, 'Üretici, bu modelde nano atomizasyon kullanıldığını belirtmektedir: esans çok ince parçacıklar halinde havaya verilir.']);
+  const power = spec(p, /güç kaynağı/i) || spec(p, /gerilim|güç/i);
+  if (power) items.push([`${p.model} nasıl çalıştırılır, güç kaynağı nedir?`, `Üretici verisine göre güç kaynağı: ${power}.`]);
+  const noise = spec(p, /^ses/i);
+  if (noise) items.push([`${p.model} ne kadar ses çıkarır?`, `Üretici verisine göre ses seviyesi ${noise}.`]);
+  const cap = spec(p, /kapasite/i);
+  if (cap) items.push([`Esans kapasitesi ne kadar?`, `${p.model} için esans kapasitesi ${cap}. Dolum sıklığı çalışma saatlerine, püskürtme ve bekleme sürelerine ve yoğunluk ayarına bağlıdır.`]);
+  if (/klima|taze hava/i.test(p.features.join(' '))) items.push([`${p.model} klima sistemine bağlanabilir mi?`, 'Üretici verisine göre evet. Bağlantı noktası (dönüş havası kanalı ya da santral çıkışı) binanın mekanik tesisatına göre belirlenir.']);
+  items.push([`${p.model} için nasıl teklif alabilirim?`, 'Bu sayfadaki "Listeye ekle" butonuyla ürünü teklif listenize ekleyin, ardından teklif formuna aktarın. Online satış yoktur; fiyat, stok durumu ve teslim süresi teklifle bildirilir.']);
+  return items;
+}
+
+function productPage(p) {
+  const images = [imgPath(p), ...Array.from({ length: p.gallery || 0 }, (_, i) => imgPath(p, `-g${i + 1}`))];
+  const tech = techOf(p);
+  const facts = [
+    ['Kapsama alanı', spec(p, /kapsama/i)],
+    ['Esans kapasitesi', spec(p, /kapasite/i)],
+    ['Ses seviyesi', spec(p, /^ses/i)],
+    ['Güç kaynağı', spec(p, /güç kaynağı/i) || spec(p, /gerilim/i)]
+  ].filter(f => f[1]).slice(0, 4);
+  const vals = coverageValues(p);
+  const covText = spec(p, /kapsama/i);
+  let fit = '';
+  if (vals.length) {
+    const rows = vals.map(v => `<tr><td>${fmt(v)} m³</td><td>${fmt(Math.floor(v / 3 / 5) * 5)} m²</td><td>${fmt(Math.floor(v / 4 / 5) * 5)} m²</td><td>${fmt(Math.floor(v / 6 / 5) * 5)} m²</td></tr>`).join('');
+    fit = `<h2>Mekâna uygunluk</h2>
+            <p>Üretici verisine göre kapsama alanı ${esc(covText)}. Aşağıdaki tablo bu hacmin farklı tavan yüksekliklerinde yaklaşık hangi taban alanına karşılık geldiğini gösterir (açık ve tek parça bir alan için).</p>
+            <div class="table-wrap">
+              <table>
+                <caption>Kapsama hacminin taban alanı karşılığı</caption>
+                <thead><tr><th scope="col">Kapsama</th><th scope="col">3 m tavan</th><th scope="col">4 m tavan</th><th scope="col">6 m tavan</th></tr></thead>
+                <tbody>${rows}</tbody>
+              </table>
+            </div>
+            <p>Kendi ölçülerinizle hesaplamak için <a href="cozumler.html#hesaplayici">hacim hesaplayıcıyı</a> kullanabilirsiniz.</p>`;
+  } else if (covText) {
+    fit = `<h2>Mekâna uygunluk</h2>
+            <p>Üretici bu model için kapsamayı taban alanı olarak vermektedir: ${esc(covText)}. Yatak odası, çalışma odası ve benzeri küçük alanlar için uygundur.</p>`;
+  }
+  const uses = (p.use || '').split(',').map(s => s.trim()).filter(Boolean);
+  const related = PRODUCTS.filter(x => x.cat === p.cat && x.id !== p.id).slice(0, 3);
+  if (related.length < 3) related.push(...PRODUCTS.filter(x => x.cat !== p.cat && x.id !== p.id).slice(0, 3 - related.length));
+  const faq = productFaq(p);
+  const esansOils = OILS.filter(o => o.type === 'Esans');
+  const refill = p.cat === 'reed'
+    ? `<p>Çubuklu oda kokuları elektrik gerektirmez; koku, çubuklar aracılığıyla şişeden yavaşça yayılır. Diğer koku ailelerini <a href="esanslar.html">koku koleksiyonunda</a> inceleyebilirsiniz.</p>`
+    : `<p>Cihazlar yeniden doldurulabilir. Dolum için sunulan esans ambalajları:</p>
+            <ul class="refill-list refill-list--compact">
+              ${esansOils.map(o => `<li><span class="refill-list__code">${esc(o.code)}</span><span><span class="refill-list__name">${esc(o.name)}</span><span class="refill-list__note">${esc(o.note)}</span></span></li>`).join('\n              ')}
+            </ul>
+            <p class="note">Modelinize uygun esans tipini ve dolum hacmini teklif aşamasında teyit ederiz.</p>
+            <!-- [DOĞRULANACAK] Hangi esans tipinin (standart / suda çözünür / kartuş) hangi modelle kullanıldığı üreticiden teyit edilmeli. -->`;
+
+  const crumbs = [
+    { name: 'Ana sayfa', href: 'index.html' },
+    { name: 'Ürünler', href: 'urunler.html' },
+    { name: CAT_SHORT[p.cat], href: `urunler.html?cat=${p.cat}` },
+    { name: p.model }
+  ];
+  const title = `${p.model} ${p.title} | ${BRAND}`;
+  const description = clip(`${p.model} ${p.title}: ${p.short} Teknik veriler, kullanım alanları ve teklif.`, 158);
+  const productLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: `${p.model} ${p.title}`,
+    sku: p.model,
+    mpn: p.model,
+    category: CAT_LABEL[p.cat],
+    description: p.desc,
+    image: images.map(abs),
+    url: abs(productUrl(p)),
+    brand: { '@type': 'Brand', name: 'JVCK' },
+    manufacturer: { '@type': 'Organization', name: MANUFACTURER },
+    additionalProperty: p.specs.map(([k, v]) => ({ '@type': 'PropertyValue', name: k, value: v }))
+  };
+  const faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };
+
+  const main = `
+    <div class="wrap">
+      ${breadcrumbHtml(crumbs)}
+    </div>
+
+    <section class="pd wrap" aria-labelledby="pd-title">
+      <div class="pd__gallery" data-gallery>
+        <button type="button" class="modal-zoom" data-zoom aria-pressed="false" aria-label="Görseli yakınlaştır"><img src="${images[0]}" alt="${esc(p.model + ' ' + p.title)}" class="modal-main-img" data-main width="1100" height="825" fetchpriority="high" style="object-position:${esc(p.pos || 'center')}"></button>
+        ${images.length > 1 ? `<div class="modal-thumb-row">
+          ${images.map((src, i) => `<button type="button" class="modal-thumb${i === 0 ? ' active' : ''}" data-src="${src}" data-pos="${i === 0 ? esc(p.pos || 'center') : 'center'}" aria-label="Görsel ${i + 1} / ${images.length}" aria-pressed="${i === 0}"><img src="${src}" alt="" width="72" height="72" loading="lazy"></button>`).join('\n          ')}
+        </div>` : ''}
+      </div>
+
+      <div class="pd__info">
+        <p class="pd__code"><span>${esc(p.model)}</span>${p.badge ? `<span class="pd__badge">${esc(p.badge)}</span>` : ''}</p>
+        <h1 id="pd-title">${esc(p.title)}</h1>
+        <p class="lead">${esc(p.short)}</p>
+        ${facts.length ? `<dl class="pd-facts">
+          ${facts.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('\n          ')}
+        </dl>` : ''}
+        <div class="btn-row pd__actions">
+          <button type="button" class="btn btn--primary btn--lg" data-add-to-list="${esc(p.id)}">${icon('plus', 'icon--sm')}<span>Listeye ekle</span></button>
+          <button type="button" class="btn btn--quiet btn--lg" data-quote-now="${esc(p.id)}">Teklif iste</button>
+        </div>
+        <p class="note">Online satış yoktur; fiyat, stok ve teslim süresi teklifle bildirilir.</p>
+        <ul class="pd-links">
+          <li><a href="urunler.html?cat=${p.cat}" class="link-arrow">Tüm ${esc(CAT_SHORT[p.cat].toLocaleLowerCase('tr'))} modeller ${icon('arrow-right')}</a></li>
+          ${tech === 'ultrasonik' || tech === 'çift akışkanlı' ? `<li><a href="blog-ultrasonik-ve-cift-akiskanli-difuzor-farki.html" class="link-arrow">Ultrasonik ve çift akışkanlı farkı ${icon('arrow-right')}</a></li>` : ''}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Ürün ayrıntıları">
+      <div class="wrap pd-body">
+        <div class="pd-body__main prose prose--article">
+          <h2>Ürün hakkında</h2>
+          <p>${esc(p.desc)}</p>
+          ${p.features.length ? `<h2>Öne çıkan özellikler</h2>
+          <ul class="check-list">
+            ${p.features.map(f => `<li>${icon('check')}<span>${esc(f)}</span></li>`).join('\n            ')}
+          </ul>` : ''}
+          ${fit}
+          ${uses.length ? `<h2>Kullanım alanları</h2>
+          <ul class="tag-list">
+            ${uses.map(u => `<li class="tag">${esc(u)}</li>`).join('\n            ')}
+          </ul>` : ''}
+          ${p.variants && p.variants.length ? `<h2>Varyantlar</h2>
+          <ul>
+            ${p.variants.map(v => `<li>${esc(v)}</li>`).join('\n            ')}
+          </ul>` : ''}
+        </div>
+        <div class="pd-body__aside">
+          <h2 id="specs-title">Teknik veriler</h2>
+          <dl class="spec-table">
+            ${p.specs.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('\n            ')}
+          </dl>
+          <p class="note mt-3">Üretici katalog verisidir; değerler varyanta göre değişebilir.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--deep" aria-labelledby="refill-title">
+      <div class="wrap split split--top">
+        <div class="split__a">
+          <h2 id="refill-title">${p.cat === 'reed' ? 'Koku ve kullanım' : 'Esans ve dolum'}</h2>
+          ${refill}
+        </div>
+        <div class="split__b">
+          <h3>Mekânınıza uygun koku</h3>
+          <p class="mt-3 text-2">Koleksiyondaki ${SCENTS.length} koku; ferah çay notalarından odunsu ve çiçeksi kokulara kadar üç katmanlı nota piramitleriyle.</p>
+          <p class="mt-5"><a href="esanslar.html" class="link-arrow">Koku koleksiyonu ${icon('arrow-right')}</a></p>
+          <p class="mt-2"><a href="iletisim.html?konu=numune" class="link-arrow">Numune iste ${icon('arrow-right')}</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="faq-title">
+      <div class="wrap faq-layout">
+        <h2 id="faq-title">${esc(p.model)} hakkında sorular</h2>
+        <div class="faq">
+          ${faq.map(([q, a]) => `<details class="faq__item">
+            <summary>${esc(q)}${icon('plus', 'faq__icon')}</summary>
+            <p>${esc(a)}</p>
+          </details>`).join('\n          ')}
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--flush-top" aria-labelledby="related-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="related-title">Benzer ürünler</h2>
+        </div>
+        <div class="product-grid product-grid--3">
+          ${related.map(r => productCard(r, 'h3')).join('\n          ')}
+        </div>
+      </div>
+    </section>
+`;
+  return page({
+    meta: { title, description, url: productUrl(p), image: images[0], type: 'product', jsonld: [productLd, breadcrumbLd(crumbs), faqLd] },
+    section: 'urunler.html',
+    main
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Blog
+// ---------------------------------------------------------------------------
+function postCard(post, featured = false) {
+  return `<article class="post-card${featured ? ' post-card--featured' : ''}">
+          <div class="media media--3x2"><img src="${post.image}" alt="" loading="lazy"></div>
+          <div class="post-card__body">
+            <p class="post-card__meta"><span>${esc(post.tags[0])}</span><span><time datetime="${post.date}">${trDate(post.date)}</time></span><span>${post.minutes} dk okuma</span></p>
+            <h2 class="post-card__title"><a href="${postUrl(post)}" class="post-card__link">${esc(post.title)}</a></h2>
+            <p class="post-card__desc">${esc(post.description)}</p>
+          </div>
+        </article>`;
+}
+
+function blogIndex() {
+  const crumbs = [{ name: 'Ana sayfa', href: 'index.html' }, { name: 'Blog' }];
+  const main = `
+    <section class="page-head" aria-labelledby="page-title">
+      <div class="wrap">
+        <h1 id="page-title">Mekân kokulandırma rehberi</h1>
+        <p class="lead">Koku pazarlaması araştırmaları, cihaz seçimi, klima bağlantısı, esans güvenliği ve doğru yoğunluk üzerine kaynaklı rehberler.</p>
+      </div>
+    </section>
+
+    <section class="section section--flush-top" aria-label="Yazılar">
+      <div class="wrap">
+        <div class="post-grid">
+        ${POSTS.map((post, i) => postCard(post, i === 0)).join('\n        ')}
+        </div>
+      </div>
+    </section>
+`;
+  const ld = {
+    '@context': 'https://schema.org', '@type': 'Blog', name: `${BRAND} Blog`, url: abs('blog.html'), inLanguage: 'tr-TR', publisher: { '@id': ORG_ID },
+    blogPost: POSTS.map(p => ({ '@type': 'BlogPosting', headline: p.title, url: abs(postUrl(p)), datePublished: p.date }))
+  };
+  return page({
+    meta: { title: `Mekân Kokulandırma Rehberi ve Blog | ${BRAND}`, description: 'Koku pazarlaması, difüzör seçimi, klima bağlantısı, IFRA standartları ve doğru koku yoğunluğu üzerine kaynaklı rehber yazılar.', url: 'blog.html', image: POSTS[0].image, jsonld: [ld, breadcrumbLd(crumbs)] },
+    section: 'blog.html',
+    main
+  });
+}
+
+function blogPost(post) {
+  const crumbs = [{ name: 'Ana sayfa', href: 'index.html' }, { name: 'Blog', href: 'blog.html' }, { name: post.navTitle }];
+  const related = post.related.map(id => PRODUCTS.find(p => p.id === id)).filter(Boolean).slice(0, 3);
+  const others = POSTS.filter(p => p.slug !== post.slug).slice(0, 3);
+  const articleLd = {
+    '@context': 'https://schema.org', '@type': 'BlogPosting',
+    headline: post.title, description: post.description, image: [abs(post.image)],
+    datePublished: post.date, dateModified: post.date, inLanguage: 'tr-TR',
+    author: { '@type': 'Organization', name: BRAND, url: `${SITE_URL}/` },
+    publisher: { '@id': ORG_ID },
+    mainEntityOfPage: abs(postUrl(post)),
+    keywords: post.tags.join(', ')
+  };
+  const main = `
+    <div class="wrap">
+      ${breadcrumbHtml(crumbs)}
+    </div>
+
+    <article class="article" aria-labelledby="post-title">
+      <header class="article__head wrap">
+        <p class="post-card__meta"><span>${post.tags.map(esc).join(', ')}</span><span><time datetime="${post.date}">${trDate(post.date)}</time></span><span>${post.minutes} dk okuma</span></p>
+        <h1 id="post-title">${esc(post.title)}</h1>
+      </header>
+      <figure class="article__figure wrap">
+        <div class="media media--21x9"><img src="${post.image}" alt="${esc(post.imageAlt)}" fetchpriority="high"></div>
+      </figure>
+      <div class="article__body wrap">
+        <div class="prose prose--article">
+${post.body}
+        </div>
+        ${post.sources.length ? `<div class="sources">
+          <h2 id="sources-title">Kaynaklar</h2>
+          <ol>
+            ${post.sources.map(s => `<li>${s.url ? `<a href="${esc(s.url)}" rel="noopener" target="_blank">${esc(s.label)}</a>` : esc(s.label)}</li>`).join('\n            ')}
+          </ol>
+        </div>` : ''}
+      </div>
+    </article>
+
+    ${related.length ? `<section class="section section--flush-top" aria-labelledby="related-title">
+      <div class="wrap">
+        <div class="section-head"><h2 id="related-title">Yazıda geçen ürünler</h2></div>
+        <div class="product-grid product-grid--3">
+          ${related.map(r => productCard(r, 'h3')).join('\n          ')}
+        </div>
+      </div>
+    </section>` : ''}
+
+    <section class="section section--deep" aria-labelledby="more-title">
+      <div class="wrap">
+        <div class="section-head"><h2 id="more-title">Diğer yazılar</h2></div>
+        <ul class="more-posts">
+          ${others.map(o => `<li><a href="${postUrl(o)}"><span class="more-posts__title">${esc(o.title)}</span><span class="more-posts__meta">${o.minutes} dk okuma</span></a></li>`).join('\n          ')}
+        </ul>
+      </div>
+    </section>
+`;
+  return page({
+    meta: { title: `${post.title} | ${BRAND}`.length > 70 ? `${post.navTitle} | ${BRAND}` : `${post.title} | ${BRAND}`, description: post.description, url: postUrl(post), image: post.image, type: 'article', published: post.date, jsonld: [articleLd, breadcrumbLd(crumbs)] },
+    section: 'blog.html',
+    main
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Sürdürülebilirlik ve SSS
+// ---------------------------------------------------------------------------
+function sustainabilityPage() {
+  const S = SUSTAINABILITY;
+  const crumbs = [{ name: 'Ana sayfa', href: 'index.html' }, { name: 'Sürdürülebilirlik' }];
+  const main = `
+    <section class="page-head" aria-labelledby="page-title">
+      <div class="wrap">
+        <h1 id="page-title">${esc(S.h1)}</h1>
+        <p class="lead">${esc(S.lead)}</p>
+      </div>
+    </section>
+
+    <section class="section section--flush-top" aria-label="İçerik">
+      <div class="wrap doc">
+        <nav class="doc__toc" aria-label="Bu sayfada">
+          <p class="doc__toc-title">Bu sayfada</p>
+          <ol>
+            ${S.sections.map(s => `<li><a href="#${s.id}">${esc(s.title)}</a></li>`).join('\n            ')}
+          </ol>
+        </nav>
+        <div class="doc__body prose prose--article">
+          ${S.sections.map(s => `<section id="${s.id}" aria-labelledby="${s.id}-t">
+            <h2 id="${s.id}-t">${esc(s.title)}</h2>
+            ${s.html}
+          </section>`).join('\n          ')}
+          <div class="sources">
+            <h2 id="sources-title">Kaynaklar</h2>
+            <ol>
+              ${S.sources.map(s => `<li>${s.url ? `<a href="${esc(s.url)}" rel="noopener" target="_blank">${esc(s.label)}</a>` : esc(s.label)}</li>`).join('\n              ')}
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+`;
+  return page({
+    meta: { title: S.title, description: S.description, url: 'surdurulebilirlik.html', image: 'images/general/oilrange.jpg', jsonld: [breadcrumbLd(crumbs)] },
+    main
+  });
+}
+
+function faqPage() {
+  const crumbs = [{ name: 'Ana sayfa', href: 'index.html' }, { name: 'Sık sorulan sorular' }];
+  const all = FAQ.groups.flatMap(g => g.items);
+  const ldFaq = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: all.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };
+  const main = `
+    <section class="page-head" aria-labelledby="page-title">
+      <div class="wrap">
+        <h1 id="page-title">${esc(FAQ.h1)}</h1>
+        <p class="lead">${esc(FAQ.lead)}</p>
+      </div>
+    </section>
+
+    <section class="section section--flush-top" aria-label="Sorular">
+      <div class="wrap faq-groups">
+        ${FAQ.groups.map(g => `<div class="faq-layout">
+          <h2>${esc(g.title)}</h2>
+          <div class="faq">
+            ${g.items.map(([q, a]) => `<details class="faq__item">
+              <summary>${esc(q)}${icon('plus', 'faq__icon')}</summary>
+              <p>${esc(a)}</p>
+            </details>`).join('\n            ')}
+          </div>
+        </div>`).join('\n        ')}
+        <p class="faq-more">Sorunuzun cevabını bulamadınız mı? <a href="iletisim.html" class="text-link">Teklif formundan bize yazın.</a></p>
+      </div>
+    </section>
+`;
+  return page({
+    meta: { title: FAQ.title, description: FAQ.description, url: 'sss.html', jsonld: [ldFaq, breadcrumbLd(crumbs)] },
+    main
+  });
+}
+
+function notFoundPage() {
+  const main = `
+    <section class="page-head not-found" aria-labelledby="page-title">
+      <div class="wrap">
+        <h1 id="page-title">Aradığınız sayfa bulunamadı</h1>
+        <p class="lead">Bağlantı değişmiş ya da sayfa kaldırılmış olabilir. Aşağıdaki sayfalardan devam edebilirsiniz.</p>
+        <div class="btn-row mt-7">
+          <a href="urunler.html" class="btn btn--primary btn--lg">Ürünleri incele</a>
+          <a href="index.html" class="btn btn--quiet btn--lg">Ana sayfa</a>
+        </div>
+      </div>
+    </section>
+`;
+  return page({ meta: { title: `Sayfa bulunamadı | ${BRAND}`, description: 'Aradığınız sayfa bulunamadı.', url: '404.html', noindex: true }, main });
+}
+
+// ---------------------------------------------------------------------------
+// Elle yazılmış sayfalar: <head>, header, footer ve işaretli bölümler
+// ---------------------------------------------------------------------------
+const HAND_PAGES = {
+  'index.html': {
+    title: `${BRAND} | Profesyonel Koku Difüzörleri ve Mekân Kokulandırma`,
+    description: 'Oteller, ofisler ve mağazalar için profesyonel koku difüzörleri, esanslar ve dolum ürünleri. JVCK ürünlerinin Türkiye distribütörü; ürün seçimi ve teklif.',
+    image: 'images/products/ck686.jpg', dark: true, jsonld: [ORG, WEBSITE]
+  },
+  'urunler.html': {
+    title: `Koku Difüzörü Kataloğu: Duvar Tipi, Klima ve Masaüstü | ${BRAND}`,
+    description: `Duvar tipi, klima bağlantılı, prize takılan, masaüstü difüzörler ve çubuklu oda kokuları. ${PRODUCTS.length} ürünün teknik özellikleri, kapsama alanları ve teklif listesi.`,
+    image: 'images/products/ck688.jpg', crumbs: 'Ürünler',
+    itemList: true
+  },
+  'cozumler.html': {
+    title: `Otel, Ofis ve Mağaza için Koku Çözümleri | ${BRAND}`,
+    description: 'Mekân hacmine göre difüzör seçimi: hacim hesaplayıcı, oteller, mağazalar, ofisler ve büyük alanlar için önerilen modeller ve kapsama aralıkları.',
+    image: 'images/general/video-hotel-poster.jpg', crumbs: 'Çözümler'
+  },
+  'teknoloji.html': {
+    title: `Koku Difüzörü Teknolojisi: Ultrasonik ve Basınçlı Hava | ${BRAND}`,
+    description: 'Çift akışkanlı (basınçlı hava) ve ultrasonik atomizasyon nasıl çalışır, uygulama kontrolü ve klima sistemine bağlantı. Nitel karşılaştırma ve şematik gösterim.',
+    image: 'images/general/video-hero-poster.jpg', crumbs: 'Teknoloji'
+  },
+  'esanslar.html': {
+    title: `Mekân Kokuları ve Difüzör Esansları | ${BRAND}`,
+    description: `Otel lobisi karakterinde ${SCENTS.length} koku, üst, kalp ve dip notalarıyla. 500 ml ve 5 L difüzör esansları, kartuşlar ve koku giderme ürünleri.`,
+    image: 'images/general/oilrange.jpg', crumbs: 'Esanslar'
+  },
+  'kurumsal.html': {
+    title: `Kurumsal, Distribütörlük ve OEM / ODM | ${BRAND}`,
+    description: 'JVCK ürünlerinin Türkiye distribütörü. Üretici bilgileri, özel markalı üretim (OEM), ortak ürün geliştirme (ODM) ve kurumsal koku süreci.',
+    image: 'images/general/factory2.jpg', crumbs: 'Kurumsal ve OEM'
+  },
+  'iletisim.html': {
+    title: `Teklif İste ve İletişim | ${BRAND}`,
+    description: 'Seçtiğiniz koku difüzörleri ve esanslar için teklif isteyin, numune ya da OEM talebinde bulunun. Teklif listenizdeki ürünler forma otomatik eklenir.',
+    image: 'images/products/ck686.jpg', crumbs: 'İletişim'
+  }
+};
+
+function catalogGridHtml() {
+  return `<!-- katalog:basla (tools/build.mjs) -->
+          ${PRODUCTS.map(p => productCard(p)).join('\n          ')}
+          <!-- katalog:bitir -->`;
+}
+
+function scentsHtml() {
+  return `<!-- kokular:basla (tools/build.mjs) -->
+          ${SCENTS.map(s => `<article class="scent">
+            <span class="scent__family">${esc(s.family)}</span>
+            <h3>${esc(s.name)}</h3>
+            <dl>
+              <div><dt>Üst nota</dt><dd>${esc(s.top)}</dd></div>
+              <div><dt>Kalp notası</dt><dd>${esc(s.mid)}</dd></div>
+              <div><dt>Dip nota</dt><dd>${esc(s.base)}</dd></div>
+            </dl>
+            <a class="link-arrow" href="iletisim.html?esans=${encodeURIComponent(s.name)}">Numune iste ${icon('arrow-right')}</a>
+          </article>`).join('\n          ')}
+          <!-- kokular:bitir -->`;
+}
+
+function oilsHtml() {
+  const groups = [{ type: 'Esans', title: 'Difüzör esansları' }, { type: 'Koku Giderme', title: 'Koku giderme' }];
+  return `<!-- dolum:basla (tools/build.mjs) -->
+          ${groups.map(g => `<div class="refill-group">
+            <h3>${esc(g.title)}</h3>
+            <ul class="refill-list">
+              ${OILS.filter(o => o.type === g.type).map(o => `<li><span class="refill-list__code">${esc(o.code)}</span><span><span class="refill-list__name">${esc(o.name)}</span><span class="refill-list__note">${esc(o.note)}</span></span></li>`).join('\n              ')}
+            </ul>
+          </div>`).join('\n          ')}
+          <!-- dolum:bitir -->`;
+}
+
+function replaceBetween(html, startRe, endStr, inner, file) {
+  const m = html.match(startRe);
+  if (!m) throw new Error(`${file}: başlangıç bulunamadı ${startRe}`);
+  const start = m.index + m[0].length;
+  const end = html.indexOf(endStr, start);
+  if (end < 0) throw new Error(`${file}: bitiş bulunamadı ${endStr}`);
+  return html.slice(0, start) + inner + html.slice(end);
+}
+
+function processHandPage(file, cfg) {
+  let html = fs.readFileSync(path.join(SITE, file), 'utf8');
+  const jsonld = [...(cfg.jsonld || [])];
+  if (cfg.crumbs) jsonld.push(breadcrumbLd([{ name: 'Ana sayfa', href: 'index.html' }, { name: cfg.crumbs }]));
+  if (cfg.itemList) {
+    jsonld.push({ '@context': 'https://schema.org', '@type': 'ItemList', name: 'Ürün kataloğu', numberOfItems: PRODUCTS.length, itemListElement: PRODUCTS.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: abs(productUrl(p)), name: `${p.model} ${p.title}` })) });
+  }
+  html = html.replace(/^<!DOCTYPE html>\n(<!--[^\n]*-->\n)?/, '<!DOCTYPE html>\n<!-- Baş bölüm, üst menü ve alt bilgi tools/build.mjs ile yazılır; ana içerik elle düzenlenir. -->\n');
+  html = replaceBetween(html, /^<head>$/m, '\n</head>', head({ ...cfg, url: file, jsonld }).replace(/\n$/, ''), file);
+  html = html.replace(/<body[^>]*>/, `<body data-section="${file}">`);
+  html = html.replace(/<header class="site-header"[\s\S]*?<\/header>/, header({ dark: !!cfg.dark }));
+  html = html.replace(/<footer class="site-footer">[\s\S]*?<\/footer>/, footer());
+  if (file === 'urunler.html') {
+    html = replaceBetween(html, /<div class="product-grid" id="catalogGrid">/, '</div>\n      <div class="empty-state"', `\n          ${catalogGridHtml()}\n        `, file);
+  }
+  if (file === 'esanslar.html') {
+    html = replaceBetween(html, /<div class="scent-index" id="scentsContainer">/, '</div>\n      </div>\n    </section>', `\n          ${scentsHtml()}\n        `, file);
+    html = replaceBetween(html, /<div class="mt-7 refill-groups" id="oilsListContainer">/, '</div>\n          <div class="mt-7 btn-row">', `\n          ${oilsHtml()}\n          `, file);
+  }
+  write(file, html);
+}
+
+// ---------------------------------------------------------------------------
+// sitemap.xml, robots.txt
+// ---------------------------------------------------------------------------
+function sitemap(urls) {
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.map(([u, pr]) => `  <url>
+    <loc>${abs(u)}</loc>
+    <lastmod>${TODAY}</lastmod>
+    <priority>${pr}</priority>
+  </url>`).join('\n')}
+</urlset>
+`;
+}
+
+// ---------------------------------------------------------------------------
+// Çalıştır
+// ---------------------------------------------------------------------------
+for (const [file, cfg] of Object.entries(HAND_PAGES)) processHandPage(file, cfg);
+for (const p of PRODUCTS) write(productUrl(p), productPage(p));
+write('blog.html', blogIndex());
+for (const post of POSTS) write(postUrl(post), blogPost(post));
+write('surdurulebilirlik.html', sustainabilityPage());
+write('sss.html', faqPage());
+write('404.html', notFoundPage());
+
+const urls = [
+  ['index.html', '1.0'], ['urunler.html', '0.9'], ['cozumler.html', '0.8'], ['teknoloji.html', '0.7'],
+  ['esanslar.html', '0.8'], ['kurumsal.html', '0.6'], ['iletisim.html', '0.7'], ['blog.html', '0.6'],
+  ['surdurulebilirlik.html', '0.5'], ['sss.html', '0.6'],
+  ...PRODUCTS.map(p => [productUrl(p), '0.8']),
+  ...POSTS.map(p => [postUrl(p), '0.6'])
+];
+write('sitemap.xml', sitemap(urls));
+write('robots.txt', `User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: ${SITE_URL}/sitemap.xml\n`);
+
+console.log(`Yazıldı: ${Object.keys(HAND_PAGES).length} sayfa güncellendi, ${PRODUCTS.length} ürün, ${POSTS.length} yazı, blog, sürdürülebilirlik, sss, 404, sitemap (${urls.length} adres), robots.`);
