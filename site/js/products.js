@@ -1,4 +1,9 @@
-/* DummyCosmetics – ürün veritabanı (katalogdan derlenmiştir) */
+/* Ürün veritabanı: JVCK 2025 ürün kataloğundan (İngilizce çeviri) derlenmiştir.
+ * [DOĞRULANACAK] FDA, gıda sınıfı malzeme ve güvenlik standardı ifadeleri üretici beyanıdır;
+ * sitede "üretici beyanına göre" kalıbıyla verilir. Belge talep edilmeden kesin ifade kullanmayın.
+ * [DOĞRULANACAK] Katalogda "CK-613" kodu hem elektriksiz koku kutusu (CK-613A/B/C) hem de
+ * çift başlıklı difüzör serisinde (CK-613A, 2 x 5000 ml) geçiyor; üreticiden teyit edin.
+ * Koku adları: otel ve parfüm markası adları nötr, betimleyici adlarla değiştirildi (RAPOR.md). */
 const CATEGORIES = [
   { id: 'all',   label: 'Tüm Ürünler' },
   { id: 'wall',  label: 'Duvar Tipi Difüzörler' },
@@ -8,15 +13,15 @@ const CATEGORIES = [
   { id: 'reed',  label: 'Çubuklu Oda Kokuları' }
 ];
 
-const COMMON_USE_COMMERCIAL = 'Eğlence mekânları, otel lobisi, bar, KTV, iş toplantı salonu, showroom, güzellik salonu, restoran, galeri, otel koridoru, zincir mağazalar, sinema';
+const COMMON_USE_COMMERCIAL = 'Eğlence mekânları, otel lobisi, bar, iş toplantı salonu, showroom, güzellik salonu, restoran, galeri, otel koridoru, zincir mağazalar, sinema';
 const COMMON_USE_SMALL = 'Otel odası, banyo, güzellik salonu, oturma odası, ofis, asansör, koridor/merdiven, evcil hayvan alanları';
 
 const PRODUCTS = [
   {
-    id: 'ck628', model: 'CK-628', cat: 'wall', badge: 'Çok Satan',
+    id: 'ck628', model: 'CK-628', cat: 'wall', badge: 'Akıllı kumanda',
     title: 'Ultrasonik Akıllı Duvar Difüzörü',
     short: 'LED ışık sensörü, LCD ekran ve akıllı kumanda seçenekli, 300 m³ kapsama alanlı ultrasonik difüzör.',
-    desc: 'Ultrasonik atomizasyon teknolojisiyle hızlı ve homojen koku dağılımı sağlar. 4 AA pil veya Type-C 6V ile çalışır; akıllı uzaktan kumanda, LED ışık algılama ve LCD dijital ekran seçenekleri mevcuttur. Yüksek sıcaklığa dayanıklı gıda sınıfı PP malzemeden üretilmiştir; kokusuz, toksik değildir ve uluslararası güvenlik standartları ile FDA uyumludur. Yapışkanla 3 saniyede, iz bırakmadan monte edilir.',
+    desc: 'Ultrasonik atomizasyon teknolojisiyle hızlı ve homojen koku dağılımı sağlar. 4 AA pil veya Type-C 6V ile çalışır; akıllı uzaktan kumanda, LED ışık algılama ve LCD dijital ekran seçenekleri mevcuttur. Yüksek sıcaklığa dayanıklı gıda sınıfı PP malzemeden üretilmiştir; kokusuz ve toksik değildir; üretici beyanına göre uluslararası güvenlik standartları ve FDA ile uyumludur. Yapışkanla 3 saniyede, iz bırakmadan monte edilir.',
     img: 'ck628', pos: '40% 50%', gallery: 3,
     features: ['Ultrasonik atomizasyon', 'Uzaktan / manuel kontrol', 'Düşük gürültü (<8 dBA)', 'Pil veya Type-C güç', 'Masaüstü ve duvar çift kullanım', 'Zamanlı püskürtme', 'Değiştirilebilir ultrasonik plaka'],
     variants: ['CK-628A (Beyaz)', 'CK-628B (Siyah)', 'Akıllı kumanda: CK-628-YK', 'LED ışık algılama: CK-628-LED', 'LCD dijital ekran: CK-628-LCD'],
@@ -25,9 +30,9 @@ const PRODUCTS = [
   },
   {
     id: 'ck638', model: 'CK-638', cat: 'wall',
-    title: 'Ultrasonik Duvar Difüzörü – LED / LCD',
+    title: 'Ultrasonik Duvar Difüzörü - LED / LCD',
     short: 'Korozyona dayanıklı PP gövde, LED sensör ve LCD kontrol paneli ile 300 m³ kapsama.',
-    desc: 'Ultrasonik atomizasyonla hızlı koku dağılımı sunan CK-638; akıllı kumanda, LED ışık algılama ve LCD dijital kontrol paneli ile gelir. Gıda sınıfı, korozyona dayanıklı PP malzeme FDA onaylıdır. İz bırakmayan yapışkanla 3 saniyede kurulum yapılır.',
+    desc: 'Ultrasonik atomizasyonla hızlı koku dağılımı sunan CK-638; akıllı kumanda, LED ışık algılama ve LCD dijital kontrol paneli ile gelir. Gıda sınıfı, korozyona dayanıklı PP malzeme üretici beyanına göre FDA uyumludur. İz bırakmayan yapışkanla 3 saniyede kurulum yapılır.',
     img: 'ck638', pos: '40% 50%', gallery: 3,
     features: ['Ultrasonik atomizasyon', 'Uzaktan / manuel kontrol', 'Düşük gürültü', 'Pil veya Type-C güç', 'Masaüstü ve duvar çift kullanım', 'Zamanlı püskürtme', 'Değiştirilebilir ultrasonik plaka'],
     variants: ['CK-638A', 'CK-638B', 'Akıllı kumanda: CK-638-YK', 'LED: CK-638-LED', 'LCD: CK-638-LCD'],
@@ -36,9 +41,9 @@ const PRODUCTS = [
   },
   {
     id: 'ck648', model: 'CK-648', cat: 'wall',
-    title: 'Ultrasonik Duvar Difüzörü – 3 Renk',
+    title: 'Ultrasonik Duvar Difüzörü - 3 Renk',
     short: 'Beyaz, siyah ve üçüncü renk seçeneğiyle eğlence mekânlarına da uygun kompakt difüzör.',
-    desc: 'Taşınabilir tasarımıyla kolay kullanım sunar. Akıllı uzaktan kumanda, LED ışık algılama ve LCD dijital ekran seçenekleri vardır. Yüksek sıcaklığa dayanıklı gıda sınıfı PP, kokusuz ve toksik değildir; FDA uyumludur.',
+    desc: 'Taşınabilir tasarımıyla kolay kullanım sunar. Akıllı uzaktan kumanda, LED ışık algılama ve LCD dijital ekran seçenekleri vardır. Yüksek sıcaklığa dayanıklı gıda sınıfı PP, kokusuz ve toksik değildir; üretici beyanına göre FDA uyumludur.',
     img: 'ck648', pos: '40% 50%', gallery: 3,
     features: ['Ultrasonik atomizasyon', 'Uzaktan / manuel kontrol', 'Düşük gürültü', 'Pil veya Type-C güç', 'Masaüstü ve duvar çift kullanım', 'Zamanlı püskürtme'],
     variants: ['CK-648A', 'CK-648B', 'CK-648C', 'Akıllı kumanda: CK-648-YK', 'LED: CK-648-LED', 'LCD: CK-648-LCD'],
@@ -49,7 +54,7 @@ const PRODUCTS = [
     id: 'ck688', model: 'CK-688', cat: 'wall', badge: 'Ultra İnce',
     title: 'Çift Akışkanlı Büyük Alan Difüzörü',
     short: '500 ml kapasite, 5,3 cm ultra ince gövde ve uygulama kontrolüyle 800 m³ kapsama.',
-    desc: 'Çift akışkanlı atomizasyon ile hızlı ve homojen koku yayılımı. 4 AA pil (Type-C 6V) ile çalışır; akıllı uzaktan kumanda ve mobil uygulama ile yönetilir. Gıda sınıfı, yüksek sıcaklık ve korozyona dayanıklı PP malzeme FDA uyumludur. Kalıntı bırakmadan 3 saniyede monte edilir.',
+    desc: 'Çift akışkanlı atomizasyon ile hızlı ve homojen koku yayılımı. 4 AA pil (Type-C 6V) ile çalışır; akıllı uzaktan kumanda ve mobil uygulama ile yönetilir. Gıda sınıfı, yüksek sıcaklık ve korozyona dayanıklı PP malzeme üretici beyanına göre FDA uyumludur. Kalıntı bırakmadan 3 saniyede monte edilir.',
     img: 'ck688', pos: '35% 50%', gallery: 3,
     features: ['Çift akışkanlı atomizasyon', 'Uzaktan kumanda / mobil uygulama', 'Düşük gürültü', 'Pil veya güç kaynağı', 'Dikişsiz duvar montajı', 'Zamanlı püskürtme', 'Sadece 5,3 cm kalınlık'],
     variants: ['CK-688A (Beyaz)', 'CK-688B (Siyah)'],
@@ -60,7 +65,7 @@ const PRODUCTS = [
     id: 'ck689', model: 'CK-689', cat: 'wall',
     title: 'Çift Akışkanlı Ultra İnce Difüzör',
     short: 'Sessiz çalışan (<35 dB), 500 ml kapasiteli, uygulama ile yönetilen ince difüzör.',
-    desc: 'Çift akışkanlı atomizasyon, akıllı kumanda ve akıllı telefon uygulaması ile kolay yönetim sunar. Yüksek sıcaklığa dayanıklı gıda sınıfı PP; kokusuz, toksik değildir ve FDA uyumludur. 800 m³ geniş alanlar için idealdir.',
+    desc: 'Çift akışkanlı atomizasyon, akıllı kumanda ve akıllı telefon uygulaması ile kolay yönetim sunar. Yüksek sıcaklığa dayanıklı gıda sınıfı PP; kokusuz, toksik değildir ve üretici beyanına göre FDA uyumludur. 800 m³ geniş alanlar için idealdir.',
     img: 'ck689', pos: '35% 50%', gallery: 3,
     features: ['Çift akışkanlı atomizasyon', 'Uzaktan kumanda / mobil uygulama', 'Düşük gürültü', 'Pil veya güç kaynağı', 'Dikişsiz duvar montajı', 'Zamanlı püskürtme', 'Kişiye özel tasarım'],
     variants: ['CK-689A', 'CK-689B'],
@@ -71,7 +76,7 @@ const PRODUCTS = [
     id: 'ck687', model: 'CK-687', cat: 'wall',
     title: 'Kompakt Çift Akışkanlı Difüzör',
     short: '150 ml kapasiteli, mobil uygulama kontrollü, 800 m³ kapsamalı şık duvar difüzörü.',
-    desc: 'Çift akışkanlı atomizasyon ile hızlı ve eşit koku dağılımı. Akıllı kumanda ve mobil uygulama ile kolay kullanım. Gıda sınıfı, yüksek sıcaklığa dayanıklı PP gövde; FDA dahil uluslararası standartlara uygundur. Yapışkanla 3 saniyede kurulum.',
+    desc: 'Çift akışkanlı atomizasyon ile hızlı ve eşit koku dağılımı. Akıllı kumanda ve mobil uygulama ile kolay kullanım. Gıda sınıfı, yüksek sıcaklığa dayanıklı PP gövde; üretici beyanına göre FDA dahil uluslararası standartlara uygundur. Yapışkanla 3 saniyede kurulum.',
     img: 'ck687', pos: '40% 50%', gallery: 3,
     features: ['Çift akışkanlı atomizasyon', 'Uzaktan / mobil uygulama kontrolü', 'Düşük gürültü', 'Pil veya güç kaynağı', 'Dikişsiz duvar montajı', 'Zamanlı püskürtme'],
     variants: ['CK-687A (Beyaz)', 'CK-687B (Siyah)'],
@@ -82,7 +87,7 @@ const PRODUCTS = [
     id: 'ck631', model: 'CK-631', cat: 'pro', badge: 'Profesyonel',
     title: 'Hava Pompalı Klima Bağlantılı Difüzör',
     short: 'Dahili hava pompası, 800 ml kapasite ve 3500 m³ kapsama; Bluetooth/WiFi kontrol.',
-    desc: 'HVAC sistemlerine entegre edilebilen, dahili hava pompalı yenilikçi difüzör. Telefon üzerinden çalışma saatleri ve koku yoğunluğu hassas biçimde ayarlanır. Kızılötesi yağ seviyesi algılama ve soğuk hava difüzyon teknolojisi sunar. Gıda sınıfı PP, FDA uyumlu.',
+    desc: 'HVAC sistemlerine entegre edilebilen, dahili hava pompalı yenilikçi difüzör. Telefon üzerinden çalışma saatleri ve koku yoğunluğu hassas biçimde ayarlanır. Kızılötesi yağ seviyesi algılama ve soğuk hava difüzyon teknolojisi sunar. Gıda sınıfı PP; üretici beyanına göre FDA uyumlu.',
     img: 'ck631', pos: '40% 50%', gallery: 3,
     features: ['Bluetooth / WiFi uzaktan kontrol', 'Çok güçlü atomizasyon', 'Dahili hava pompası', '24 saat akıllı zamanlayıcı', 'Klima bağlantısı', 'Kızılötesi yağ seviye algılama', 'Soğuk hava difüzyonu'],
     variants: ['CK-631A (Beyaz)', 'CK-631B (Siyah)'],
@@ -92,7 +97,7 @@ const PRODUCTS = [
   {
     id: 'ck620', model: 'CK-620 / 640 / 670', cat: 'pro', badge: 'Seri',
     title: 'Yüksek Hacimli Sis Difüzör Serisi',
-    short: '1000 ml kapasite, 2.000 – 7.000 m³ kapsama, dokunmatik kontrol ve klima bağlantısı.',
+    short: '1000 ml kapasite, 2.000 - 7.000 m³ kapsama, dokunmatik kontrol ve klima bağlantısı.',
     desc: 'Yüksek sis hacimli teknolojiyle saniyeler içinde etki. Masaüstü, zemin, duvar ve merkezi klima sistemine bağlanabilir. Akıllı uygulamadan tek tuşla kontrol, CNC ekran ve ayarlanabilir koku yoğunluğu. Çok sessiz çalışma; tak-çıkar atomizer başlığı ve manyetik kilit ile sorunsuz bakım.',
     img: 'ck620', pos: '30% 50%', gallery: 3,
     features: ['Bluetooth uygulama kontrolü', 'Süper atomizasyon', 'Düşük gürültü', 'Asılabilir / zemin / masaüstü', 'Zamanlı püskürtme', 'Ultra büyük kapasite', 'Klima bağlantısı', 'Dokunmatik kontrol'],
@@ -103,12 +108,12 @@ const PRODUCTS = [
   {
     id: 'ck611', model: 'CK-611 / 612 / 613', cat: 'pro', badge: 'Çift Başlık',
     title: 'Çift Başlıklı Havacılık Alüminyum Difüzör',
-    short: '2 × 1000 / 3000 / 5000 ml seçenekli, 5.000 – 15.000 m³ kapsama alanı.',
-    desc: 'Mekânın boyutuna göre tek veya çift delikli sis seçilebilen çift atomizer başlıklı tasarım; daha hızlı koku yayılımı sağlar. Merkezi klima/taze hava sistemine bağlanabilir. Akıllı uygulama ile tek tuşla kontrol, CNC ekran ve ayarlanabilir koku yoğunluğu. Ultra sessiz çalışma ile 5.000 – 15.000 m³ alanda zamanlı koku yayılımı.',
+    short: '2 × 1000 / 3000 / 5000 ml seçenekli, 5.000 - 15.000 m³ kapsama alanı.',
+    desc: 'Mekânın boyutuna göre tek veya çift delikli sis seçilebilen çift atomizer başlıklı tasarım; daha hızlı koku yayılımı sağlar. Merkezi klima/taze hava sistemine bağlanabilir. Akıllı uygulama ile tek tuşla kontrol, CNC ekran ve ayarlanabilir koku yoğunluğu. Ultra sessiz çalışma ile 5.000 - 15.000 m³ alanda zamanlı koku yayılımı.',
     img: 'ck611', pos: '50% 50%', gallery: 3,
     features: ['Çift başlıklı atomizasyon', 'Bluetooth uygulama kontrolü', 'Süper güçlü atomizasyon', 'Düşük gürültü', 'Zamanlı püskürtme', 'Ultra büyük kapasite', 'Klima bağlantısı'],
     variants: ['CK-611A · 2 × 1000 ml', 'CK-612A · 2 × 3000 ml', 'CK-613A · 2 × 5000 ml'],
-    specs: [['Malzeme', 'Havacılık alüminyum profil'], ['Gerilim', 'DC 12V – 3A'], ['Güç', '28W'], ['Ses seviyesi', '≤ 40 dB'], ['Kapasite', '2 × 1000 / 3000 / 5000 ml'], ['Kapsama alanı', '5.000 – 15.000 m³'], ['Koli', '1 adet']],
+    specs: [['Malzeme', 'Havacılık alüminyum profil'], ['Gerilim', 'DC 12V - 3A'], ['Güç', '28W'], ['Ses seviyesi', '≤ 40 dB'], ['Kapasite', '2 × 1000 / 3000 / 5000 ml'], ['Kapsama alanı', '5.000 - 15.000 m³'], ['Koli', '1 adet']],
     use: COMMON_USE_COMMERCIAL
   },
   {
@@ -119,7 +124,7 @@ const PRODUCTS = [
     img: 'ck621', pos: '50% 50%', gallery: 3,
     features: ['Süper atomizasyon', 'Bluetooth uygulama kontrolü', 'Düşük gürültü', 'Zamanlı püskürtme', 'Ultra büyük kapasite', 'Klima bağlantısı'],
     variants: ['CK-621A · 1000 ml', 'CK-622A · 3000 ml', 'CK-623A · 5000 ml'],
-    specs: [['Malzeme', 'Havacılık alüminyum profil'], ['Gerilim', 'DC 12V – 3A'], ['Güç', '28W'], ['Ses seviyesi', '≤ 40 dB'], ['Kapasite', '1000 / 3000 / 5000 ml'], ['Kapsama alanı', '8.000 m³'], ['Koli', '1 adet']],
+    specs: [['Malzeme', 'Havacılık alüminyum profil'], ['Gerilim', 'DC 12V - 3A'], ['Güç', '28W'], ['Ses seviyesi', '≤ 40 dB'], ['Kapasite', '1000 / 3000 / 5000 ml'], ['Kapsama alanı', '8.000 m³'], ['Koli', '1 adet']],
     use: COMMON_USE_COMMERCIAL
   },
   {
@@ -163,7 +168,7 @@ const PRODUCTS = [
     img: 'ck644', pos: '40% 50%', gallery: 0,
     features: ['İki akışkanlı atomizasyon', 'Bluetooth / manuel kontrol', 'Düşük gürültü', 'Tak ve çalıştır', 'Duvarı çizmez', '24 saat modu'],
     variants: ['CK-644A (Beyaz)', 'CK-644B (Siyah)', 'İki pimli / Avrupa tipi iki yuvarlak pimli / üç pimli fiş'],
-    specs: [['Boyut', '66 × 88,5 × 212 mm'], ['Renk', 'Beyaz / Siyah'], ['Malzeme', 'PP'], ['Gerilim / Güç', '100–240V / 2,5W'], ['Ses seviyesi', '< 38 dB'], ['Kapasite', '100 ml'], ['Kapsama alanı', '300 m³'], ['Koli', '6 adet']],
+    specs: [['Boyut', '66 × 88,5 × 212 mm'], ['Renk', 'Beyaz / Siyah'], ['Malzeme', 'PP'], ['Gerilim / Güç', '100-240V / 2,5W'], ['Ses seviyesi', '< 38 dB'], ['Kapasite', '100 ml'], ['Kapsama alanı', '300 m³'], ['Koli', '6 adet']],
     use: 'Ev, banyo, asansör, koridor'
   },
   {
@@ -174,14 +179,14 @@ const PRODUCTS = [
     img: 'ck645', pos: '30% 50%', gallery: 0,
     features: ['İki akışkanlı atomizasyon', 'Bluetooth / manuel kontrol', 'Düşük gürültü', 'Tak ve çalıştır', 'Duvarı çizmez', '24 saat modu'],
     variants: ['CK-645A (Beyaz)', 'CK-645B (Siyah)'],
-    specs: [['Boyut', '70 × 61 × 270 mm'], ['Renk', 'Beyaz / Siyah'], ['Malzeme', 'PP'], ['Gerilim / Güç', '100–240V / 2,5W'], ['Ses seviyesi', '< 38 dB'], ['Kapasite', '100 ml'], ['Kapsama alanı', '300 m³'], ['Koli', '6 adet']],
+    specs: [['Boyut', '70 × 61 × 270 mm'], ['Renk', 'Beyaz / Siyah'], ['Malzeme', 'PP'], ['Gerilim / Güç', '100-240V / 2,5W'], ['Ses seviyesi', '< 38 dB'], ['Kapasite', '100 ml'], ['Kapsama alanı', '300 m³'], ['Koli', '6 adet']],
     use: 'Ev, banyo, asansör, koridor'
   },
   {
     id: 'ck613', model: 'CK-613', cat: 'plug', badge: 'Elektriksiz',
     title: 'Elektriksiz Koku Kutusu',
     short: 'Küçük alanlar için pilsiz, güvenli, iz bırakmayan pasif koku kutusu (30 m³).',
-    desc: 'Küçük alanlar için hızlı koku giderme, temiz hava sirkülasyonu ve kalıcı koku sağlayan kompakt koku kutusu. Elektriksiz çalışır; hamile ve bebekli ortamlara uygun, çevre dostu malzemelerle üretilmiştir. Gıda sınıfı PP; FDA uyumlu. 3 saniyede iz bırakmadan kurulum.',
+    desc: 'Küçük alanlar için hızlı koku giderme, temiz hava sirkülasyonu ve kalıcı koku sağlayan kompakt koku kutusu. Elektriksiz çalışır; hamile ve bebekli ortamlara uygun, çevre dostu malzemelerle üretilmiştir. Gıda sınıfı PP; üretici beyanına göre FDA uyumlu. 3 saniyede iz bırakmadan kurulum.',
     img: 'ck613', pos: '50% 50%', gallery: 3,
     features: ['Sigara kokusunu giderir', 'Temiz hava', 'Doğal bitkisel ekstrelerle', 'Kalıcı koku', 'Duvarı çizmez', 'Güvenli ve toksik değil'],
     variants: ['CK-613A (Beyaz)', 'CK-613B (Siyah)', 'CK-613C (Gri)'],
@@ -201,13 +206,13 @@ const PRODUCTS = [
   },
   {
     id: 'ck608d', model: 'CK-608D', cat: 'home', badge: 'Araç & Ev',
-    title: 'Araç Hava Temizleyici Difüzör – Rose Gold',
-    short: 'Bej / rose gold seçenekli, 2000 mAh pilli, 5–20 ml esans kapasiteli difüzör.',
+    title: 'Araç Hava Temizleyici Difüzör - Rose Gold',
+    short: 'Bej / rose gold seçenekli, 2000 mAh pilli, 5-20 ml esans kapasiteli difüzör.',
     desc: 'Kompakt ve şık tasarımıyla evde ve araçta kullanılabilir. 2000 mAh bataryası ile uzun süreli kullanım sunar.',
     img: 'ck608d', pos: '50% 50%', gallery: 0,
     features: ['Ultrasonik atomizasyon', 'Tek tuşla kontrol', 'Düşük gürültü'],
     variants: ['Bej', 'Rose Gold'],
-    specs: [['Boyut', '71 × 138 mm'], ['Renk', 'Bej / Rose Gold'], ['Malzeme', 'ABS'], ['Güç', 'DC5V-0,5A / 2,5W'], ['Pil', '2000 mAh'], ['Esans kapasitesi', '5 – 20 ml'], ['Kapsama alanı', '100 m³'], ['Koli', '60 adet']],
+    specs: [['Boyut', '71 × 138 mm'], ['Renk', 'Bej / Rose Gold'], ['Malzeme', 'ABS'], ['Güç', 'DC5V-0,5A / 2,5W'], ['Pil', '2000 mAh'], ['Esans kapasitesi', '5 - 20 ml'], ['Kapsama alanı', '100 m³'], ['Koli', '60 adet']],
     use: 'Yatak odası, çalışma odası, oturma odası, araç'
   },
   {
@@ -234,7 +239,7 @@ const PRODUCTS = [
   },
   {
     id: 'ck85', model: 'CK-85', cat: 'reed', badge: 'Çubuklu',
-    title: 'Şehirde Bahar – Çubuklu Oda Kokusu',
+    title: 'Şehirde Bahar - Çubuklu Oda Kokusu',
     short: 'Gül ve kiraz çiçeği notaları; cam şişe, ateşsiz ve dumansız.',
     desc: 'Cam şişe gövdesi, kalıcı koku ve estetik bir duruş. Ofis, çalışma odası, salon ve yatak odası gibi küçük alanlar için.',
     img: 'reed1', external: true, pos: '50% 40%', gallery: 0,
@@ -245,7 +250,7 @@ const PRODUCTS = [
   },
   {
     id: 'ck013', model: 'CK-013', cat: 'reed', badge: 'Çubuklu',
-    title: 'Çiçek Bolluğu – Çubuklu Oda Kokusu',
+    title: 'Çiçek Bolluğu - Çubuklu Oda Kokusu',
     short: 'Mavi rüzgâr çanı, yaz ferahlığı ve Hawaii plajı notaları.',
     desc: 'Sade ve zarif formu ile evi dekore eder, zevki yansıtır. Ofis, çalışma odası, salon ve yatak odası için.',
     img: 'reed3', external: true, pos: '50% 40%', gallery: 0,
@@ -256,18 +261,18 @@ const PRODUCTS = [
   },
   {
     id: 'ck014', model: 'CK-014', cat: 'reed', badge: 'Çubuklu',
-    title: 'Çiçeklerin Dansı – Çubuklu Oda Kokusu',
-    short: 'Beş yıldızlı otel esintili, 200 ml cam şişeli oda kokusu.',
-    desc: 'Cam şişe, kalıcı koku, estetik ve modern bir yaşam. Beş yıldızlı otel (Hilton, Sheraton) esinli koku profili.',
+    title: 'Çiçeklerin Dansı - Çubuklu Oda Kokusu',
+    short: 'Çiçeksi notalı, 200 ml cam şişeli oda kokusu.',
+    desc: 'Cam şişe, kalıcı koku, estetik ve modern bir yaşam. Otel lobilerini çağrıştıran çiçeksi bir koku profili.',
     img: 'reed2', external: true, pos: '50% 40%', gallery: 0,
-    features: ['Ateşsiz & dumansız', 'Kalıcı koku', 'Otel esintili koku'],
+    features: ['Ateşsiz & dumansız', 'Kalıcı koku', 'Çiçeksi koku'],
     variants: [],
-    specs: [['Kapasite', '200 ml'], ['Koku notaları', 'Çiçeksi · Beş yıldızlı otel'], ['Koli', '24 adet']],
+    specs: [['Kapasite', '200 ml'], ['Koku notaları', 'Çiçeksi'], ['Koli', '24 adet']],
     use: 'Ofis, çalışma odası, oturma odası, yatak odası'
   },
   {
     id: 'ck015', model: 'CK-015', cat: 'reed', badge: 'Çubuklu',
-    title: 'Sandal Ağacı – Çubuklu Oda Kokusu',
+    title: 'Sandal Ağacı - Çubuklu Oda Kokusu',
     short: 'Doğu odunsu notaları, çam; ruha ve bedene iyi gelen aroma.',
     desc: 'Keyifli aroması beden ve ruhu rahatlatır; şık ve kaliteli bir görünüm sunar.',
     img: 'reed4', external: true, pos: '50% 40%', gallery: 0,
@@ -279,18 +284,18 @@ const PRODUCTS = [
 ];
 
 const SCENTS = [
-  { name: 'Miss Coco', family: 'Çiçeksi · Pudralı', top: 'Portakal, limon', mid: 'Leylak, yasemin, gül, ylang-ylang', base: 'Vanilya, misk' },
+  { name: 'Yasemin & Vanilya', family: 'Çiçeksi · Pudralı', top: 'Portakal, limon', mid: 'Leylak, yasemin, gül, ylang-ylang', base: 'Vanilya, misk' },
   { name: 'Gardenya Beyaz Çay', family: 'Ferah · Çiçeksi', top: 'Beyaz çay', mid: 'Gardenya, yeşil çay, zencefil', base: 'Beyaz misk' },
   { name: 'Falling in Love with Paris', family: 'Çiçeksi · Meyvemsi', top: 'Ananas, manolya, şeftali, limon', mid: 'Papatya, menekşe, yasemin, gül', base: 'Vanilya, misk' },
-  { name: 'Sofitel', family: 'Çiçeksi · Odunsu', top: 'Limon, bergamot, hindistan cevizi', mid: 'Yasemin, vadi zambağı', base: 'Sandal, amber, meşe yosunu' },
+  { name: 'Bergamot & Sandal Ağacı', family: 'Çiçeksi · Odunsu', top: 'Limon, bergamot, hindistan cevizi', mid: 'Yasemin, vadi zambağı', base: 'Sandal, amber, meşe yosunu' },
   { name: 'Encountering White Tea', family: 'Ferah · Çay', top: 'Yeşil çay, limon, mandalina', mid: 'Beyaz çay', base: 'Beyaz amber, misk' },
-  { name: 'Denton White Tea', family: 'Ferah · Çay', top: 'Aldehit, narenciye', mid: 'Yasemin, vadi zambağı, beyaz gül', base: 'Misk' },
-  { name: 'Sheraton', family: 'Narenciye · Odunsu', top: 'Siyah frenk üzümü, Sicilya bergamotu', mid: 'Portakal çiçeği, iris, sedir', base: 'Sandal, amber, meşe yosunu' },
+  { name: 'Beyaz Gül & Misk', family: 'Ferah · Çay', top: 'Aldehit, narenciye', mid: 'Yasemin, vadi zambağı, beyaz gül', base: 'Misk' },
+  { name: 'Frenk Üzümü & İris', family: 'Narenciye · Odunsu', top: 'Siyah frenk üzümü, Sicilya bergamotu', mid: 'Portakal çiçeği, iris, sedir', base: 'Sandal, amber, meşe yosunu' },
   { name: 'Stellar Encounters', family: 'Meyvemsi · Ferah', top: 'Greyfurt, elma', mid: 'Beyaz çiçekler, yasemin, gül', base: 'Misk' },
-  { name: 'Hilton Hotel', family: 'Çiçeksi · Baharatlı', top: 'Kiraz, limon, bergamot', mid: 'Beyaz çiçek, gül, hindistan cevizi', base: 'Sandal, amber, misk' },
-  { name: 'Fifth Avenue', family: 'Gül · Odunsu', top: 'Portakal, limon', mid: 'Gül, lavanta', base: 'Sedir, amber' },
-  { name: 'Fuchik 2', family: 'Ferah · Lavanta', top: 'Taze narenciye', mid: 'Lavanta, papatya, gül', base: 'Beyaz misk, amber' },
-  { name: 'Shangri-La', family: 'Narenciye · Tatlı', top: 'Limon, misket limonu', mid: 'Adaçayı, biberiye, portakal çiçeği', base: 'Kar çamı, amber' }
+  { name: 'Kiraz & Beyaz Çiçek', family: 'Çiçeksi · Baharatlı', top: 'Kiraz, limon, bergamot', mid: 'Beyaz çiçek, gül, hindistan cevizi', base: 'Sandal, amber, misk' },
+  { name: 'Gül & Sedir', family: 'Gül · Odunsu', top: 'Portakal, limon', mid: 'Gül, lavanta', base: 'Sedir, amber' },
+  { name: 'Fougère No. 2', family: 'Ferah · Lavanta', top: 'Taze narenciye', mid: 'Lavanta, papatya, gül', base: 'Beyaz misk, amber' },
+  { name: 'Misket Limonu & Adaçayı', family: 'Narenciye · Tatlı', top: 'Limon, misket limonu', mid: 'Adaçayı, biberiye, portakal çiçeği', base: 'Kar çamı, amber' }
 ];
 
 const OILS = [
