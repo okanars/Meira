@@ -242,13 +242,13 @@
     <loc>https://www.meira.com.tr/blog-koku-pazarlamasi-nedir.html</loc>
     <lastmod>2026-10-07</lastmod>
     <priority>0.6</priority>
-    <image:image><image:loc>https://www.meira.com.tr/images/products/ck631-g1.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck631.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/blog-mekan-hacmine-gore-difuzor-secimi.html</loc>
     <lastmod>2026-10-07</lastmod>
     <priority>0.6</priority>
-    <image:image><image:loc>https://www.meira.com.tr/images/products/ck686-g1.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck686.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/blog-ultrasonik-ve-cift-akiskanli-difuzor-farki.html</loc>
@@ -260,7 +260,7 @@
     <loc>https://www.meira.com.tr/blog-klima-sistemine-koku-difuzoru-baglama.html</loc>
     <lastmod>2026-10-07</lastmod>
     <priority>0.6</priority>
-    <image:image><image:loc>https://www.meira.com.tr/images/products/ck611-g1.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck611.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/blog-koku-yorgunlugu-ve-dogru-yogunluk.html</loc>
@@ -278,6 +278,6 @@
     <loc>https://www.meira.com.tr/blog-otel-icin-koku-secimi.html</loc>
     <lastmod>2026-10-07</lastmod>
     <priority>0.6</priority>
-    <image:image><image:loc>https://www.meira.com.tr/images/products/ck687-g1.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/general/video-hotel-poster.jpg</image:loc></image:image>
   </url>
 </urlset>

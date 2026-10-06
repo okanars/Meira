@@ -94,8 +94,8 @@ const VER = { css: hashOf('css/style.css'), ...Object.fromEntries(JS_FILES.map(n
 
 // Ürün görseli: modern tarayıcıya 640 px WebP, diğerlerine özgün JPEG (images/products/w640/*.webp)
 const webpPath = (p, suffix = '') => p.external ? '' : `images/products/w640/${p.img}${suffix}.webp`;
-function pictureFor(rel, { alt = '', sizes = '(min-width: 1100px) 400px, 92vw', attrs = '' } = {}) {
-  const m = rel.match(/^images\/products\/([\w-]+)\.jpg$/);
+function pictureFor(rel, { alt = '', sizes = '(min-width: 1100px) 400px, 92vw', attrs = '', small = true } = {}) {
+  const m = small && rel.match(/^images\/products\/([\w-]+)\.jpg$/);
   const w = m && fs.existsSync(path.join(SITE, `images/products/w640/${m[1]}.webp`)) ? `images/products/w640/${m[1]}.webp` : '';
   return `<picture>${w ? `<source type="image/webp" srcset="${w} 640w" sizes="${sizes}">` : ''}<img src="${rel}" alt="${esc(alt)}"${dims(rel)}${attrs}></picture>`;
 }
@@ -531,7 +531,7 @@ function productPage(p) {
 // ---------------------------------------------------------------------------
 function postCard(post, featured = false) {
   return `<article class="post-card${featured ? ' post-card--featured' : ''}">
-          <div class="media media--3x2">${pictureFor(post.image, { sizes: featured ? '(min-width: 1100px) 700px, 92vw' : '(min-width: 1100px) 400px, (min-width: 700px) 45vw, 92vw', attrs: ' loading="lazy" decoding="async"' })}</div>
+          <div class="media media--3x2">${pictureFor(post.image, { small: !featured, sizes: '(min-width: 1100px) 400px, (min-width: 700px) 45vw, 92vw', attrs: ` loading="lazy" decoding="async" style="object-position:${post.imagePos || 'center'}"` })}</div>
           <div class="post-card__body">
             <p class="post-card__meta"><span>${esc(post.tags[0])}</span><span><time datetime="${post.date}">${trDate(post.date)}</time></span><span>${post.minutes} dk okuma</span></p>
             <h2 class="post-card__title"><a href="${postUrl(post)}" class="post-card__link">${esc(post.title)}</a></h2>
@@ -592,8 +592,8 @@ function blogPost(post) {
         <p class="post-card__meta"><span>${post.tags.map(esc).join(', ')}</span><span><time datetime="${post.date}">${trDate(post.date)}</time></span><span>${post.minutes} dk okuma</span></p>
         <h1 id="post-title">${esc(post.title)}</h1>
       </header>
-      <figure class="article__figure wrap">
-        <div class="media media--21x9"><img src="${post.image}" alt="${esc(post.imageAlt)}"${dims(post.image)} fetchpriority="high"></div>
+      <figure class="article__figure wrap${(imageSize(post.image)?.w || 0) < 900 ? ' article__figure--narrow' : ''}">
+        <div class="media"><img src="${post.image}" alt="${esc(post.imageAlt)}"${dims(post.image)} fetchpriority="high" style="object-position:${post.imagePos || 'center'}"></div>
       </figure>
       <div class="article__body wrap">
         <div class="prose prose--article">
