@@ -290,39 +290,78 @@ renk `currentColor`. Elle çizilmiş ikon yok, emoji yok.
 ## 8. Hareket
 
 Referans: Emil Kowalski'nin tasarım mühendisliği ilkeleri. Her animasyonun bir amacı vardır (durum değişimi,
-mekânsal süreklilik, geri bildirim); "güzel görünüyor" tek başına gerekçe değildir.
+mekânsal süreklilik, geri bildirim, anlatım); "güzel görünüyor" tek başına gerekçe değildir. Sıklık belirleyicidir:
+sık tekrarlanan işlem animasyonsuz, nadir ve ilk kez görülen an biraz keyif taşıyabilir.
+
+**Üç zamanlama sınıfı**
+
+| Sınıf | Süre | Örnekler |
+| :--- | :--- | :--- |
+| Arayüz geri bildirimi | 140-280 ms | Basma, hover, çekmece, menü, bildirim, sekme, galeri |
+| Giriş (pazarlama / anlatım) | 640-1200 ms | Kaydırma girişleri, görsel maskesi, sayfa girişleri, bölüm etiketi çizgisi |
+| Açılış (oturumda bir kez) | ~2,1 s, geçilebilir | Ana sayfa perdesi |
 
 | Token | Değer | Kullanım |
 | :--- | :--- | :--- |
 | `--ease-out` | `cubic-bezier(0.23, 1, 0.32, 1)` | Giriş, geri bildirim, çoğu geçiş |
-| `--ease-in-out` | `cubic-bezier(0.77, 0, 0.175, 1)` | Ekranda yer değiştiren öğe (seçim zemini, başlık geçişi) |
-| `--ease-drawer` | `cubic-bezier(0.32, 0.72, 0, 1)` | Çekmece, mobil alt sayfa |
+| `--ease-in-out` | `cubic-bezier(0.77, 0, 0.175, 1)` | Ekranda yer değiştiren öğe: görsel maskesi, perde, sekme göstergesi, çizgi çizimi |
+| `--ease-drawer` | `cubic-bezier(0.32, 0.72, 0, 1)` | Çekmece |
 | `ease` | | Renk ve zemin değişimleri (hover) |
-| `linear` | | Yalnızca sabit hızlı sürekli hareket (hero görsel akışı) |
-| `--t-press` | 140 ms | Basma geri bildirimi |
-| `--t-fast` | 180 ms | Renk, hover, çıkışlar |
-| `--t-base` | 240 ms | Giriş, opaklık |
-| `--t-panel` | 280 ms | Modal, çekmece, hero girişi |
+| `linear` | | Yalnızca sabit hızlı sürekli hareket (hero görsel akışı) ve kaydırmaya bağlı animasyonlar |
+| `--t-press` / `--t-fast` / `--t-base` / `--t-panel` | 140 / 180 / 240 / 280 ms | Arayüz |
+| `--t-enter` | 640 ms | Metin girişleri |
+| `--t-media` | 900 ms | Görsel maskesi |
 | `--press` | `scale(0.97)` | Basılabilir her öğenin `:active` durumu |
+
+**Açılış perdesi (`.site-intro`, yalnızca ana sayfa)**
+- Zaman çizelgesi: harfler 60 ms arayla bulanıklıktan netleşerek yükselir (0,1-0,9 s), şampanya çizgi soldan
+  çizilir (0,35-1,05 s), alt yazı belirir; 1,25 s'de işaret yükselip söner; 1,35 s'de perde `clip-path` ile
+  alttan yukarı açılır (0,75 s); hero metni 1,5 s'den itibaren 80 ms arayla girer, görsel duvarı hafif
+  yakınlaşmadan oturur.
+- Karar `<head>` içinde, ilk boyamadan önce verilir (`has-intro` / `no-intro`). Oynamaz: oturumda site daha önce
+  açıldıysa (her sayfa `sessionStorage['meira-visited']` yazar), azaltılmış hareket tercihinde, depolama
+  erişilemezse.
+- Zamanlama tamamen CSS'tedir; JS hata verse de perde kendiliğinden kalkar. JS yalnızca kaydırmayı kilitler ve
+  tıklama ya da tuşla geçişi sağlar (geçişte 220 ms solma, hero gecikmeleri sıfırlanır).
+
+**Kaydırma ve sayfa girişleri**
 
 | Öğe | Davranış |
 | :--- | :--- |
-| Basma | Buton, sekme, çip, sayaç, ikon butonu, küçük görsel: `:active { transform: scale(0.97) }` |
-| Hover | Yalnızca `@media (hover: hover) and (pointer: fine)` içinde. Görsel `scale(1.02)`, ok `translateX(3px)`, nav çizgisi soldan |
-| Scroll girişi | `opacity 0 → 1`, `translateY(12px) → 0`, 240 ms, IntersectionObserver, bir kez. Aynı anda görünen kardeşler 60 ms arayla (en fazla 4) |
-| Hero yüklemesi | Metin öğeleri 60 ms arayla 8 px yukarı kayarak (280 ms), görsel duvarı belirerek |
-| Çekmece | Giriş `translateX(100%)` → 0, 280 ms çekmece eğrisi. Çıkış 200 ms |
-| Mobil menü | Panel 200 ms belirir; bağlantılar 40 ms arayla 8 px yukarı kayar. Kapanış anında. Menü ikonu çarpıya döner |
-| Bildirim | Kenardan 8 px kayarak; giriş 240 ms, çıkış 160 ms; keyframe değil geçiş (art arda eklemede kesintisiz) |
-| Küratör, küçük görsel | Fareyle seçimde 200-220 ms opaklık + 3-4 px bulanıklık köprüsü (WAAPI). Klavyeyle tetiklenen tıklamada (`event.detail === 0`) animasyon yok |
-| Sayfalar arası | View Transitions: eski sayfa 160 ms söner, yeni sayfa 220 ms belirir; başlık yerinde kalır |
-| Animasyonsuz alanlar | Filtre, arama, hesaplayıcı sonuçları, klavyeyle sekme gezinmesi, çekmecedeki adet değişimi |
-| Yasak | `ease-in`, `scale(0)` girişi, `transition: all`, 300 ms ve üzeri arayüz süresi, `window.addEventListener('scroll')`, imleç takibi, dönen yükleme göstergesi |
-| İstisna | Hero görsel akışı tek sürekli animasyondur; durdur düğmesi, ekran dışında durma ve azaltılmış harekette kapanma şartıyla |
+| `.reveal` (genel) | `opacity` + `translateY(12px)`, 240 ms, IntersectionObserver, bir kez; aynı anda görünen kardeşler 60 ms arayla |
+| Metin blokları (bölüm başlığı, küratör başlığı, tanıtım, kapanış, panel) | `translateY(20px)` + `blur(6px)` → net, 640 ms, 80 ms kademe |
+| Görseller (`.reveal` içindeki `.media`) | `clip-path: inset(100% ...)` → açık, 900 ms ease-in-out; fotoğraf `scale(1.12)` → 1, 1200 ms. Bitişte maske 24 px dışarı taşar (çerçeve gölgesi kesilmez) |
+| Bölüm etiketi | Çizgi `scaleX(0)` → 1 (900 ms), baklava `rotate(-45deg) scale(.4)` → 45° |
+| Kartlar (ürün, blog, koku) | CSS `animation-timeline: view()`: kart görünüme girerken yükselir. JS yok; filtreyle yeniden çizilen kartlarda da çalışır; desteklemeyen tarayıcıda statik |
+| Hero kaydırma derinliği | `view-timeline` ile: hero metni `translateY(-72px)` ve solar, görsel sıraları `translateY(48px)` (daha yavaş) |
+| İç sayfa girişi | Başlık ve giriş 80 ms arayla bulanıklıktan yükselir; yivli panel sağdan süzülür; ürün galerisi ve makale görseli maskeyle açılır |
+| Sayfalar arası | View Transitions: eski sayfa 160 ms söner, yeni sayfa 220 ms'de 10 px yükselerek belirir; başlık yerinde kalır |
 
-**Azaltılmış hareket (`prefers-reduced-motion: reduce`):** Konum, ölçek, kırpma ve bulanıklık kapanır
-(`--press: none`, modal/çekmece/bildirim `transform: none`). Anlamaya yardım eden kısa opaklık geçişleri kalır.
-Hero akışı ve videolar oynamaz; sayfalar arası geçiş kapanır.
+**Arayüz hareketleri**
+
+| Öğe | Davranış |
+| :--- | :--- |
+| Basma | Buton, sekme, çip, sayaç, ikon butonu, küçük görsel: `scale(0.97)` |
+| Hover | Yalnızca `@media (hover: hover) and (pointer: fine)` içinde |
+| Listeye ekleme | Buton 1,6 s "Eklendi"; butondan başlıktaki sayaca şampanya nokta uçar (620 ms; yatay ease-out, dikey ease-in-out, kavisli yol); sayaç nokta vardığında büyür. Klavyeyle eklemede uçuş yok, sayaç hemen büyür |
+| Küratör | Aktif sekme çizgisi seçilen sekmeye kayar (320 ms ease-in-out); panel 220 ms bulanıklık köprüsüyle değişir. Klavyede ikisi de anında |
+| Katalog | Kategori değişiminde ızgara 260 ms yükselerek yenilenir (yalnızca fareyle; aramada yok) |
+| Çekmece | Giriş `translateX(100%)` → 0, 280 ms çekmece eğrisi; çıkış 200 ms |
+| Mobil menü | Panel 200 ms belirir; bağlantılar 40 ms arayla 8 px yükselir |
+| Bildirim | Kenardan 8 px kayarak; giriş 240 ms, çıkış 160 ms; geçiş (keyframe değil) |
+| Galeri | Tıklanan noktadan 2x yakınlaşma (280 ms); küçük görsel değişiminde 200 ms opaklık + bulanıklık |
+
+**Kurallar**
+- Yalnızca `transform`, `opacity`, `clip-path` ve (kısa) `filter` animasyonu. Bulanıklık en fazla 10 px, yalnızca metin
+  bloklarında ve açılışta; büyük görsellerde kullanılmaz.
+- `ease-in`, `scale(0)` girişi, `transition: all`, `window.addEventListener('scroll')`, imleç takibi ve dönen yükleme
+  göstergesi yok.
+- Klavyeyle tetiklenen işlemler (`event.detail === 0`) animasyonsuz.
+- Sürekli animasyon yalnızca hero görsel akışı: durdur düğmesi, ekran dışında durma, azaltılmış harekette kapalı.
+
+**Azaltılmış hareket (`prefers-reduced-motion: reduce`):** Açılış perdesi, görsel maskesi, bulanıklık, kart ve
+kaydırma animasyonları, parallaks, uçan nokta, sekme kayması ve sayfalar arası geçiş kapanır. Anlamaya yardım eden
+kısa opaklık geçişleri (180-240 ms) kalır. Hero akışı ve videolar oynamaz.
 
 ## 9. Erişilebilirlik
 
@@ -341,7 +380,8 @@ Hero akışı ve videolar oynamaz; sayfalar arası geçiş kapanır.
 | `--z-header` | 30 | Yapışkan başlık |
 | `--z-menu` | 40 | Mobil menü |
 | `--z-overlay` | 50 | Modal ve çekmece |
-| `--z-toast` | 60 | Bildirim |
+| `--z-toast` | 60 | Bildirim, sepete uçan nokta |
+| `--z-intro` | 65 | Açılış perdesi |
 | `--z-grain` | 70 | Doku katmanı (tıklanamaz) |
 
 Hero kendi içinde `isolation: isolate` ile ayrı bir katman bağlamı kurar (duvar -2, örtü -1, içerik 0).
