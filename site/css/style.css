@@ -141,6 +141,10 @@
   --t-fast: 180ms;
   --t-base: 240ms;
   --t-panel: 280ms;
+  /* Giriş (pazarlama) hareketleri: arayüz geri bildirimi değil, sayfanın kendini tanıtması.
+     Emil'in tablosunda "marketing / explanatory" sınıfı; arayüzden uzun, yine de kısa tutulur. */
+  --t-enter: 640ms;
+  --t-media: 900ms;
   --press: scale(0.97);
 
   /* Katmanlar */
@@ -148,6 +152,7 @@
   --z-menu: 40;
   --z-overlay: 50;
   --z-toast: 60;
+  --z-intro: 65;
   --z-grain: 70;
 }
 
@@ -404,7 +409,7 @@ p { text-wrap: pretty; }
 .page-head h1 { max-width: 16ch; }
 /* İç sayfa başlığının boş sağ yarısında, sola doğru kaybolan yivli panel (mimari motif, görsel yerine CSS) */
 @media (min-width: 900px) {
-  .page-head { position: relative; isolation: isolate; }
+  .page-head { position: relative; isolation: isolate; overflow-x: clip; }
   .page-head:not(:has(.split))::before {
     content: "";
     position: absolute;
@@ -952,15 +957,36 @@ a.media img,
 .hero__toggle:active { transform: var(--press); }
 @media (hover: hover) and (pointer: fine) { .hero__toggle:hover { color: var(--c-ivory); } }
 
-/* Yükleme girişi: metin öğeleri 60 ms arayla, duvar 280 ms'de belirir (her biri 300 ms altında) */
+/* Yükleme girişi: metin öğeleri 80 ms arayla bulanıklıktan netleşerek yükselir; görsel duvarı hafif
+   bir yakınlaşmadan yerine oturur. Açılış perdesi oynuyorsa hepsi perde açılırken başlar (--intro-delay). */
+.hero { --intro-delay: 0ms; }
+.has-intro .hero { --intro-delay: 1500ms; }
 .js .hero__text > *,
-.js .hero__foot { animation: rise-in var(--t-panel) var(--ease-out) both; }
-.js .hero__text > :nth-child(2) { animation-delay: 60ms; }
-.js .hero__text > :nth-child(3) { animation-delay: 120ms; }
-.js .hero__text > :nth-child(4) { animation-delay: 180ms; }
-.js .hero__text > :nth-child(5) { animation-delay: 240ms; }
-.js .hero__foot { animation-delay: 300ms; }
-.js .hero__wall { animation: fade-in var(--t-panel) var(--ease-out) both; }
+.js .hero__foot { animation: enter-up var(--t-enter) var(--ease-out) both; animation-delay: var(--intro-delay); }
+.js .hero__text > :nth-child(2) { animation-delay: calc(var(--intro-delay) + 80ms); }
+.js .hero__text > :nth-child(3) { animation-delay: calc(var(--intro-delay) + 160ms); }
+.js .hero__text > :nth-child(4) { animation-delay: calc(var(--intro-delay) + 240ms); }
+.js .hero__text > :nth-child(5) { animation-delay: calc(var(--intro-delay) + 320ms); }
+.js .hero__foot { animation-delay: calc(var(--intro-delay) + 420ms); }
+.js .hero__wall { animation: wall-settle 1400ms var(--ease-out) both; animation-delay: calc(var(--intro-delay) - 200ms); }
+@keyframes wall-settle {
+  from { opacity: 0; transform: scale(1.06); }
+  to { opacity: 1; transform: none; }
+}
+/* Perde geçildiyse (tıklama / tuş) bekleme kalmaz */
+.intro-skip .hero { --intro-delay: 0ms; }
+
+/* Kaydırırken derinlik: hero metni yavaşça uzaklaşır, görsel sıraları daha yavaş kayar.
+   Yalnızca CSS kaydırma zaman çizelgesi (scroll dinleyicisi yok); desteklemeyen tarayıcıda statik. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero { view-timeline-name: --hero; }
+    .hero__inner { animation: hero-recede linear both; animation-timeline: --hero; animation-range: exit 0% exit 100%; }
+    .hero-row { animation: hero-depth linear both; animation-timeline: --hero; animation-range: exit 0% exit 100%; }
+  }
+}
+@keyframes hero-recede { to { transform: translateY(-72px); opacity: 0.15; } }
+@keyframes hero-depth { to { transform: translateY(48px); } }
 
 @media (max-width: 899px) {
   .hero__shade {
@@ -1074,7 +1100,7 @@ a.media img,
     background: transparent;
     color: var(--c-ink);
     border-color: var(--c-line);
-    border-left-color: var(--c-accent);
+    border-left-color: transparent;
   }
   .atmosphere-tab__sub {
     display: block;
@@ -2398,6 +2424,77 @@ a.media img,
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: none; }
 }
+@keyframes enter-up {
+  from { opacity: 0; transform: translateY(18px); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: blur(0); }
+}
+@keyframes media-wipe {
+  from { clip-path: inset(100% 0 0 0); }
+  to { clip-path: inset(0); }
+}
+@keyframes media-settle { from { transform: scale(1.12); } }
+@keyframes card-rise {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* 22a. Açılış perdesi (yalnızca ana sayfa, oturumda bir kez) -------------- */
+/* Zaman çizelgesi (toplam ~2,1 s): harfler 60 ms arayla bulanıklıktan netleşir (0,1-0,9 s), şampanya
+   çizgi soldan çizilir (0,35-1,05 s), alt yazı belirir; 1,25 s'de işaret yükselip söner, perde 0,75 s'de
+   alttan yukarı açılır (ekranda yer değiştirme: ease-in-out). Zamanlama tamamen CSS'tedir; JS çalışmasa da
+   perde kendiliğinden kalkar. Tıklama veya tuş perdeyi hemen geçer (site.js). */
+.site-intro { display: none; }
+.has-intro .site-intro {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-intro);
+  display: grid;
+  place-items: center;
+  background: var(--c-noir);
+  color: var(--c-ivory);
+  animation: intro-lift 750ms var(--ease-in-out) 1350ms both;
+}
+.site-intro__mark { display: grid; justify-items: center; gap: var(--s-4); animation: intro-mark-out 450ms var(--ease-out) 1250ms both; }
+.site-intro__word {
+  display: flex;
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 2rem + 6vw, 7rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.18em;
+  margin-right: -0.18em; /* son harften sonraki aralığı dengeler */
+}
+.site-intro__word > span { display: inline-block; animation: intro-letter 800ms var(--ease-out) both; animation-delay: calc(100ms + var(--i) * 60ms); }
+.site-intro__line {
+  width: 100%;
+  height: 1px;
+  background: var(--c-champagne);
+  transform-origin: left center;
+  animation: intro-line 700ms var(--ease-in-out) 350ms both;
+}
+.site-intro__sub {
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--c-ivory-3);
+  animation: fade-in 500ms var(--ease-out) 650ms both;
+}
+@keyframes intro-letter {
+  from { opacity: 0; transform: translateY(35%); filter: blur(10px); }
+  to { opacity: 1; transform: none; filter: blur(0); }
+}
+@keyframes intro-line { from { transform: scaleX(0); } }
+@keyframes intro-mark-out { to { opacity: 0; transform: translateY(-24px); } }
+@keyframes intro-lift {
+  from { clip-path: inset(0 0 0 0); }
+  to { clip-path: inset(0 0 100% 0); visibility: hidden; }
+}
+/* Geçildiğinde: kısa bir solma (çıkış hızlı olmalı) */
+.intro-skip .site-intro { animation: intro-skip 220ms var(--ease-out) both; }
+@keyframes intro-skip { to { opacity: 0; visibility: hidden; } }
+
+/* 22b. Kaydırma girişleri --------------------------------------------------- */
 
 /* Scroll girişleri: aynı kaptaki kardeşler 60 ms arayla (--i site.js'te atanır, en fazla 4) */
 .js .reveal {
@@ -2409,6 +2506,91 @@ a.media img,
 .js .reveal.is-in {
   opacity: 1;
   transform: none;
+}
+
+/* Metin blokları: bulanıklıktan netleşerek, biraz daha uzun yükselir (bulanıklık iki durumu birleştirir) */
+.js .reveal:is(.section-head, .curator__head, .statement, .closing, .overlap__panel, .band-head > *) {
+  transform: translateY(20px);
+  filter: blur(6px);
+  transition: opacity var(--t-enter) var(--ease-out), transform var(--t-enter) var(--ease-out), filter var(--t-enter) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 80ms);
+}
+.js .reveal.is-in:is(.section-head, .curator__head, .statement, .closing, .overlap__panel, .band-head > *) { transform: none; filter: blur(0); }
+
+/* Görseller: alttan açılan maske, içindeki fotoğraf hafif yakınlaşmadan yerine oturur.
+   Bitişte maske kenarlardan 24 px dışarı taşar; çerçeve gölgeleri (kolaj) kesilmez. */
+.js .reveal .media,
+.js .media.reveal {
+  clip-path: inset(100% -24px -24px -24px);
+  transition: clip-path var(--t-media) var(--ease-in-out), opacity var(--t-base) var(--ease-out), transform var(--t-base) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 80ms);
+}
+.js .reveal.is-in .media,
+.js .media.reveal.is-in { clip-path: inset(-24px); }
+.js .reveal.is-in .media > img,
+.js .reveal.is-in .media video,
+.js .media.reveal.is-in > img { animation: media-settle 1200ms var(--ease-out) backwards; }
+
+/* Bölüm etiketi: çizgi soldan çizilir, baklava dönerek yerine gelir */
+.js .section-label.reveal::after { transform: scaleX(0); transform-origin: left center; transition: transform 900ms var(--ease-in-out) 150ms; }
+.js .section-label.reveal.is-in::after { transform: none; }
+.js .section-label.reveal::before { transform: rotate(-45deg) scale(0.4); transition: transform 600ms var(--ease-out); }
+.js .section-label.reveal.is-in::before { transform: rotate(45deg); }
+
+/* Kartlar: JS olmadan, kaydırmaya bağlı giriş (filtreyle yeniden çizilen kartlarda da çalışır).
+   Desteklemeyen tarayıcıda kartlar statik görünür. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .product-card, .post-card, .scent {
+      animation: card-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+  }
+}
+
+/* 22c. Sayfa girişleri (iç sayfalar) ---------------------------------------- */
+.js .page-head .wrap > *,
+.js .pd__info > *,
+.js .article__head > * { animation: enter-up var(--t-enter) var(--ease-out) both; }
+.js .page-head .wrap > :nth-child(2), .js .pd__info > :nth-child(2), .js .article__head > :nth-child(2) { animation-delay: 80ms; }
+.js .page-head .wrap > :nth-child(3), .js .pd__info > :nth-child(3) { animation-delay: 160ms; }
+.js .pd__info > :nth-child(4) { animation-delay: 240ms; }
+.js .pd__info > :nth-child(n+5) { animation-delay: 320ms; }
+.js .page-head::before { animation: fluted-in 1200ms var(--ease-out) both; }
+@keyframes fluted-in { from { opacity: 0; transform: translateX(48px); } }
+.js .pd__gallery .modal-zoom,
+.js .article__figure .media { animation: media-wipe var(--t-media) var(--ease-in-out) 120ms both; }
+.js .pd__gallery [data-main],
+.js .article__figure .media img { animation: media-settle 1300ms var(--ease-out) 120ms backwards; }
+
+/* Listeye ekleme: butondan başlıktaki sayaca uçan nokta (components.js, WAAPI) */
+.fly-dot {
+  position: fixed;
+  z-index: var(--z-toast);
+  width: 14px;
+  height: 14px;
+  border-radius: var(--r-round);
+  background: var(--c-champagne);
+  box-shadow: 0 0 0 2px var(--c-noir);
+  pointer-events: none;
+}
+
+/* Küratör: aktif sekmeyi gösteren çizgi seçilen sekmeye kayar (masaüstü) */
+@media (min-width: 900px) {
+  .curator__tabs { position: relative; }
+  .curator__tabs::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 2px;
+    height: var(--ind-h, 0);
+    background: var(--c-ink);
+    transform: translateY(var(--ind-y, 0));
+    transition: transform 320ms var(--ease-in-out);
+  }
+  .curator__tabs.no-anim::before { transition: none; }
 }
 
 /* Azaltılmış hareket: konum, ölçek, kırpma ve bulanıklık kapanır.
@@ -2429,7 +2611,18 @@ a.media img,
   .modal-main-img { transition: none; }
   .faq__item[open] p { animation-name: fade-in; }
   .post-card .media img { transition: none; }
-  .js .hero__text > *, .js .hero__foot { animation-name: fade-in; }
+  .js .hero__text > *, .js .hero__foot { animation-name: fade-in; animation-duration: var(--t-base); }
+  .js .hero__wall { animation: fade-in var(--t-base) ease both; }
+  .js .reveal:is(.section-head, .curator__head, .statement, .closing, .overlap__panel, .band-head > *) { filter: none; transform: none; transition: opacity var(--t-fast) ease; transition-delay: 0ms; }
+  .js .reveal .media, .js .media.reveal { clip-path: none; transition: none; }
+  .js .reveal.is-in .media > img, .js .reveal.is-in .media video, .js .media.reveal.is-in > img { animation: none; }
+  .js .section-label.reveal::after, .js .section-label.reveal::before { transition: none; }
+  .js .section-label.reveal::after { transform: none; }
+  .js .section-label.reveal::before { transform: rotate(45deg); }
+  .js .page-head .wrap > *, .js .pd__info > *, .js .article__head > * { animation: fade-in var(--t-base) ease both; animation-delay: 0ms !important; }
+  .js .page-head::before { animation: none; }
+  .js .pd__gallery .modal-zoom, .js .article__figure .media, .js .pd__gallery [data-main], .js .article__figure .media img { animation: none; }
+  .curator__tabs::before { transition: none; }
 }
 
 /* Sayfalar arası geçiş: aynı kökten sayfalarda 200 ms çapraz geçiş; başlık yerinde kalır */
@@ -2439,7 +2632,7 @@ a.media img,
 ::view-transition-old(root) { animation: 160ms var(--ease-out) both vt-out; }
 ::view-transition-new(root) { animation: 220ms var(--ease-out) both vt-in; }
 @keyframes vt-out { to { opacity: 0; } }
-@keyframes vt-in { from { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(10px); } }
 @media (prefers-reduced-motion: reduce) {
   @view-transition { navigation: none; }
 }

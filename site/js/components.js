@@ -348,20 +348,25 @@
   }
 
   let lastBadgeTotal = null;
+  let flyArrival = 0; // uçan nokta rozete ne zaman varacak (ms, performance.now)
+  function bumpBadge(b) {
+    if (reduceMotion.matches || !b.animate) return;
+    b.animate(
+      [{ transform: 'scale(1)' }, { transform: 'scale(1.28)' }, { transform: 'scale(1)' }],
+      { duration: 280, easing: EASE_OUT }
+    );
+  }
   function updateBadge() {
     const total = getCartTotalCount();
     const grew = lastBadgeTotal !== null && total > lastBadgeTotal;
     lastBadgeTotal = total;
+    const wait = Math.max(0, flyArrival - performance.now());
     document.querySelectorAll('.dc-cart-count').forEach(b => {
       b.textContent = total;
       b.classList.toggle('empty', total === 0);
-      // Liste büyüdüğünde rozet kısa bir büyüme yapar: eklenen ürünün nereye gittiğini gösterir
-      if (grew && !reduceMotion.matches && b.animate) {
-        b.animate(
-          [{ transform: 'scale(1)' }, { transform: 'scale(1.22)' }, { transform: 'scale(1)' }],
-          { duration: 260, easing: EASE_OUT }
-        );
-      }
+      // Liste büyüdüğünde rozet kısa bir büyüme yapar: eklenen ürünün nereye gittiğini gösterir.
+      // Uçan nokta varsa büyüme, nokta rozete vardığı anda olur.
+      if (grew) { if (wait) setTimeout(() => bumpBadge(b), wait); else bumpBadge(b); }
     });
     document.querySelectorAll('.quote-trigger').forEach(btn => {
       btn.setAttribute('aria-label', `Teklif listesi, ${total} adet ürün`);
@@ -371,6 +376,38 @@
   // Listeye ekleme butonları 1,6 s boyunca "Eklendi" durumuna geçer (geri bildirim tıklanan yerde).
   // Butonların kendi tıklama işleyicileri değişmez; bu dinleyici yalnızca görünümü günceller.
   const ADD_SELECTOR = '[data-act="add-quote"], [data-add], [data-add-product], [data-add-to-list]';
+  // Butondan başlıktaki sayaca uçan şampanya nokta: eklenen ürünün nereye gittiğini gösterir.
+  // Yatay hareket ease-out, dikey hareket ease-in-out: iki ayrı eğri yolu hafifçe kavisli yapar.
+  // Klavyeyle tetiklenen eklemede (event.detail === 0) ve azaltılmış harekette kullanılmaz.
+  const FLY_MS = 620;
+  function flyToCart(fromEl) {
+    if (reduceMotion.matches) return;
+    const target = Array.from(document.querySelectorAll('.quote-trigger .quote-badge')).find(el => el.offsetParent !== null);
+    if (!target || !document.body.animate) return;
+    const a = fromEl.getBoundingClientRect();
+    const b = target.getBoundingClientRect();
+    if (!b.width || !a.width) return;
+    const outer = document.createElement('span');
+    const dot = document.createElement('span');
+    outer.setAttribute('aria-hidden', 'true');
+    outer.style.cssText = `position:fixed;left:${a.left + a.width / 2 - 7}px;top:${a.top + a.height / 2 - 7}px;z-index:var(--z-toast);pointer-events:none;`;
+    dot.className = 'fly-dot';
+    dot.style.position = 'static';
+    dot.style.display = 'block'; // transform satır içi öğeye uygulanmaz
+    outer.appendChild(dot);
+    document.body.appendChild(outer);
+    const dx = (b.left + b.width / 2) - (a.left + a.width / 2);
+    const dy = (b.top + b.height / 2) - (a.top + a.height / 2);
+    outer.animate([{ transform: 'translateX(0)' }, { transform: `translateX(${dx}px)` }], { duration: FLY_MS, easing: 'cubic-bezier(0.23, 1, 0.32, 1)', fill: 'forwards' });
+    const anim = dot.animate([
+      { transform: 'translateY(0) scale(0.4)', opacity: 0 },
+      { transform: `translateY(${dy * 0.35}px) scale(1)`, opacity: 1, offset: 0.25 },
+      { transform: `translateY(${dy}px) scale(0.55)`, opacity: 1 }
+    ], { duration: FLY_MS, easing: 'cubic-bezier(0.77, 0, 0.175, 1)', fill: 'forwards' });
+    flyArrival = performance.now() + FLY_MS - 40;
+    anim.onfinish = () => outer.remove();
+  }
+
   function confirmAdded(btn) {
     const label = btn.querySelector('span');
     const use = btn.querySelector('use');
@@ -449,7 +486,9 @@
     // Yakalama aşaması: katalog kartı stopPropagation kullandığı için kabarcık aşamasına ulaşmaz
     document.addEventListener('click', (e) => {
       const btn = e.target.closest(ADD_SELECTOR);
-      if (btn && !btn.disabled) confirmAdded(btn);
+      if (!btn || btn.disabled) return;
+      if (e.detail > 0) flyToCart(btn);
+      confirmAdded(btn);
     }, true);
   }
 
@@ -762,6 +801,25 @@
     const box = document.getElementById('atmosphereContent');
     if (!tabs.length || !box) return;
 
+    // Masaüstünde aktif sekmeyi gösteren çizgi seçilen sekmeye kayar (CSS: .curator__tabs::before).
+    // Klavyeyle seçimde ve ilk yerleşimde kaymadan yerleşir.
+    const tabList = tabs[0].parentElement;
+    function placeIndicator(tab, slide) {
+      if (!tabList) return;
+      if (!slide) tabList.classList.add('no-anim');
+      tabList.style.setProperty('--ind-y', `${tab.offsetTop}px`);
+      tabList.style.setProperty('--ind-h', `${tab.offsetHeight}px`);
+      if (!slide) requestAnimationFrame(() => requestAnimationFrame(() => tabList.classList.remove('no-anim')));
+    }
+    let resizeFrame = 0;
+    window.addEventListener('resize', () => {
+      cancelAnimationFrame(resizeFrame);
+      resizeFrame = requestAnimationFrame(() => {
+        const current = tabs.find(t => t.classList.contains('active'));
+        if (current) placeIndicator(current, false);
+      });
+    });
+
     function select(tab, moveFocus, animate) {
       const key = tab.dataset.atmosphere;
       if (!ATMOSPHERES[key]) return;
@@ -772,6 +830,7 @@
         t.tabIndex = on ? 0 : -1;
       });
       box.setAttribute('aria-labelledby', tab.id);
+      placeIndicator(tab, !!animate);
       box.innerHTML = renderAtmosphere(key);
       if (animate && box.animate) {
         const frames = reduceMotion.matches
@@ -807,6 +866,13 @@
     });
 
     select(tabs.find(t => t.classList.contains('active')) || tabs[0], false, false);
+    // Yazı tipi yüklenince sekme yükseklikleri değişebilir; göstergeyi yeniden hizala
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        const current = tabs.find(t => t.classList.contains('active'));
+        if (current) placeIndicator(current, false);
+      });
+    }
   }
 
   // =========================================================================

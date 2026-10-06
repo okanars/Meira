@@ -628,11 +628,21 @@
         grid.innerHTML = filtered.map(card).join('');
       }
 
+      // Kategori değişiminde ızgara kısa bir geçişle yenilenir (fareyle seçimde; klavyede ve aramada yok)
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
       catGroup.addEventListener('click', (e) => {
         const btn = e.target.closest('.segment-btn');
         if (!btn) return;
         setCategory(btn.dataset.cat);
         renderCatalog();
+        if (e.detail > 0 && grid.animate) {
+          grid.animate(
+            reduceMotion.matches
+              ? [{ opacity: 0.4 }, { opacity: 1 }]
+              : [{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }],
+            { duration: 260, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' }
+          );
+        }
       });
 
       searchInput.addEventListener('input', (e) => {

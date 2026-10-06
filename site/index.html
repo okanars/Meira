@@ -22,11 +22,21 @@
   <link rel="preload" href="fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css">
   <script>document.documentElement.classList.add('js');</script>
+  <script>(function(d){try{if(sessionStorage.getItem('meira-visited')||matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('no-intro')}else{d.classList.add('has-intro')}}catch(e){d.classList.add('no-intro')}})(document.documentElement);</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","@id":"https://www.meira.com.tr/#organization","name":"Meira","url":"https://www.meira.com.tr/","email":"info@meira.com.tr","description":"JVCK koku difüzörleri ve esanslarının Türkiye distribütörü. Oteller, ofisler, mağazalar ve yaşam alanları için profesyonel mekân kokulandırma ürünleri ve teklif.","address":{"@type":"PostalAddress","addressLocality":"İstanbul","addressCountry":"TR"},"areaServed":"TR"}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","@id":"https://www.meira.com.tr/#website","url":"https://www.meira.com.tr/","name":"Meira","inLanguage":"tr-TR","publisher":{"@id":"https://www.meira.com.tr/#organization"}}</script>
 </head>
 <body data-section="index.html">
   <a class="skip-link" href="#main">İçeriğe geç</a>
+
+  <!-- Açılış perdesi: yalnızca oturumun ilk ana sayfa açılışında (bkz. <head> içindeki betik ve site.js) -->
+  <div class="site-intro" aria-hidden="true">
+    <div class="site-intro__mark">
+      <span class="site-intro__word" lang="en"><span style="--i:0">M</span><span style="--i:1">E</span><span style="--i:2">I</span><span style="--i:3">R</span><span style="--i:4">A</span></span>
+      <span class="site-intro__line"></span>
+      <span class="site-intro__sub">Profesyonel mekân kokulandırma</span>
+    </div>
+  </div>
 
   <header class="site-header" data-header>
     <div class="wrap site-header__inner">
@@ -113,7 +123,7 @@
 
     <section class="section section--deep" aria-labelledby="curator-title">
       <div class="wrap curator">
-        <p class="section-label curator__label" aria-hidden="true">Koku küratörü</p>
+        <p class="section-label curator__label reveal" aria-hidden="true">Koku küratörü</p>
         <div class="curator__head reveal">
           <h2 id="curator-title">Mekâna göre cihaz ve koku</h2>
           <p class="mt-4 text-2">Dört yaygın kullanım alanı için katalogdan bir başlangıç önerisi. Kesin seçim, alanın ölçülerine göre yapılır.</p>

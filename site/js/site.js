@@ -4,6 +4,32 @@
  */
 (function () {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const root = document.documentElement;
+
+  // Açılış perdesi (yalnızca ana sayfa, oturumun ilk açılışı). Karar <head> içinde verilir (has-intro);
+  // zamanlama CSS'tedir. Burada: sayfa kaydırması kilitlenir, tıklama veya tuş perdeyi geçer,
+  // süre dolunca kilit kalkar. Her sayfa oturum bayrağını yazar; site başka bir sayfadan açıldıysa
+  // ana sayfaya gelindiğinde perde oynamaz.
+  function initIntro() {
+    try { sessionStorage.setItem('meira-visited', '1'); } catch (e) { /* gizli mod vb. */ }
+    if (!root.classList.contains('has-intro')) return;
+    const INTRO_MS = 2100;
+    document.body.classList.add('is-locked');
+    let done = false;
+    function finish(skipped) {
+      if (done) return;
+      done = true;
+      if (skipped) root.classList.add('intro-skip');
+      root.classList.add('intro-done');
+      document.body.classList.remove('is-locked');
+      window.removeEventListener('pointerdown', onSkip, true);
+      window.removeEventListener('keydown', onSkip, true);
+    }
+    function onSkip() { finish(true); }
+    window.addEventListener('pointerdown', onSkip, true);
+    window.addEventListener('keydown', onSkip, true);
+    setTimeout(() => finish(false), INTRO_MS);
+  }
 
   // Scroll girişleri: IntersectionObserver, her öğe bir kez
   function initReveal() {
@@ -124,6 +150,7 @@
   }
 
   function init() {
+    initIntro();
     initHeroWall();
     initHeaderOnDark();
     initReveal();

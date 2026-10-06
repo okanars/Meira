@@ -103,7 +103,11 @@ function breadcrumbHtml(items) {
       </nav>`;
 }
 
-function head({ title, description, url, image = 'images/products/ck686.jpg', type = 'website', jsonld = [], noindex = false, dark = false, published }) {
+// Açılış perdesi kararı ilk boyamadan önce verilir: oturumda site daha önce açıldıysa ya da azaltılmış hareket
+// tercih ediliyorsa perde hiç gösterilmez (no-intro). site.js her sayfada 'meira-visited' bayrağını yazar.
+const INTRO_SCRIPT = `<script>(function(d){try{if(sessionStorage.getItem('meira-visited')||matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('no-intro')}else{d.classList.add('has-intro')}}catch(e){d.classList.add('no-intro')}})(document.documentElement);</script>`;
+
+function head({ title, description, url, image = 'images/products/ck686.jpg', type = 'website', jsonld = [], noindex = false, dark = false, published, intro = false }) {
   return `
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -124,7 +128,7 @@ ${published ? `  <meta property="article:published_time" content="${published}">
   <link rel="preload" href="fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css">
   <script>document.documentElement.classList.add('js');</script>
-${jsonld.map(ld).join('')}`;
+${intro ? `  ${INTRO_SCRIPT}\n` : ''}${jsonld.map(ld).join('')}`;
 }
 
 const NAV = [
@@ -679,7 +683,7 @@ const HAND_PAGES = {
   'index.html': {
     title: `${BRAND} | Profesyonel Koku Difüzörleri ve Mekân Kokulandırma`,
     description: 'Oteller, ofisler ve mağazalar için profesyonel koku difüzörleri, esanslar ve dolum ürünleri. JVCK ürünlerinin Türkiye distribütörü; ürün seçimi ve teklif.',
-    image: 'images/products/ck686.jpg', dark: true, jsonld: [ORG, WEBSITE]
+    image: 'images/products/ck686.jpg', dark: true, intro: true, jsonld: [ORG, WEBSITE]
   },
   'urunler.html': {
     title: `Koku Difüzörü Kataloğu: Duvar Tipi, Klima ve Masaüstü | ${BRAND}`,
