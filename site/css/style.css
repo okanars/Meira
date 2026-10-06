@@ -67,7 +67,7 @@
   --c-ink-2: #4E4A44;
   --c-ink-3: #69645C;
   --c-line: rgba(23, 22, 21, 0.12);
-  --c-line-strong: #8B857B;
+  --c-line-strong: #807A70;
   --c-accent: #2C463B;
   --c-accent-hover: #213529;
   --c-accent-tint: #DDE4DD;
@@ -563,6 +563,9 @@ p { text-wrap: pretty; }
 }
 
 @media (max-width: 520px) {
+  .site-header__inner { gap: var(--s-3); }
+  .brand { font-size: 0.95rem; letter-spacing: 0.14em; }
+  .nav-actions { gap: var(--s-1); }
   .quote-trigger__label { display: none; }
   .quote-trigger { padding: 0 var(--s-3); }
   .brand__sub { display: none; }
@@ -784,7 +787,7 @@ a.media img,
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(90deg, rgba(20, 19, 18, 0.94) 0%, rgba(20, 19, 18, 0.86) 38%, rgba(20, 19, 18, 0.58) 72%, rgba(20, 19, 18, 0.48) 100%),
+    linear-gradient(90deg, rgba(20, 19, 18, 0.94) 0%, rgba(20, 19, 18, 0.9) 45%, rgba(20, 19, 18, 0.66) 75%, rgba(20, 19, 18, 0.5) 100%),
     linear-gradient(0deg, rgba(20, 19, 18, 0.92) 0%, rgba(20, 19, 18, 0) 34%);
 }
 
@@ -891,7 +894,7 @@ a.media img,
 @media (max-width: 899px) {
   .hero__shade {
     background:
-      linear-gradient(180deg, rgba(20, 19, 18, 0.72) 0%, rgba(20, 19, 18, 0.88) 45%, rgba(20, 19, 18, 0.95) 100%);
+      linear-gradient(180deg, rgba(20, 19, 18, 0.8) 0%, rgba(20, 19, 18, 0.9) 40%, rgba(20, 19, 18, 0.95) 100%);
   }
   .hero-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; gap: var(--s-4); }
   .hero-facts dd { font-size: 1.3rem; }
@@ -2198,7 +2201,7 @@ a.media img,
   font-weight: 400;
   line-height: 0.9;
   letter-spacing: -0.035em;
-  color: #3A3632;
+  color: #6A645D;
   white-space: nowrap;
   user-select: none;
 }
