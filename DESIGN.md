@@ -203,9 +203,11 @@ olduğu için `aria-hidden`; bölümün adı başlığında ya da `aria-label`'�
 yerel olarak açık tonlara döner. İçindeki açık paneller `.theme-light` ile varsayılan tonlara geri alınır.
 Odak halkası koyu bantta şampanya.
 
-**Başlık (header):** 72 px, yapışkan. Açık sayfalarda şeffaf başlar; kaydırınca `--c-bg` %88 + bulanıklık
-ve alt çizgi. Ana sayfada hero'nun üstündeyken (`.on-dark`, IntersectionObserver) metin fildişi, kaydırınca
-gece mavisi %62 + bulanıklık. Navigasyon cümle düzeninde 15 px; aktif sayfa 1 px vurgu çizgisi, fareyle
+**Başlık (header):** 72 px, yapışkan, tüm sayfalarda gece mavisi zemin (footer ile birlikte koyu çerçeve);
+metin token'ları yerel olarak açık tonlara döner, odak halkası şampanya. Kaydırınca gece mavisi %94 + bulanıklık.
+"Teklif listesi" düğmesi başlığın en belirgin öğesidir: şampanya zemin, gece mavisi yazı, içinde gece mavisi
+sayaç rozeti (boşken çerçeveli). Mobil menü paneli de gece mavisi. Ana sayfada hero'nun üstündeyken (`.on-dark`, IntersectionObserver) zemin şeffaf, kaydırınca
+gece mavisi %72 + bulanıklık. Navigasyon cümle düzeninde 15 px; aktif sayfa 1 px vurgu çizgisi, fareyle
 üzerine gelince çizgi soldan çizilir. 1100 px altında menü butonu.
 
 **Ana sayfa girişi (hero):** `min-height: 100svh`, gece mavisi zemin; başlığın altına girer (negatif margin).

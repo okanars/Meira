@@ -433,23 +433,34 @@ p { text-wrap: pretty; }
 }
 
 /* 6. Başlık ve navigasyon --------------------------------------------------- */
+/* Başlık şeridi tüm sayfalarda gece mavisi (footer ile birlikte koyu çerçeve).
+   Metin token'ları yerel olarak açık tonlara döner (.section--dark ile aynı yaklaşım). */
 .site-header {
+  --c-ink: var(--c-ivory);
+  --c-ink-2: var(--c-ivory-2);
+  --c-ink-3: var(--c-ivory-3);
+  --c-line: var(--c-line-dark);
+  --c-line-strong: var(--c-ivory-3);
+  --c-accent: var(--c-champagne);
   position: sticky;
   top: 0;
   z-index: var(--z-header);
   height: var(--header-h);
-  border-bottom: 1px solid transparent;
+  background: var(--c-noir);
+  border-bottom: 1px solid var(--c-line-dark);
+  color: var(--c-ivory);
   transition: background-color var(--t-fast) ease, border-color var(--t-fast) ease;
 }
+.site-header :focus-visible { outline-color: var(--c-champagne); }
 .site-header.scrolled {
-  background: rgba(247, 244, 239, 0.9);
+  background: rgba(20, 28, 39, 0.94);
   -webkit-backdrop-filter: blur(14px) saturate(120%);
   backdrop-filter: blur(14px) saturate(120%);
-  border-bottom-color: var(--c-line);
+  border-bottom-color: var(--c-line-dark);
 }
 .site-header.menu-open {
-  background: var(--c-bg);
-  border-bottom-color: var(--c-line);
+  background: var(--c-noir);
+  border-bottom-color: var(--c-line-dark);
   /* backdrop-filter, sabit konumlu mobil menü için kapsayıcı blok oluşturur; menü açıkken kapatılır */
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
@@ -527,21 +538,25 @@ p { text-wrap: pretty; }
   gap: var(--s-3);
 }
 
+/* Teklif listesi: başlığın en belirgin öğesi. Şampanya zemin, gece mavisi yazı (açık üzeri koyu). */
 .quote-trigger {
   display: inline-flex;
   align-items: center;
-  gap: var(--s-2);
+  gap: var(--s-3);
   height: 44px;
-  padding: 0 var(--s-4);
-  border: 1px solid var(--c-line-strong);
+  padding: 0 var(--s-3) 0 var(--s-4);
+  background: var(--c-champagne);
+  border: 1px solid var(--c-champagne-deep);
   border-radius: var(--r);
   font-size: 0.9375rem;
   font-weight: 600;
-  color: var(--c-ink);
+  color: #141C27;
   white-space: nowrap;
   transition: color var(--t-fast) ease, background-color var(--t-fast) ease, border-color var(--t-fast) ease, transform var(--t-press) var(--ease-out);
 }
-@media (hover: hover) and (pointer: fine) { .quote-trigger:hover { background: rgba(20, 28, 39, 0.04); border-color: var(--c-ink); } }
+@media (hover: hover) and (pointer: fine) { .quote-trigger:hover { background: var(--c-champagne-deep); } }
+.quote-trigger .quote-badge { background: var(--c-noir); color: var(--c-champagne); }
+.quote-trigger .quote-badge.empty { background: transparent; color: #141C27; box-shadow: inset 0 0 0 1.5px rgba(20, 28, 39, 0.55); }
 
 .quote-badge {
   display: inline-grid;
@@ -592,7 +607,7 @@ p { text-wrap: pretty; }
     align-items: stretch;
     gap: 0;
     padding: var(--s-5) var(--gutter) var(--s-8);
-    background: var(--c-bg);
+    background: var(--c-noir);
     overflow-y: auto;
   }
   .nav.mobile-open .nav-item {
@@ -961,26 +976,9 @@ a.media img,
   .hero-facts dt { order: 2; text-align: right; }
 }
 
-/* Başlık hero'nun üstündeyken: şeffaf zemin, açık metin; kaydırınca koyu buzlu cam */
-.site-header.on-dark:not(.menu-open) { color: var(--c-ivory); }
-.site-header.on-dark:not(.menu-open) .brand,
-.site-header.on-dark:not(.menu-open) .burger-btn,
-.site-header.on-dark:not(.menu-open) .quote-trigger { color: var(--c-ivory); }
-.site-header.on-dark:not(.menu-open) .brand__sub,
-.site-header.on-dark:not(.menu-open) .nav-item { color: var(--c-ivory-2); }
-.site-header.on-dark:not(.menu-open) .nav-item.active,
-.site-header.on-dark:not(.menu-open) .nav-item:hover { color: var(--c-ivory); }
-.site-header.on-dark:not(.menu-open) .nav-item::after { background: var(--c-ivory-3); }
-.site-header.on-dark:not(.menu-open) .quote-trigger { border-color: var(--c-line-dark); }
-@media (hover: hover) and (pointer: fine) {
-  .site-header.on-dark:not(.menu-open) .quote-trigger:hover { background: rgba(244, 239, 230, 0.08); border-color: var(--c-ivory-3); }
-}
-.site-header.on-dark:not(.menu-open) .quote-badge.empty { color: var(--c-ivory-2); box-shadow: inset 0 0 0 1px var(--c-ivory-3); }
-.site-header.on-dark:not(.menu-open) .quote-badge:not(.empty) { background: var(--c-champagne); color: var(--c-ink); }
-.site-header.on-dark.scrolled:not(.menu-open) {
-  background: rgba(20, 28, 39, 0.62);
-  border-bottom-color: var(--c-line-dark);
-}
+/* Ana sayfa: başlık hero'nun üstündeyken şeffaf; kaydırınca koyu buzlu cam */
+.site-header.on-dark:not(.scrolled):not(.menu-open) { background: transparent; border-bottom-color: transparent; }
+.site-header.on-dark.scrolled:not(.menu-open) { background: rgba(20, 28, 39, 0.72); }
 
 /* Ana sayfa: tanıtım cümlesi */
 .statement {

@@ -110,7 +110,7 @@ function head({ title, description, url, image = 'images/products/ck686.jpg', ty
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(description)}">
   <meta name="robots" content="${noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}">
-  <meta name="theme-color" content="${dark ? '#141C27' : '#F7F4EF'}">
+  <meta name="theme-color" content="#141C27">
 ${noindex ? '' : `  <link rel="canonical" href="${abs(url)}">\n`}  <meta property="og:type" content="${type}">
   <meta property="og:locale" content="tr_TR">
   <meta property="og:site_name" content="${BRAND}">
