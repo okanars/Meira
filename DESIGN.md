@@ -1,6 +1,6 @@
 # Lobi Tasarım Sistemi
 
-JVCK ürünlerinin Türkiye distribütörü için B2B tanıtım ve teklif toplama sitesinin görsel dili.
+Meira (JVCK ürünlerinin Türkiye distribütörü) B2B tanıtım ve teklif sitesinin görsel dili.
 Bu belge `site/css/style.css` dosyasının kaynağıdır. CSS'teki her değişken burada tanımlanır;
 yeni bir bileşen eklemeden önce buradaki kurallara bakın.
 
@@ -29,7 +29,7 @@ Tur 2'de sektöre daha uygun bir lüks dil istendi (referans: samtida.com.tr gir
 | Önce | Sonra | Neden |
 | :--- | :--- | :--- |
 | Cormorant Garamond (başlık) | **Bodoni Moda** | Yüksek kontrastlı Didone, parfüm evlerinin ve lüks otel tabelalarının klasik karakteri. Cormorant küçük boyutta incelip silikleşiyordu. |
-| Geist (gövde) | **Jost** | Futura soyundan geometrik sans. Didone + geometrik sans, lüks moda ve parfümeride yerleşik bir eşleşme. Geist teknoloji ürünü hissi veriyordu. |
+| Geist (gövde) | **Jost**, Tur 3'te **Manrope** | Jost geometrik ve şıktı ama küçük x-yüksekliği uzun metinde okumayı zorlaştırdı; Tur 3'te okunabilirlik için Manrope'a geçildi. |
 | Taş grisi zemin `#EEEBE5` | Porselen fildişi `#F3F0EA` | Daha sıcak ve temiz; fotoğraflardaki beyaz cihazlarla daha az çatışıyor. |
 | Yalnızca açık tema | Noir hero ve footer | Lüks segmentte koyu, sinematik giriş beklentisi; ürün görselleri koyu zeminde öne çıkıyor. |
 | Çam yeşili `#2F4B40` | Yosun yeşili `#2C463B` | Aynı aile, biraz daha derin. Koku sektörünün botanik tarafına (yosun, çay, fougère) bağlanıyor. Pirinç/altın klişesinden bilinçli olarak uzak durulur. |
@@ -91,11 +91,15 @@ yoğunluk verir: `--c-ivory-2` için 5.7:1 ve üzeri, `--c-ivory` için 8.7:1 ve
 
 ## 3. Tipografi
 
+Tur 3'te okunabilirlik için yeniden düzenlendi: Bodoni Moda'nın ince çizgileri küçük boyutta, Jost'un küçük
+x-yüksekliği uzun metinde okumayı zorlaştırıyordu. Didone yalnızca büyük boyutta kaldı; geri kalan her şey
+Manrope'a geçti.
+
 | Rol | Font | Ağırlık | Not |
 | :--- | :--- | :--- | :--- |
-| Başlık (display, h1-h3), sayılar | Bodoni Moda | 400 (h3: 500), italik 400 | Değişken; `font-optical-sizing: auto` ile büyük boyutta ince kontrast |
-| Gövde ve arayüz | Jost | 300-600 (gövde 400, etiket 500) | Geometrik sans; Türkçe karakter desteği tam |
-| Teknik sayılar (tablo, kart) | Jost, `tabular-nums` | | Hizalı durur |
+| Display, h1, h2, büyük rakamlar, footer marka yazısı | Bodoni Moda | 500, italik | Değişken; `font-optical-sizing: auto`. 28 px altında kullanılmaz |
+| Gövde, arayüz, h3 ve altı, kart başlıkları, etiketler | Manrope | 400 gövde, 600 başlık/etiket | Büyük x-yüksekliği, ekranda yüksek okunabilirlik, tam Türkçe desteği |
+| Teknik sayılar (tablo, kart) | Manrope, `tabular-nums` | | Hizalı durur |
 
 Fontlar `site/fonts/` altında yerel barındırılır (değişken woff2, latin + latin-ext). Harici font isteği yoktur.
 
@@ -106,21 +110,21 @@ Fontlar `site/fonts/` altında yerel barındırılır (değişken woff2, latin +
 | `--fs-display` | `clamp(2.6rem, 1.7rem + 4.2vw, 5.6rem)` | Ana sayfa hero başlığı |
 | `--fs-h1` | `clamp(2.3rem, 1.7rem + 2.5vw, 4rem)` | Sayfa başlıkları |
 | `--fs-h2` | `clamp(1.85rem, 1.5rem + 1.5vw, 2.8rem)` | Bölüm başlıkları |
-| `--fs-h3` | `clamp(1.25rem, 1.15rem + 0.45vw, 1.55rem)` | Kart, ürün, liste başlıkları |
+| `--fs-h3` | `clamp(1.125rem, 1.05rem + 0.35vw, 1.3rem)` | Kart, ürün, liste başlıkları (Manrope 600) |
 | `--fs-lead` | `clamp(1.08rem, 1rem + 0.35vw, 1.25rem)` | Giriş paragrafı |
-| `--fs-body` | `1.0625rem` (17 px) | Gövde (Jost'un x-yüksekliği küçük olduğu için 16 px yerine 17 px) |
-| `--fs-small` | `0.9rem` | Meta, açıklama |
-| `--fs-label` | `0.75rem` | Etiket, sayaç |
-| `--tracking-caps` | `0.16em` | Büyük harf etiket, buton ve navigasyon aralığı |
+| `--fs-body` | `1.0625rem` (17 px) | Gövde, satır yüksekliği 1.7 |
+| `--fs-small` | `0.9375rem` (15 px) | Meta, açıklama |
+| `--fs-label` | `0.8125rem` (13 px) | Etiket, sayaç; altına inilmez |
+| `--tracking-caps` | `0.1em` | Büyük harf etiket, buton ve navigasyon aralığı |
 
 **Kurallar**
-- Başlıklarda harf aralığı negatif (`-0.015em`, display `-0.025em`); satır yüksekliği 1.04-1.2; gövdede 1.65.
-- Paragraf genişliği en fazla `62ch`.
+- Başlıklarda harf aralığı negatif (`-0.015em`, display `-0.025em`); satır yüksekliği 1.04-1.3.
+- Paragraf genişliği en fazla `62ch`; makale gövdesi `68ch`.
 - Vurgu için aynı fontun italiği kullanılır, başka font karıştırılmaz.
-- Butonlar, navigasyon, çipler ve etiketler: Jost 500, büyük harf, `--tracking-caps`. Üçüncül metin bağlantıları
+- Butonlar, navigasyon, çipler ve etiketler: Manrope 600, büyük harf, `--tracking-caps`. Üçüncül metin bağlantıları
   (`.link-arrow`) cümle düzeninde kalır.
-- Marka adı Bodoni Moda, büyük harf, `0.22em` aralık. Marka bağlantısı `lang="en"` taşır; aksi halde Türkçe
-  büyük harf kuralı "i" harfini "İ" yapar. Alt yazı ("Türkiye") `lang="tr"`.
+- Marka adı Bodoni Moda, büyük harf, `0.22em` aralık ("MEIRA"). Marka bağlantısı `lang="en"` taşır; aksi halde
+  Türkçe büyük harf kuralı "i" harfini "İ" yapar. Alt yazı ("Türkiye") `lang="tr"`.
 - Büyük harfli üst etiket (eyebrow), başında 36 px vurgu çizgisiyle, en fazla her üç bölümde bir.
 - Uzun tire ve orta uzunlukta tire kullanılmaz; aralıklarda kısa tire (`-`) kullanılır.
 - Başlıklarda `text-wrap: balance`, paragraflarda `text-wrap: pretty`.
@@ -206,12 +210,24 @@ kısa açıklama, kapsama ve kapasite (tabular), en altta hizalı eylemler (İnc
 **Filtre ve arama:** Metin sekmeleri; aktif sekme mürekkep rengi ve alt vurgu çizgisi. Animasyon yok.
 Arama alanının görünür etiketi vardır.
 
-**Ürün modalı:** İki sütun (galeri, içerik). Masaüstünde ortada açılır; 640 px altında alttan açılan sayfa.
-Ana görsel bir butondur (`#mZoom`): tıklanan noktadan 2 kat yakınlaşır, tekrar tıklayınca kapanır; klavyede
-merkezden. Teknik değerler etiket-değer hücrelerinden oluşan iki sütunlu ızgarada. Escape, arka plan
-tıklaması ve kapat butonu kapatır; odak modalın içinde kalır, kapanınca tetikleyen öğeye döner.
+**Ürün sayfası (`urun-<id>.html`, Tur 3):** Sayfa konumu; solda yapışkan galeri (ana görsel bir butondur,
+`[data-zoom]`: tıklanan noktadan 2 kat yakınlaşır, klavyede merkezden; küçük görseller), sağda model kodu, h1,
+kısa açıklama, dört temel değer, "Listeye ekle" ve "Teklif iste". Altında açıklama, özellikler (onay ikonlu
+liste), kapsama hacminin 3 / 4 / 6 m tavanda taban alanı karşılığı tablosu, kullanım alanları, varyantlar;
+yanda yapışkan teknik veri tablosu. Ardından dolum, SSS akordeonu (`<details>`) ve benzer ürünler.
+Ürün modalı Tur 3'te kaldırıldı; eski `urunler.html?model=` bağlantıları ürün sayfasına yönlendirilir.
 
-**Modal ve çekmece katmanı:** Kapalıyken `visibility: hidden` (odaklanılamaz); çıkış animasyonu bittikten
+**Ürün kartı bağlantısı:** Kart başlığındaki bağlantı `::after` ile tüm kartı kaplar; "Listeye ekle" butonu
+`z-index` ile onun üstündedir. Odak halkası kartın çevresine çizilir.
+
+**Blog ve belge sayfaları:** Blog dizininde ilk yazı yatay öne çıkan kart, diğerleri üç sütun. Makale gövdesi
+`.prose--article` (68ch, h2 Bodoni, h3 Manrope, ince çizgili liste işaretleri, yatay kaydırılabilir ve klavyeyle
+odaklanabilir tablolar), altında numaralı kaynak listesi. Sürdürülebilirlik sayfası yapışkan içindekiler +
+gövde düzenindedir.
+
+**SSS akordeonu:** `<details>`/`<summary>`; artı ikonu açılınca 45° döner, cevap kısa bir girişle belirir.
+
+**Çekmece katmanı:** Kapalıyken `visibility: hidden` (odaklanılamaz); çıkış animasyonu bittikten
 sonra kapanır. Karartma `::before` üzerinde ayrı belirir. JS yalnızca `.open` sınıfını değiştirir.
 
 **Teklif listesi çekmecesi:** Sağdan 440 px panel. Ürün satırı: küçük görsel, model, başlık, adet ayarı,
@@ -235,7 +251,7 @@ Odak: kenar vurgu rengi + 3 px `--c-accent-tint` halka.
 **Video:** `<figure>` içinde, altında "Görsel temsilidir." notu ve durdur/oynat butonu.
 `prefers-reduced-motion: reduce` durumunda otomatik oynatılmaz.
 
-**Footer:** Noir zemin, fildişi tonlarında metin. En altta sayfa genişliğinde büyük Bodoni marka yazısı
+**Footer:** Noir zemin, fildişi tonlarında metin; beş sütun (marka, ürün grupları, kurumsal, kaynaklar, iletişim). En altta büyük Bodoni marka yazısı
 (`.footer-wordmark`, `aria-hidden`, adı `site-config.js`'ten gelir).
 
 **İkonlar:** Phosphor Icons Light, tek SVG sprite (`site/images/icons.svg`). Boyut 16-20 px,
@@ -265,7 +281,6 @@ mekânsal süreklilik, geri bildirim); "güzel görünüyor" tek başına gerek�
 | Hover | Yalnızca `@media (hover: hover) and (pointer: fine)` içinde. Görsel `scale(1.02)`, ok `translateX(3px)`, nav çizgisi soldan |
 | Scroll girişi | `opacity 0 → 1`, `translateY(12px) → 0`, 240 ms, IntersectionObserver, bir kez. Aynı anda görünen kardeşler 60 ms arayla (en fazla 4) |
 | Hero yüklemesi | Metin öğeleri 60 ms arayla 8 px yukarı kayarak (280 ms), görsel duvarı belirerek |
-| Modal | Giriş: opaklık + `translateY(12px) scale(0.98)` → 0, 240-280 ms. Çıkış 180 ms. Mobilde alttan `translateY(100%)` |
 | Çekmece | Giriş `translateX(100%)` → 0, 280 ms çekmece eğrisi. Çıkış 200 ms |
 | Mobil menü | Panel 200 ms belirir; bağlantılar 40 ms arayla 8 px yukarı kayar. Kapanış anında. Menü ikonu çarpıya döner |
 | Bildirim | Kenardan 8 px kayarak; giriş 240 ms, çıkış 160 ms; keyframe değil geçiş (art arda eklemede kesintisiz) |
