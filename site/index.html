@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>DummyCosmetics | Profesyonel Koku Difüzörleri ve Mekân Kokulandırma</title>
   <meta name="description" content="Oteller, ofisler ve mağazalar için profesyonel koku difüzörleri, esanslar ve dolum ürünleri. JVCK ürünlerinin Türkiye distribütörü; ürün seçimi ve teklif.">
-  <meta name="theme-color" content="#EEEBE5">
+  <meta name="theme-color" content="#141312">
   <link rel="canonical" href="https://www.dummycosmetics.com.tr/index.html">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="tr_TR">
@@ -16,17 +16,17 @@
   <meta property="og:url" content="https://www.dummycosmetics.com.tr/index.html">
   <meta property="og:image" content="https://www.dummycosmetics.com.tr/images/products/ck686.jpg">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="fonts/cormorant-garamond-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="fonts/geist-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/bodoni-moda-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/jost-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
   <a class="skip-link" href="#main">İçeriğe geç</a>
 
-  <header class="site-header">
+  <header class="site-header" data-header>
     <div class="wrap site-header__inner">
-      <a href="index.html" class="brand"><span data-site="brand">DummyCosmetics</span><span class="brand__sub">Türkiye</span></a>
+      <a href="index.html" class="brand" lang="en"><span data-site="brand">DummyCosmetics</span><span class="brand__sub" lang="tr">Türkiye</span></a>
 
       <nav class="nav" id="navLinks" aria-label="Ana menü">
         <a href="urunler.html" class="nav-item">Ürünler</a>
@@ -52,46 +52,54 @@
 
   <main id="main">
 
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="wrap hero__grid">
+    <section class="hero" aria-labelledby="hero-title" data-hero>
+      <!-- Görsel duvarı: ürün ve mekân görsellerinden üç sıra; site.js doldurur, durdur/oynat düğmesiyle kontrol edilir -->
+      <div class="hero__wall" aria-hidden="true" data-hero-wall></div>
+      <div class="hero__shade" aria-hidden="true"></div>
+
+      <div class="wrap hero__inner">
         <div class="hero__text">
-          <span class="eyebrow">Profesyonel mekân kokulandırma</span>
+          <span class="eyebrow eyebrow--light">Profesyonel mekân kokulandırma</span>
           <h1 class="h-display hero__title" id="hero-title">Kokunun da bir <em>mimarisi</em> var.</h1>
           <!-- [DOĞRULANACAK] Distribütörlük: "resmi / tek yetkili" ifadeleri kaldırıldı; yetki belgesi varsa eklenebilir. -->
-          <p class="lead">Otel lobisinden butik mağazaya kadar, mekânın hacmine uygun difüzör ve esans seçimi. JVCK ürünlerinin Türkiye distribütörüyüz.</p>
-          <div class="btn-row">
-            <a href="iletisim.html" class="btn btn--primary btn--lg">Teklif iste <svg class="icon icon--move" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
-            <a href="urunler.html" class="btn btn--quiet btn--lg">Ürünleri incele</a>
-          </div>
-        </div>
-        <div class="hero__media">
-          <div class="media">
-            <img src="images/products/ck686.jpg" alt="Modern bir salonda zemine yerleştirilmiş gümüş renkli CK-686 kolon difüzör" width="1100" height="731" fetchpriority="high">
+          <p class="lead hero__lead">Otel lobisinden butik mağazaya kadar, mekânın hacmine uygun difüzör ve esans seçimi. JVCK ürünlerinin Türkiye distribütörüyüz.</p>
+          <ul class="hero__chips" aria-label="Ürün grupları">
+            <li><a href="urunler.html?cat=wall">Duvar tipi</a></li>
+            <li><a href="urunler.html?cat=pro">Profesyonel ve klima</a></li>
+            <li><a href="urunler.html?cat=plug">Prize takılan</a></li>
+            <li><a href="urunler.html?cat=home">Masaüstü</a></li>
+            <li><a href="urunler.html?cat=reed">Çubuklu kokular</a></li>
+          </ul>
+          <div class="btn-row hero__actions">
+            <a href="iletisim.html" class="btn btn--light btn--lg">Teklif iste <svg class="icon icon--move" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
+            <a href="urunler.html" class="btn btn--ghost-light btn--lg">Ürünleri incele</a>
           </div>
         </div>
       </div>
-    </section>
 
-    <section class="section section--flush-top" aria-label="Yaklaşımımız">
-      <div class="wrap statement reveal">
-        <div class="statement__main">
-          <p class="statement__text">İyi bir mekân kokusu fark edilir ama dikkat çekmez. Cihazı mekânın hacmine, kokuyu kullanım amacına göre seçiyoruz.</p>
-          <p class="mt-6"><a href="cozumler.html#hesaplayici" class="link-arrow">Hacim hesaplayıcıyı kullanın <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a></p>
-        </div>
-        <dl class="facts">
-          <div class="facts__item">
-            <dt class="facts__label">Katalogdaki ürün; duvar tipi, klima bağlantılı, prize takılan, masaüstü ve çubuklu</dt>
-            <dd class="facts__value" data-product-count>24</dd>
+      <div class="wrap hero__foot">
+        <dl class="hero-facts">
+          <div>
+            <dt>Katalogdaki ürün</dt>
+            <dd data-product-count>24</dd>
           </div>
-          <div class="facts__item">
-            <dt class="facts__label">Üretici verisine göre kapsama aralığı, en küçük koku kutusundan çift başlıklı seriye</dt>
-            <dd class="facts__value">30-15.000 m³</dd>
+          <div>
+            <dt>Kapsama aralığı (üretici verisi)</dt>
+            <dd>30-15.000 m³</dd>
           </div>
-          <div class="facts__item">
-            <dt class="facts__label">Difüzör esansı dolum seçenekleri</dt>
-            <dd class="facts__value">500 ml - 5 L</dd>
+          <div>
+            <dt>Esans dolum seçenekleri</dt>
+            <dd>500 ml - 5 L</dd>
           </div>
         </dl>
+        <button type="button" class="hero__toggle" data-wall-toggle hidden><svg class="icon icon-pause" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-pause"></use></svg><svg class="icon icon-play" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-play"></use></svg><span>Görsel akışını durdur</span></button>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Yaklaşımımız">
+      <div class="wrap statement reveal">
+        <p class="statement__text">İyi bir mekân kokusu fark edilir ama dikkat çekmez. Cihazı mekânın hacmine, kokuyu kullanım amacına göre seçiyoruz.</p>
+        <p class="statement__link"><a href="cozumler.html#hesaplayici" class="link-arrow">Hacim hesaplayıcıyı kullanın <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a></p>
       </div>
     </section>
 
@@ -201,7 +209,7 @@
     <div class="wrap">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="index.html" class="brand"><span data-site="brand">DummyCosmetics</span></a>
+          <a href="index.html" class="brand" lang="en"><span data-site="brand">DummyCosmetics</span></a>
           <!-- [DOĞRULANACAK] Distribütörlüğün kapsamı (resmi / tek yetkili) belgelenmeden bu ifadeler kullanılmamalı. -->
           <p>JVCK koku difüzörleri ve esanslarının Türkiye distribütörü. Oteller, ofisler, mağazalar ve yaşam alanları için ürün seçimi ve teklif.</p>
         </div>
@@ -225,6 +233,7 @@
           </ul>
         </div>
       </div>
+      <p class="footer-wordmark" aria-hidden="true" lang="en"><span data-site="brand">DummyCosmetics</span></p>
       <div class="footer-bottom">
         <span>© <span data-year>2026</span> <span data-site="brand">DummyCosmetics</span>. Tüm hakları saklıdır.</span>
         <span>Teknik veriler üreticinin 2025 ürün kataloğundan alınmıştır.</span>

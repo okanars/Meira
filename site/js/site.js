@@ -62,6 +62,56 @@
     });
   }
 
+  // Ana sayfa görsel duvarı: üç sıra, zıt yönlerde yavaş akış.
+  // Durdur/oynat düğmesi (WCAG 2.2.2); ekran dışındayken ve azaltılmış harekette durur.
+  const HERO_ROWS = [
+    { dur: 110, items: ['ck628', 'ck631', 'ck620', 'ck686', 'ads622', 'ck611', 'ck638', 'ck683', 'ck687', 'ck644', 'ck608ab'] },
+    { dur: 140, rev: true, items: ['ck686-g1', 'ck611-g1', 'ck621-g2', 'ck689-g1', 'ck613-g1', 'ck687-g1', 'ck688-g1', 'ck631-g1', 'ck620-g1', 'ck638-g1', 'ck688-g2'] },
+    { dur: 125, items: ['ck686-g2', 'reed2', 'ads611', 'ck656', 'ck683-g1', 'reed4', 'ck621', 'ck628-g2', 'ck645', 'reed3', 'ck689', 'reed1'] }
+  ];
+
+  function initHeroWall() {
+    const wall = document.querySelector('[data-hero-wall]');
+    if (!wall) return;
+    const tile = (name, eager) => `<figure class="hero-row__item"><img src="images/hero/${name}.jpg" alt="" width="360" height="450" decoding="async"${eager ? '' : ' loading="lazy"'}></figure>`;
+    wall.innerHTML = HERO_ROWS.map(row => {
+      // İçerik iki kez yazılır: iz yarısı kadar kayınca kesintisiz başa döner
+      const once = row.items.map((n, i) => tile(n, i < 6)).join('');
+      const twice = row.items.map(n => tile(n, false)).join('');
+      return `<div class="hero-row${row.rev ? ' hero-row--rev' : ''}"><div class="hero-row__track" style="--dur:${row.dur}s">${once}${twice}</div></div>`;
+    }).join('');
+
+    const toggle = document.querySelector('[data-wall-toggle]');
+    if (reduceMotion.matches || !toggle) return;
+    const label = toggle.querySelector('span');
+    let userPaused = false;
+    let offscreen = false;
+    function apply() {
+      wall.classList.toggle('is-paused', userPaused || offscreen);
+      toggle.setAttribute('aria-pressed', String(userPaused));
+      if (label) label.textContent = userPaused ? 'Görsel akışını oynat' : 'Görsel akışını durdur';
+    }
+    toggle.hidden = false;
+    toggle.addEventListener('click', () => { userPaused = !userPaused; apply(); });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([entry]) => { offscreen = !entry.isIntersecting; apply(); }).observe(wall);
+    }
+    apply();
+  }
+
+  // Başlık, koyu hero'nun üstündeyken açık renkli metne geçer (scroll dinleyicisi yok)
+  function initHeaderOnDark() {
+    const header = document.querySelector('[data-header]');
+    const hero = document.querySelector('[data-hero]');
+    if (!header || !hero) return;
+    header.classList.add('on-dark');
+    if (!('IntersectionObserver' in window)) return;
+    const headerH = header.offsetHeight || 72;
+    new IntersectionObserver(([entry]) => {
+      header.classList.toggle('on-dark', entry.isIntersecting);
+    }, { rootMargin: `0px 0px -${Math.max(window.innerHeight - headerH, 0)}px 0px` }).observe(hero);
+  }
+
   function initYear() {
     const y = String(new Date().getFullYear());
     document.querySelectorAll('[data-year]').forEach(el => { el.textContent = y; });
@@ -74,6 +124,8 @@
   }
 
   function init() {
+    initHeroWall();
+    initHeaderOnDark();
     initReveal();
     initVideos();
     initYear();
