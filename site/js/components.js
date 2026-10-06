@@ -192,7 +192,8 @@
       `;
 
       container.appendChild(el);
-      requestAnimationFrame(() => el.classList.add('show'));
+      void el.offsetWidth; // başlangıç durumunu uygulat, giriş geçişi çalışsın
+      el.classList.add('show');
 
       setTimeout(() => {
         el.classList.remove('show');
@@ -328,6 +329,7 @@
     closeMobileMenu();
     // Açık bildirimler çekmecenin üzerinde kalmasın
     document.querySelectorAll('#dc-toast-container .toast').forEach(t => t.remove());
+    void overlay.offsetWidth; // yeni oluşturulduysa giriş geçişi için başlangıç durumunu uygulat
     overlay.classList.add('open');
     document.body.classList.add('is-locked');
     document.getElementById('dc-drawer-close')?.focus();
