@@ -1,44 +1,34 @@
 <!DOCTYPE html>
+<!-- Marka adı "DummyCosmetics" geçicidir. Tek yerden yönetim: js/site-config.js (ayrıntı README.md). -->
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ürün Kataloğu | DummyCosmetics Profesyonel Koku Difüzörleri</title>
-  <meta name="description" content="21 farklı profesyonel difüzör modeli: duvar tipi, HVAC klima entegreli, masaüstü, pilli ve çubuklu oda kokuları. Teknik özellikler ve teklif listesi.">
-  <meta name="theme-color" content="#f7f5f0">
+  <meta name="description" content="Duvar tipi, klima bağlantılı, prize takılan, masaüstü difüzörler ve çubuklu oda kokuları. 24 ürünün teknik özellikleri ve teklif listesi.">
+  <meta name="theme-color" content="#EEEBE5">
+  <link rel="canonical" href="https://www.dummycosmetics.com.tr/urunler.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="tr_TR">
+  <meta property="og:site_name" content="DummyCosmetics">
+  <meta property="og:title" content="Ürün Kataloğu | DummyCosmetics Profesyonel Koku Difüzörleri">
+  <meta property="og:description" content="Duvar tipi, klima bağlantılı, prize takılan, masaüstü difüzörler ve çubuklu oda kokuları. 24 ürünün teknik özellikleri ve teklif listesi.">
+  <meta property="og:url" content="https://www.dummycosmetics.com.tr/urunler.html">
+  <meta property="og:image" content="https://www.dummycosmetics.com.tr/images/products/ck688.jpg">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/cormorant-garamond-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/geist-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css">
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
-  <!-- Top Announcement Bar -->
-  <div class="top-announcement">
-    <div class="container announcement-inner">
-      <div class="announcement-badge">
-        <span class="brand-status-dot"></span>
-        <span>21 PROFESYONEL MODEL</span>
-      </div>
-      <div class="announcement-text">
-        Duvar Tipi, HVAC Klima Entegreli, Masaüstü ve Pilli Akıllı Koku Difüzörleri
-      </div>
-      <a href="iletisim.html?konu=katalog" class="announcement-link">
-        <span>Teknik PDF İndir / Teklif İste</span>
-        <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12"><path fill-rule="evenodd" d="M3.75 8a.75.75 0 01.75-.75h7.19L9.22 4.78a.75.75 0 011.06-1.06l3.75 3.75a.75.75 0 010 1.06l-3.75 3.75a.75.75 0 01-1.06-1.06l2.47-2.47H4.5A.75.75 0 013.75 8z" clip-rule="evenodd"/></svg>
-      </a>
-    </div>
-  </div>
+  <a class="skip-link" href="#main">İçeriğe geç</a>
 
-  <!-- Header -->
   <header class="site-header">
-    <div class="container nav-wrap">
-      <a href="index.html" class="brand" aria-label="DummyCosmetics Ana Sayfa">
-        <span class="brand-symbol">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 2.5c4.5 6 8.5 9.5 8.5 14a8.5 8.5 0 1 1-17 0c0-4.5 4-8 8.5-14z"/></svg>
-        </span>
-        <span>Dummy<em>Cosmetics</em></span>
-      </a>
+    <div class="wrap site-header__inner">
+      <a href="index.html" class="brand"><span data-site="brand">DummyCosmetics</span><span class="brand__sub">Türkiye</span></a>
 
-      <nav class="nav-links" id="navLinks" aria-label="Ana Menü">
-        <a href="index.html" class="nav-item">Ana Sayfa</a>
+      <nav class="nav" id="navLinks" aria-label="Ana menü">
         <a href="urunler.html" class="nav-item">Ürünler</a>
         <a href="cozumler.html" class="nav-item">Çözümler</a>
         <a href="teknoloji.html" class="nav-item">Teknoloji</a>
@@ -48,163 +38,179 @@
       </nav>
 
       <div class="nav-actions">
-        <button class="quote-trigger" aria-label="Teklif Listesi">
-          <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15"><path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"/></svg>
-          <span>Teklif Listesi</span>
-          <span class="quote-badge dc-cart-count empty">0</span>
+        <button type="button" class="quote-trigger" aria-label="Teklif listesi">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-clipboard-text"></use></svg>
+          <span class="quote-trigger__label">Teklif listesi</span>
+          <span class="quote-badge dc-cart-count empty" aria-hidden="true">0</span>
         </button>
-        <button class="burger-btn" id="burgerBtn" aria-label="Menü"><span></span><span></span><span></span></button>
+        <button type="button" class="burger-btn" id="burgerBtn" aria-label="Menü" aria-expanded="false" aria-controls="navLinks">
+          <svg class="icon icon--lg icon-open" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-list"></use></svg><svg class="icon icon--lg icon-close" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-x"></use></svg>
+        </button>
       </div>
     </div>
   </header>
 
-  <main>
-    <!-- Page Hero -->
-    <section class="page-hero">
-      <div class="container">
-        <span class="eyebrow">Tam Ürün Gamı</span>
-        <h1>Profesyonel Koku Difüzörleri</h1>
-        <p>
-          Küçük butik ofislerden 15.000 m³ havalimanı ve otel komplekslerine kadar tüm alanlar için soğuk nano atomizasyonlu difüzör ve esans çözümleri.
-        </p>
+  <main id="main">
+
+    <section class="page-head" aria-labelledby="page-title">
+      <div class="wrap">
+        <h1 id="page-title">Ürün kataloğu</h1>
+        <p class="lead">Duvar tipi ve klima bağlantılı difüzörlerden masaüstü modellere ve çubuklu oda kokularına kadar <span data-product-count>24</span> ürün. İlgilendiklerinizi listeye ekleyin, tek formla teklif isteyin.</p>
       </div>
     </section>
 
-    <!-- Catalog Content -->
-    <section class="section" style="padding-top:40px;">
-      <div class="container">
-        <!-- Toolbar: Segmented Filters & Search -->
-        <div class="filter-toolbar">
-          <div class="segmented-group" id="catGroup">
-            <button class="segment-btn active" data-cat="all">Tüm Ürünler (21)</button>
-            <button class="segment-btn" data-cat="wall">Duvar Tipi</button>
-            <button class="segment-btn" data-cat="pro">Profesyonel &amp; Klima</button>
-            <button class="segment-btn" data-cat="plug">Prize Takılan &amp; Pasif</button>
-            <button class="segment-btn" data-cat="home">Ev, Araç &amp; Masaüstü</button>
-            <button class="segment-btn" data-cat="reed">Çubuklu Kokular</button>
-          </div>
-
+    <div class="catalog-bar">
+      <div class="wrap catalog-bar__inner">
+        <div class="filter-tabs" id="catGroup" role="group" aria-label="Kategori">
+          <button type="button" class="segment-btn active" data-cat="all" aria-pressed="true">Tümü <span class="count"></span></button>
+          <button type="button" class="segment-btn" data-cat="wall" aria-pressed="false">Duvar tipi <span class="count"></span></button>
+          <button type="button" class="segment-btn" data-cat="pro" aria-pressed="false">Profesyonel ve klima <span class="count"></span></button>
+          <button type="button" class="segment-btn" data-cat="plug" aria-pressed="false">Prize takılan ve pasif <span class="count"></span></button>
+          <button type="button" class="segment-btn" data-cat="home" aria-pressed="false">Ev, araç ve masaüstü <span class="count"></span></button>
+          <button type="button" class="segment-btn" data-cat="reed" aria-pressed="false">Çubuklu kokular <span class="count"></span></button>
+        </div>
+        <div class="field-search">
+          <label for="searchInput">Ara</label>
           <div class="search-input-wrap">
-            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
-            <input type="text" id="searchInput" placeholder="Model veya özellik ara (örn: 800 m³, alüminyum)...">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-magnifying-glass"></use></svg>
+            <input type="search" id="searchInput" placeholder="ör. CK-688, alüminyum, 800 m³" autocomplete="off">
           </div>
         </div>
-
-        <!-- Products Grid -->
-        <div class="grid-3" id="catalogGrid"></div>
-        <div id="catalogEmpty" style="display:none;text-align:center;padding:4rem 1rem;color:var(--text-tertiary);font-size:14px;">
-          Aramanızla eşleşen ürün bulunamadı. Lütfen filtreleri temizleyip tekrar deneyin.
-        </div>
       </div>
+    </div>
+
+    <section class="wrap catalog-section" aria-label="Ürünler">
+      <p class="catalog-status" id="catalogStatus" aria-live="polite"></p>
+      <div class="product-grid" id="catalogGrid"></div>
+      <div class="empty-state" id="catalogEmpty" hidden>
+        <h2>Eşleşen ürün yok</h2>
+        <p>Aramayı kısaltmayı veya tüm kategorilere dönmeyi deneyin.</p>
+        <button type="button" class="btn btn--quiet" id="catalogReset">Filtreleri temizle</button>
+      </div>
+      <p class="note source-note">Teknik veriler üreticinin 2025 ürün kataloğundan alınmıştır. Değerler modele ve varyanta göre değişebilir; kesin bilgi teklif aşamasında teyit edilir.</p>
     </section>
+
   </main>
 
-  <!-- Product Inspection Modal -->
-  <div class="modal-overlay" id="productModal" role="dialog" aria-modal="true">
-    <div class="modal-card">
-      <button class="modal-close-btn" id="modalCloseBtn" aria-label="Kapat">
-        <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-      </button>
+  <div class="modal-overlay" id="productModal">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+      <button type="button" class="icon-btn modal-close-btn" id="modalCloseBtn" aria-label="Ürün detayını kapat"><svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-x"></use></svg></button>
 
       <div class="modal-gallery">
-        <img src="" alt="" class="modal-main-img" id="mMainImg">
+        <img alt="" class="modal-main-img" id="mMainImg">
         <div class="modal-thumb-row" id="mThumbRow"></div>
       </div>
 
       <div class="modal-content">
         <div>
-          <span class="mono-tag" id="mCode" style="color:var(--accent);">MODEL KODU</span>
-          <h2 id="mTitle" style="font-size:1.6rem;margin:0.25rem 0 0.5rem;">Ürün Adı</h2>
-          <p id="mDesc" style="color:var(--text-secondary);font-size:13.5px;line-height:1.6;"></p>
+          <p class="modal-code" id="mCode"></p>
+          <h2 id="mTitle">Ürün</h2>
+          <p class="modal-desc" id="mDesc"></p>
         </div>
 
-        <div>
-          <h4 style="font-size:12px;font-family:var(--mono);text-transform:uppercase;color:var(--text-tertiary);margin-bottom:0.5rem;">Teknoloji &amp; Fonksiyonlar</h4>
+        <div class="modal-block">
+          <h3>Özellikler</h3>
           <div class="tag-list" id="mTags"></div>
         </div>
 
-        <div id="mVariantsBox">
-          <h4 style="font-size:12px;font-family:var(--mono);text-transform:uppercase;color:var(--text-tertiary);margin-bottom:0.5rem;">Mevcut Varyantlar</h4>
-          <ul id="mVariants" style="list-style:none;font-size:12.5px;color:var(--text-secondary);display:grid;gap:4px;"></ul>
+        <div class="modal-block" id="mVariantsBox">
+          <h3>Varyantlar</h3>
+          <ul class="variant-list" id="mVariants"></ul>
         </div>
 
-        <div>
-          <h4 style="font-size:12px;font-family:var(--mono);text-transform:uppercase;color:var(--text-tertiary);margin-bottom:0.5rem;">Teknik Parametreler</h4>
-          <table class="modal-spec-table"><tbody id="mSpecs"></tbody></table>
+        <div class="modal-block">
+          <h3>Teknik veriler</h3>
+          <dl class="spec-grid" id="mSpecs"></dl>
+          <p class="mt-3 note">Üretici katalog verisidir.</p>
         </div>
 
-        <div>
-          <h4 style="font-size:12px;font-family:var(--mono);text-transform:uppercase;color:var(--text-tertiary);margin-bottom:0.35rem;">Önerilen Kullanım Alanları</h4>
-          <p id="mUse" style="font-size:12.5px;color:var(--text-secondary);"></p>
+        <div class="modal-block">
+          <h3>Kullanım alanları</h3>
+          <p class="meta" id="mUse"></p>
         </div>
 
-        <div style="display:flex;gap:0.75rem;padding-top:1rem;border-top:1px solid var(--border-subtle);margin-top:auto;">
-          <button class="btn btn-accent btn-full" id="mBtnAddQuote">Teklif Listesine Ekle</button>
-          <button class="btn btn-secondary" id="mBtnQuickQuote">Hemen Teklif İste</button>
+        <div class="modal-actions">
+          <button type="button" class="btn btn--primary" id="mBtnAddQuote"><svg class="icon icon--sm" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-plus"></use></svg><span>Listeye ekle</span></button>
+          <button type="button" class="btn btn--quiet" id="mBtnQuickQuote">Teklif iste</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Footer -->
   <footer class="site-footer">
-    <div class="container">
+    <div class="wrap">
       <div class="footer-grid">
-        <div class="footer-col">
-          <a href="index.html" class="brand" style="margin-bottom:1rem;">
-            <span class="brand-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2.5c4.5 6 8.5 9.5 8.5 14a8.5 8.5 0 1 1-17 0c0-4.5 4-8 8.5-14z"/></svg></span>
-            <span>Dummy<em>Cosmetics</em></span>
-          </a>
-          <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;max-width:320px;">
-            Türkiye resmi distribütörü. Oteller, mağazalar, kurumsal ofisler ve yaşam alanları için profesyonel koku difüzyon teknolojileri.
-          </p>
+        <div class="footer-brand">
+          <a href="index.html" class="brand"><span data-site="brand">DummyCosmetics</span></a>
+          <!-- [DOĞRULANACAK] Distribütörlüğün kapsamı (resmi / tek yetkili) belgelenmeden bu ifadeler kullanılmamalı. -->
+          <p>JVCK koku difüzörleri ve esanslarının Türkiye distribütörü. Oteller, ofisler, mağazalar ve yaşam alanları için ürün seçimi ve teklif.</p>
         </div>
-        <div class="footer-col">
-          <h4>Sayfalar</h4>
+        <div class="footer-col footer-col--a">
+          <h2>Site</h2>
           <ul>
-            <li><a href="index.html">Ana Sayfa</a></li>
-            <li><a href="urunler.html">Ürün Kataloğu</a></li>
-            <li><a href="cozumler.html">Sektörel Çözümler</a></li>
+            <li><a href="urunler.html">Ürünler</a></li>
+            <li><a href="cozumler.html">Çözümler</a></li>
             <li><a href="teknoloji.html">Teknoloji</a></li>
+            <li><a href="esanslar.html">Esanslar</a></li>
+            <li><a href="kurumsal.html">Kurumsal &amp; OEM</a></li>
           </ul>
         </div>
-        <div class="footer-col">
-          <h4>Koleksiyon</h4>
+        <div class="footer-col footer-col--b">
+          <h2>İletişim</h2>
           <ul>
-            <li><a href="esanslar.html">Otel Koku Serisi</a></li>
-            <li><a href="esanslar.html#oils">Esans Kartuş &amp; Yağlar</a></li>
-            <li><a href="kurumsal.html">OEM &amp; Özel Koku</a></li>
-            <li><a href="iletisim.html">Teklif Al</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>İletişim</h4>
-          <ul>
-            <li><a href="mailto:info@dummycosmetics.com.tr">info@dummycosmetics.com.tr</a></li>
-            <li><a href="tel:+902120000000">+90 212 000 00 00</a></li>
-            <li style="color:var(--text-tertiary);">İstanbul, Türkiye</li>
+            <li><a href="mailto:info@dummycosmetics.com.tr" data-site-href="email"><span data-site="email">info@dummycosmetics.com.tr</span></a></li>
+            <li><a href="tel:+902120000000" data-site-href="phone"><span data-site="phone">+90 212 000 00 00</span></a></li>
+            <li><span data-site="city">İstanbul, Türkiye</span></li>
+            <li><a href="iletisim.html">Teklif formu</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <span>© <script>document.write(new Date().getFullYear())</script> DummyCosmetics Türkiye Distribütörlüğü. Tüm hakları saklıdır.</span>
-        <span>Mühendislik &amp; Tasarım: Emil Kowalski Kısıtlamaları</span>
+        <span>© <span data-year>2026</span> <span data-site="brand">DummyCosmetics</span>. Tüm hakları saklıdır.</span>
+        <span>Teknik veriler üreticinin 2025 ürün kataloğundan alınmıştır.</span>
       </div>
     </div>
   </footer>
 
+  <script src="js/site-config.js"></script>
   <script src="js/products.js"></script>
   <script src="js/components.js"></script>
+  <script src="js/site.js"></script>
   <script>
     (function () {
+      const { icon, esc, trapFocus } = DummyApp;
+      const CATS = ['all', 'wall', 'pro', 'plug', 'home', 'reed'];
       let activeCat = 'all';
       let searchQuery = '';
       let currentModalProduct = null;
+      let returnFocus = null;
 
       const grid = document.getElementById('catalogGrid');
       const empty = document.getElementById('catalogEmpty');
+      const status = document.getElementById('catalogStatus');
       const catGroup = document.getElementById('catGroup');
+      const catButtons = Array.from(catGroup.querySelectorAll('.segment-btn'));
       const searchInput = document.getElementById('searchInput');
+
+      const imgPath = (p, suffix = '') => `images/${p.external ? 'general' : 'products'}/${p.img}${suffix}.jpg`;
+      const spec = (p, re) => (p.specs.find(s => re.test(s[0])) || [])[1] || '';
+
+      // Kategori sayıları ürün verisinden
+      catButtons.forEach(btn => {
+        const c = btn.dataset.cat;
+        const n = c === 'all' ? PRODUCTS.length : PRODUCTS.filter(p => p.cat === c).length;
+        const el = btn.querySelector('.count');
+        if (el) el.textContent = n;
+      });
+
+      function setCategory(cat) {
+        activeCat = CATS.includes(cat) ? cat : 'all';
+        catButtons.forEach(b => {
+          const on = b.dataset.cat === activeCat;
+          b.classList.toggle('active', on);
+          b.setAttribute('aria-pressed', String(on));
+        });
+      }
 
       function renderCatalog() {
         if (typeof PRODUCTS === 'undefined') return;
@@ -212,42 +218,37 @@
         const filtered = PRODUCTS.filter(p => {
           const catMatch = activeCat === 'all' || p.cat === activeCat;
           const searchMatch = !searchQuery || (
-            p.model + ' ' + p.title + ' ' + p.short + ' ' + p.desc + ' ' + p.features.join(' ')
+            p.model + ' ' + p.title + ' ' + p.short + ' ' + p.desc + ' ' + p.features.join(' ') + ' ' + p.specs.map(s => s[1]).join(' ')
           ).toLocaleLowerCase('tr').includes(searchQuery);
           return catMatch && searchMatch;
         });
 
         if (!filtered.length) {
           grid.innerHTML = '';
-          empty.style.display = 'block';
+          empty.hidden = false;
+          status.textContent = 'Eşleşen ürün yok.';
           return;
         }
-        empty.style.display = 'none';
+        empty.hidden = true;
+        status.textContent = `${filtered.length} ürün gösteriliyor`;
 
         grid.innerHTML = filtered.map(p => {
-          const imgPath = `images/${p.external ? 'general' : 'products'}/${p.img}.jpg`;
-          const cap = p.specs.find(s => /kapasite/i.test(s[0]))?.[1] || '-';
-          const area = p.specs.find(s => /kapsama/i.test(s[0]))?.[1] || '-';
-          const noise = p.specs.find(s => /ses/i.test(s[0]))?.[1] || '';
-
+          const cap = spec(p, /kapasite/i);
+          const area = spec(p, /kapsama/i);
           return `
-            <article class="card product-card" data-id="${p.id}">
-              <div class="product-media">
-                <img src="${imgPath}" alt="${p.model}" loading="lazy">
-                ${p.badge ? `<span class="product-pill">${p.badge}</span>` : ''}
-              </div>
-              <div class="product-body">
-                <span class="product-code">${p.model}</span>
-                <h3>${p.title}</h3>
-                <p class="product-desc">${p.short}</p>
-                <div class="product-specs-row">
-                  <span>${area}</span>
-                  <span>${cap}</span>
-                  ${noise ? `<span>${noise}</span>` : ''}
+            <article class="product-card" data-id="${esc(p.id)}">
+              <div class="media"><img src="${imgPath(p)}" alt="${esc(p.model + ' ' + p.title)}" loading="lazy" style="object-position:${esc(p.pos || 'center')}"></div>
+              <div class="product-card__body">
+                <div class="product-card__top">
+                  <span class="product-card__code">${esc(p.model)}</span>
+                  ${p.badge ? `<span>${esc(p.badge)}</span>` : ''}
                 </div>
-                <div class="product-footer">
-                  <button class="btn btn-secondary btn-sm" data-act="inspect">Detay</button>
-                  <button class="btn btn-accent btn-sm" data-act="add-quote">+ Teklif Ekle</button>
+                <h2 class="product-card__title">${esc(p.title)}</h2>
+                <p class="product-card__desc">${esc(p.short)}</p>
+                <p class="product-card__meta">${[area, cap].filter(Boolean).map(x => `<span>${esc(x)}</span>`).join('')}</p>
+                <div class="product-card__actions">
+                  <button type="button" class="link-arrow" data-act="inspect" aria-label="${esc(p.model)} detaylarını incele">İncele ${icon('arrow-right')}</button>
+                  <button type="button" class="btn-add" data-act="add-quote" aria-label="${esc(p.model)} ürününü teklif listesine ekle">${icon('plus')}<span>Listeye ekle</span></button>
                 </div>
               </div>
             </article>
@@ -255,23 +256,29 @@
         }).join('');
       }
 
-      // Filter tabs
+      // Kategori filtresi
       catGroup.addEventListener('click', (e) => {
         const btn = e.target.closest('.segment-btn');
         if (!btn) return;
-        catGroup.querySelectorAll('.segment-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        activeCat = btn.dataset.cat;
+        setCategory(btn.dataset.cat);
         renderCatalog();
       });
 
-      // Search input
+      // Arama
       searchInput.addEventListener('input', (e) => {
         searchQuery = e.target.value.trim().toLocaleLowerCase('tr');
         renderCatalog();
       });
 
-      // Card actions (Inspect & Quick add)
+      document.getElementById('catalogReset').addEventListener('click', () => {
+        searchInput.value = '';
+        searchQuery = '';
+        setCategory('all');
+        renderCatalog();
+        searchInput.focus();
+      });
+
+      // Kart eylemleri (incele, listeye ekle)
       grid.addEventListener('click', (e) => {
         const card = e.target.closest('.product-card');
         if (!card) return;
@@ -283,67 +290,76 @@
           return;
         }
 
-        openModal(id);
+        openModal(id, card.querySelector('[data-act="inspect"]'));
       });
 
       // Modal
       const modal = document.getElementById('productModal');
+      const modalCard = modal.querySelector('.modal-card');
       const modalCloseBtn = document.getElementById('modalCloseBtn');
 
-      function openModal(id) {
+      function openModal(id, trigger) {
         const p = PRODUCTS.find(prod => prod.id === id);
         if (!p) return;
         currentModalProduct = p;
+        returnFocus = trigger || document.activeElement;
 
         const mainImg = document.getElementById('mMainImg');
-        const imgPath = `images/${p.external ? 'general' : 'products'}/${p.img}.jpg`;
-        mainImg.src = imgPath;
-        mainImg.alt = p.model;
+        mainImg.src = imgPath(p);
+        mainImg.alt = `${p.model} ${p.title}`;
+        mainImg.style.objectPosition = p.pos || 'center';
 
-        // Gallery thumbs
+        // Galeri küçük görselleri
         const thumbRow = document.getElementById('mThumbRow');
-        const images = [imgPath];
+        const images = [imgPath(p)];
         for (let i = 1; i <= (p.gallery || 0); i++) {
-          images.push(`images/products/${p.img}-g${i}.jpg`);
+          images.push(imgPath(p, '-g' + i));
         }
 
         if (images.length > 1) {
           thumbRow.innerHTML = images.map((src, i) => `
-            <button class="modal-thumb ${i === 0 ? 'active' : ''}" data-src="${src}" aria-label="Görsel ${i + 1}">
+            <button type="button" class="modal-thumb ${i === 0 ? 'active' : ''}" data-src="${src}" data-i="${i}" aria-label="Görsel ${i + 1} / ${images.length}" aria-pressed="${i === 0}">
               <img src="${src}" alt="">
             </button>
           `).join('');
-          thumbRow.style.display = 'flex';
+          thumbRow.hidden = false;
         } else {
-          thumbRow.style.display = 'none';
+          thumbRow.innerHTML = '';
+          thumbRow.hidden = true;
         }
 
         document.getElementById('mCode').textContent = p.model;
         document.getElementById('mTitle').textContent = p.title;
         document.getElementById('mDesc').textContent = p.desc;
-        document.getElementById('mTags').innerHTML = p.features.map(f => `<span class="tag">${f}</span>`).join('');
+        document.getElementById('mTags').innerHTML = p.features.map(f => `<span class="tag">${esc(f)}</span>`).join('');
 
         const variantsBox = document.getElementById('mVariantsBox');
         if (p.variants && p.variants.length) {
-          variantsBox.style.display = 'block';
-          document.getElementById('mVariants').innerHTML = p.variants.map(v => `<li>• ${v}</li>`).join('');
+          variantsBox.hidden = false;
+          document.getElementById('mVariants').innerHTML = p.variants.map(v => `<li>${esc(v)}</li>`).join('');
         } else {
-          variantsBox.style.display = 'none';
+          variantsBox.hidden = true;
         }
 
         document.getElementById('mSpecs').innerHTML = p.specs.map(s => `
-          <tr><td>${s[0]}</td><td>${s[1]}</td></tr>
+          <div><dt>${esc(s[0])}</dt><dd>${esc(s[1])}</dd></div>
         `).join('');
 
         document.getElementById('mUse').textContent = p.use || '-';
 
         modal.classList.add('open');
-        document.body.style.overflow = 'hidden';
+        document.body.classList.add('is-locked');
+        modalCard.scrollTop = 0;
+        modal.querySelector('.modal-content').scrollTop = 0;
+        modalCloseBtn.focus();
       }
 
       function closeModal() {
+        if (!modal.classList.contains('open')) return;
         modal.classList.remove('open');
-        document.body.style.overflow = '';
+        document.body.classList.remove('is-locked');
+        if (returnFocus && document.contains(returnFocus)) returnFocus.focus();
+        returnFocus = null;
       }
 
       modalCloseBtn.addEventListener('click', closeModal);
@@ -351,11 +367,18 @@
         if (e.target === modal) closeModal();
         const thumb = e.target.closest('.modal-thumb');
         if (thumb) {
-          document.getElementById('mMainImg').src = thumb.dataset.src;
-          modal.querySelectorAll('.modal-thumb').forEach(t => t.classList.remove('active'));
-          thumb.classList.add('active');
+          const mainImg = document.getElementById('mMainImg');
+          mainImg.src = thumb.dataset.src;
+          mainImg.style.objectPosition = thumb.dataset.i === '0' ? (currentModalProduct.pos || 'center') : 'center';
+          modal.querySelectorAll('.modal-thumb').forEach(t => {
+            const on = t === thumb;
+            t.classList.toggle('active', on);
+            t.setAttribute('aria-pressed', String(on));
+          });
         }
       });
+      modal.addEventListener('keydown', (e) => trapFocus(modalCard, e));
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
       document.getElementById('mBtnAddQuote').addEventListener('click', () => {
         if (currentModalProduct) {
@@ -371,14 +394,22 @@
         }
       });
 
-      // Check query param for auto-opening modal
+      // URL parametreleri: ?cat=, ?q=, ?model=
       const urlParams = new URLSearchParams(window.location.search);
+      const catParam = urlParams.get('cat');
+      const qParam = urlParams.get('q');
       const modelParam = urlParams.get('model');
+
+      if (catParam) setCategory(catParam);
+      if (qParam) {
+        searchInput.value = qParam;
+        searchQuery = qParam.trim().toLocaleLowerCase('tr');
+      }
 
       renderCatalog();
 
       if (modelParam) {
-        setTimeout(() => openModal(modelParam), 100);
+        openModal(modelParam, null);
       }
     })();
   </script>

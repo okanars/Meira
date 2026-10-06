@@ -1,44 +1,34 @@
 <!DOCTYPE html>
+<!-- Marka adı "DummyCosmetics" geçicidir. Tek yerden yönetim: js/site-config.js (ayrıntı README.md). -->
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>İletişim &amp; Teklif Talebi | DummyCosmetics</title>
-  <meta name="description" content="DummyCosmetics ile iletişime geçin. Seçtiğiniz profesyonel koku difüzörleri ve esanslar için kurumsal teklif alın veya numune talep edin.">
-  <meta name="theme-color" content="#f7f5f0">
+  <title>İletişim ve Teklif Talebi | DummyCosmetics</title>
+  <meta name="description" content="Seçtiğiniz profesyonel koku difüzörleri ve esanslar için teklif isteyin veya numune talep edin.">
+  <meta name="theme-color" content="#EEEBE5">
+  <link rel="canonical" href="https://www.dummycosmetics.com.tr/iletisim.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="tr_TR">
+  <meta property="og:site_name" content="DummyCosmetics">
+  <meta property="og:title" content="İletişim ve Teklif Talebi | DummyCosmetics">
+  <meta property="og:description" content="Seçtiğiniz profesyonel koku difüzörleri ve esanslar için teklif isteyin veya numune talep edin.">
+  <meta property="og:url" content="https://www.dummycosmetics.com.tr/iletisim.html">
+  <meta property="og:image" content="https://www.dummycosmetics.com.tr/images/products/ck686.jpg">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/cormorant-garamond-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/geist-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css">
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
-  <!-- Top Announcement Bar -->
-  <div class="top-announcement">
-    <div class="container announcement-inner">
-      <div class="announcement-badge">
-        <span class="brand-status-dot"></span>
-        <span>HIZLI TEKLİF &amp; DANIŞMANLIK</span>
-      </div>
-      <div class="announcement-text">
-        Proje Keşfi, HVAC Entegrasyon Danışmanlığı ve Kurumsal Fiyat Teklifi İçin Yanınızdayız
-      </div>
-      <a href="tel:+902120000000" class="announcement-link">
-        <span>Hemen Arayın: +90 212 000 00 00</span>
-        <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12"><path fill-rule="evenodd" d="M3.75 8a.75.75 0 01.75-.75h7.19L9.22 4.78a.75.75 0 011.06-1.06l3.75 3.75a.75.75 0 010 1.06l-3.75 3.75a.75.75 0 01-1.06-1.06l2.47-2.47H4.5A.75.75 0 013.75 8z" clip-rule="evenodd"/></svg>
-      </a>
-    </div>
-  </div>
+  <a class="skip-link" href="#main">İçeriğe geç</a>
 
-  <!-- Header -->
   <header class="site-header">
-    <div class="container nav-wrap">
-      <a href="index.html" class="brand" aria-label="DummyCosmetics Ana Sayfa">
-        <span class="brand-symbol">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 2.5c4.5 6 8.5 9.5 8.5 14a8.5 8.5 0 1 1-17 0c0-4.5 4-8 8.5-14z"/></svg>
-        </span>
-        <span>Dummy<em>Cosmetics</em></span>
-      </a>
+    <div class="wrap site-header__inner">
+      <a href="index.html" class="brand"><span data-site="brand">DummyCosmetics</span><span class="brand__sub">Türkiye</span></a>
 
-      <nav class="nav-links" id="navLinks" aria-label="Ana Menü">
-        <a href="index.html" class="nav-item">Ana Sayfa</a>
+      <nav class="nav" id="navLinks" aria-label="Ana menü">
         <a href="urunler.html" class="nav-item">Ürünler</a>
         <a href="cozumler.html" class="nav-item">Çözümler</a>
         <a href="teknoloji.html" class="nav-item">Teknoloji</a>
@@ -48,190 +38,162 @@
       </nav>
 
       <div class="nav-actions">
-        <button class="quote-trigger" aria-label="Teklif Listesi">
-          <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15"><path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"/></svg>
-          <span>Teklif Listesi</span>
-          <span class="quote-badge dc-cart-count empty">0</span>
+        <button type="button" class="quote-trigger" aria-label="Teklif listesi">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-clipboard-text"></use></svg>
+          <span class="quote-trigger__label">Teklif listesi</span>
+          <span class="quote-badge dc-cart-count empty" aria-hidden="true">0</span>
         </button>
-        <button class="burger-btn" id="burgerBtn" aria-label="Menü"><span></span><span></span><span></span></button>
+        <button type="button" class="burger-btn" id="burgerBtn" aria-label="Menü" aria-expanded="false" aria-controls="navLinks">
+          <svg class="icon icon--lg icon-open" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-list"></use></svg><svg class="icon icon--lg icon-close" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-x"></use></svg>
+        </button>
       </div>
     </div>
   </header>
 
-  <main>
-    <!-- Page Hero -->
-    <section class="page-hero">
-      <div class="container">
-        <span class="eyebrow">Doğrudan İletişim</span>
-        <h1>Kurumsal Teklif &amp; Proje Danışmanlığı</h1>
-        <p>
-          Mekânınızın metrekaresi, tavan yüksekliği veya ilgilendiğiniz difüzör modelleri için 24 saat içinde detaylı teknik ve fiyat teklifi sunuyoruz.
-        </p>
+  <main id="main">
+
+    <section class="page-head" aria-labelledby="page-title">
+      <div class="wrap">
+        <h1 id="page-title">Teklif ve iletişim</h1>
+        <p class="lead">Teklif listenizdeki ürünler mesaja otomatik eklenir. Alanın ölçülerini ve kullanım amacını yazarsanız teklifi buna göre hazırlarız.</p>
       </div>
     </section>
 
-    <!-- Contact & Form Section -->
-    <section class="section" style="padding-top:48px;">
-      <div class="container">
-        <div class="feature-split" style="align-items:start;gap:48px;">
-          <!-- Left: Contact Details -->
-          <div>
-            <span class="eyebrow">İletişim Bilgileri</span>
-            <h2 style="font-size:1.8rem;margin-bottom:1rem;">Satış ve Dağıtım Merkezi</h2>
-            <p style="color:var(--text-secondary);font-size:13.5px;line-height:1.6;margin-bottom:2rem;">
-              Projeleriniz, bayilik görüşmeleri veya teknik servis talepleri için ekibimize e-posta veya telefon yoluyla dilediğiniz zaman ulaşabilirsiniz.
-            </p>
-
-            <div style="display:grid;gap:1.25rem;margin-bottom:2.5rem;">
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.25rem;">
-                <span class="mono-tag" style="color:var(--text-tertiary);">E-POSTA ADRESİ</span>
-                <div style="font-size:15px;font-weight:500;margin-top:2px;">
-                  <a href="mailto:info@dummycosmetics.com.tr" style="color:var(--text-primary);">info@dummycosmetics.com.tr</a>
-                </div>
-                <small style="color:var(--text-tertiary);font-size:11.5px;">Hafta içi 24 saat içinde yanıtlanır.</small>
-              </div>
-
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.25rem;">
-                <span class="mono-tag" style="color:var(--text-tertiary);">TELEFON &amp; WHATSAPP</span>
-                <div style="font-size:15px;font-weight:500;margin-top:2px;">
-                  <a href="tel:+902120000000" style="color:var(--text-primary);">+90 212 000 00 00</a>
-                </div>
-                <small style="color:var(--text-tertiary);font-size:11.5px;">Pazartesi – Cuma / 09:00 – 18:00</small>
-              </div>
-
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.25rem;">
-                <span class="mono-tag" style="color:var(--text-tertiary);">MERKEZ &amp; TEKNİK SERVİS</span>
-                <div style="font-size:14px;font-weight:500;margin-top:2px;color:var(--text-primary);">
-                  İstanbul, Türkiye
-                </div>
-                <small style="color:var(--text-tertiary);font-size:11.5px;">Stoktan sevkiyat ve doğrudan teknik destek.</small>
-              </div>
-            </div>
-
-            <div style="background:var(--surface-raised);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:1.25rem;">
-              <strong style="display:block;font-size:13px;color:var(--accent);margin-bottom:4px;">✦ Numune Esans Gönderimi</strong>
-              <p style="font-size:12.5px;color:var(--text-secondary);line-height:1.5;">
-                Otel koku koleksiyonumuzdaki esansları mekânınızda denemek isterseniz, koku numune kitini ücretsiz olarak talep edebilirsiniz.
-              </p>
-            </div>
+    <section class="section section--flush-top" aria-label="İletişim ve teklif formu">
+      <div class="wrap contact">
+        <div class="contact__info">
+          <h2 class="visually-hidden">İletişim bilgileri</h2>
+          <ul class="contact-list">
+            <li>
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-envelope-simple"></use></svg>
+              <div><span class="contact-list__label">E-posta</span><span class="contact-list__value"><a href="mailto:info@dummycosmetics.com.tr" data-site-href="email"><span data-site="email">info@dummycosmetics.com.tr</span></a></span></div>
+            </li>
+            <li>
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-phone"></use></svg>
+              <!-- [DOĞRULANACAK] Telefon numarası ve çalışma saatleri geçici değerlerdir. -->
+              <div><span class="contact-list__label">Telefon</span><span class="contact-list__value"><a href="tel:+902120000000" data-site-href="phone"><span data-site="phone">+90 212 000 00 00</span></a><small>Hafta içi 09:00-18:00</small></span></div>
+            </li>
+            <li>
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-map-pin"></use></svg>
+              <div><span class="contact-list__label">Konum</span><span class="contact-list__value"><span data-site="city">İstanbul, Türkiye</span></span></div>
+            </li>
+          </ul>
+          <div class="quote-block mt-7">
+            <p class="quote-block__title">Numune</p>
+            <p>Koleksiyondaki esansları alanınızda denemek için konu olarak “Fiyat ve numune teklifi” seçin ve istediğiniz kokuları yazın.</p>
           </div>
+        </div>
 
-          <!-- Right: Quote Form -->
-          <div class="card" style="padding:2rem;background:var(--surface);">
-            <!-- Quote Auto-Fill Banner -->
-            <div id="quoteBanner" class="quote-preview-banner" style="display:none;margin-bottom:1.5rem;"></div>
+        <div class="contact__form">
+          <div class="form-panel">
+            <div id="quoteBanner" class="quote-preview-banner" hidden></div>
 
-            <form id="contactForm" style="display:grid;gap:1.25rem;" novalidate>
-              <!-- Honeypot (Anti-Spam) -->
-              <input type="text" name="hp_company_website" style="display:none!important;" tabindex="-1" autocomplete="off">
+            <form id="contactForm" class="form" novalidate>
+              <div class="hp-field" aria-hidden="true">
+                <label for="hp_company_website">Bu alanı boş bırakın</label>
+                <input type="text" id="hp_company_website" name="hp_company_website" tabindex="-1" autocomplete="off">
+              </div>
 
               <div class="form-grid">
                 <div class="form-group">
-                  <label class="form-label">Adınız Soyadınız *</label>
-                  <input type="text" name="name" class="form-input" required placeholder="Ahmet Yılmaz">
+                  <label class="form-label" for="f-name">Ad soyad <span class="req">zorunlu</span></label>
+                  <input type="text" id="f-name" name="name" class="form-input" required autocomplete="name" aria-describedby="err-name" data-required-msg="Adınızı ve soyadınızı yazın.">
+                  <p class="form-error" id="err-name" hidden></p>
                 </div>
                 <div class="form-group">
-                  <label class="form-label">Kurum / Firma Adı</label>
-                  <input type="text" name="company" class="form-input" placeholder="Örn: Grand Hotel / Butik A.Ş.">
+                  <label class="form-label" for="f-company">Kurum veya firma</label>
+                  <input type="text" id="f-company" name="company" class="form-input" autocomplete="organization">
                 </div>
               </div>
 
               <div class="form-grid">
                 <div class="form-group">
-                  <label class="form-label">E-posta Adresiniz *</label>
-                  <input type="email" name="email" class="form-input" required placeholder="ad@sirketiniz.com">
+                  <label class="form-label" for="f-email">E-posta <span class="req">zorunlu</span></label>
+                  <input type="email" id="f-email" name="email" class="form-input" required autocomplete="email" placeholder="ad@firma.com" aria-describedby="err-email" data-required-msg="E-posta adresinizi yazın.">
+                  <p class="form-error" id="err-email" hidden></p>
                 </div>
                 <div class="form-group">
-                  <label class="form-label">Telefon Numarası</label>
-                  <input type="tel" name="phone" class="form-input" placeholder="+90 5XX XXX XX XX">
+                  <label class="form-label" for="f-phone">Telefon</label>
+                  <input type="tel" id="f-phone" name="phone" class="form-input" autocomplete="tel" placeholder="+90 5XX XXX XX XX">
                 </div>
               </div>
 
               <div class="form-group">
-                <label class="form-label">Talep Konusu</label>
+                <label class="form-label" for="contactSubject">Konu</label>
                 <select name="subject" class="form-select" id="contactSubject">
-                  <option value="Fiyat ve Numune Teklifi">Fiyat ve Numune Teklifi</option>
-                  <option value="Toptan Satış & Bayilik">Toptan Satış &amp; Bayilik</option>
-                  <option value="Özel Markalı Üretim (OEM/ODM)">Özel Markalı Üretim (OEM / ODM)</option>
-                  <option value="Merkezi Klima (HVAC) Projelendirme">Merkezi Klima (HVAC) Projelendirme</option>
-                  <option value="Teknik Destek ve Servis">Teknik Destek ve Servis</option>
+                  <option value="Fiyat ve Numune Teklifi">Fiyat ve numune teklifi</option>
+                  <option value="Toptan Satış &amp; Bayilik">Toptan satış ve bayilik</option>
+                  <option value="Özel Markalı Üretim (OEM/ODM)">Özel markalı üretim (OEM / ODM)</option>
+                  <option value="Merkezi Klima (HVAC) Projelendirme">Merkezi klima (HVAC) projelendirme</option>
+                  <option value="Teknik Destek ve Servis">Teknik destek ve servis</option>
                 </select>
               </div>
 
               <div class="form-group">
                 <div class="form-label">
-                  <span>Mesajınız ve Talep Detayları *</span>
-                  <button type="button" id="btnRefreshQuote" style="font-size:11px;color:var(--accent);text-decoration:underline;">
-                    Sepetteki Ürünleri Aktar
-                  </button>
+                  <label for="contactMessage">Mesaj ve talep ayrıntıları <span class="req">zorunlu</span></label>
+                  <button type="button" id="btnRefreshQuote" class="inline-action">Listedeki ürünleri aktar</button>
                 </div>
-                <textarea name="message" id="contactMessage" class="form-textarea" required placeholder="İhtiyaç duyduğunuz cihaz modelleri, mekân metrekaresi veya sorularınız..."></textarea>
+                <textarea name="message" id="contactMessage" class="form-textarea" required aria-describedby="msg-help err-message" data-required-msg="Talebinizi kısaca yazın." placeholder="İlgilendiğiniz modeller, alanın metrekaresi, tavan yüksekliği, sorularınız"></textarea>
+                <p class="form-help" id="msg-help">Teklif listenizdeki ürünler bu alana otomatik eklenir; dilediğiniz gibi düzenleyebilirsiniz.</p>
+                <p class="form-error" id="err-message" hidden></p>
               </div>
 
-              <button type="submit" class="btn btn-accent btn-full btn-lg">
-                <span>Teklif Talebini Gönder</span>
-                <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+              <p class="form-error" id="formError" role="alert" hidden></p>
+
+              <button type="submit" class="btn btn--primary btn--lg btn--block">
+                <span>Talebi gönder</span>
+                <svg class="icon icon--move" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg>
               </button>
 
-              <div style="font-size:11.5px;color:var(--text-tertiary);text-align:center;line-height:1.5;">
-                Talebiniz sunucu üzerinden doğrudan kurumsal <strong>info@dummycosmetics.com.tr</strong> satış gelen kutumuza iletilir.
-              </div>
+              <p class="note">Talebiniz e-posta ile <span data-site="email">info@dummycosmetics.com.tr</span> adresine iletilir.</p>
             </form>
           </div>
         </div>
       </div>
     </section>
+
   </main>
 
-  <!-- Footer -->
   <footer class="site-footer">
-    <div class="container">
+    <div class="wrap">
       <div class="footer-grid">
-        <div class="footer-col">
-          <a href="index.html" class="brand" style="margin-bottom:1rem;">
-            <span class="brand-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2.5c4.5 6 8.5 9.5 8.5 14a8.5 8.5 0 1 1-17 0c0-4.5 4-8 8.5-14z"/></svg></span>
-            <span>Dummy<em>Cosmetics</em></span>
-          </a>
-          <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;max-width:320px;">
-            Türkiye resmi distribütörü. Oteller, mağazalar, kurumsal ofisler ve yaşam alanları için profesyonel koku difüzyon teknolojileri.
-          </p>
+        <div class="footer-brand">
+          <a href="index.html" class="brand"><span data-site="brand">DummyCosmetics</span></a>
+          <!-- [DOĞRULANACAK] Distribütörlüğün kapsamı (resmi / tek yetkili) belgelenmeden bu ifadeler kullanılmamalı. -->
+          <p>JVCK koku difüzörleri ve esanslarının Türkiye distribütörü. Oteller, ofisler, mağazalar ve yaşam alanları için ürün seçimi ve teklif.</p>
         </div>
-        <div class="footer-col">
-          <h4>Sayfalar</h4>
+        <div class="footer-col footer-col--a">
+          <h2>Site</h2>
           <ul>
-            <li><a href="index.html">Ana Sayfa</a></li>
-            <li><a href="urunler.html">Ürün Kataloğu</a></li>
-            <li><a href="cozumler.html">Sektörel Çözümler</a></li>
+            <li><a href="urunler.html">Ürünler</a></li>
+            <li><a href="cozumler.html">Çözümler</a></li>
             <li><a href="teknoloji.html">Teknoloji</a></li>
+            <li><a href="esanslar.html">Esanslar</a></li>
+            <li><a href="kurumsal.html">Kurumsal &amp; OEM</a></li>
           </ul>
         </div>
-        <div class="footer-col">
-          <h4>Koleksiyon</h4>
+        <div class="footer-col footer-col--b">
+          <h2>İletişim</h2>
           <ul>
-            <li><a href="esanslar.html">Otel Koku Serisi</a></li>
-            <li><a href="esanslar.html#oils">Esans Kartuş &amp; Yağlar</a></li>
-            <li><a href="kurumsal.html">OEM &amp; Özel Koku</a></li>
-            <li><a href="iletisim.html">Teklif Al</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>İletişim</h4>
-          <ul>
-            <li><a href="mailto:info@dummycosmetics.com.tr">info@dummycosmetics.com.tr</a></li>
-            <li><a href="tel:+902120000000">+90 212 000 00 00</a></li>
-            <li style="color:var(--text-tertiary);">İstanbul, Türkiye</li>
+            <li><a href="mailto:info@dummycosmetics.com.tr" data-site-href="email"><span data-site="email">info@dummycosmetics.com.tr</span></a></li>
+            <li><a href="tel:+902120000000" data-site-href="phone"><span data-site="phone">+90 212 000 00 00</span></a></li>
+            <li><span data-site="city">İstanbul, Türkiye</span></li>
+            <li><a href="iletisim.html">Teklif formu</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <span>© <script>document.write(new Date().getFullYear())</script> DummyCosmetics Türkiye Distribütörlüğü. Tüm hakları saklıdır.</span>
-        <span>Mühendislik &amp; Tasarım: Emil Kowalski Kısıtlamaları</span>
+        <span>© <span data-year>2026</span> <span data-site="brand">DummyCosmetics</span>. Tüm hakları saklıdır.</span>
+        <span>Teknik veriler üreticinin 2025 ürün kataloğundan alınmıştır.</span>
       </div>
     </div>
   </footer>
 
+  <script src="js/site-config.js"></script>
   <script src="js/products.js"></script>
   <script src="js/components.js"></script>
+  <script src="js/site.js"></script>
   <script>
     (function () {
       const btnRefresh = document.getElementById('btnRefreshQuote');
@@ -241,24 +203,36 @@
         const text = DummyApp.buildQuoteMessageText();
         if (text) {
           msgField.value = text;
+          msgField.removeAttribute('aria-invalid');
+          const err = document.getElementById('err-message');
+          if (err) err.hidden = true;
           DummyApp.toast.show({ message: 'Teklif listenizdeki ürünler mesaja aktarıldı.', type: 'accent' });
         } else {
-          DummyApp.toast.show({ message: 'Teklif listenizde henüz ürün bulunmuyor.', type: 'info' });
+          DummyApp.toast.show({ message: 'Teklif listeniz henüz boş.', type: 'info' });
         }
       });
 
-      // Query param handlers (e.g. ?esans=Miss+Coco or ?konu=oem)
+      // URL parametreleri (ör. ?esans=Gül+%26+Sedir veya ?konu=oem)
       const urlParams = new URLSearchParams(window.location.search);
       const esansParam = urlParams.get('esans');
       const konuParam = urlParams.get('konu');
       const subjectSelect = document.getElementById('contactSubject');
 
+      const SUBJECTS = {
+        oem: 'Özel Markalı Üretim (OEM/ODM)',
+        numune: 'Fiyat ve Numune Teklifi',
+        hvac: 'Merkezi Klima (HVAC) Projelendirme',
+        destek: 'Teknik Destek ve Servis',
+        bayilik: 'Toptan Satış & Bayilik'
+      };
+
       if (esansParam && msgField) {
-        msgField.value = `Merhaba,\n\n"${esansParam}" otel koku profili için numune esans kiti talep ediyorum.\n\nİlave notlarım:\n`;
+        msgField.value = `Merhaba,\n\n"${esansParam}" kokusu için numune talep ediyorum.\n\nEk notlarım:\n`;
+        if (subjectSelect) subjectSelect.value = SUBJECTS.numune;
       }
 
-      if (konuParam === 'oem' && subjectSelect) {
-        subjectSelect.value = 'Özel Markalı Üretim (OEM/ODM)';
+      if (konuParam && SUBJECTS[konuParam] && subjectSelect) {
+        subjectSelect.value = SUBJECTS[konuParam];
       }
     })();
   </script>

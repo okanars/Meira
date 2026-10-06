@@ -1,44 +1,34 @@
 <!DOCTYPE html>
+<!-- Marka adı "DummyCosmetics" geçicidir. Tek yerden yönetim: js/site-config.js (ayrıntı README.md). -->
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sektörel Çözümler | DummyCosmetics Mekân Kokulandırma</title>
-  <meta name="description" content="Oteller, perakende mağazaları, plazalar, spor salonları ve showroomlar için mekân hacmine göre koku çözümleri ve interaktif cihaz hesaplayıcı.">
-  <meta name="theme-color" content="#f7f5f0">
+  <meta name="description" content="Oteller, mağazalar, ofisler ve büyük hacimli alanlar için koku çözümleri. Mekân hacmine göre uygun difüzörü bulan hesaplayıcı.">
+  <meta name="theme-color" content="#EEEBE5">
+  <link rel="canonical" href="https://www.dummycosmetics.com.tr/cozumler.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="tr_TR">
+  <meta property="og:site_name" content="DummyCosmetics">
+  <meta property="og:title" content="Sektörel Çözümler | DummyCosmetics Mekân Kokulandırma">
+  <meta property="og:description" content="Oteller, mağazalar, ofisler ve büyük hacimli alanlar için koku çözümleri. Mekân hacmine göre uygun difüzörü bulan hesaplayıcı.">
+  <meta property="og:url" content="https://www.dummycosmetics.com.tr/cozumler.html">
+  <meta property="og:image" content="https://www.dummycosmetics.com.tr/images/products/ck611.jpg">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/cormorant-garamond-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/geist-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css">
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
-  <!-- Top Announcement Bar -->
-  <div class="top-announcement">
-    <div class="container announcement-inner">
-      <div class="announcement-badge">
-        <span class="brand-status-dot"></span>
-        <span>SEKTÖREL PROJELENDİRME</span>
-      </div>
-      <div class="announcement-text">
-        Otel Lobileri, Perakende Zincirleri, Kurumsal Plazalar ve Yaşam Alanları İçin Özel Koku Mimarisi
-      </div>
-      <a href="iletisim.html?konu=kesif" class="announcement-link">
-        <span>Ücretsiz Mekân Keşfi Talep Edin</span>
-        <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12"><path fill-rule="evenodd" d="M3.75 8a.75.75 0 01.75-.75h7.19L9.22 4.78a.75.75 0 011.06-1.06l3.75 3.75a.75.75 0 010 1.06l-3.75 3.75a.75.75 0 01-1.06-1.06l2.47-2.47H4.5A.75.75 0 013.75 8z" clip-rule="evenodd"/></svg>
-      </a>
-    </div>
-  </div>
+  <a class="skip-link" href="#main">İçeriğe geç</a>
 
-  <!-- Header -->
   <header class="site-header">
-    <div class="container nav-wrap">
-      <a href="index.html" class="brand" aria-label="DummyCosmetics Ana Sayfa">
-        <span class="brand-symbol">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 2.5c4.5 6 8.5 9.5 8.5 14a8.5 8.5 0 1 1-17 0c0-4.5 4-8 8.5-14z"/></svg>
-        </span>
-        <span>Dummy<em>Cosmetics</em></span>
-      </a>
+    <div class="wrap site-header__inner">
+      <a href="index.html" class="brand"><span data-site="brand">DummyCosmetics</span><span class="brand__sub">Türkiye</span></a>
 
-      <nav class="nav-links" id="navLinks" aria-label="Ana Menü">
-        <a href="index.html" class="nav-item">Ana Sayfa</a>
+      <nav class="nav" id="navLinks" aria-label="Ana menü">
         <a href="urunler.html" class="nav-item">Ürünler</a>
         <a href="cozumler.html" class="nav-item">Çözümler</a>
         <a href="teknoloji.html" class="nav-item">Teknoloji</a>
@@ -48,250 +38,252 @@
       </nav>
 
       <div class="nav-actions">
-        <button class="quote-trigger" aria-label="Teklif Listesi">
-          <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15"><path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"/></svg>
-          <span>Teklif Listesi</span>
-          <span class="quote-badge dc-cart-count empty">0</span>
+        <button type="button" class="quote-trigger" aria-label="Teklif listesi">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-clipboard-text"></use></svg>
+          <span class="quote-trigger__label">Teklif listesi</span>
+          <span class="quote-badge dc-cart-count empty" aria-hidden="true">0</span>
         </button>
-        <button class="burger-btn" id="burgerBtn" aria-label="Menü"><span></span><span></span><span></span></button>
+        <button type="button" class="burger-btn" id="burgerBtn" aria-label="Menü" aria-expanded="false" aria-controls="navLinks">
+          <svg class="icon icon--lg icon-open" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-list"></use></svg><svg class="icon icon--lg icon-close" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-x"></use></svg>
+        </button>
       </div>
     </div>
   </header>
 
-  <main>
-    <!-- Page Hero -->
-    <section class="page-hero">
-      <div class="container">
-        <span class="eyebrow moss">Sektörel Uygulamalar</span>
-        <h1>Her Sektör İçin Hassas Kokulandırma</h1>
-        <p>
-          Müşterilerin mağazada geçirdiği süreyi uzatan, otellerde prestij yaratan ve çalışma ortamlarında motivasyonu destekleyen profesyonel senaryolar.
-        </p>
+  <main id="main">
+
+    <section class="page-head" aria-labelledby="page-title">
+      <div class="wrap">
+        <h1 id="page-title">Mekâna göre çözümler</h1>
+        <p class="lead">Her alanın hacmi, hava akışı ve kullanım yoğunluğu farklıdır. Önce hacmi hesaplayın, sonra sektörünüze uygun cihaz ailesini inceleyin.</p>
       </div>
     </section>
 
-    <!-- Interactive Calculator -->
-    <section class="section" style="padding-top:48px;padding-bottom:56px;background:var(--bg-subtle);border-bottom:1px solid var(--border);">
-      <div class="container">
-        <div class="card" style="padding:2.5rem;background:var(--surface);">
-          <div style="max-width:580px;margin-bottom:2rem;">
-            <span class="eyebrow">İnteraktif Hesaplayıcı</span>
-            <h2>Mekân Hacminize Göre Cihaz Bulun</h2>
-            <p style="color:var(--text-secondary);font-size:13.5px;">
-              Alanınızın metrekaresini ve tavan yüksekliğini girin; gerekli hava hacmine (m³) en uygun difüzör modellerini anında filtreleyelim.
-            </p>
-          </div>
-
-          <div style="display:grid;grid-template-columns:repeat(3, 1fr) 1.2fr;gap:1.25rem;align-items:end;" id="calcWrap">
-            <div class="form-group">
-              <label class="form-label">Taban Alanı (m²)</label>
-              <input type="number" id="calcArea" class="form-input" value="150" min="5" max="5000">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Tavan Yüksekliği (m)</label>
-              <input type="number" id="calcHeight" class="form-input" value="3.2" step="0.1" min="2" max="15">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Hesaplanan Hava Hacmi</label>
-              <div style="padding:0.75rem 1rem;background:var(--surface-raised);border:1px solid var(--border);border-radius:var(--radius-md);font-family:var(--mono);font-size:15px;color:var(--amber);font-weight:700;" id="calcVolume">
-                480 m³
+    <section class="section section--flush-top" id="hesaplayici" aria-labelledby="calc-title">
+      <div class="wrap">
+        <div class="calc reveal">
+          <div class="calc__inputs">
+            <h2 id="calc-title">Hacim hesaplayıcı</h2>
+            <p>Taban alanını ve tavan yüksekliğini girin. Bu hacmi karşılayan modeller, kapsama değeri en yakın olandan başlayarak listelenir.</p>
+            <div class="calc__fields">
+              <div class="form-group">
+                <label class="form-label" for="calcArea">Taban alanı (m²)</label>
+                <input type="number" id="calcArea" class="form-input num" value="150" min="5" max="20000" inputmode="decimal">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="calcHeight">Tavan yüksekliği (m)</label>
+                <input type="number" id="calcHeight" class="form-input num" value="3.2" step="0.1" min="2" max="30" inputmode="decimal">
+              </div>
+              <div class="form-group form-group--full">
+                <span class="form-label" id="calcVolumeLabel">Hesaplanan hava hacmi</span>
+                <output class="output-field" id="calcVolume" for="calcArea calcHeight" aria-labelledby="calcVolumeLabel">480 m³</output>
               </div>
             </div>
-            <div>
-              <button class="btn btn-accent btn-full" id="calcBtn">Önerilen Cihazları Göster</button>
-            </div>
+            <button type="button" class="btn btn--quiet" id="calcBtn">Önerileri güncelle</button>
+            <p class="note">Kapsama değerleri üretici verisidir. Bölmeli alanlar, yoğun ziyaretçi trafiği veya güçlü havalandırma birden fazla cihaz gerektirebilir.</p>
           </div>
-
-          <div id="calcResults" style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border-subtle);display:grid;gap:1rem;"></div>
+          <div class="calc__results" id="calcResults" aria-live="polite"></div>
         </div>
       </div>
     </section>
 
-    <!-- Sectoral Cards -->
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">Sektörel Senaryolar</span>
-          <h2>Kurumsal Mekân Çözümleri</h2>
-          <p>Her alanın hava sirkülasyonu, misafir profili ve koku dağılım gereksinimleri farklıdır.</p>
+    <section class="section section--deep" aria-labelledby="hotel-title">
+      <div class="wrap split split--wide-b">
+        <div class="split__a reveal">
+          <h2 id="hotel-title">Oteller ve konaklama</h2>
+          <div class="mt-5 prose">
+            <p>Lobide ilk izlenimi koku belirler. Lobi ve restoran gibi geniş alanlarda klima sistemine bağlanabilen ya da kolon tipi cihazlar, koridor ve odalarda sessiz duvar veya tavan tipi modeller kullanılır.</p>
+          </div>
+          <dl class="mt-6 spec-pairs">
+            <div class="span-2"><dt>Önerilen modeller</dt><dd>CK-631, CK-686, CK-656</dd></div>
+            <div><dt>Kapsama (bu modeller)</dt><dd>500-4.000 m³</dd></div>
+          </dl>
+          <div class="mt-6 btn-row">
+            <a href="urunler.html?cat=pro" class="link-arrow">Profesyonel modeller <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
+          </div>
         </div>
+        <div class="split__b reveal">
+          <figure class="video-figure" data-video>
+          <div class="media media--16x9">
+            <video autoplay loop muted playsinline preload="metadata" poster="images/general/video-hotel-poster.jpg" aria-label="Otel odasında komodin üzerinde çalışan cam kubbeli difüzör; yapay zekâ ile üretilmiş tanıtım videosu">
+              <source src="images/products/videos/kling_20261006_VIDEO_Create_an__5223_0.mp4" type="video/mp4">
+            </video>
+          </div>
+          <figcaption class="video-figure__bar">
+            <span class="media-caption">Görsel temsilidir. Yapay zekâ ile üretilmiş tanıtım videosudur.</span>
+            <button type="button" class="video-toggle"><svg class="icon icon-pause" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-pause"></use></svg><svg class="icon icon-play" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-play"></use></svg><span class="video-toggle__label">Videoyu durdur</span></button>
+          </figcaption>
+        </figure>
+        </div>
+      </div>
+    </section>
 
-        <div class="grid-2">
-          <!-- Oteller ile Video 2 Gösterimi -->
-          <article class="card" style="padding:2rem;">
-            <div style="border-radius:var(--radius-md);overflow:hidden;margin-bottom:1.25rem;aspect-ratio:16/9;border:1px solid var(--border);">
-              <video autoplay loop muted playsinline poster="images/general/video-hotel-poster.jpg" style="width:100%;height:100%;object-fit:cover;">
-                <source src="images/products/videos/kling_20261006_VIDEO_Create_an__5223_0.mp4" type="video/mp4">
-              </video>
+    <section class="section" aria-labelledby="sectors-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2 id="sectors-title">Diğer kullanım alanları</h2>
+        </div>
+        <div class="sector-list">
+          <article class="sector-row reveal">
+            <div class="sector-row__name">
+              <h3>Mağazalar ve showroomlar</h3>
+              <p class="sector-row__range">Önerilen modeller: 800-7.000 m³</p>
             </div>
-            <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:0.75rem;">
-              <span class="mono-tag" style="color:var(--amber);">01 · KONAKLAMA</span>
-              <span class="product-pill">800 – 4.000 m³</span>
+            <div class="sector-row__text">
+              <p>Giyim ve aksesuar mağazalarında kokunun ürünlerde kalıntı bırakmaması önemlidir. Üreticiye göre çift akışkanlı modeller ıslak kalıntı bırakmaz. Showroom büyüklüğüne göre üç kapasitede seri seçilebilir.</p>
             </div>
-            <h3 style="font-family:var(--serif);font-size:1.6rem;margin-bottom:0.75rem;">Oteller &amp; Lüks Rezidanslar</h3>
-            <p style="color:var(--text-secondary);font-size:13.5px;line-height:1.6;margin-bottom:1.25rem;">
-              Otel lobilerinde ilk izlenim çok güçlüdür. Misafirlerin otele adım attığı anda beş yıldızlı otel koku kimliğini hissetmesi sağlanır. Koridorlarda ve süit odalarda ise ultra sessiz duvar tipi veya tavan tipi sistemler tercih edilir.
-            </p>
-            <div style="border-top:1px solid var(--border-subtle);padding-top:1rem;display:flex;justify-content:space-between;align-items:center;">
-              <div style="font-size:12px;color:var(--text-tertiary);">Önerilen: <strong>CK-688, CK-686, CK-656</strong></div>
-              <a href="urunler.html?cat=pro" class="btn btn-secondary btn-sm">Cihazları İncele →</a>
+            <div class="sector-row__aside">
+              <p class="sector-row__models"><b>CK-620 / 640 / 670, CK-688, CK-689</b></p>
+              <a href="urunler.html?cat=wall" class="link-arrow">Duvar tipi modeller <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
             </div>
           </article>
-
-          <!-- Perakende & AVM -->
-          <article class="card" style="padding:2rem;">
-            <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:1rem;">
-              <span class="mono-tag" style="color:var(--amber);">02 · PERAKENDE</span>
-              <span class="product-pill">500 – 3.500 m³</span>
+          <article class="sector-row reveal">
+            <div class="sector-row__name">
+              <h3>Ofisler ve toplantı salonları</h3>
+              <p class="sector-row__range">Önerilen modeller: 300 m³</p>
             </div>
-            <h3 style="font-family:var(--serif);font-size:1.6rem;margin-bottom:0.75rem;">Zincir Mağazalar &amp; AVM</h3>
-            <p style="color:var(--text-secondary);font-size:13.5px;line-height:1.6;margin-bottom:1.25rem;">
-              Doğru imza koku, müşterilerin mağaza içinde geçirdiği ortalama süreyi %20’ye kadar artırır. Giyim ve aksesuar mağazalarında giysilere tortu ve ıslaklık bırakmayan nano kuru sis teknolojisi hayati önem taşır.
-            </p>
-            <div style="border-top:1px solid var(--border-subtle);padding-top:1rem;display:flex;justify-content:space-between;align-items:center;">
-              <div style="font-size:12px;color:var(--text-tertiary);">Önerilen: <strong>CK-631, CK-620, CK-688</strong></div>
-              <a href="urunler.html?cat=wall" class="btn btn-secondary btn-sm">Cihazları İncele →</a>
+            <div class="sector-row__text">
+              <p>Toplantı odaları ve çalışma alanlarında cihazın sesi önemlidir. Üretici verisine göre CK-628, CK-638 ve CK-648 modellerinin ses seviyesi 8 dBA'nın altındadır. Prize takılan CK-644 delme gerektirmez.</p>
+            </div>
+            <div class="sector-row__aside">
+              <p class="sector-row__models"><b>CK-628, CK-638, CK-648, CK-644</b></p>
+              <a href="urunler.html?cat=wall" class="link-arrow">Duvar tipi modeller <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
             </div>
           </article>
-
-          <!-- Kurumsal Ofis & Plaza -->
-          <article class="card" style="padding:2rem;">
-            <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:1rem;">
-              <span class="mono-tag" style="color:var(--amber);">03 · İŞ DÜNYASI</span>
-              <span class="product-pill">300 – 1.000 m³</span>
+          <article class="sector-row reveal">
+            <div class="sector-row__name">
+              <h3>Havalimanı, kongre merkezi, AVM</h3>
+              <p class="sector-row__range">Önerilen modeller: 5.000-15.000 m³</p>
             </div>
-            <h3 style="font-family:var(--serif);font-size:1.6rem;margin-bottom:0.75rem;">Kurumsal Ofisler &amp; Toplantı Salonları</h3>
-            <p style="color:var(--text-secondary);font-size:13.5px;line-height:1.6;margin-bottom:1.25rem;">
-              Toplantı odaları ve çalışma alanlarında odaklanmayı artıran, ferahlatıcı beyaz çay ve narenciye notaları kullanılır. &lt; 8 dB ses seviyesindeki difüzörler toplantıları hiçbir şekilde bölmez.
-            </p>
-            <div style="border-top:1px solid var(--border-subtle);padding-top:1rem;display:flex;justify-content:space-between;align-items:center;">
-              <div style="font-size:12px;color:var(--text-tertiary);">Önerilen: <strong>CK-628, CK-648, CK-644</strong></div>
-              <a href="urunler.html?cat=wall" class="btn btn-secondary btn-sm">Cihazları İncele →</a>
+            <div class="sector-row__text">
+              <p>Çok büyük alanlarda cihaz merkezi klima veya taze hava sistemine bağlanır ve koku kanallar üzerinden dağıtılır. 2 x 5000 ml'ye varan hazne seçenekleri dolum sıklığını azaltır.</p>
             </div>
-          </article>
-
-          <!-- Büyük Hacimli Tesisler -->
-          <article class="card" style="padding:2rem;">
-            <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:1rem;">
-              <span class="mono-tag" style="color:var(--amber);">04 · MEGA HACİMLER</span>
-              <span class="product-pill">5.000 – 15.000 m³</span>
-            </div>
-            <h3 style="font-family:var(--serif);font-size:1.6rem;margin-bottom:0.75rem;">Havalimanı, Kongre &amp; Sinema</h3>
-            <p style="color:var(--text-secondary);font-size:13.5px;line-height:1.6;margin-bottom:1.25rem;">
-              Devasa alanlar için merkezi havalandırma (HVAC) sistemlerine bağlanan çift atomizer başlıklı havacılık alüminyum serisi kullanılır. 2 × 5.000 ml esans kapasitesi ile 6 aya varan kesintisiz difüzyon sağlar.
-            </p>
-            <div style="border-top:1px solid var(--border-subtle);padding-top:1rem;display:flex;justify-content:space-between;align-items:center;">
-              <div style="font-size:12px;color:var(--text-tertiary);">Önerilen: <strong>CK-611 Serisi, CK-621 Serisi</strong></div>
-              <a href="urunler.html?cat=pro" class="btn btn-secondary btn-sm">Cihazları İncele →</a>
+            <div class="sector-row__aside">
+              <p class="sector-row__models"><b>CK-611 / 612 / 613, CK-621 / 622 / 623</b></p>
+              <a href="urunler.html?cat=pro" class="link-arrow">Profesyonel modeller <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
             </div>
           </article>
         </div>
       </div>
     </section>
+
   </main>
 
-  <!-- Footer -->
   <footer class="site-footer">
-    <div class="container">
+    <div class="wrap">
       <div class="footer-grid">
-        <div class="footer-col">
-          <a href="index.html" class="brand" style="margin-bottom:1rem;">
-            <span class="brand-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2.5c4.5 6 8.5 9.5 8.5 14a8.5 8.5 0 1 1-17 0c0-4.5 4-8 8.5-14z"/></svg></span>
-            <span>Dummy<em>Cosmetics</em></span>
-          </a>
-          <p style="font-size:13.5px;color:var(--text-secondary);line-height:1.6;max-width:320px;">
-            Türkiye resmi distribütörü. Oteller, mağazalar, kurumsal ofisler ve yaşam alanları için profesyonel koku difüzyon teknolojileri.
-          </p>
+        <div class="footer-brand">
+          <a href="index.html" class="brand"><span data-site="brand">DummyCosmetics</span></a>
+          <!-- [DOĞRULANACAK] Distribütörlüğün kapsamı (resmi / tek yetkili) belgelenmeden bu ifadeler kullanılmamalı. -->
+          <p>JVCK koku difüzörleri ve esanslarının Türkiye distribütörü. Oteller, ofisler, mağazalar ve yaşam alanları için ürün seçimi ve teklif.</p>
         </div>
-        <div class="footer-col">
-          <h4>Sayfalar</h4>
+        <div class="footer-col footer-col--a">
+          <h2>Site</h2>
           <ul>
-            <li><a href="index.html">Ana Sayfa</a></li>
-            <li><a href="urunler.html">Ürün Kataloğu</a></li>
-            <li><a href="cozumler.html">Sektörel Çözümler</a></li>
+            <li><a href="urunler.html">Ürünler</a></li>
+            <li><a href="cozumler.html">Çözümler</a></li>
             <li><a href="teknoloji.html">Teknoloji</a></li>
+            <li><a href="esanslar.html">Esanslar</a></li>
+            <li><a href="kurumsal.html">Kurumsal &amp; OEM</a></li>
           </ul>
         </div>
-        <div class="footer-col">
-          <h4>Koleksiyon</h4>
+        <div class="footer-col footer-col--b">
+          <h2>İletişim</h2>
           <ul>
-            <li><a href="esanslar.html">Otel Koku Serisi</a></li>
-            <li><a href="esanslar.html#oils">Esans Kartuş &amp; Yağlar</a></li>
-            <li><a href="kurumsal.html">OEM &amp; Özel Koku</a></li>
-            <li><a href="iletisim.html">Teklif Al</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>İletişim</h4>
-          <ul>
-            <li><a href="mailto:info@dummycosmetics.com.tr">info@dummycosmetics.com.tr</a></li>
-            <li><a href="tel:+902120000000">+90 212 000 00 00</a></li>
-            <li style="color:var(--text-tertiary);">İstanbul, Türkiye</li>
+            <li><a href="mailto:info@dummycosmetics.com.tr" data-site-href="email"><span data-site="email">info@dummycosmetics.com.tr</span></a></li>
+            <li><a href="tel:+902120000000" data-site-href="phone"><span data-site="phone">+90 212 000 00 00</span></a></li>
+            <li><span data-site="city">İstanbul, Türkiye</span></li>
+            <li><a href="iletisim.html">Teklif formu</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <span>© <script>document.write(new Date().getFullYear())</script> DummyCosmetics Türkiye Distribütörlüğü. Tüm hakları saklıdır.</span>
-        <span>Doğal Taş &amp; Botanik Renk Paleti</span>
+        <span>© <span data-year>2026</span> <span data-site="brand">DummyCosmetics</span>. Tüm hakları saklıdır.</span>
+        <span>Teknik veriler üreticinin 2025 ürün kataloğundan alınmıştır.</span>
       </div>
     </div>
   </footer>
 
+  <script src="js/site-config.js"></script>
   <script src="js/products.js"></script>
   <script src="js/components.js"></script>
+  <script src="js/site.js"></script>
   <script>
     (function () {
+      const { icon, esc } = DummyApp;
       const areaInput = document.getElementById('calcArea');
       const heightInput = document.getElementById('calcHeight');
       const volDisplay = document.getElementById('calcVolume');
       const calcBtn = document.getElementById('calcBtn');
       const resultsContainer = document.getElementById('calcResults');
 
+      const imgPath = p => `images/${p.external ? 'general' : 'products'}/${p.img}.jpg`;
+
+      // Kapsama metnindeki en yüksek m³ değeri (ör. "2.000 / 4.000 / 7.000 m³" -> 7000).
+      // m² ile verilen (masaüstü) değerler hacim karşılaştırmasına alınmaz.
+      function maxCoverage(p) {
+        const spec = p.specs.find(s => /kapsama/i.test(s[0]))?.[1] || '';
+        if (!/m³/.test(spec)) return 0;
+        const nums = (spec.match(/\d[\d.]*/g) || []).map(n => parseInt(n.replace(/\./g, ''), 10)).filter(Boolean);
+        return nums.length ? Math.max(...nums) : 0;
+      }
+
       function calculate() {
-        const area = parseFloat(areaInput.value) || 0;
-        const height = parseFloat(heightInput.value) || 0;
+        const area = parseFloat(String(areaInput.value).replace(',', '.')) || 0;
+        const height = parseFloat(String(heightInput.value).replace(',', '.')) || 0;
         const vol = Math.round(area * height);
         volDisplay.textContent = vol.toLocaleString('tr-TR') + ' m³';
 
         if (typeof PRODUCTS === 'undefined') return;
 
-        const suitable = PRODUCTS.filter(p => {
-          const spec = p.specs.find(s => /kapsama/i.test(s[0]))?.[1] || '';
-          const match = spec.match(/(\d+[\d\.]*)/);
-          if (!match) return false;
-          const maxCov = parseInt(match[1].replace('.', ''), 10);
-          return maxCov >= vol;
-        }).slice(0, 3);
+        if (vol <= 0) {
+          resultsContainer.innerHTML = `<p class="calc-message">Hesaplama için taban alanı ve tavan yüksekliği girin.</p>`;
+          return;
+        }
+
+        const suitable = PRODUCTS
+          .map(p => ({ p, cov: maxCoverage(p) }))
+          .filter(x => x.cov >= vol)
+          .sort((a, b) => a.cov - b.cov)
+          .slice(0, 3)
+          .map(x => x.p);
 
         if (!suitable.length) {
           resultsContainer.innerHTML = `
-            <div style="background:var(--surface-raised);padding:1rem;border-radius:var(--radius-md);font-size:13px;color:var(--text-secondary);">
-              Bu hacim için (${vol} m³) çoklu cihaz kurulumu veya HVAC merkezi klima bağlantılı CK-611 / CK-621 serisi önerilir.
-              <a href="iletisim.html?teklif=1" style="color:var(--amber);text-decoration:underline;margin-left:8px;">Mühendislik teklifi isteyin →</a>
-            </div>
+            <p class="calc-message">${vol.toLocaleString('tr-TR')} m³ için tek bir cihaz yeterli değil. Birden fazla cihaz veya klima bağlantılı CK-611 / CK-621 serisiyle kurulum gerekir.
+              <a href="iletisim.html?konu=hvac" class="text-link">Proje teklifi isteyin</a>
+            </p>
           `;
           return;
         }
 
         resultsContainer.innerHTML = `
-          <div style="font-family:var(--mono);font-size:11.5px;color:var(--amber);text-transform:uppercase;margin-bottom:6px;font-weight:700;">
-            ${vol} m³ Hacim İçin Önerilen Sistemler (${suitable.length} Model):
-          </div>
-          <div class="grid-3">
-            ${suitable.map(p => `
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.15rem;display:flex;flex-direction:column;gap:6px;box-shadow:var(--shadow-sm);">
-                <span class="mono-tag" style="color:var(--amber);">${p.model}</span>
-                <strong style="font-family:var(--serif);font-size:1.25rem;">${p.title}</strong>
-                <p style="font-size:12.5px;color:var(--text-secondary);flex:1;">${p.short}</p>
-                <div style="display:flex;gap:6px;margin-top:8px;">
-                  <a href="urunler.html?model=${p.id}" class="btn btn-secondary btn-sm" style="flex:1;">İncele</a>
-                  <button class="btn btn-accent btn-sm" onclick="DummyApp.addToCart('${p.id}', 1)">+ Teklif</button>
+          <p class="calc-results__head">${vol.toLocaleString('tr-TR')} m³ için önerilen ${suitable.length} model</p>
+          <div class="calc-results__list">
+            ${suitable.map(p => {
+              const area = p.specs.find(s => /kapsama/i.test(s[0]))?.[1] || '';
+              return `
+              <div class="calc-row">
+                <img src="${imgPath(p)}" alt="" loading="lazy" style="object-position:${esc(p.pos || 'center')}">
+                <div>
+                  <span class="calc-row__code">${esc(p.model)}</span>
+                  <div class="calc-row__title">${esc(p.title)}</div>
+                  <div class="calc-row__meta">Kapsama: ${esc(area)}</div>
+                  <div class="calc-row__actions">
+                    <a href="urunler.html?model=${encodeURIComponent(p.id)}" class="link-arrow">İncele ${icon('arrow-right')}</a>
+                    <button type="button" class="btn-add" data-add="${esc(p.id)}" aria-label="${esc(p.model)} ürününü teklif listesine ekle">${icon('plus')}<span>Listeye ekle</span></button>
+                  </div>
                 </div>
-              </div>
-            `).join('')}
+              </div>`;
+            }).join('')}
           </div>
         `;
       }
+
+      resultsContainer.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-add]');
+        if (btn) DummyApp.addToCart(btn.dataset.add, 1);
+      });
 
       areaInput.addEventListener('input', calculate);
       heightInput.addEventListener('input', calculate);

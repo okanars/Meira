@@ -1,44 +1,34 @@
 <!DOCTYPE html>
+<!-- Marka adı "DummyCosmetics" geçicidir. Tek yerden yönetim: js/site-config.js (ayrıntı README.md). -->
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Teknoloji &amp; İnovasyon | DummyCosmetics Nano Difüzyon</title>
-  <meta name="description" content="Çift akışkanlı soğuk nano atomizasyon, sıfır ıslak kalıntı, HVAC klima entegrasyonu ve mobil IoT koku yönetim teknolojisi.">
-  <meta name="theme-color" content="#f7f5f0">
+  <title>Teknoloji | DummyCosmetics Koku Difüzyonu</title>
+  <meta name="description" content="Çift akışkanlı ve ultrasonik atomizasyon, klima sistemi bağlantısı ve uygulama ile kontrol. Üretici verilerine dayalı teknoloji özeti.">
+  <meta name="theme-color" content="#EEEBE5">
+  <link rel="canonical" href="https://www.dummycosmetics.com.tr/teknoloji.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="tr_TR">
+  <meta property="og:site_name" content="DummyCosmetics">
+  <meta property="og:title" content="Teknoloji | DummyCosmetics Koku Difüzyonu">
+  <meta property="og:description" content="Çift akışkanlı ve ultrasonik atomizasyon, klima sistemi bağlantısı ve uygulama ile kontrol. Üretici verilerine dayalı teknoloji özeti.">
+  <meta property="og:url" content="https://www.dummycosmetics.com.tr/teknoloji.html">
+  <meta property="og:image" content="https://www.dummycosmetics.com.tr/images/products/ck611.jpg">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/cormorant-garamond-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/geist-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css">
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
-  <!-- Top Announcement Bar -->
-  <div class="top-announcement">
-    <div class="container announcement-inner">
-      <div class="announcement-badge">
-        <span class="brand-status-dot"></span>
-        <span>PATENTLİ NANO ATOMİZASYON</span>
-      </div>
-      <div class="announcement-text">
-        Isı ve Su Kullanmayan İki Akışkanlı Soğuk Difüzyon • IFRA Onaylı Saf Esans Koruma
-      </div>
-      <a href="iletisim.html?konu=demo" class="announcement-link">
-        <span>Teknik Sunum &amp; Demo Talebi</span>
-        <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12"><path fill-rule="evenodd" d="M3.75 8a.75.75 0 01.75-.75h7.19L9.22 4.78a.75.75 0 011.06-1.06l3.75 3.75a.75.75 0 010 1.06l-3.75 3.75a.75.75 0 01-1.06-1.06l2.47-2.47H4.5A.75.75 0 013.75 8z" clip-rule="evenodd"/></svg>
-      </a>
-    </div>
-  </div>
+  <a class="skip-link" href="#main">İçeriğe geç</a>
 
-  <!-- Header -->
   <header class="site-header">
-    <div class="container nav-wrap">
-      <a href="index.html" class="brand" aria-label="DummyCosmetics Ana Sayfa">
-        <span class="brand-symbol">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 2.5c4.5 6 8.5 9.5 8.5 14a8.5 8.5 0 1 1-17 0c0-4.5 4-8 8.5-14z"/></svg>
-        </span>
-        <span>Dummy<em>Cosmetics</em></span>
-      </a>
+    <div class="wrap site-header__inner">
+      <a href="index.html" class="brand"><span data-site="brand">DummyCosmetics</span><span class="brand__sub">Türkiye</span></a>
 
-      <nav class="nav-links" id="navLinks" aria-label="Ana Menü">
-        <a href="index.html" class="nav-item">Ana Sayfa</a>
+      <nav class="nav" id="navLinks" aria-label="Ana menü">
         <a href="urunler.html" class="nav-item">Ürünler</a>
         <a href="cozumler.html" class="nav-item">Çözümler</a>
         <a href="teknoloji.html" class="nav-item">Teknoloji</a>
@@ -48,228 +38,154 @@
       </nav>
 
       <div class="nav-actions">
-        <button class="quote-trigger" aria-label="Teklif Listesi">
-          <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15"><path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"/></svg>
-          <span>Teklif Listesi</span>
-          <span class="quote-badge dc-cart-count empty">0</span>
+        <button type="button" class="quote-trigger" aria-label="Teklif listesi">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-clipboard-text"></use></svg>
+          <span class="quote-trigger__label">Teklif listesi</span>
+          <span class="quote-badge dc-cart-count empty" aria-hidden="true">0</span>
         </button>
-        <button class="burger-btn" id="burgerBtn" aria-label="Menü"><span></span><span></span><span></span></button>
+        <button type="button" class="burger-btn" id="burgerBtn" aria-label="Menü" aria-expanded="false" aria-controls="navLinks">
+          <svg class="icon icon--lg icon-open" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-list"></use></svg><svg class="icon icon--lg icon-close" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-x"></use></svg>
+        </button>
       </div>
     </div>
   </header>
 
-  <main>
-    <!-- Page Hero -->
-    <section class="page-hero">
-      <div class="container">
-        <span class="eyebrow">Mühendislik &amp; Ar-Ge</span>
-        <h1>Soğuk Nano Difüzyon Teknolojisi</h1>
-        <p>
-          Esans yağlarının kimyasal yapısını bozmadan, ısı veya su kullanmadan mikro nano partiküllere dönüştüren patentli atomizasyon altyapısı.
-        </p>
+  <main id="main">
+
+    <section class="page-head" aria-labelledby="page-title">
+      <div class="wrap">
+        <h1 id="page-title">Koku nasıl yayılır?</h1>
+        <p class="lead">Katalogdaki elektrikli cihazlar başlıca iki yöntemle çalışır: basınçlı hava kullanan çift akışkanlı atomizasyon ve ultrasonik atomizasyon. Üreticinin belirttiği yöntem, ürün detayındaki özellikler arasında yer alır.</p>
       </div>
     </section>
 
-    <!-- Particulate Comparison / Interactive Physics & Video Demo -->
-    <section class="section" style="padding-top:56px;">
-      <div class="container">
-        <div class="feature-split" style="align-items:center;margin-bottom:3.5rem;">
-          <div>
-            <span class="eyebrow moss">Partikül Fiziği</span>
-            <h2>Neden Kuru Sis? Islak Tortu Bırakmayan Difüzyon</h2>
-            <p style="color:var(--text-secondary);margin-bottom:1.25rem;">
-              Geleneksel aerosol veya su buharlı makineler 20 mikrondan büyük damlacıklar üretir. Bu damlacıklar mobilyalara, camlara ve tekstil yüzeylerine çarparak kırılır ve yapışkan yağ lekesi bırakır.
-            </p>
-            <p style="color:var(--text-secondary);margin-bottom:1.5rem;">
-              Çift akışkanlı (two-fluid) sıkıştırılmış hava teknolojisi ise esans yağını <strong>ultra ince nano partiküllere (&lt;3-5μm)</strong> ayrıştırır. Bu partiküller yüzeylere yapışmadan havada seker ve doğal hava akımıyla mekânın her köşesine eşit yayılır.
-            </p>
-            <div style="display:flex;gap:1.5rem;font-family:var(--mono);font-size:12px;color:var(--amber);flex-wrap:wrap;">
-              <div>✓ Sıfır Yüzey Yapışkanlığı</div>
-              <div>✓ Kalıcı &amp; Dengeli Koku Perdesi</div>
-              <div>✓ %40 Daha Az Esans Tüketimi</div>
-            </div>
+    <section class="section section--flush-top" aria-labelledby="mist-title">
+      <div class="wrap split split--wide-b">
+        <div class="split__a reveal">
+          <h2 id="mist-title">İnce parçacık, kuru yüzey</h2>
+          <div class="mt-5 prose">
+            <p>Üreticinin açıklamasına göre çift akışkanlı sistemlerde basınçlı hava, esansı mikro parçacıklara ayırır; bu parçacıklar iyonize, yüksek hızlı bir hızlandırıcıyla nano ölçeğe indirilir.</p>
+            <p>Çok ince parçacıklar yüzeye çarptığında kırılmaz, geri seker. Büyük damlacıklar ise çarptığı yerde kırılarak ıslak kalıntı bırakabilir.</p>
+            <p>Ultrasonik modellerde (ör. CK-628, CK-638, CK-648, CK-608) esans, değiştirilebilir bir ultrasonik plaka ile sise dönüştürülür.</p>
           </div>
-
-          <!-- Video: Real Living Room Diffuser Mist in Action -->
-          <div class="hero-video-card">
-            <video autoplay loop muted playsinline poster="images/general/video-living-poster.jpg">
-              <source src="images/products/videos/gemini_generated_video_2d31ff34.mp4" type="video/mp4">
+        </div>
+        <div class="split__b reveal">
+          <figure class="video-figure" data-video>
+          <div class="media media--16x9">
+            <video autoplay loop muted playsinline preload="metadata" poster="images/general/video-hero-poster.jpg" aria-label="Yosunlu bir taş üzerinde sis yayan difüzör ailesi; yapay zekâ ile üretilmiş tanıtım videosu">
+              <source src="images/products/videos/kling_20261006_VIDEO_Create_an__5206_0.mp4" type="video/mp4">
             </video>
-            <div class="hero-video-badge">
-              <span class="pulse-dot"></span>
-              <span>Canlı Nano Kuru Sis Akışı</span>
-            </div>
           </div>
+          <figcaption class="video-figure__bar">
+            <span class="media-caption">Görsel temsilidir. Yapay zekâ ile üretilmiş tanıtım videosudur.</span>
+            <button type="button" class="video-toggle"><svg class="icon icon-pause" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-pause"></use></svg><svg class="icon icon-play" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-play"></use></svg><span class="video-toggle__label">Videoyu durdur</span></button>
+          </figcaption>
+        </figure>
         </div>
+      </div>
+    </section>
 
-        <!-- Interactive Particle Physics Comparison Simulator -->
-        <div class="particle-sim-card">
-          <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:1.25rem;flex-wrap:wrap;gap:1rem;">
+    <section class="section section--flush-top" aria-labelledby="sim-title">
+      <div class="wrap">
+        <div class="sim reveal">
+          <div class="sim__head">
             <div>
-              <span class="eyebrow amber">İnteraktif Karşılaştırma</span>
-              <h3 style="font-size:1.45rem;margin:4px 0;">Atomizasyon Davranış Analizi</h3>
-              <p style="color:var(--text-secondary);font-size:13px;">Geleneksel aerosol ile DummyCosmetics soğuk kuru sis teknolojisinin havada asılı kalma farkı.</p>
+              <h2 id="sim-title">İki yöntemin farkı</h2>
+              <p class="mt-3">Üreticinin teknoloji açıklamasına dayanan nitel bir karşılaştırma; ölçülmüş test verisi değildir.</p>
             </div>
-            <div class="particle-toggle-group">
-              <button class="particle-toggle-btn active" data-sim="nano">DummyCosmetics Nano Kuru Sis</button>
-              <button class="particle-toggle-btn" data-sim="aerosol">Geleneksel Islak Sprey</button>
+            <div class="particle-toggle-group" role="group" aria-label="Karşılaştırılacak yöntem">
+              <button type="button" class="particle-toggle-btn active" data-sim="nano" aria-pressed="true">Çift akışkanlı atomizasyon</button>
+              <button type="button" class="particle-toggle-btn" data-sim="aerosol" aria-pressed="false">Büyük damlacıklı püskürtme</button>
             </div>
           </div>
-
-          <div id="simDisplay">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
-              <span class="mono-tag" style="color:var(--moss);font-weight:700;">DİFÜZYON STATÜSÜ: Kuru Sis (Dry Mist)</span>
-              <span class="mono-tag">PARTİKÜL ÇAPI: &lt; 3-5 Mikron</span>
-            </div>
-            <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:1.25rem;">
-              İki akışkanlı patentli nozül hava akımıyla esansı nano boyuta indirger. Havada molekül gibi süzülür, mobilyalara çarpınca sekip havada kalır.
-            </p>
-            <div class="sim-metrics-grid">
-              <div class="sim-metric-cell">
-                <b>&lt; 3-5 μm</b>
-                <span>Partikül Boyutu</span>
-              </div>
-              <div class="sim-metric-cell">
-                <b>4 – 6 Saat</b>
-                <span>Havada Asılı Kalma</span>
-              </div>
-              <div class="sim-metric-cell">
-                <b>%0 Sıfır</b>
-                <span>Yüzey Yapışkanlığı</span>
-              </div>
-            </div>
+          <div id="simDisplay" aria-live="polite">
+            <p class="sim__status">Çift akışkanlı (basınçlı hava) atomizasyon</p>
+            <p class="sim__desc">Basınçlı hava esansı mikro parçacıklara ayırır; üreticinin açıklamasına göre iyonize, yüksek hızlı bir hızlandırıcı bu parçacıkları nano ölçeğe indirir. Çok ince parçacıklar yüzeye çarptığında kırılmadan geri seker.</p>
+            <dl class="sim-metrics">
+              <div class="sim-metric"><dt>Parçacık</dt><dd>Nano ölçekli parçacık</dd></div>
+              <div class="sim-metric"><dt>Yüzeyle temas</dt><dd>Yüzeyden seker, yapışmaz</dd></div>
+              <div class="sim-metric"><dt>Kalıntı</dt><dd>Islak kalıntı bırakmaz</dd></div>
+            </dl>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Smart IoT & Mobile Control -->
-    <section class="section" style="border-top:1px solid var(--border-subtle);background:var(--bg-subtle);">
-      <div class="container">
-        <div class="feature-split">
-          <div class="feature-media" style="display:flex;justify-content:center;background:#0d0d10;padding:2rem;">
-            <img src="images/general/app.jpg" alt="DummyCosmetics Mobil Koku Yönetim Uygulaması" style="max-height:460px;width:auto;border-radius:18px;border:1px solid var(--border);">
-          </div>
-
-          <div>
-            <span class="eyebrow">Akıllı Yönetim</span>
-            <h2>Akıllı Telefon ve Bluetooth &amp; WiFi Kontrolü</h2>
-            <p style="color:var(--text-secondary);margin-bottom:1.25rem;">
-              Cihazların çalışma saatlerini, püskürtme sıklığını ve koku yoğunluğunu doğrudan akıllı telefon uygulamasından veya cihaz üzerindeki CNC dijital ekrandan yönetebilirsiniz.
-            </p>
-            
-            <div style="display:grid;gap:1rem;margin-bottom:1.5rem;">
-              <div style="display:flex;gap:12px;align-items:start;">
-                <span style="font-family:var(--mono);color:var(--accent);font-size:13px;font-weight:600;">01</span>
-                <div>
-                  <strong style="font-size:13.5px;">Hassas Zamanlama</strong>
-                  <p style="font-size:12.5px;color:var(--text-secondary);">Haftanın günlerine ve mesai saatlerine göre otomatik açılma / kapanma programı.</p>
-                </div>
-              </div>
-              <div style="display:flex;gap:12px;align-items:start;">
-                <span style="font-family:var(--mono);color:var(--accent);font-size:13px;font-weight:600;">02</span>
-                <div>
-                  <strong style="font-size:13.5px;">Yoğunluk &amp; Vites Kademeleri</strong>
-                  <p style="font-size:12.5px;color:var(--text-secondary);">Mekânın insan yoğunluğuna göre saniyelik püskürtme ve duraklama aralığı ayarı.</p>
-                </div>
-              </div>
-              <div style="display:flex;gap:12px;align-items:start;">
-                <span style="font-family:var(--mono);color:var(--accent);font-size:13px;font-weight:600;">03</span>
-                <div>
-                  <strong style="font-size:13.5px;">Kızılötesi Yağ Seviye Takibi</strong>
-                  <p style="font-size:12.5px;color:var(--text-secondary);">Esans azaldığında uygulama üzerinden uyarı vererek bakım maliyetlerini minimize eder.</p>
-                </div>
-              </div>
-            </div>
-
-            <a href="urunler.html" class="btn btn-secondary">Uygulama Destekli Modeller →</a>
-          </div>
+    <section class="section section--flush-top" aria-labelledby="app-title">
+      <div class="wrap split split--wide-a">
+        <div class="split__a reveal">
+          <div class="media media--4x3"><img src="images/products/ck688.jpg" alt="Duvara monte CK-688 difüzörü telefon uygulamasıyla kontrol eden el" loading="lazy" style="object-position:62% 50%"></div>
+        </div>
+        <div class="split__b reveal">
+          <h2 id="app-title">Telefondan zamanlama ve yoğunluk</h2>
+          <p class="mt-4 text-2">Uygulama destekli modellerde çalışma saatleri, püskürtme aralığı ve koku yoğunluğu telefondan ayarlanır. Bağlantı türü modele göre Bluetooth veya WiFi'dir.</p>
+          <ul class="feature-list">
+            <li><b>Zamanlama</b><span>Haftanın günlerine ve çalışma saatlerine göre otomatik açma ve kapama.</span></li>
+            <li><b>Yoğunluk</b><span>Mekândaki insan yoğunluğuna göre püskürtme ve bekleme süresi.</span></li>
+            <li><b>Yağ seviyesi</b><span>CK-631 modelinde kızılötesi yağ seviyesi algılama.</span></li>
+          </ul>
+          <p class="mt-6"><a href="urunler.html?q=uygulama" class="link-arrow">Uygulama destekli modeller <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a></p>
         </div>
       </div>
     </section>
 
-    <!-- HVAC Central Integration -->
-    <section class="section" style="border-top:1px solid var(--border-subtle);">
-      <div class="container">
-        <div class="card" style="padding:3rem 2rem;background:var(--surface);">
-          <div class="section-head" style="max-width:700px;margin-bottom:2rem;">
-            <span class="eyebrow">Merkezi Klima Entegrasyonu</span>
-            <h2>HVAC &amp; Taze Hava Kanallarına Doğrudan Bağlantı</h2>
-            <p>
-              CK-631, CK-620 ve CK-611 serisi; binanın merkezi havalandırma kanallarına (HVAC) doğrudan bağlanabilir. Tek bir merkezden binlerce metrekareye koku eşit şekilde taşınır.
-            </p>
+    <section class="section section--deep" aria-labelledby="hvac-title">
+      <div class="wrap">
+        <div class="media media--21x9 reveal"><img src="images/products/ck611.jpg" alt="AVM atriyumunda iki alüminyum hazneli CK-611 serisi difüzör" loading="lazy" style="object-position:50% 62%"></div>
+        <div class="band-head">
+          <div class="reveal">
+            <h2 id="hvac-title">Klima ve taze hava sistemine bağlantı</h2>
+            <p class="mt-4 text-2">Büyük alanlarda cihaz binanın havalandırma kanalına bağlanır; koku menfezlerden hava akışıyla birlikte dağılır.</p>
           </div>
-
-          <div class="grid-3">
-            <div style="background:var(--surface-raised);padding:1.5rem;border-radius:var(--radius-md);border:1px solid var(--border);">
-              <span class="mono-tag" style="color:var(--accent);">KANAL ENJEKSİYONU</span>
-              <h3 style="margin:6px 0;font-size:1.15rem;">Görünmez Difüzyon</h3>
-              <p style="font-size:12.5px;color:var(--text-secondary);">Mekânda hiçbir cihaz görünmez; koku doğrudan menfezlerden doğal hava ile birlikte yayılır.</p>
-            </div>
-            <div style="background:var(--surface-raised);padding:1.5rem;border-radius:var(--radius-md);border:1px solid var(--border);">
-              <span class="mono-tag" style="color:var(--accent);">ÇİFT POMPA TEKNOLOJİSİ</span>
-              <h3 style="margin:6px 0;font-size:1.15rem;">Yüksek Basınç</h3>
-              <p style="font-size:12.5px;color:var(--text-secondary);">Dahili hava kompresörleri kanal içi hava direncini kırarak homojen basınç sağlar.</p>
-            </div>
-            <div style="background:var(--surface-raised);padding:1.5rem;border-radius:var(--radius-md);border:1px solid var(--border);">
-              <span class="mono-tag" style="color:var(--accent);">MERDİVENSİZ DEĞİŞİM</span>
-              <h3 style="margin:6px 0;font-size:1.15rem;">Teleskopik Hızlı Bakım</h3>
-              <p style="font-size:12.5px;color:var(--text-secondary);">CK-656 modelinde 3 metrelik teleskopik çubuk ile merdivene gerek duymadan anında kartuş değişimi.</p>
-            </div>
-          </div>
+          <ul class="point-list reveal">
+            <li><b>Uyumlu modeller</b><span>CK-631, CK-620 / 640 / 670, CK-611 / 612 / 613 ve CK-621 / 622 / 623 klima bağlantısını; CK-686 taze hava sistemi bağlantısını destekler.</span></li>
+            <li><b>Büyük hazne</b><span>Çift başlıklı seride 2 x 5000 ml'ye kadar hazne seçeneği bulunur.</span></li>
+            <li><b>Merdivensiz bakım</b><span>CK-656 modelinde 3 metrelik teleskopik çubukla yağ değişimi yapılır.</span></li>
+          </ul>
         </div>
       </div>
     </section>
+
   </main>
 
-  <!-- Footer -->
   <footer class="site-footer">
-    <div class="container">
+    <div class="wrap">
       <div class="footer-grid">
-        <div class="footer-col">
-          <a href="index.html" class="brand" style="margin-bottom:1rem;">
-            <span class="brand-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2.5c4.5 6 8.5 9.5 8.5 14a8.5 8.5 0 1 1-17 0c0-4.5 4-8 8.5-14z"/></svg></span>
-            <span>Dummy<em>Cosmetics</em></span>
-          </a>
-          <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;max-width:320px;">
-            Türkiye resmi distribütörü. Oteller, mağazalar, kurumsal ofisler ve yaşam alanları için profesyonel koku difüzyon teknolojileri.
-          </p>
+        <div class="footer-brand">
+          <a href="index.html" class="brand"><span data-site="brand">DummyCosmetics</span></a>
+          <!-- [DOĞRULANACAK] Distribütörlüğün kapsamı (resmi / tek yetkili) belgelenmeden bu ifadeler kullanılmamalı. -->
+          <p>JVCK koku difüzörleri ve esanslarının Türkiye distribütörü. Oteller, ofisler, mağazalar ve yaşam alanları için ürün seçimi ve teklif.</p>
         </div>
-        <div class="footer-col">
-          <h4>Sayfalar</h4>
+        <div class="footer-col footer-col--a">
+          <h2>Site</h2>
           <ul>
-            <li><a href="index.html">Ana Sayfa</a></li>
-            <li><a href="urunler.html">Ürün Kataloğu</a></li>
-            <li><a href="cozumler.html">Sektörel Çözümler</a></li>
+            <li><a href="urunler.html">Ürünler</a></li>
+            <li><a href="cozumler.html">Çözümler</a></li>
             <li><a href="teknoloji.html">Teknoloji</a></li>
+            <li><a href="esanslar.html">Esanslar</a></li>
+            <li><a href="kurumsal.html">Kurumsal &amp; OEM</a></li>
           </ul>
         </div>
-        <div class="footer-col">
-          <h4>Koleksiyon</h4>
+        <div class="footer-col footer-col--b">
+          <h2>İletişim</h2>
           <ul>
-            <li><a href="esanslar.html">Otel Koku Serisi</a></li>
-            <li><a href="esanslar.html#oils">Esans Kartuş &amp; Yağlar</a></li>
-            <li><a href="kurumsal.html">OEM &amp; Özel Koku</a></li>
-            <li><a href="iletisim.html">Teklif Al</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>İletişim</h4>
-          <ul>
-            <li><a href="mailto:info@dummycosmetics.com.tr">info@dummycosmetics.com.tr</a></li>
-            <li><a href="tel:+902120000000">+90 212 000 00 00</a></li>
-            <li style="color:var(--text-tertiary);">İstanbul, Türkiye</li>
+            <li><a href="mailto:info@dummycosmetics.com.tr" data-site-href="email"><span data-site="email">info@dummycosmetics.com.tr</span></a></li>
+            <li><a href="tel:+902120000000" data-site-href="phone"><span data-site="phone">+90 212 000 00 00</span></a></li>
+            <li><span data-site="city">İstanbul, Türkiye</span></li>
+            <li><a href="iletisim.html">Teklif formu</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <span>© <script>document.write(new Date().getFullYear())</script> DummyCosmetics Türkiye Distribütörlüğü. Tüm hakları saklıdır.</span>
-        <span>Mühendislik &amp; Tasarım: Emil Kowalski Kısıtlamaları</span>
+        <span>© <span data-year>2026</span> <span data-site="brand">DummyCosmetics</span>. Tüm hakları saklıdır.</span>
+        <span>Teknik veriler üreticinin 2025 ürün kataloğundan alınmıştır.</span>
       </div>
     </div>
   </footer>
 
+  <script src="js/site-config.js"></script>
   <script src="js/products.js"></script>
   <script src="js/components.js"></script>
+  <script src="js/site.js"></script>
 </body>
 </html>

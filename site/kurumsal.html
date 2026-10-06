@@ -1,44 +1,34 @@
 <!DOCTYPE html>
+<!-- Marka adı "DummyCosmetics" geçicidir. Tek yerden yönetim: js/site-config.js (ayrıntı README.md). -->
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Kurumsal &amp; OEM/ODM | DummyCosmetics Türkiye</title>
-  <meta name="description" content="DummyCosmetics Türkiye distribütörlüğü, 20+ yıllık üretim gücü, 20.000 m² fabrika altyapısı, kurumsal imza koku tasarımı ve OEM/ODM çözümleri.">
-  <meta name="theme-color" content="#f7f5f0">
+  <title>Kurumsal ve OEM / ODM | DummyCosmetics Türkiye</title>
+  <meta name="description" content="JVCK ürünlerinin Türkiye distribütörlüğü, üretici bilgileri, özel markalı üretim (OEM / ODM) ve kurumsal koku süreci.">
+  <meta name="theme-color" content="#EEEBE5">
+  <link rel="canonical" href="https://www.dummycosmetics.com.tr/kurumsal.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="tr_TR">
+  <meta property="og:site_name" content="DummyCosmetics">
+  <meta property="og:title" content="Kurumsal ve OEM / ODM | DummyCosmetics Türkiye">
+  <meta property="og:description" content="JVCK ürünlerinin Türkiye distribütörlüğü, üretici bilgileri, özel markalı üretim (OEM / ODM) ve kurumsal koku süreci.">
+  <meta property="og:url" content="https://www.dummycosmetics.com.tr/kurumsal.html">
+  <meta property="og:image" content="https://www.dummycosmetics.com.tr/images/general/factory1.jpg">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/cormorant-garamond-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/geist-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css">
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
-  <!-- Top Announcement Bar -->
-  <div class="top-announcement">
-    <div class="container announcement-inner">
-      <div class="announcement-badge">
-        <span class="brand-status-dot"></span>
-        <span>GLOBAL ÜRETİM &amp; DİSTRİBÜTÖRLÜK</span>
-      </div>
-      <div class="announcement-text">
-        20.000 m² Üretim Alanı • 80+ Ülkeye İhracat • CE, FCC, RoHS, IFRA ve FDA Sertifikaları
-      </div>
-      <a href="iletisim.html?konu=oem" class="announcement-link">
-        <span>OEM / ODM Başvurusu Yap</span>
-        <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12"><path fill-rule="evenodd" d="M3.75 8a.75.75 0 01.75-.75h7.19L9.22 4.78a.75.75 0 011.06-1.06l3.75 3.75a.75.75 0 010 1.06l-3.75 3.75a.75.75 0 01-1.06-1.06l2.47-2.47H4.5A.75.75 0 013.75 8z" clip-rule="evenodd"/></svg>
-      </a>
-    </div>
-  </div>
+  <a class="skip-link" href="#main">İçeriğe geç</a>
 
-  <!-- Header -->
   <header class="site-header">
-    <div class="container nav-wrap">
-      <a href="index.html" class="brand" aria-label="DummyCosmetics Ana Sayfa">
-        <span class="brand-symbol">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 2.5c4.5 6 8.5 9.5 8.5 14a8.5 8.5 0 1 1-17 0c0-4.5 4-8 8.5-14z"/></svg>
-        </span>
-        <span>Dummy<em>Cosmetics</em></span>
-      </a>
+    <div class="wrap site-header__inner">
+      <a href="index.html" class="brand"><span data-site="brand">DummyCosmetics</span><span class="brand__sub">Türkiye</span></a>
 
-      <nav class="nav-links" id="navLinks" aria-label="Ana Menü">
-        <a href="index.html" class="nav-item">Ana Sayfa</a>
+      <nav class="nav" id="navLinks" aria-label="Ana menü">
         <a href="urunler.html" class="nav-item">Ürünler</a>
         <a href="cozumler.html" class="nav-item">Çözümler</a>
         <a href="teknoloji.html" class="nav-item">Teknoloji</a>
@@ -48,193 +38,131 @@
       </nav>
 
       <div class="nav-actions">
-        <button class="quote-trigger" aria-label="Teklif Listesi">
-          <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15"><path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"/></svg>
-          <span>Teklif Listesi</span>
-          <span class="quote-badge dc-cart-count empty">0</span>
+        <button type="button" class="quote-trigger" aria-label="Teklif listesi">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-clipboard-text"></use></svg>
+          <span class="quote-trigger__label">Teklif listesi</span>
+          <span class="quote-badge dc-cart-count empty" aria-hidden="true">0</span>
         </button>
-        <button class="burger-btn" id="burgerBtn" aria-label="Menü"><span></span><span></span><span></span></button>
+        <button type="button" class="burger-btn" id="burgerBtn" aria-label="Menü" aria-expanded="false" aria-controls="navLinks">
+          <svg class="icon icon--lg icon-open" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-list"></use></svg><svg class="icon icon--lg icon-close" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-x"></use></svg>
+        </button>
       </div>
     </div>
   </header>
 
-  <main>
-    <!-- Page Hero -->
-    <section class="page-hero">
-      <div class="container">
-        <span class="eyebrow">Kurumsal Kimlik &amp; Distribütörlük</span>
-        <h1>Türkiye Distribütörlüğü &amp; Üretim Gücü</h1>
-        <p>
-          DummyCosmetics olarak, akıllı koku difüzyon teknolojilerinde dünya lideri JVCK International Fragrance sistemlerinin Türkiye’deki tek yetkili satış, teknik servis ve dağıtım temsilcisiyiz.
-        </p>
+  <main id="main">
+
+    <section class="page-head" aria-labelledby="page-title">
+      <div class="wrap">
+        <h1 id="page-title">Distribütörlük ve üretici</h1>
+        <!-- [DOĞRULANACAK] "Resmi / tek yetkili distribütör" ifadesi kaldırıldı. Yetki belgesi varsa kapsamıyla birlikte eklenebilir. -->
+        <p class="lead"><span data-site="brand">DummyCosmetics</span>, JVCK markalı koku difüzörleri ve esanslarının Türkiye distribütörüdür. Türkiye'deki projeler için ürün seçimi, teklif ve tedarik süreçlerini yürütür.</p>
       </div>
     </section>
 
-    <!-- Manufacturing Facilities -->
-    <section class="section" style="padding-top:56px;">
-      <div class="container">
-        <div class="feature-split">
-          <div>
-            <span class="eyebrow">Global Üretim Tesisi</span>
-            <h2>20+ Yıllık İnovasyon &amp; Yüksek Standartlı Üretim</h2>
-            <p style="color:var(--text-secondary);margin-bottom:1.25rem;">
-              Ürünlerimiz; 20 yılı aşkın süredir ticari koku mühendisliği, akıllı IoT difüzörler ve IFRA uyumlu botanik esanslar üreten yüksek teknolojili tesislerde imal edilmektedir.
-            </p>
-            <p style="color:var(--text-secondary);margin-bottom:1.75rem;">
-              Asya, Avrupa, Kuzey Amerika ve Orta Doğu dahil 80'den fazla ülkeye ihraç edilen sistemler, uluslararası güvenlik standartları ve FDA uyumluluğu ile sertifikalandırılmıştır.
-            </p>
-
-            <div class="stat-strip" style="grid-template-columns:1fr 1fr;">
-              <div class="stat-cell">
-                <b>20.000 m²</b>
-                <span>Modern Fabrika Alanı</span>
-              </div>
-              <div class="stat-cell">
-                <b>2.000.000+</b>
-                <span>Yıllık Cihaz Üretim Kapasitesi</span>
-              </div>
-              <div class="stat-cell">
-                <b>80+</b>
-                <span>Hassas Üretim &amp; Kalıp Ekipmanı</span>
-              </div>
-              <div class="stat-cell">
-                <b>100+</b>
-                <span>Uluslararası Tasarım &amp; İnovasyon Patenti</span>
-              </div>
-            </div>
+    <section class="section section--flush-top" aria-labelledby="maker-title">
+      <div class="wrap split split--wide-b split--top">
+        <div class="split__a reveal">
+          <h2 id="maker-title">Üretici: JVCK</h2>
+          <div class="mt-5 prose">
+            <p>Ürünler JVCK markasıyla Dongguan Zhiliangzhi Fragrance Technology Co., Ltd. (Dongguan, Çin) tarafından geliştirilir ve üretilir. Şirket ticari ve ev tipi akıllı koku cihazları ile esans yağları üretmektedir.</p>
           </div>
-
-          <div style="display:grid;gap:16px;">
-            <div class="feature-media">
-              <img src="images/general/factory1.jpg" alt="DummyCosmetics Üretim Tesisi">
-            </div>
-            <div class="feature-media">
-              <img src="images/general/factory2.jpg" alt="Yüksek Teknolojili Üretim Hattı">
-            </div>
+          <!-- [DOĞRULANACAK] Aşağıdaki rakamlar üreticinin 2025 kataloğundaki beyanlardır; bağımsız olarak doğrulanmadı. -->
+          <dl class="claims">
+            <div><dt>Üretim deneyimi</dt><dd>20+ yıl</dd></div>
+            <div><dt>Fabrika alanı</dt><dd>20.000 m²</dd></div>
+            <div><dt>Yıllık üretim</dt><dd>2.000.000 adet</dd></div>
+            <div><dt>İhracat yapılan ülke</dt><dd>80+</dd></div>
+            <div><dt>Patent</dt><dd>100+</dd></div>
+            <div><dt>Koku profili</dt><dd>1.000+</dd></div>
+          </dl>
+          <p class="mt-5 note">Rakamlar üreticinin 2025 ürün kataloğundaki beyanlardır; bağımsız olarak doğrulanmamıştır.</p>
+        </div>
+        <div class="split__b reveal">
+          <div class="collage">
+            <div class="media collage__a"><img src="images/general/factory1.jpg" alt="JVCK tabelalı beyaz üretim binası" loading="lazy"></div>
+            <div class="media collage__b"><img src="images/general/factory2.jpg" alt="JVCK üretim tesisinin cam cepheli giriş binası" loading="lazy"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- OEM & ODM Services -->
-    <section class="section" style="border-top:1px solid var(--border-subtle);background:var(--bg-subtle);">
-      <div class="container">
-        <div class="feature-split">
-          <div class="feature-media">
-            <img src="images/general/oem.jpg" alt="OEM ve ODM İş Birliği Görüşmesi">
-          </div>
-
-          <div>
-            <span class="eyebrow">Özel Markalı Üretim</span>
-            <h2>Kendi Markanız İçin OEM / ODM Çözümleri</h2>
-            <p style="color:var(--text-secondary);margin-bottom:1.25rem;">
-              Otel zinciriniz, kurumsal perakende markanız veya kişisel bakım markanız için baştan uca özel üretim desteği sunuyoruz:
-            </p>
-
-            <div style="display:grid;gap:0.85rem;margin-bottom:1.75rem;">
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:1rem;">
-                <strong style="color:var(--accent);display:block;font-size:13px;margin-bottom:2px;">Özel Logo &amp; Dış Kasa Tasarımı (OEM)</strong>
-                <p style="font-size:12.5px;color:var(--text-secondary);">Cihaz gövdesi üzerine logo baskısı, renk kodlama ve özel ambalajlama.</p>
-              </div>
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:1rem;">
-                <strong style="color:var(--accent);display:block;font-size:13px;margin-bottom:2px;">Ortak Ürün Geliştirme (ODM)</strong>
-                <p style="font-size:12.5px;color:var(--text-secondary);">Sıfırdan kalıp tasarımı, özel yazılım ve donanım mimarisi geliştirme.</p>
-              </div>
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:1rem;">
-                <strong style="color:var(--accent);display:block;font-size:13px;margin-bottom:2px;">Özel Esans Reçetelendirmesi</strong>
-                <p style="font-size:12.5px;color:var(--text-secondary);">Avrupa ve Fransız hammadde tedarikçileriyle sadece markanıza ait koku patenti.</p>
-              </div>
-            </div>
-
-            <a href="iletisim.html?konu=oem" class="btn btn-primary">OEM / ODM Projenizi Başlatın →</a>
+    <section class="section section--deep" aria-labelledby="oem-title">
+      <div class="wrap split split--wide-a">
+        <div class="split__a reveal">
+          <div class="media media--16x9"><img src="images/general/group.jpg" alt="Yosunlu taşlar üzerinde duvar tipi difüzörler ve esans şişeleri" loading="lazy" style="object-position:50% 55%"></div>
+        </div>
+        <div class="split__b reveal">
+          <h2 id="oem-title">Kendi markanız için OEM ve ODM</h2>
+          <p class="mt-4 text-2">Üretici, özel markalı üretim (OEM) ve ortak ürün geliştirme (ODM) desteği sunduğunu belirtmektedir. Talebinizi üreticiye iletir, süreci sizin adınıza takip ederiz.</p>
+          <ul class="service-list">
+            <li><b>Özel logo ve ambalaj (OEM)</b><span>Cihaz gövdesine logo baskısı, renk seçimi ve özel ambalaj.</span></li>
+            <li><b>Ortak ürün geliştirme (ODM)</b><span>Kalıp, donanım ve yazılım geliştirme.</span></li>
+            <li><b>Markaya özel koku</b><span>Markanızın tonuna göre hazırlanan özel koku formülü.</span></li>
+          </ul>
+          <div class="mt-6 btn-row">
+            <a href="iletisim.html?konu=oem" class="btn btn--primary">Teklif iste <svg class="icon icon--move" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Custom Fragrance Design Workflow -->
-    <section class="section" style="border-top:1px solid var(--border-subtle);">
-      <div class="container">
-        <div class="section-head center">
-          <span class="eyebrow">Hizmet Metodolojisi</span>
-          <h2>4 Aşamalı Kurumsal Koku Süreci</h2>
-          <p>Mekânınız için en doğru koku kimliğini adım adım hayata geçiriyoruz.</p>
+    <section class="section" aria-labelledby="process-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2 id="process-title">Kurumsal koku süreci</h2>
+          <p class="lead">Bir mekânın kokusunu dört adımda birlikte belirliyoruz.</p>
         </div>
-
-        <div class="grid-4" style="margin-top:2.5rem;">
-          <div class="card" style="padding:1.5rem;">
-            <span class="mono-tag" style="color:var(--accent);">01 / KEŞİF</span>
-            <h3 style="margin:0.5rem 0;font-size:1.15rem;">Mekân Analizi</h3>
-            <p style="font-size:12.5px;color:var(--text-secondary);">Hava akımları, metrekare, tavan yüksekliği ve müşteri dolaşım koridorları haritalandırılır.</p>
-          </div>
-          <div class="card" style="padding:1.5rem;">
-            <span class="mono-tag" style="color:var(--accent);">02 / REÇETE</span>
-            <h3 style="margin:0.5rem 0;font-size:1.15rem;">Koku Tasarımı</h3>
-            <p style="font-size:12.5px;color:var(--text-secondary);">Markanızın tonuna ve hedef kitlesine en uygun 3 farklı imza koku numunesi hazırlanır.</p>
-          </div>
-          <div class="card" style="padding:1.5rem;">
-            <span class="mono-tag" style="color:var(--accent);">03 / PİLOT TEST</span>
-            <h3 style="margin:0.5rem 0;font-size:1.15rem;">Yerinde Uygulama</h3>
-            <p style="font-size:12.5px;color:var(--text-secondary);">Cihazlar alana kurulur; homojen dağılım ve kalıcılık 7 günlük pilot süreçle test edilir.</p>
-          </div>
-          <div class="card" style="padding:1.5rem;">
-            <span class="mono-tag" style="color:var(--accent);">04 / YÖNETİM</span>
-            <h3 style="margin:0.5rem 0;font-size:1.15rem;">Sürekli Dolum &amp; Bakım</h3>
-            <p style="font-size:12.5px;color:var(--text-secondary);">Düzenli esans takviyesi, kartuş değişimi ve cihaz bakım servisleri periyodik olarak yürütülür.</p>
-          </div>
-        </div>
+        <!-- [DOĞRULANACAK] Hizmet kapsamı (keşif, pilot uygulama, bakım) distribütör tarafından teyit edilmeli. -->
+        <ol class="process">
+          <li class="reveal"><h3>Keşif</h3><p>Alanın ölçüleri, tavan yüksekliği, hava akışı ve kullanım yoğunluğu not edilir.</p></li>
+          <li class="reveal"><h3>Koku seçimi</h3><p>Markanızın tonuna ve misafir profilinize uygun koku numuneleri hazırlanır.</p></li>
+          <li class="reveal"><h3>Pilot uygulama</h3><p>Cihaz alana kurulur; dağılım ve yoğunluk birlikte değerlendirilir.</p></li>
+          <li class="reveal"><h3>Dolum ve bakım</h3><p>Esans dolumu ve cihaz bakımı için periyodik bir plan yapılır.</p></li>
+        </ol>
       </div>
     </section>
+
   </main>
 
-  <!-- Footer -->
   <footer class="site-footer">
-    <div class="container">
+    <div class="wrap">
       <div class="footer-grid">
-        <div class="footer-col">
-          <a href="index.html" class="brand" style="margin-bottom:1rem;">
-            <span class="brand-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2.5c4.5 6 8.5 9.5 8.5 14a8.5 8.5 0 1 1-17 0c0-4.5 4-8 8.5-14z"/></svg></span>
-            <span>Dummy<em>Cosmetics</em></span>
-          </a>
-          <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;max-width:320px;">
-            Türkiye resmi distribütörü. Oteller, mağazalar, kurumsal ofisler ve yaşam alanları için profesyonel koku difüzyon teknolojileri.
-          </p>
+        <div class="footer-brand">
+          <a href="index.html" class="brand"><span data-site="brand">DummyCosmetics</span></a>
+          <!-- [DOĞRULANACAK] Distribütörlüğün kapsamı (resmi / tek yetkili) belgelenmeden bu ifadeler kullanılmamalı. -->
+          <p>JVCK koku difüzörleri ve esanslarının Türkiye distribütörü. Oteller, ofisler, mağazalar ve yaşam alanları için ürün seçimi ve teklif.</p>
         </div>
-        <div class="footer-col">
-          <h4>Sayfalar</h4>
+        <div class="footer-col footer-col--a">
+          <h2>Site</h2>
           <ul>
-            <li><a href="index.html">Ana Sayfa</a></li>
-            <li><a href="urunler.html">Ürün Kataloğu</a></li>
-            <li><a href="cozumler.html">Sektörel Çözümler</a></li>
+            <li><a href="urunler.html">Ürünler</a></li>
+            <li><a href="cozumler.html">Çözümler</a></li>
             <li><a href="teknoloji.html">Teknoloji</a></li>
+            <li><a href="esanslar.html">Esanslar</a></li>
+            <li><a href="kurumsal.html">Kurumsal &amp; OEM</a></li>
           </ul>
         </div>
-        <div class="footer-col">
-          <h4>Koleksiyon</h4>
+        <div class="footer-col footer-col--b">
+          <h2>İletişim</h2>
           <ul>
-            <li><a href="esanslar.html">Otel Koku Serisi</a></li>
-            <li><a href="esanslar.html#oils">Esans Kartuş &amp; Yağlar</a></li>
-            <li><a href="kurumsal.html">OEM &amp; Özel Koku</a></li>
-            <li><a href="iletisim.html">Teklif Al</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>İletişim</h4>
-          <ul>
-            <li><a href="mailto:info@dummycosmetics.com.tr">info@dummycosmetics.com.tr</a></li>
-            <li><a href="tel:+902120000000">+90 212 000 00 00</a></li>
-            <li style="color:var(--text-tertiary);">İstanbul, Türkiye</li>
+            <li><a href="mailto:info@dummycosmetics.com.tr" data-site-href="email"><span data-site="email">info@dummycosmetics.com.tr</span></a></li>
+            <li><a href="tel:+902120000000" data-site-href="phone"><span data-site="phone">+90 212 000 00 00</span></a></li>
+            <li><span data-site="city">İstanbul, Türkiye</span></li>
+            <li><a href="iletisim.html">Teklif formu</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <span>© <script>document.write(new Date().getFullYear())</script> DummyCosmetics Türkiye Distribütörlüğü. Tüm hakları saklıdır.</span>
-        <span>Mühendislik &amp; Tasarım: Emil Kowalski Kısıtlamaları</span>
+        <span>© <span data-year>2026</span> <span data-site="brand">DummyCosmetics</span>. Tüm hakları saklıdır.</span>
+        <span>Teknik veriler üreticinin 2025 ürün kataloğundan alınmıştır.</span>
       </div>
     </div>
   </footer>
 
+  <script src="js/site-config.js"></script>
   <script src="js/products.js"></script>
   <script src="js/components.js"></script>
+  <script src="js/site.js"></script>
 </body>
 </html>

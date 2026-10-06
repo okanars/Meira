@@ -1,44 +1,34 @@
 <!DOCTYPE html>
+<!-- Marka adı "DummyCosmetics" geçicidir. Tek yerden yönetim: js/site-config.js (ayrıntı README.md). -->
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DummyCosmetics | Profesyonel Koku Difüzörleri &amp; Kurumsal Mekân Kokulandırma</title>
-  <meta name="description" content="DummyCosmetics: Beş yıldızlı oteller, mağazalar ve rezidanslar için patentli soğuk nano atomizasyon difüzörleri ve IFRA onaylı esanslar. Türkiye resmi distribütörü.">
-  <meta name="theme-color" content="#f7f5f0">
+  <title>DummyCosmetics | Profesyonel Koku Difüzörleri ve Mekân Kokulandırma</title>
+  <meta name="description" content="Oteller, ofisler ve mağazalar için profesyonel koku difüzörleri, esanslar ve dolum ürünleri. JVCK ürünlerinin Türkiye distribütörü; ürün seçimi ve teklif.">
+  <meta name="theme-color" content="#EEEBE5">
+  <link rel="canonical" href="https://www.dummycosmetics.com.tr/index.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="tr_TR">
+  <meta property="og:site_name" content="DummyCosmetics">
+  <meta property="og:title" content="DummyCosmetics | Profesyonel Koku Difüzörleri ve Mekân Kokulandırma">
+  <meta property="og:description" content="Oteller, ofisler ve mağazalar için profesyonel koku difüzörleri, esanslar ve dolum ürünleri. JVCK ürünlerinin Türkiye distribütörü; ürün seçimi ve teklif.">
+  <meta property="og:url" content="https://www.dummycosmetics.com.tr/index.html">
+  <meta property="og:image" content="https://www.dummycosmetics.com.tr/images/products/ck686.jpg">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/cormorant-garamond-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/geist-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css">
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
-  <!-- Top Announcement Bar -->
-  <div class="top-announcement">
-    <div class="container announcement-inner">
-      <div class="announcement-badge">
-        <span class="brand-status-dot"></span>
-        <span>TÜRKİYE RESMİ DİSTRİBÜTÖRÜ</span>
-      </div>
-      <div class="announcement-text">
-        Patentli Soğuk Nano Difüzyon Teknolojisi • 21+ Profesyonel Model • Türkiye Geneli Aynı Gün Sevkiyat
-      </div>
-      <a href="iletisim.html?konu=numune" class="announcement-link">
-        <span>Ücretsiz Numune Seti Alın</span>
-        <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12"><path fill-rule="evenodd" d="M3.75 8a.75.75 0 01.75-.75h7.19L9.22 4.78a.75.75 0 011.06-1.06l3.75 3.75a.75.75 0 010 1.06l-3.75 3.75a.75.75 0 01-1.06-1.06l2.47-2.47H4.5A.75.75 0 013.75 8z" clip-rule="evenodd"/></svg>
-      </a>
-    </div>
-  </div>
+  <a class="skip-link" href="#main">İçeriğe geç</a>
 
-  <!-- Header -->
   <header class="site-header">
-    <div class="container nav-wrap">
-      <a href="index.html" class="brand" aria-label="DummyCosmetics Ana Sayfa">
-        <span class="brand-symbol">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 2.5c4.5 6 8.5 9.5 8.5 14a8.5 8.5 0 1 1-17 0c0-4.5 4-8 8.5-14z"/></svg>
-        </span>
-        <span>Dummy<em>Cosmetics</em></span>
-      </a>
+    <div class="wrap site-header__inner">
+      <a href="index.html" class="brand"><span data-site="brand">DummyCosmetics</span><span class="brand__sub">Türkiye</span></a>
 
-      <nav class="nav-links" id="navLinks" aria-label="Ana Menü">
-        <a href="index.html" class="nav-item">Ana Sayfa</a>
+      <nav class="nav" id="navLinks" aria-label="Ana menü">
         <a href="urunler.html" class="nav-item">Ürünler</a>
         <a href="cozumler.html" class="nav-item">Çözümler</a>
         <a href="teknoloji.html" class="nav-item">Teknoloji</a>
@@ -48,139 +38,91 @@
       </nav>
 
       <div class="nav-actions">
-        <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--text-tertiary);margin-right:8px;" class="hide-mobile">
-          <span class="brand-status-dot"></span>
-          <span>TR Distribütörü</span>
-        </div>
-        <button class="quote-trigger" aria-label="Teklif Listesi">
-          <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15"><path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"/></svg>
-          <span>Teklif Listesi</span>
-          <span class="quote-badge dc-cart-count empty">0</span>
+        <button type="button" class="quote-trigger" aria-label="Teklif listesi">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-clipboard-text"></use></svg>
+          <span class="quote-trigger__label">Teklif listesi</span>
+          <span class="quote-badge dc-cart-count empty" aria-hidden="true">0</span>
         </button>
-        <button class="burger-btn" id="burgerBtn" aria-label="Menü"><span></span><span></span><span></span></button>
+        <button type="button" class="burger-btn" id="burgerBtn" aria-label="Menü" aria-expanded="false" aria-controls="navLinks">
+          <svg class="icon icon--lg icon-open" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-list"></use></svg><svg class="icon icon--lg icon-close" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-x"></use></svg>
+        </button>
       </div>
     </div>
   </header>
 
-  <main>
-    <!-- Sensory Hero with Real Mist Video -->
-    <section class="section" style="padding-top:68px;padding-bottom:60px;">
-      <div class="container">
-        <div class="feature-split" style="gap:48px;">
-          <div>
-            <span class="eyebrow moss">Türkiye Resmi Distribütörlüğü</span>
-            <h1 style="margin-bottom:1.35rem;">Mekânınızın <em>imza kokusunu</em> mühendislikle tasarlıyoruz.</h1>
-            <p class="lead" style="margin-bottom:2.2rem;">
-              Beş yıldızlı otellerden kurumsal plazalara kadar; çift akışkanlı soğuk nano atomizasyon teknolojisi, HVAC klima entegrasyonu ve IFRA sertifikalı esans koleksiyonu.
-            </p>
-            <div style="display:flex;gap:0.85rem;flex-wrap:wrap;margin-bottom:2.5rem;">
-              <a href="urunler.html" class="btn btn-primary btn-lg">Ürün Kataloğunu İncele</a>
-              <a href="iletisim.html" class="btn btn-secondary btn-lg">Teklif Talep Et</a>
-            </div>
-            <div style="display:flex;gap:1.5rem;font-family:var(--mono);font-size:11.5px;color:var(--text-tertiary);">
-              <span>✦ FDA Uyumlu PP Malzeme</span>
-              <span>✦ &lt; 8 dB Fısıltı Sessizliği</span>
-              <span>✦ OEM / ODM Üretim</span>
-            </div>
-          </div>
+  <main id="main">
 
-          <!-- Video 1: Product Lineup with Mist in Nature -->
-          <div class="hero-video-card">
-            <video autoplay loop muted playsinline poster="images/general/video-hero-poster.jpg" id="heroMistVideo">
-              <source src="images/products/videos/kling_20261006_VIDEO_Create_an__5206_0.mp4" type="video/mp4">
-            </video>
-            <div class="hero-video-badge">
-              <span class="pulse-dot"></span>
-              <span>Canlı Nano Sis Difüzyonu</span>
-            </div>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="wrap hero__grid">
+        <div class="hero__text">
+          <span class="eyebrow">Profesyonel mekân kokulandırma</span>
+          <h1 class="h-display hero__title" id="hero-title">Kokunun da bir <em>mimarisi</em> var.</h1>
+          <!-- [DOĞRULANACAK] Distribütörlük: "resmi / tek yetkili" ifadeleri kaldırıldı; yetki belgesi varsa eklenebilir. -->
+          <p class="lead">Otel lobisinden butik mağazaya kadar, mekânın hacmine uygun difüzör ve esans seçimi. JVCK ürünlerinin Türkiye distribütörüyüz.</p>
+          <div class="btn-row">
+            <a href="iletisim.html" class="btn btn--primary btn--lg">Teklif iste <svg class="icon icon--move" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
+            <a href="urunler.html" class="btn btn--quiet btn--lg">Ürünleri incele</a>
+          </div>
+        </div>
+        <div class="hero__media">
+          <div class="media">
+            <img src="images/products/ck686.jpg" alt="Modern bir salonda zemine yerleştirilmiş gümüş renkli CK-686 kolon difüzör" width="1100" height="731" fetchpriority="high">
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Key Metrics Strip (Natural Stone Surface) -->
-    <section style="padding:16px 0 68px;">
-      <div class="container">
-        <div class="stat-strip">
-          <div class="stat-cell">
-            <b>21+</b>
-            <span>Patentli Cihaz Modeli</span>
-          </div>
-          <div class="stat-cell">
-            <b>15.000 m³</b>
-            <span>Maksimum Alan Kapsama</span>
-          </div>
-          <div class="stat-cell">
-            <b>1.000+</b>
-            <span>Küratörlü Koku Profili</span>
-          </div>
-          <div class="stat-cell">
-            <b>%75</b>
-            <span>Duygusal Karar Etkisi (Martin Lindstrom)</span>
-          </div>
+    <section class="section section--flush-top" aria-label="Yaklaşımımız">
+      <div class="wrap statement reveal">
+        <div class="statement__main">
+          <p class="statement__text">İyi bir mekân kokusu fark edilir ama dikkat çekmez. Cihazı mekânın hacmine, kokuyu kullanım amacına göre seçiyoruz.</p>
+          <p class="mt-6"><a href="cozumler.html#hesaplayici" class="link-arrow">Hacim hesaplayıcıyı kullanın <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a></p>
         </div>
+        <dl class="facts">
+          <div class="facts__item">
+            <dt class="facts__label">Katalogdaki ürün; duvar tipi, klima bağlantılı, prize takılan, masaüstü ve çubuklu</dt>
+            <dd class="facts__value" data-product-count>24</dd>
+          </div>
+          <div class="facts__item">
+            <dt class="facts__label">Üretici verisine göre kapsama aralığı, en küçük koku kutusundan çift başlıklı seriye</dt>
+            <dd class="facts__value">30-15.000 m³</dd>
+          </div>
+          <div class="facts__item">
+            <dt class="facts__label">Difüzör esansı dolum seçenekleri</dt>
+            <dd class="facts__value">500 ml - 5 L</dd>
+          </div>
+        </dl>
       </div>
     </section>
 
-    <!-- Interactive Atmosphere Scent Curator (Curiosity Widget) -->
-    <section class="section" style="padding-top:0;padding-bottom:72px;">
-      <div class="container">
-        <div class="atmosphere-box">
-          <div class="atmosphere-header">
-            <div>
-              <span class="eyebrow amber">İnteraktif Koku Küratörü</span>
-              <h2 style="font-size: clamp(1.6rem, 3vw, 2.2rem); margin-bottom: 0.4rem;">Mekânınıza En Uygun Koku Kimliğini Keşfedin</h2>
-              <p style="color:var(--text-secondary);font-size:13.5px;max-width:560px;">
-                Farklı kurumsal ortamlar için optimize edilmiş nano difüzör modeli ve IFRA sertifikalı imza koku eşleşmelerini inceleyin.
-              </p>
-            </div>
+    <section class="section section--deep" aria-labelledby="curator-title">
+      <div class="wrap curator">
+        <div class="curator__head reveal">
+          <span class="eyebrow">Koku küratörü</span>
+          <h2 id="curator-title">Mekâna göre cihaz ve koku</h2>
+          <p class="mt-4 text-2">Dört yaygın kullanım alanı için katalogdan bir başlangıç önerisi. Kesin seçim, alanın ölçülerine göre yapılır.</p>
+        </div>
 
-            <div class="atmosphere-tabs">
-              <button class="atmosphere-tab active" data-atmosphere="hotel">🏨 Lüks Otel</button>
-              <button class="atmosphere-tab" data-atmosphere="office">🏢 Ofis &amp; Plaza</button>
-              <button class="atmosphere-tab" data-atmosphere="retail">🛍️ Butik Mağaza</button>
-              <button class="atmosphere-tab" data-atmosphere="residence">🌿 Rezidans &amp; Villa</button>
-            </div>
-          </div>
+        <div class="curator__tabs" role="tablist" aria-label="Mekân tipi">
+          <button type="button" class="atmosphere-tab active" id="tab-hotel" role="tab" aria-selected="true" aria-controls="atmosphereContent" data-atmosphere="hotel">Otel lobisi<span class="atmosphere-tab__sub">Geniş, yüksek tavanlı alanlar</span></button>
+          <button type="button" class="atmosphere-tab" id="tab-office" role="tab" aria-selected="false" aria-controls="atmosphereContent" tabindex="-1" data-atmosphere="office">Ofis<span class="atmosphere-tab__sub">Çalışma ve toplantı alanları</span></button>
+          <button type="button" class="atmosphere-tab" id="tab-retail" role="tab" aria-selected="false" aria-controls="atmosphereContent" tabindex="-1" data-atmosphere="retail">Mağaza<span class="atmosphere-tab__sub">Satış alanı ve showroom</span></button>
+          <button type="button" class="atmosphere-tab" id="tab-residence" role="tab" aria-selected="false" aria-controls="atmosphereContent" tabindex="-1" data-atmosphere="residence">Rezidans<span class="atmosphere-tab__sub">Yatak odası ve salon</span></button>
+        </div>
 
-          <div class="atmosphere-content" id="atmosphereContent">
-            <div class="atmosphere-media">
-              <img src="images/general/hotel.jpg" alt="Beş Yıldızlı Otel Lobisi &amp; Karşılama Salonları">
-            </div>
-            <div class="atmosphere-specs">
-              <div>
-                <span class="mono-tag" style="color:var(--amber);">ÖNERİLEN KURUMSAL FORMÜLASYON</span>
-                <h3 style="font-size:1.45rem;margin:6px 0 10px;">Beş Yıldızlı Otel Lobisi &amp; Karşılama Salonları</h3>
-                <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;">
-                  Ziyaretçilerinizin lobiden içeri adım attığı ilk saniyede prestij, dinginlik ve lüks hissi uyandıran imza koku mimarisi.
-                </p>
-              </div>
-
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.15rem;display:grid;gap:8px;">
-                <div style="display:flex;justify-content:space-between;font-size:12.5px;">
-                  <span style="color:var(--text-tertiary);">İdeal Cihaz:</span>
-                  <strong style="color:var(--text-primary);">CK-631 HVAC Merkezi Sistem</strong>
-                </div>
-                <div style="display:flex;justify-content:space-between;font-size:12.5px;">
-                  <span style="color:var(--text-tertiary);">Kapsama Hacmi:</span>
-                  <span style="font-family:var(--mono);color:var(--moss);font-weight:600;">5.000 – 15.000 m³</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;font-size:12.5px;">
-                  <span style="color:var(--text-tertiary);">İmza Koku Reçetesi:</span>
-                  <span style="font-weight:600;color:var(--amber);">Shangri-La White Tea &amp; Amber</span>
-                </div>
-                <div style="font-size:11.5px;color:var(--text-secondary);padding-top:4px;border-top:1px dashed var(--border);">
-                  <strong style="color:var(--text-primary);">Notalar:</strong> Beyaz Çay, Bergamot, Taze Zencefil, Sedir Ağacı
-                </div>
-              </div>
-
-              <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
-                <button class="btn btn-primary" onclick="DummyApp.addToCart('ck-631')">
-                  Bu Çözümü Teklife Ekle +
-                </button>
-                <a href="cozumler.html" class="btn btn-secondary">
-                  Sektörel İnceleme →
-                </a>
+        <div class="curator__panel-wrap" id="atmosphereContent" role="tabpanel" aria-labelledby="tab-hotel" tabindex="0">
+          <div class="curator__panel">
+            <div class="media"><img src="images/products/ck631.jpg" alt="Otel resepsiyonunda duvara monte CK-631 difüzör" loading="lazy"></div>
+            <div class="curator__body">
+              <h3>Otel lobisi ve karşılama alanları</h3>
+              <p>Yüksek tavanlı, sürekli kullanılan alanlar için klima sistemine bağlanabilen, geniş kapsamalı bir cihaz ve yumuşak, ferah bir çay kokusu.</p>
+              <dl class="spec-pairs">
+                <div class="span-2"><dt>Önerilen cihaz</dt><dd>CK-631, Hava Pompalı Klima Bağlantılı Difüzör</dd></div>
+                <div><dt>Kapsama alanı</dt><dd>3.500 m³</dd></div>
+                <div><dt>Ses seviyesi (üretici verisi)</dt><dd>&lt; 42 dBA</dd></div>
+              </dl>
+              <div class="btn-row">
+                <a href="urunler.html?model=ck631" class="link-arrow">Ürünü incele <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
               </div>
             </div>
           </div>
@@ -188,206 +130,111 @@
       </div>
     </section>
 
-    <!-- Curated Devices Highlight -->
-    <section class="section" style="border-top:1px solid var(--border);background:var(--bg-subtle);">
-      <div class="container">
-        <div class="section-head" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;">
-          <div>
-            <span class="eyebrow">Öne Çıkan Sistemler</span>
-            <h2>Geniş Alan &amp; Akıllı Difüzyon</h2>
-            <p>Mekân büyüklüğünüze göre optimize edilmiş kurumsal difüzör serisi.</p>
-          </div>
-          <a href="urunler.html" class="btn btn-secondary">Tüm 21 Modeli Görüntüle →</a>
+    <section class="section" aria-labelledby="featured-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2 id="featured-title">Lobiden komodine</h2>
+          <p class="lead">Aynı katalogda 15.000 m³'lük alanlar için çift başlıklı seriler de, tek bir oda için masaüstü difüzörler de var.</p>
         </div>
-
-        <div class="grid-3">
-          <!-- CK-688 -->
-          <article class="card product-card" onclick="window.location.href='urunler.html?model=ck688'">
-            <div class="product-media">
-              <img src="images/products/ck688.jpg" alt="CK-688 Difüzör" loading="lazy">
-              <span class="product-pill">Büyük Alan</span>
-            </div>
-            <div class="product-body">
-              <span class="product-code">CK-688 · 800 m³</span>
-              <h3>Çift Akışkanlı Duvar Difüzörü</h3>
-              <p class="product-desc">5,3 cm ultra ince gövde, 500 ml geniş hazne ve akıllı mobil uygulama kontrolü.</p>
-              <div class="product-specs-row">
-                <span>PP Gıda Sınıfı</span>
-                <span>&lt; 36 dB</span>
-                <span>500 ml</span>
-              </div>
-              <div class="product-footer">
-                <span class="btn btn-secondary btn-sm btn-full">İncele &amp; Teklif Ekle</span>
-              </div>
-            </div>
+        <div class="bento">
+          <article class="bento__item bento__item--lead reveal">
+            <a href="urunler.html?model=ck611" class="media" tabindex="-1" aria-hidden="true"><img src="images/products/ck611.jpg" alt="" loading="lazy" style="object-position:50% 60%"></a>
+            <span class="bento__code">CK-611 / 612 / 613</span>
+            <h3><a href="urunler.html?model=ck611">Çift başlıklı alüminyum difüzör</a></h3>
+            <p>Merkezi klima ve taze hava sistemine bağlanabilir. 2 x 1000, 3000 veya 5000 ml hazne seçeneğiyle 5.000-15.000 m³ kapsama.</p>
           </article>
-
-          <!-- CK-631 -->
-          <article class="card product-card" onclick="window.location.href='urunler.html?model=ck631'">
-            <div class="product-media">
-              <img src="images/products/ck631.jpg" alt="CK-631 Klima Difüzör" loading="lazy">
-              <span class="product-pill">HVAC Bağlantılı</span>
-            </div>
-            <div class="product-body">
-              <span class="product-code">CK-631 · 3.500 m³</span>
-              <h3>Klima Entegreli Profesyonel Difüzör</h3>
-              <p class="product-desc">Dahili hava pompası, kızılötesi yağ seviye sensörü ve merkezi klima havalandırma entegrasyonu.</p>
-              <div class="product-specs-row">
-                <span>WiFi / BT</span>
-                <span>3.500 m³</span>
-                <span>800 ml</span>
-              </div>
-              <div class="product-footer">
-                <span class="btn btn-secondary btn-sm btn-full">İncele &amp; Teklif Ekle</span>
-              </div>
-            </div>
+          <article class="bento__item bento__item--b reveal">
+            <a href="urunler.html?model=ck656" class="media" tabindex="-1" aria-hidden="true"><img src="images/products/ck656.jpg" alt="" loading="lazy" style="object-position:50% 45%"></a>
+            <span class="bento__code">CK-656</span>
+            <h3><a href="urunler.html?model=ck656">Tavan, duvar veya ray montajı</a></h3>
+            <p>3 metrelik teleskopik çubukla merdivene çıkmadan yağ değişimi; 500 m³ kapsama.</p>
           </article>
-
-          <!-- CK-686 -->
-          <article class="card product-card" onclick="window.location.href='urunler.html?model=ck686'">
-            <div class="product-media">
-              <img src="images/products/ck686.jpg" alt="CK-686 Kolon Difüzör" loading="lazy">
-              <span class="product-pill">Prestij Kolon</span>
-            </div>
-            <div class="product-body">
-              <span class="product-code">CK-686 · 4.000 m³</span>
-              <h3>Nano Atomizasyonlu Kolon Difüzör</h3>
-              <p class="product-desc">Alüminyum alaşım gövde, taş desenli başlık, manyetik kilit ve 1.000 ml esans kapasitesi.</p>
-              <div class="product-specs-row">
-                <span>Alüminyum</span>
-                <span>&lt; 30 dB</span>
-                <span>1.000 ml</span>
-              </div>
-              <div class="product-footer">
-                <span class="btn btn-secondary btn-sm btn-full">İncele &amp; Teklif Ekle</span>
-              </div>
-            </div>
+          <article class="bento__item bento__item--c reveal">
+            <a href="urunler.html?model=ads622" class="media" tabindex="-1" aria-hidden="true"><img src="images/products/ads622.jpg" alt="" loading="lazy" style="object-position:50% 40%"></a>
+            <span class="bento__code">ADS-622</span>
+            <h3><a href="urunler.html?model=ads622">Masif ahşap tabanlı aroma difüzörü</a></h3>
+            <p>Cam gövde, Type-C şarj ve renkli gece lambası; yatak odası ve çalışma odası için.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- Lifestyle Living Integration with Video 3 -->
-    <section class="section" style="border-top:1px solid var(--border);">
-      <div class="container">
-        <div class="feature-split">
-          <!-- Video 3: Living Room Table Interaction -->
-          <div class="feature-media" style="border-radius:var(--radius-xl);overflow:hidden;box-shadow:var(--shadow-lg);">
-            <video autoplay loop muted playsinline poster="images/general/video-living-poster.jpg" style="width:100%;height:100%;object-fit:cover;">
+    <section class="section section--flush-top" aria-labelledby="home-title">
+      <div class="wrap overlap">
+        <div class="overlap__media reveal">
+          <figure class="video-figure" data-video>
+          <div class="media media--16x9">
+            <video autoplay loop muted playsinline preload="metadata" poster="images/general/video-living-poster.jpg" aria-label="Salonda sehpa üzerindeki bir difüzörü çalıştıran kişi; yapay zekâ ile üretilmiş tanıtım videosu">
               <source src="images/products/videos/gemini_generated_video_2d31ff34.mp4" type="video/mp4">
             </video>
           </div>
-
-          <div>
-            <span class="eyebrow">Yaşam Alanı Bütünlüğü</span>
-            <h2>Zahmetsiz Taşınabilirlik, Estetik Duruş</h2>
-            <p style="color:var(--text-secondary);margin-bottom:1.25rem;">
-              DummyCosmetics difüzörleri yalnızca teknik bir kokulandırma aracı değil; modern yaşam alanlarına ve üst düzey mimari projelere kusursuz uyum sağlayan heykelsi tasarım objeleridir.
-            </p>
-            <p style="color:var(--text-secondary);margin-bottom:1.75rem;">
-              Şarjlı dahili bataryası ve kompakt gövdesi sayesinde priz arama zorunluluğu olmadan dilediğiniz odaya veya toplantı masasına kolayca taşınabilir.
-            </p>
-            <div style="display:flex;gap:0.75rem;">
-              <a href="cozumler.html" class="btn btn-primary">Kullanım Senaryoları</a>
-              <a href="urunler.html?cat=home" class="btn btn-secondary">Masaüstü Modeller</a>
-            </div>
+          <figcaption class="video-figure__bar">
+            <span class="media-caption">Görsel temsilidir. Yapay zekâ ile üretilmiş tanıtım videosudur.</span>
+            <button type="button" class="video-toggle"><svg class="icon icon-pause" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-pause"></use></svg><svg class="icon icon-play" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-play"></use></svg><span class="video-toggle__label">Videoyu durdur</span></button>
+          </figcaption>
+        </figure>
+        </div>
+        <div class="overlap__panel reveal">
+          <h2 id="home-title">Ev ve küçük alanlar için</h2>
+          <p>Pilli ve şarjlı masaüstü modeller prize bağlı kalmadan odadan odaya taşınabilir. Duvar tipi modeller ise yapışkan bantla, duvarı delmeden monte edilir.</p>
+          <div class="btn-row">
+            <a href="urunler.html?cat=home" class="link-arrow">Ev ve masaüstü modeller <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Editorial Story / Scent Marketing -->
-    <section class="section" style="border-top:1px solid var(--border);background:var(--bg-subtle);">
-      <div class="container">
-        <div class="feature-split">
-          <div class="feature-media">
-            <img src="images/general/perfumer.jpg" alt="Usta Parfümör Koku Kütüphanesinde" loading="lazy">
-          </div>
-          <div>
-            <span class="eyebrow">Duyusal Markalama</span>
-            <h2>Kokunun bilimsel gücüyle markanızı unutulmaz kılın.</h2>
-            <p style="color:var(--text-secondary);margin-bottom:1.25rem;">
-              Global marka otoritesi Martin Lindstrom'un araştırmalarına göre; insan duygularının <strong>%75'i koku ile tetiklenir</strong>. Koku duyusu, beynin hafıza ve duygu merkezi olan limbik sistemle doğrudan bağlantılı tek duyudur.
-            </p>
-            <p style="color:var(--text-secondary);margin-bottom:1.5rem;">
-              Doğru kurgulanmış bir mekân kokusu; müşterilerinizin mağazada kalış süresini uzatır, güven duygusunu pekiştirir ve markanızın yıllar sonra dahi net biçimde hatırlanmasını sağlar.
-            </p>
-            <a href="esanslar.html" class="btn btn-secondary">Otel Koku Koleksiyonunu Keşfet →</a>
-          </div>
+    <section class="section section--deep" aria-labelledby="closing-title">
+      <div class="wrap closing reveal">
+        <h2 id="closing-title">Alanınızı anlatın, <em>uygun</em> cihazı birlikte seçelim.</h2>
+        <p>Metrekare, tavan yüksekliği ve klima altyapısını paylaşın; uygun modeller ve esanslarla teklif hazırlayalım.</p>
+        <div class="btn-row">
+          <a href="iletisim.html" class="btn btn--primary btn--lg">Teklif iste <svg class="icon icon--move" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
+          <a href="cozumler.html#hesaplayici" class="link-arrow">Hacim hesaplayıcı <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
         </div>
       </div>
     </section>
 
-    <!-- Call to Action Banner -->
-    <section class="section" style="border-top:1px solid var(--border);">
-      <div class="container">
-        <div class="card" style="padding:3.8rem 2.5rem;text-align:center;background:radial-gradient(circle at 50% 0%, rgba(176, 132, 77, 0.1), transparent 75%), var(--surface);">
-          <span class="eyebrow">Kurumsal Destek &amp; Toptan Fiyat</span>
-          <h2 style="margin-bottom:1rem;max-width:640px;margin-inline:auto;">Mekânınıza en uygun koku ve cihaz kombinasyonunu belirleyelim.</h2>
-          <p style="color:var(--text-secondary);max-width:540px;margin-inline:auto;margin-bottom:2.2rem;">
-            Metrekaresi, havalandırma yapısı ve sektörünüze özel numune esans ve cihaz teklifi almak için formu doldurabilirsiniz.
-          </p>
-          <div style="display:flex;justify-content:center;gap:0.85rem;flex-wrap:wrap;">
-            <a href="iletisim.html" class="btn btn-accent btn-lg">Teklif Formunu Doldur</a>
-            <a href="urunler.html" class="btn btn-secondary btn-lg">Ürün Kataloğuna Git</a>
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
 
-  <!-- Footer -->
   <footer class="site-footer">
-    <div class="container">
+    <div class="wrap">
       <div class="footer-grid">
-        <div class="footer-col">
-          <a href="index.html" class="brand" style="margin-bottom:1rem;">
-            <span class="brand-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2.5c4.5 6 8.5 9.5 8.5 14a8.5 8.5 0 1 1-17 0c0-4.5 4-8 8.5-14z"/></svg></span>
-            <span>Dummy<em>Cosmetics</em></span>
-          </a>
-          <p style="font-size:13.5px;color:var(--text-secondary);line-height:1.6;max-width:320px;">
-            Türkiye resmi distribütörü. Oteller, mağazalar, kurumsal ofisler ve yaşam alanları için profesyonel koku difüzyon teknolojileri.
-          </p>
+        <div class="footer-brand">
+          <a href="index.html" class="brand"><span data-site="brand">DummyCosmetics</span></a>
+          <!-- [DOĞRULANACAK] Distribütörlüğün kapsamı (resmi / tek yetkili) belgelenmeden bu ifadeler kullanılmamalı. -->
+          <p>JVCK koku difüzörleri ve esanslarının Türkiye distribütörü. Oteller, ofisler, mağazalar ve yaşam alanları için ürün seçimi ve teklif.</p>
         </div>
-
-        <div class="footer-col">
-          <h4>Sayfalar</h4>
+        <div class="footer-col footer-col--a">
+          <h2>Site</h2>
           <ul>
-            <li><a href="index.html">Ana Sayfa</a></li>
-            <li><a href="urunler.html">Ürün Kataloğu</a></li>
-            <li><a href="cozumler.html">Sektörel Çözümler</a></li>
+            <li><a href="urunler.html">Ürünler</a></li>
+            <li><a href="cozumler.html">Çözümler</a></li>
             <li><a href="teknoloji.html">Teknoloji</a></li>
+            <li><a href="esanslar.html">Esanslar</a></li>
+            <li><a href="kurumsal.html">Kurumsal &amp; OEM</a></li>
           </ul>
         </div>
-
-        <div class="footer-col">
-          <h4>Koleksiyon</h4>
+        <div class="footer-col footer-col--b">
+          <h2>İletişim</h2>
           <ul>
-            <li><a href="esanslar.html">Otel Koku Serisi</a></li>
-            <li><a href="esanslar.html#oils">Esans Kartuş &amp; Yağlar</a></li>
-            <li><a href="kurumsal.html">OEM &amp; Özel Koku</a></li>
-            <li><a href="iletisim.html">Teklif Al</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>İletişim</h4>
-          <ul>
-            <li><a href="mailto:info@dummycosmetics.com.tr">info@dummycosmetics.com.tr</a></li>
-            <li><a href="tel:+902120000000">+90 212 000 00 00</a></li>
-            <li style="color:var(--text-tertiary);">İstanbul, Türkiye</li>
+            <li><a href="mailto:info@dummycosmetics.com.tr" data-site-href="email"><span data-site="email">info@dummycosmetics.com.tr</span></a></li>
+            <li><a href="tel:+902120000000" data-site-href="phone"><span data-site="phone">+90 212 000 00 00</span></a></li>
+            <li><span data-site="city">İstanbul, Türkiye</span></li>
+            <li><a href="iletisim.html">Teklif formu</a></li>
           </ul>
         </div>
       </div>
-
       <div class="footer-bottom">
-        <span>© <script>document.write(new Date().getFullYear())</script> DummyCosmetics Türkiye Distribütörlüğü. Tüm hakları saklıdır.</span>
-        <span>Doğal Taş &amp; Botanik Renk Paleti · Emil Kowalski İlkeleri</span>
+        <span>© <span data-year>2026</span> <span data-site="brand">DummyCosmetics</span>. Tüm hakları saklıdır.</span>
+        <span>Teknik veriler üreticinin 2025 ürün kataloğundan alınmıştır.</span>
       </div>
     </div>
   </footer>
 
+  <script src="js/site-config.js"></script>
   <script src="js/products.js"></script>
   <script src="js/components.js"></script>
+  <script src="js/site.js"></script>
 </body>
 </html>

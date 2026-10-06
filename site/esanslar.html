@@ -1,44 +1,34 @@
 <!DOCTYPE html>
+<!-- Marka adı "DummyCosmetics" geçicidir. Tek yerden yönetim: js/site-config.js (ayrıntı README.md). -->
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Esanslar &amp; Koku Koleksiyonu | DummyCosmetics</title>
-  <meta name="description" content="12 lüks otel koku profili, nota piramitleri, ADS difüzör esansları, 5L bidonlar, koku giderici ürünler ve IFRA/SGS sertifikasyonları.">
-  <meta name="theme-color" content="#f7f5f0">
+  <title>Esanslar ve Koku Koleksiyonu | DummyCosmetics</title>
+  <meta name="description" content="Otel lobisi karakterinde 12 koku ve nota piramitleri, 500 ml ve 5 L difüzör esansları, koku giderici ürünler.">
+  <meta name="theme-color" content="#EEEBE5">
+  <link rel="canonical" href="https://www.dummycosmetics.com.tr/esanslar.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="tr_TR">
+  <meta property="og:site_name" content="DummyCosmetics">
+  <meta property="og:title" content="Esanslar ve Koku Koleksiyonu | DummyCosmetics">
+  <meta property="og:description" content="Otel lobisi karakterinde 12 koku ve nota piramitleri, 500 ml ve 5 L difüzör esansları, koku giderici ürünler.">
+  <meta property="og:url" content="https://www.dummycosmetics.com.tr/esanslar.html">
+  <meta property="og:image" content="https://www.dummycosmetics.com.tr/images/general/video-hotel-poster.jpg">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/cormorant-garamond-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/geist-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css">
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
-  <!-- Top Announcement Bar -->
-  <div class="top-announcement">
-    <div class="container announcement-inner">
-      <div class="announcement-badge">
-        <span class="brand-status-dot"></span>
-        <span>IFRA &amp; SGS ONAYLI SAF ESANSLAR</span>
-      </div>
-      <div class="announcement-text">
-        12 İkonik Otel Koku Profili • Alkol &amp; Su İlavesiz Saf Yağlar • 500ml, 1L ve 5L Kurumsal Dolum
-      </div>
-      <a href="iletisim.html?konu=koku-numune" class="announcement-link">
-        <span>Koku Numune Seti İste</span>
-        <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12"><path fill-rule="evenodd" d="M3.75 8a.75.75 0 01.75-.75h7.19L9.22 4.78a.75.75 0 011.06-1.06l3.75 3.75a.75.75 0 010 1.06l-3.75 3.75a.75.75 0 01-1.06-1.06l2.47-2.47H4.5A.75.75 0 013.75 8z" clip-rule="evenodd"/></svg>
-      </a>
-    </div>
-  </div>
+  <a class="skip-link" href="#main">İçeriğe geç</a>
 
-  <!-- Header -->
   <header class="site-header">
-    <div class="container nav-wrap">
-      <a href="index.html" class="brand" aria-label="DummyCosmetics Ana Sayfa">
-        <span class="brand-symbol">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 2.5c4.5 6 8.5 9.5 8.5 14a8.5 8.5 0 1 1-17 0c0-4.5 4-8 8.5-14z"/></svg>
-        </span>
-        <span>Dummy<em>Cosmetics</em></span>
-      </a>
+    <div class="wrap site-header__inner">
+      <a href="index.html" class="brand"><span data-site="brand">DummyCosmetics</span><span class="brand__sub">Türkiye</span></a>
 
-      <nav class="nav-links" id="navLinks" aria-label="Ana Menü">
-        <a href="index.html" class="nav-item">Ana Sayfa</a>
+      <nav class="nav" id="navLinks" aria-label="Ana menü">
         <a href="urunler.html" class="nav-item">Ürünler</a>
         <a href="cozumler.html" class="nav-item">Çözümler</a>
         <a href="teknoloji.html" class="nav-item">Teknoloji</a>
@@ -48,190 +38,168 @@
       </nav>
 
       <div class="nav-actions">
-        <button class="quote-trigger" aria-label="Teklif Listesi">
-          <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15"><path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"/></svg>
-          <span>Teklif Listesi</span>
-          <span class="quote-badge dc-cart-count empty">0</span>
+        <button type="button" class="quote-trigger" aria-label="Teklif listesi">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-clipboard-text"></use></svg>
+          <span class="quote-trigger__label">Teklif listesi</span>
+          <span class="quote-badge dc-cart-count empty" aria-hidden="true">0</span>
         </button>
-        <button class="burger-btn" id="burgerBtn" aria-label="Menü"><span></span><span></span><span></span></button>
+        <button type="button" class="burger-btn" id="burgerBtn" aria-label="Menü" aria-expanded="false" aria-controls="navLinks">
+          <svg class="icon icon--lg icon-open" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-list"></use></svg><svg class="icon icon--lg icon-close" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-x"></use></svg>
+        </button>
       </div>
     </div>
   </header>
 
-  <main>
-    <!-- Page Hero with Hotel Suite Ambient Video -->
-    <section class="page-hero">
-      <div class="container">
-        <div class="feature-split" style="gap:44px;">
-          <div>
-            <span class="eyebrow moss">IFRA &amp; SGS Onaylı</span>
-            <h1>Beş Yıldızlı Otel Esans Koleksiyonu</h1>
-            <p class="lead" style="margin-bottom:1.5rem;">
-              Uluslararası Koku Birliği (IFRA) standartlarında üretilen, toksin ve alerjen içermeyen doğal botanik özlerden geliştirilmiş 1.000'i aşkın koku profili.
-            </p>
-            <div style="display:flex;gap:1.5rem;font-family:var(--mono);font-size:11.5px;color:var(--text-tertiary);">
-              <span>✦ Doğal Bitkisel Ekstreler</span>
-              <span>✦ Lüks Konaklama Reçeteleri</span>
-            </div>
-          </div>
+  <main id="main">
 
-          <!-- Video 2: Hotel Suite Bedside Mist Ambient -->
-          <div class="hero-video-card" style="aspect-ratio:16/10;">
-            <video autoplay loop muted playsinline poster="images/general/video-hotel-poster.jpg">
+    <section class="page-head" aria-labelledby="page-title">
+      <div class="wrap split split--wide-b">
+        <div class="split__a">
+          <h1 id="page-title">Koku koleksiyonu</h1>
+          <p class="lead">Otel lobilerinde sık kullanılan koku ailelerinden 12 koku. Her biri üst, kalp ve dip notalarıyla; numune için talep formunu kullanabilirsiniz.</p>
+          <div class="mt-6 btn-row">
+            <a href="iletisim.html?konu=numune" class="link-arrow">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
+          </div>
+        </div>
+        <div class="split__b">
+          <figure class="video-figure" data-video>
+          <div class="media media--16x9">
+            <video autoplay loop muted playsinline preload="metadata" poster="images/general/video-hotel-poster.jpg" aria-label="Otel odasında komodin üzerinde çalışan cam kubbeli difüzör; yapay zekâ ile üretilmiş tanıtım videosu">
               <source src="images/products/videos/kling_20261006_VIDEO_Create_an__5223_0.mp4" type="video/mp4">
             </video>
-            <div class="hero-video-badge">
-              <span class="pulse-dot"></span>
-              <span>Lüks Otel Süiti Deneyimi</span>
-            </div>
+          </div>
+          <figcaption class="video-figure__bar">
+            <span class="media-caption">Görsel temsilidir. Yapay zekâ ile üretilmiş tanıtım videosudur.</span>
+            <button type="button" class="video-toggle"><svg class="icon icon-pause" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-pause"></use></svg><svg class="icon icon-play" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-play"></use></svg><span class="video-toggle__label">Videoyu durdur</span></button>
+          </figcaption>
+        </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="scents-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2 id="scents-title">12 koku, üç katmanlı notalar</h2>
+          <p class="lead">Koku adları betimleyicidir; notalar üreticinin koku kartlarından alınmıştır.</p>
+        </div>
+        <div class="scent-index" id="scentsContainer"></div>
+      </div>
+    </section>
+
+    <section class="section section--deep" aria-labelledby="quality-title">
+      <div class="wrap split split--wide-a">
+        <div class="split__a reveal">
+          <div class="media media--3x2"><img src="images/general/perfumer.jpg" alt="Esans şişeleriyle dolu rafların önünde koku değerlendiren parfümör" loading="lazy"></div>
+        </div>
+        <div class="split__b reveal">
+          <h2 id="quality-title">Esans kalitesi</h2>
+          <!-- [DOĞRULANACAK] IFRA / SGS / IAA ifadeleri üretici beyanıdır; belge görülmeden kesin ifade kullanılmamalı. -->
+          <div class="mt-5 prose">
+            <p>Üretici beyanına göre esanslar alerjen, toksin ve kanserojen içermeyen doğal bitkisel özlerden üretilir; ham maddeler ABD ve Fransa'dan tedarik edilir.</p>
+            <p>Üretici ayrıca esansların IFRA (Uluslararası Koku Birliği) standartlarına uygunluğunun SGS tarafından test edildiğini ve bin üzerinde koku profilinden oluşan bir koku kütüphanesi bulunduğunu belirtmektedir.</p>
+          </div>
+          <div class="mt-6 quote-block">
+            <p>Test ve uygunluk belgelerini teklif sürecinde talep edebilirsiniz.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Hotel Scents Grid -->
-    <section class="section" style="padding-top:56px;">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">İmza Koku Serisi</span>
-          <h2>12 Öne Çıkan Otel Profili &amp; Koku Notaları</h2>
-          <p>Her koku; üst, kalp ve dip nota piramidi ile mekânınıza derinlik ve zarafet katar.</p>
+    <section class="section" id="oils" aria-labelledby="oils-title">
+      <div class="wrap split split--wide-a split--top">
+        <div class="split__a reveal">
+          <h2 id="oils-title">Dolum esansları ve koku giderme</h2>
+          <p class="mt-4 lead">Cihazlarınız için kartuş ve dolum esansları, koku giderici ürünler.</p>
+          <div class="mt-7 refill-groups" id="oilsListContainer"></div>
+          <div class="mt-7 btn-row">
+            <a href="iletisim.html?teklif=1" class="btn btn--primary">Teklif iste <svg class="icon icon--move" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
+          </div>
         </div>
-
-        <div class="grid-3" id="scentsContainer"></div>
-      </div>
-    </section>
-
-    <!-- Bulk Refills & Odor Removers -->
-    <section class="section" id="oils" style="border-top:1px solid var(--border);background:var(--bg-subtle);">
-      <div class="container">
-        <div class="feature-split">
-          <div class="feature-media" style="display:flex;justify-content:center;background:#ffffff;padding:2rem;">
-            <img src="images/general/oilrange.jpg" alt="DummyCosmetics 500ml ve 5 Litre Esans Bidonları" style="max-height:440px;width:auto;border-radius:12px;">
-          </div>
-
-          <div>
-            <span class="eyebrow">Dolum &amp; Sarf Malzemeleri</span>
-            <h2>ADS Serisi Difüzör Esansları &amp; Koku Gidericiler</h2>
-            <p style="color:var(--text-secondary);margin-bottom:1.5rem;">
-              Cihazlarınız için kartuş dolumları, 500 ml pratik şişeler ve kurumsal tüketim için 5 litrelik ekonomik bidon seçenekleri mevcuttur.
-            </p>
-
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;" id="oilsListContainer"></div>
-
-            <div style="margin-top:2rem;">
-              <a href="iletisim.html?teklif=1" class="btn btn-primary">Toplu Esans Fiyat Teklifi Al →</a>
-            </div>
-          </div>
+        <div class="split__b reveal">
+          <div class="media media--4x5 media--packshot"><img src="images/general/oilrange.jpg" alt="500 ml şişe ve 5 litre bidonda JVCK difüzör esansları" loading="lazy"></div>
         </div>
       </div>
     </section>
 
-    <!-- Standards & Quality Certification -->
-    <section class="section" style="border-top:1px solid var(--border);">
-      <div class="container">
-        <div class="stat-strip">
-          <div class="stat-cell">
-            <b>IFRA</b>
-            <span>Uluslararası Koku Birliği Standartları</span>
-          </div>
-          <div class="stat-cell">
-            <b>SGS</b>
-            <span>Alerjen ve Toksin Testi Onayı</span>
-          </div>
-          <div class="stat-cell">
-            <b>FDA</b>
-            <span>Gıda Temasına Uygun PP Plastik Cihazlar</span>
-          </div>
-          <div class="stat-cell">
-            <b>IAA</b>
-            <span>Sertifikalı Usta Parfümör Formülasyonları</span>
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
 
-  <!-- Footer -->
   <footer class="site-footer">
-    <div class="container">
+    <div class="wrap">
       <div class="footer-grid">
-        <div class="footer-col">
-          <a href="index.html" class="brand" style="margin-bottom:1rem;">
-            <span class="brand-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2.5c4.5 6 8.5 9.5 8.5 14a8.5 8.5 0 1 1-17 0c0-4.5 4-8 8.5-14z"/></svg></span>
-            <span>Dummy<em>Cosmetics</em></span>
-          </a>
-          <p style="font-size:13.5px;color:var(--text-secondary);line-height:1.6;max-width:320px;">
-            Türkiye resmi distribütörü. Oteller, mağazalar, kurumsal ofisler ve yaşam alanları için profesyonel koku difüzyon teknolojileri.
-          </p>
+        <div class="footer-brand">
+          <a href="index.html" class="brand"><span data-site="brand">DummyCosmetics</span></a>
+          <!-- [DOĞRULANACAK] Distribütörlüğün kapsamı (resmi / tek yetkili) belgelenmeden bu ifadeler kullanılmamalı. -->
+          <p>JVCK koku difüzörleri ve esanslarının Türkiye distribütörü. Oteller, ofisler, mağazalar ve yaşam alanları için ürün seçimi ve teklif.</p>
         </div>
-        <div class="footer-col">
-          <h4>Sayfalar</h4>
+        <div class="footer-col footer-col--a">
+          <h2>Site</h2>
           <ul>
-            <li><a href="index.html">Ana Sayfa</a></li>
-            <li><a href="urunler.html">Ürün Kataloğu</a></li>
-            <li><a href="cozumler.html">Sektörel Çözümler</a></li>
+            <li><a href="urunler.html">Ürünler</a></li>
+            <li><a href="cozumler.html">Çözümler</a></li>
             <li><a href="teknoloji.html">Teknoloji</a></li>
+            <li><a href="esanslar.html">Esanslar</a></li>
+            <li><a href="kurumsal.html">Kurumsal &amp; OEM</a></li>
           </ul>
         </div>
-        <div class="footer-col">
-          <h4>Koleksiyon</h4>
+        <div class="footer-col footer-col--b">
+          <h2>İletişim</h2>
           <ul>
-            <li><a href="esanslar.html">Otel Koku Serisi</a></li>
-            <li><a href="esanslar.html#oils">Esans Kartuş &amp; Yağlar</a></li>
-            <li><a href="kurumsal.html">OEM &amp; Özel Koku</a></li>
-            <li><a href="iletisim.html">Teklif Al</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>İletişim</h4>
-          <ul>
-            <li><a href="mailto:info@dummycosmetics.com.tr">info@dummycosmetics.com.tr</a></li>
-            <li><a href="tel:+902120000000">+90 212 000 00 00</a></li>
-            <li style="color:var(--text-tertiary);">İstanbul, Türkiye</li>
+            <li><a href="mailto:info@dummycosmetics.com.tr" data-site-href="email"><span data-site="email">info@dummycosmetics.com.tr</span></a></li>
+            <li><a href="tel:+902120000000" data-site-href="phone"><span data-site="phone">+90 212 000 00 00</span></a></li>
+            <li><span data-site="city">İstanbul, Türkiye</span></li>
+            <li><a href="iletisim.html">Teklif formu</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <span>© <script>document.write(new Date().getFullYear())</script> DummyCosmetics Türkiye Distribütörlüğü. Tüm hakları saklıdır.</span>
-        <span>Doğal Taş &amp; Botanik Renk Paleti</span>
+        <span>© <span data-year>2026</span> <span data-site="brand">DummyCosmetics</span>. Tüm hakları saklıdır.</span>
+        <span>Teknik veriler üreticinin 2025 ürün kataloğundan alınmıştır.</span>
       </div>
     </div>
   </footer>
 
+  <script src="js/site-config.js"></script>
   <script src="js/products.js"></script>
   <script src="js/components.js"></script>
+  <script src="js/site.js"></script>
   <script>
     (function () {
+      const { icon, esc } = DummyApp;
+
       if (typeof SCENTS !== 'undefined') {
         const scentsEl = document.getElementById('scentsContainer');
         scentsEl.innerHTML = SCENTS.map(s => `
-          <div class="card" style="padding:1.6rem;display:flex;flex-direction:column;gap:0.75rem;">
-            <div style="display:flex;justify-content:space-between;align-items:start;">
-              <span class="mono-tag" style="color:var(--amber);">${s.family}</span>
-            </div>
-            <h3 style="font-family:var(--serif);font-size:1.4rem;font-weight:600;">${s.name}</h3>
-            
-            <div style="font-size:12.5px;display:grid;gap:6px;border-top:1px solid var(--border-subtle);padding-top:12px;margin-top:auto;">
-              <div><strong style="color:var(--text-tertiary);">Üst Nota:</strong> <span style="color:var(--text-secondary);">${s.top}</span></div>
-              <div><strong style="color:var(--text-tertiary);">Kalp Notası:</strong> <span style="color:var(--text-secondary);">${s.mid}</span></div>
-              <div><strong style="color:var(--text-tertiary);">Dip Nota:</strong> <span style="color:var(--text-secondary);">${s.base}</span></div>
-            </div>
-
-            <button class="btn btn-secondary btn-sm" style="margin-top:6px;" onclick="window.location.href='iletisim.html?esans=${encodeURIComponent(s.name)}'">
-              Numune Talep Et
-            </button>
-          </div>
+          <article class="scent reveal is-in">
+            <span class="scent__family">${esc(s.family)}</span>
+            <h3>${esc(s.name)}</h3>
+            <dl>
+              <div><dt>Üst nota</dt><dd>${esc(s.top)}</dd></div>
+              <div><dt>Kalp notası</dt><dd>${esc(s.mid)}</dd></div>
+              <div><dt>Dip nota</dt><dd>${esc(s.base)}</dd></div>
+            </dl>
+            <a class="link-arrow" href="iletisim.html?esans=${encodeURIComponent(s.name)}">Numune iste ${icon('arrow-right')}</a>
+          </article>
         `).join('');
       }
 
       if (typeof OILS !== 'undefined') {
         const oilsEl = document.getElementById('oilsListContainer');
-        oilsEl.innerHTML = OILS.map(o => `
-          <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:0.95rem;font-size:12.5px;">
-            <div style="font-family:var(--mono);color:var(--amber);font-weight:700;font-size:11px;">${o.code}</div>
-            <strong style="display:block;margin:3px 0;color:var(--text-primary);font-size:13.5px;">${o.name}</strong>
-            <span style="color:var(--text-tertiary);font-size:12px;">${o.note}</span>
+        const groups = [
+          { type: 'Esans', title: 'Difüzör esansları' },
+          { type: 'Koku Giderme', title: 'Koku giderme' }
+        ];
+        oilsEl.innerHTML = groups.map(g => `
+          <div class="refill-group">
+            <h3>${esc(g.title)}</h3>
+            <ul class="refill-list">
+              ${OILS.filter(o => o.type === g.type).map(o => `
+                <li>
+                  <span class="refill-list__code">${esc(o.code)}</span>
+                  <span><span class="refill-list__name">${esc(o.name)}</span><span class="refill-list__note">${esc(o.note)}</span></span>
+                </li>
+              `).join('')}
+            </ul>
           </div>
         `).join('');
       }
