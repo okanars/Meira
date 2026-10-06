@@ -1,0 +1,53 @@
+# ==============================================================================
+# DummyCosmetics .gitignore
+# ==============================================================================
+
+# User Requested Ignores
+README.md
+RAPOR.md
+reference/
+*.pdf
+1_JVCK_translated 英文.pdf
+
+# Agent skills & local agent settings
+.claude/skills/
+.claude/settings.local.json
+.agents/
+
+# Extraction Scratch & Temporary Directories
+scratch/
+.tempmediaStorage/
+temp/
+tmp/
+
+# OS Specific Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs & Runtime Data
+*.log
+site/api/submissions.log
+logs/
+
+# IDE & Editor Settings
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+
+# Environment & Config Credentials
+.env
+.env.local
+.env.*.local
+
+# Dependency directories (if added in the future)
+node_modules/
+vendor/
