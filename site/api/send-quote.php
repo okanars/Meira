@@ -37,6 +37,26 @@ $ALLOWED_SUBJECTS = [
     'Teknik Destek ve Servis',
 ];
 
+// Proje bilgileri seçenekleri; iletisim.html'deki #f-space ve extras[] ile aynı olmalı
+$ALLOWED_SPACES = [
+    'Otel ve konaklama',
+    'Mağaza ve showroom',
+    'Ofis ve plaza',
+    'Restoran ve kafe',
+    'Spa ve güzellik salonu',
+    'AVM ve ortak alan',
+    'Sağlık ve klinik',
+    'Konut',
+    'Diğer',
+];
+$ALLOWED_EXTRAS = [
+    'Montaj ve kurulum',
+    'Klima (HVAC) bağlantısı',
+    'Özel (imza) koku',
+    'Koku numunesi',
+    'Düzenli esans dolumu ve bakım',
+];
+
 // ==========================================
 // 2. YANIT YARDIMCILARI
 // ==========================================
@@ -82,6 +102,22 @@ function oneLine(string $s, int $max): string
     $s = preg_replace('/[\x00-\x1F\x7F]+/u', ' ', $s) ?? '';
     $s = trim(preg_replace('/\s+/u', ' ', $s) ?? '');
     return mb_substr($s, 0, $max, 'UTF-8');
+}
+
+/** Boş ya da sınır dışıysa null; virgüllü ondalığı da kabul eder. */
+function numberOrNull($v, float $min, float $max): ?float
+{
+    $v = str_replace(',', '.', trim((string) $v));
+    if ($v === '' || !is_numeric($v)) {
+        return null;
+    }
+    $n = (float) $v;
+    return ($n >= $min && $n <= $max) ? $n : null;
+}
+
+function fmtNumber(float $n): string
+{
+    return number_format($n, floor($n) == $n ? 0 : 1, ',', '.');
 }
 
 /** E-posta başlığı için UTF-8 kodlama (RFC 2047). */
@@ -154,8 +190,30 @@ if (!in_array($subject, $ALLOWED_SUBJECTS, true)) {
     $subject = 'Teklif Talebi';
 }
 
-if ($name === '' || $email === '' || $message === '') {
-    respond(false, 400, ['error' => 'Lütfen zorunlu alanları (ad soyad, e-posta, mesaj) doldurun.']);
+// Proje bilgileri (hepsi isteğe bağlı; listede olmayan değerler yok sayılır)
+$space = oneLine((string) ($data['space_type'] ?? ''), 80);
+if (!in_array($space, $ALLOWED_SPACES, true)) {
+    $space = '';
+}
+if ($space === 'Diğer') {
+    $spaceOther = oneLine((string) ($data['space_type_other'] ?? ''), 80);
+    $space = $spaceOther !== '' ? 'Diğer: ' . $spaceOther : 'Diğer';
+}
+$area   = numberOrNull($data['area'] ?? '', 1, 1000000);
+$height = numberOrNull($data['height'] ?? '', 1, 100);
+$volume = ($area !== null && $height !== null) ? round($area * $height) : null;
+$extrasRaw = $data['extras'] ?? ($data['extras[]'] ?? []);
+$extras = array_values(array_unique(array_filter(
+    array_map(fn($x) => oneLine((string) $x, 80), is_array($extrasRaw) ? $extrasRaw : [$extrasRaw]),
+    fn($x) => in_array($x, $ALLOWED_EXTRAS, true)
+)));
+$hasProject = $space !== '' || $area !== null || $height !== null || $extras;
+
+if ($name === '' || $email === '') {
+    respond(false, 400, ['error' => 'Lütfen zorunlu alanları (ad soyad, e-posta) doldurun.']);
+}
+if ($message === '' && !$hasProject) {
+    respond(false, 400, ['error' => 'Lütfen talebinizi kısaca yazın ya da proje bilgilerini doldurun.']);
 }
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     respond(false, 400, ['error' => 'Lütfen geçerli bir e-posta adresi girin.']);
@@ -182,10 +240,23 @@ $rows = [
     ['Konu', h($subject)],
     ['IP', h($ip)],
 ];
-$rowsHtml = '';
-foreach ($rows as [$label, $value]) {
-    $rowsHtml .= '<tr><td style="padding:6px 0;color:#5C6573;width:120px;vertical-align:top;">' . $label . '</td><td style="padding:6px 0;">' . $value . '</td></tr>';
-}
+$projectRows = [
+    ['Mekân tipi', $space !== '' ? h($space) : '-'],
+    ['Taban alanı', $area !== null ? fmtNumber($area) . ' m²' : '-'],
+    ['Tavan yüksekliği', $height !== null ? fmtNumber($height) . ' m' : '-'],
+    ['Hava hacmi', $volume !== null ? '~' . fmtNumber($volume) . ' m³' : '-'],
+    ['Ek istekler', $extras ? h(implode(', ', $extras)) : '-'],
+];
+$tableRows = function (array $rows): string {
+    $out = '';
+    foreach ($rows as [$label, $value]) {
+        $out .= '<tr><td style="padding:6px 0;color:#5C6573;width:140px;vertical-align:top;">' . $label . '</td><td style="padding:6px 0;">' . $value . '</td></tr>';
+    }
+    return $out;
+};
+$rowsHtml = $tableRows($rows);
+$projectHtml = $tableRows($projectRows);
+$sectionTitle = fn(string $t): string => '<div style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:#5C6573;margin-bottom:8px;">' . $t . '</div>';
 
 $htmlContent = '<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"></head>'
     . '<body style="font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#F7F4EF;color:#141C27;padding:24px;margin:0;">'
@@ -194,9 +265,10 @@ $htmlContent = '<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"></hea
     . '<div style="font-family:Georgia,serif;font-size:20px;letter-spacing:0.2em;">MEIRA</div>'
     . '<div style="margin-top:4px;font-size:12px;color:#C3C8D0;">Web sitesi teklif ve iletişim talebi</div></div>'
     . '<div style="padding:24px;"><table style="width:100%;border-collapse:collapse;font-size:14px;">' . $rowsHtml . '</table>'
-    . '<div style="margin-top:20px;padding:16px;background:#F7F4EF;border:1px solid #E1D9CB;">'
-    . '<div style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:#5C6573;margin-bottom:8px;">Mesaj ve teklif listesi</div>'
-    . '<pre style="margin:0;white-space:pre-wrap;font-family:inherit;font-size:14px;line-height:1.6;">' . h($message) . '</pre></div></div>'
+    . '<div style="margin-top:20px;padding:16px;border:1px solid #E1D9CB;">' . $sectionTitle('Proje bilgileri')
+    . '<table style="width:100%;border-collapse:collapse;font-size:14px;">' . $projectHtml . '</table></div>'
+    . '<div style="margin-top:20px;padding:16px;background:#F7F4EF;border:1px solid #E1D9CB;">' . $sectionTitle('Mesaj ve teklif listesi')
+    . '<pre style="margin:0;white-space:pre-wrap;font-family:inherit;font-size:14px;line-height:1.6;">' . ($message !== '' ? h($message) : '-') . '</pre></div></div>'
     . '<div style="padding:12px 24px;font-size:11px;color:#5C6573;text-align:center;">Bu e-posta ' . h($BRAND_NAME) . ' web sitesi teklif formundan iletilmiştir.</div>'
     . '</div></body></html>';
 
@@ -220,6 +292,8 @@ $logEntry = '[' . date('Y-m-d H:i:s') . '] REF: ' . $refNo
     . ' | TEL: ' . ($phone ?: '-')
     . ' | FİRMA: ' . ($company ?: '-')
     . ' | KONU: ' . $subject
+    . ' | MEKÂN: ' . ($space ?: '-')
+    . ' | HACİM: ' . ($volume !== null ? $volume . ' m3' : '-')
     . ' | GÖNDERİM: ' . ($DEMO_MODE ? 'demo' : ($mailSent ? 'ok' : 'hata')) . "\n";
 @file_put_contents($LOG_FILE, $logEntry, FILE_APPEND | LOCK_EX);
 

@@ -169,12 +169,7 @@
       text += `   - Kapsama: ${area} | Kapasite: ${cap}\n\n`;
     });
 
-    text += `PROJE / UYGULAMA ALANI:\n`;
-    text += `Mekân tipi: [Örn: Otel lobisi / Mağaza / Ofis]\n`;
-    text += `Alan veya hacim: [Örn: ~1.200 m²]\n`;
-    text += `Ek istekler: [Montaj, özel koku vb.]\n`;
-
-    return text;
+    return text.trimEnd() + '\n';
   }
 
   // =========================================================================
@@ -621,6 +616,91 @@
       }
     }
 
+    // Proje bilgileri: mekân tipi ("Diğer" seçilince serbest metin), ölçüler, ek istekler
+    const spaceSelect = form.querySelector('[name="space_type"]');
+    const spaceOther = form.querySelector('[data-space-other]');
+    const spaceOtherInput = form.querySelector('[name="space_type_other"]');
+    const areaInput = form.querySelector('[name="area"]');
+    const heightInput = form.querySelector('[name="height"]');
+    const volumeOut = document.getElementById('projectVolume');
+
+    function syncSpaceOther() {
+      if (!spaceSelect || !spaceOther) return;
+      const isOther = spaceSelect.value === 'Diğer';
+      spaceOther.hidden = !isOther;
+      if (!isOther && spaceOtherInput) spaceOtherInput.value = '';
+    }
+    spaceSelect?.addEventListener('change', () => {
+      syncSpaceOther();
+      if (spaceSelect.value === 'Diğer') spaceOtherInput?.focus();
+    });
+    syncSpaceOther();
+
+    // Boş bırakılabilir; doluysa sınırlar içinde bir sayı olmalı
+    function numValue(input) {
+      const raw = (input?.value || '').trim();
+      if (!raw) return null;
+      const n = Number(raw.replace(',', '.'));
+      return Number.isFinite(n) ? n : NaN;
+    }
+    function validateNumber(input, label) {
+      if (!input) return true;
+      const n = numValue(input);
+      if (input.validity.badInput || Number.isNaN(n)) {
+        setFieldError(input, `${label} için bir sayı girin.`);
+        return false;
+      }
+      const min = Number(input.min), max = Number(input.max);
+      if (n !== null && (n < min || n > max)) {
+        setFieldError(input, `${label} ${fmtNum(min)} ile ${fmtNum(max)} arasında olmalı.`);
+        return false;
+      }
+      setFieldError(input, '');
+      return true;
+    }
+    const fmtNum = n => n.toLocaleString('tr-TR');
+    function updateVolume() {
+      if (!volumeOut) return;
+      const a = numValue(areaInput), h = numValue(heightInput);
+      if (a > 0 && h > 0) {
+        volumeOut.textContent = `Yaklaşık hava hacmi: ${fmtNum(Math.round(a * h))} m³`;
+        volumeOut.hidden = false;
+      } else {
+        volumeOut.hidden = true;
+      }
+    }
+    [[areaInput, 'Taban alanı'], [heightInput, 'Tavan yüksekliği']].forEach(([input, label]) => {
+      if (!input) return;
+      input.addEventListener('input', () => { updateVolume(); if (input.hasAttribute('aria-invalid')) validateNumber(input, label); });
+      input.addEventListener('blur', () => validateNumber(input, label));
+    });
+
+    // Hesaplayıcıdan gelen ölçüler (ör. ?alan=150&tavan=3.2)
+    const alanParam = Number(urlParams.get('alan'));
+    const tavanParam = Number(urlParams.get('tavan'));
+    if (areaInput && alanParam > 0) areaInput.value = String(alanParam);
+    if (heightInput && tavanParam > 0) heightInput.value = String(tavanParam);
+    updateVolume();
+
+    function projectData() {
+      return {
+        space_type: spaceSelect?.value || '',
+        space_type_other: spaceOtherInput?.value.trim() || '',
+        area: (areaInput?.value || '').trim(),
+        height: (heightInput?.value || '').trim(),
+        extras: Array.from(form.querySelectorAll('[name="extras[]"]:checked')).map(el => el.value)
+      };
+    }
+
+    // Mesaj zorunlu değil; ama mesaj, proje bilgisi ya da teklif listesinden en az biri olmalı
+    function validateContent() {
+      const pr = projectData();
+      const hasContent = messageField.value.trim() || pr.space_type || pr.area || pr.height || pr.extras.length || getCart().length;
+      setFieldError(messageField, hasContent ? '' : 'Talebinizi kısaca yazın ya da proje bilgilerini doldurun.');
+      return Boolean(hasContent);
+    }
+    messageField.addEventListener('input', () => { if (messageField.hasAttribute('aria-invalid')) validateContent(); });
+
     const required = Array.from(form.querySelectorAll('[required]'));
     required.forEach(field => {
       field.addEventListener('blur', () => { if (field.value.trim() || field.hasAttribute('aria-invalid')) validateField(field); });
@@ -643,10 +723,16 @@
       if (formError) formError.hidden = true;
 
       const invalid = required.filter(field => !validateField(field));
+      if (!validateNumber(areaInput, 'Taban alanı')) invalid.push(areaInput);
+      if (!validateNumber(heightInput, 'Tavan yüksekliği')) invalid.push(heightInput);
+      if (!validateContent()) invalid.push(messageField);
       if (invalid.length) {
         invalid[0].focus();
         return;
       }
+
+      // Mesaj silinmiş ama teklif listesi doluysa liste e-postaya mesaj metniyle ulaşır
+      if (!messageField.value.trim() && getCart().length) messageField.value = buildQuoteMessageText();
 
       const submitBtn = form.querySelector('button[type="submit"]');
       const originalText = submitBtn.innerHTML;
@@ -660,6 +746,7 @@
         company: form.querySelector('[name="company"]')?.value.trim() || '',
         subject: form.querySelector('[name="subject"]')?.value || 'Teklif Talebi',
         message: messageField.value.trim(),
+        ...projectData(),
         hp_company_website: form.querySelector('[name="hp_company_website"]')?.value || '',
         items: getCart()
       };
