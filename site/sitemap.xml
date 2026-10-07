@@ -65,6 +65,14 @@
     <image:image><image:loc>https://www.meira.com.tr/images/products/ck628-g3.jpg</image:loc></image:image>
   </url>
   <url>
+    <loc>https://www.meira.com.tr/urun-ck629.html</loc>
+    <lastmod>2026-10-07</lastmod>
+    <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck629.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck629-g1.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ck629-g2.jpg</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://www.meira.com.tr/urun-ck638.html</loc>
     <lastmod>2026-10-07</lastmod>
     <priority>0.8</priority>
@@ -162,6 +170,12 @@
     <image:image><image:loc>https://www.meira.com.tr/images/products/ck683-g1.jpg</image:loc></image:image>
     <image:image><image:loc>https://www.meira.com.tr/images/products/ck683-g2.jpg</image:loc></image:image>
     <image:image><image:loc>https://www.meira.com.tr/images/products/ck683-g3.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://www.meira.com.tr/urun-ads685.html</loc>
+    <lastmod>2026-10-07</lastmod>
+    <priority>0.8</priority>
+    <image:image><image:loc>https://www.meira.com.tr/images/products/ads685.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/urun-ck656.html</loc>

@@ -98,8 +98,8 @@ export const FAQ = {
         ['Mekânım için hangi cihaz uygun?', 'İlk ölçüt hacimdir: taban alanı x tavan yüksekliği. Kapsama değeri bu hacmi karşılayan bir model seçilir. Hacim hesaplayıcı (Çözümler sayfası) bu hesabı yapıp uygun modelleri listeler. Bölmeli alanlar, güçlü havalandırma ve yoğun ziyaretçi trafiği birden fazla cihaz gerektirebilir.'],
         ['Kapsama değeri neden m² değil m³?', 'Koku bir zemini değil, bir hava hacmini doldurur. Aynı taban alanına sahip iki mekândan tavanı yüksek olanın hacmi daha büyüktür ve daha güçlü bir cihaz gerektirir. Masaüstü birkaç modelde üretici kapsamayı m² olarak vermiştir; bu değerler ürün sayfalarında belirtilir.'],
         ['Ultrasonik ve çift akışkanlı cihaz arasındaki fark nedir?', 'Ultrasonik cihazlar esansı titreşen bir plakayla sise dönüştürür; çok sessizdir ve küçük alanlara uygundur. Çift akışkanlı (basınçlı hava) cihazlar esansı hava akımıyla çok ince parçacıklara ayırır; daha büyük alanları kapsar ve bazı modeller klima sistemine bağlanabilir.'],
-        ['Cihazlar ne kadar ses çıkarır?', 'Üretici verisine göre ultrasonik duvar modellerinin (CK-628, CK-638, CK-648) ses seviyesi 8 dBA\'nın altındadır. Çift akışkanlı ve profesyonel modellerde değerler modele göre yaklaşık 30 ile 46 dB arasındadır. Her modelin değeri kendi ürün sayfasında yazar.'],
-        ['Klima sistemine bağlanabilen modeller hangileri?', 'Üretici verisine göre CK-631, CK-620 / 640 / 670, CK-611 / 612 / 613 ve CK-621 / 622 / 623 klima bağlantısını, CK-686 taze hava sistemi bağlantısını destekler. Bağlantı noktası binanın mekanik tesisatına göre belirlenir.']
+        ['Cihazlar ne kadar ses çıkarır?', 'Üretici verisine göre ultrasonik duvar modellerinin (CK-628, CK-638, CK-648) ses seviyesi 8 dBA\'nın altındadır. Çift akışkanlı ve profesyonel modellerde değerler modele göre yaklaşık 35 ile 42 dB arasındadır. Her modelin değeri kendi ürün sayfasında yazar.'],
+        ['Klima sistemine bağlanabilen modeller hangileri?', 'Üretici verisine göre CK-631, ADS-620B / 640B / 670B, CK-611 / 612 / 613 ve CK-621 / 622 / 623 klima bağlantısını, CK-686 taze hava sistemi bağlantısını destekler. Bağlantı noktası binanın mekanik tesisatına göre belirlenir.']
       ]
     },
     {
@@ -108,7 +108,7 @@ export const FAQ = {
         ['Esansı ne sıklıkla doldurmam gerekir?', 'Dolum sıklığı; hazne kapasitesine, çalışma saatlerine, püskürtme ve bekleme sürelerine ve seçilen yoğunluğa bağlıdır. Büyük hazneli modeller ve zamanlı çalışma dolum sıklığını azaltır. Kullanım planınıza göre tahmini tüketimi teklif aşamasında birlikte hesaplayabiliriz.'],
         ['Koku gün içinde neden azalmış gibi geliyor?', 'İnsanlar sürekli maruz kaldıkları kokuya hızla alışır. Mekânda uzun süre bulunan kişiler kokuyu daha az algılar; yeni gelen biri ise belirgin biçimde fark eder. Yoğunluğu artırmadan önce mekâna yeni girmiş birine sorun.'],
         ['Esanslar güvenli mi?', 'Üretici beyanına göre esanslar IFRA standartlarına uygunluk açısından SGS tarafından test edilmiştir. Güvenlik bilgi formu (SDS) ve uygunluk belgelerini teklif sürecinde talep edebilirsiniz. Koku yoğunluğunu gereğinden yüksek tutmamanızı ve mekânın havalandırmasının çalışmasını öneririz.'],
-        ['Duvar tipi cihazlar nasıl monte edilir?', 'Üretici verisine göre CK-628, CK-638, CK-687 ve CK-688 duvar modelleri yapışkanla, duvarı delmeden yaklaşık 3 saniyede monte edilir. Prize takılan CK-644 ve CK-645 delme gerektirmez. Diğer modellerin montaj şekli teklif aşamasında teyit edilir.']
+        ['Duvar tipi cihazlar nasıl monte edilir?', 'Üretici verisine göre CK-628, CK-638 ve CK-688 duvar modelleri yapışkanla, duvarı delmeden yaklaşık 3 saniyede monte edilir. Prize takılan CK-644 ve CK-645 delme gerektirmez. Diğer modellerin montaj şekli teklif aşamasında teyit edilir.']
       ]
     },
     {

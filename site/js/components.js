@@ -755,7 +755,7 @@
       productId: 'ck620',
       scent: 'Stellar Encounters',
       image: 'images/products/ck620.jpg',
-      alt: 'Butik bir iç mekânda zemine yerleştirilmiş siyah CK-620 difüzör'
+      alt: 'Butik bir iç mekânda zemine yerleştirilmiş siyah ADS-620B difüzör'
     },
     residence: {
       title: 'Rezidans ve özel yaşam alanları',

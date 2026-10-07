@@ -90,7 +90,7 @@ export const POSTS = [
 <ul>
   <li><a href="urun-ck628.html">CK-628</a> ultrasonik duvar difüzörü: 300 m³ (toplantı odası, otel odası, ofis).</li>
   <li><a href="urun-ck688.html">CK-688</a> çift akışkanlı duvar difüzörü: 800 m³ (mağaza, showroom).</li>
-  <li><a href="urun-ck686.html">CK-686</a> kolon difüzör: 4.000 m³ (lobi, restoran).</li>
+  <li><a href="urun-ck686.html">CK-686</a> kolon difüzör: 1.500-2.000 m³ (lobi, restoran).</li>
   <li><a href="urun-ck621.html">CK-621 / 622 / 623</a> serisi: 8.000 m³, 1000 / 3000 / 5000 ml hazne seçenekleri (büyük alanlar, klima bağlantısı).</li>
 </ul>
 
@@ -199,7 +199,7 @@ export const POSTS = [
 <p>Üretici verisine göre şu modeller klima ya da taze hava sistemine bağlanabilir:</p>
 <ul>
   <li><a href="urun-ck631.html">CK-631</a> hava pompalı klima bağlantılı difüzör: 3.500 m³, kızılötesi yağ seviyesi algılama.</li>
-  <li><a href="urun-ck620.html">CK-620 / 640 / 670</a> serisi: 2.000, 4.000 ve 7.000 m³.</li>
+  <li><a href="urun-ck620.html">ADS-620B / 640B / 670B</a> serisi: 2.000-5.000, 4.000-8.000 ve 7.000-12.000 m³.</li>
   <li><a href="urun-ck621.html">CK-621 / 622 / 623</a> serisi: 8.000 m³, 1000 / 3000 / 5000 ml hazne seçenekleri.</li>
   <li><a href="urun-ck611.html">CK-611 / 612 / 613</a> çift başlıklı seri: 5.000 ile 15.000 m³, 2 x 5000 ml'ye kadar hazne.</li>
   <li><a href="urun-ck686.html">CK-686</a> kolon difüzör: taze hava sistemi bağlantısı.</li>

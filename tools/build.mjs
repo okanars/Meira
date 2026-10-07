@@ -105,12 +105,18 @@ function productPicture(p, { alt = '', sizes = '(min-width: 1100px) 300px, (min-
   return `<picture>${w ? `<source type="image/webp" srcset="${w} 640w" sizes="${sizes}">` : ''}<img src="${src}" alt="${esc(alt)}"${dims(src)}${attrs}></picture>`;
 }
 
-// Kapsama metnindeki m³ değerleri (ör. "2.000 / 4.000 / 7.000 m³" -> [2000, 4000, 7000])
+// Kapsama metnindeki m³ değerleri; "/" ile ayrılan her seçenek tek değer ya da aralıktır
+// (ör. "2.000-5.000 / 4.000-8.000 m³" -> [[2000, 5000], [4000, 8000]], "300 m³" -> [[300]])
 function coverageValues(p) {
   const s = spec(p, /kapsama/i);
   if (!/m³/.test(s)) return [];
-  return (s.match(/\d[\d.]*/g) || []).map(n => parseInt(n.replace(/\./g, ''), 10)).filter(Boolean);
+  return s.split('/')
+    .map(part => (part.match(/\d[\d.]*/g) || []).map(n => parseInt(n.replace(/\./g, ''), 10)).filter(Boolean))
+    .filter(r => r.length);
 }
+// Hacim aralığını belirli bir tavan yüksekliğinde taban alanına çevirir (5 m²'ye yuvarlanır)
+const floorArea = (r, h) => r.map(v => fmt(Math.floor(v / h / 5) * 5)).join('-');
+const volRange = r => r.map(fmt).join('-');
 
 // ---------------------------------------------------------------------------
 // Ortak parçalar
@@ -335,7 +341,7 @@ function productFaq(p) {
   const vals = coverageValues(p);
   if (cov) {
     const tail = vals.length
-      ? ` 3 m tavan yüksekliğinde bu, yaklaşık ${vals.map(v => fmt(Math.floor(v / 3 / 5) * 5) + ' m²').join(' / ')} taban alanına karşılık gelir.`
+      ? ` 3 m tavan yüksekliğinde bu, yaklaşık ${vals.map(r => floorArea(r, 3) + ' m²').join(' / ')} taban alanına karşılık gelir.`
       : '';
     items.push([`${p.model} ne kadar alanı kokulandırır?`, `Üretici verisine göre kapsama alanı ${cov}.${tail} Bölmeli alanlar, güçlü havalandırma ya da yoğun ziyaretçi trafiği birden fazla cihaz gerektirebilir.`]);
   }
@@ -367,7 +373,7 @@ function productPage(p) {
   const covText = spec(p, /kapsama/i);
   let fit = '';
   if (vals.length) {
-    const rows = vals.map(v => `<tr><td>${fmt(v)} m³</td><td>${fmt(Math.floor(v / 3 / 5) * 5)} m²</td><td>${fmt(Math.floor(v / 4 / 5) * 5)} m²</td><td>${fmt(Math.floor(v / 6 / 5) * 5)} m²</td></tr>`).join('');
+    const rows = vals.map(r => `<tr><td>${volRange(r)} m³</td><td>${floorArea(r, 3)} m²</td><td>${floorArea(r, 4)} m²</td><td>${floorArea(r, 6)} m²</td></tr>`).join('');
     fit = `<h2>Mekâna uygunluk</h2>
             <p>Üretici verisine göre kapsama alanı ${esc(covText)}. Aşağıdaki tablo bu hacmin farklı tavan yüksekliklerinde yaklaşık hangi taban alanına karşılık geldiğini gösterir (açık ve tek parça bir alan için).</p>
             <div class="table-wrap">
