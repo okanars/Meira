@@ -4,12 +4,12 @@
  * [DOĞRULANACAK] Katalogda "CK-613" kodu hem elektriksiz koku kutusu (CK-613A/B/C) hem de
  * çift başlıklı difüzör serisinde (CK-613A, 2 x 5000 ml) geçiyor; üreticiden teyit edin.
  * Koku adları: otel ve parfüm markası adları nötr, betimleyici adlarla değiştirildi (RAPOR.md).
- * MEIRA Difüzör Fiyat Listesi 2026'da yer alan ürünlerde (ADS-687, CK-629, ADS-689, CK-644, CK-686,
+ * MEIRA Difüzör Fiyat Listesi 2026'da yer alan ürünlerde (ADS-687, CK-629, ADS-689, CK-644, zemin tipi ADS-687,
  * ADS-685, ADS-620B/640B/670B) model kodu ve teknik veriler bu listeden alınmıştır; katalogla çelişen
  * değerlerde liste esas alınır. Fiyatlar sitede gösterilmez.
  * [DOĞRULANACAK] Listede "Kapsadığı Alan" birimsizdir; katalogla tutarlı olarak m³ kabul edildi.
- * [DOĞRULANACAK] Listede zemin tipi kolon da ADS-687A/B koduyla geçiyor (150 ml cihazla aynı kod);
- * sitede katalog kodu CK-686 korunmuştur. */
+ * Listeye göre zemin tipi kolon (ck686, katalogda CK-686) da ADS-687A/B kodunu taşır; 150 ml
+ * ADS-687'den başlığı ve kategorisiyle ayrılır. */
 const CATEGORIES = [
   { id: 'all',   label: 'Tüm Ürünler' },
   { id: 'wall',  label: 'Duvar Tipi Difüzörler' },
@@ -146,13 +146,13 @@ const PRODUCTS = [
     use: COMMON_USE_COMMERCIAL
   },
   {
-    id: 'ck686', model: 'CK-686', cat: 'pro', badge: 'Kolon',
+    id: 'ck686', model: 'ADS-687', cat: 'pro', badge: 'Kolon',
     title: 'Nano Atomizasyonlu Kolon Difüzör',
     short: 'Zeminde ayakta duran alüminyum kolon; 500 ml kapasite ve 1.500-2.000 m³ kapsama alanı.',
     desc: 'Taş dokulu atomizer başlığıyla tasarıma imza atan, zeminde ayakta duran kolon tipi ticari difüzör. Tak-çıkar atomizer ile kolay yağ değişimi, manyetik kilit mekanizması. LED ekranlı akıllı uygulama ile tek dokunuşla kontrol. Nano sis teknolojisiyle 1.500-2.000 m³ alan difüzyonu; WiFi ve Bluetooth modlarında zamanlı çalışma, taze hava sistemine bağlanabilir.',
     img: 'ck686', pos: '50% 35%', gallery: 3,
     features: ['Nano atomizasyon', 'Bluetooth uygulama kontrolü', 'Düşük gürültü (≤35 dB)', 'Şebeke gücü', 'Taze hava sistemine bağlanabilir', 'Zamanlı püskürtme'],
-    variants: ['CK-686A (Beyaz)', 'CK-686B (Siyah)'],
+    variants: ['ADS-687A (Beyaz)', 'ADS-687B (Siyah)'],
     specs: [['Boyut', '575 × 115 × 160 mm'], ['Renk', 'Beyaz / Siyah'], ['Malzeme', 'Alüminyum alaşım'], ['Gerilim / Güç', 'DC 12V / 12W'], ['Ses seviyesi', '≤ 35 dB'], ['Kapasite', '500 ml'], ['Kapsama alanı', '1.500-2.000 m³'], ['Kurulum', 'Zemin (ayakta durur)']],
     use: COMMON_USE_COMMERCIAL + ', satış salonu'
   },

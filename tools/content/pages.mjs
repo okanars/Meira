@@ -99,7 +99,7 @@ export const FAQ = {
         ['Kapsama değeri neden m² değil m³?', 'Koku bir zemini değil, bir hava hacmini doldurur. Aynı taban alanına sahip iki mekândan tavanı yüksek olanın hacmi daha büyüktür ve daha güçlü bir cihaz gerektirir. Masaüstü birkaç modelde üretici kapsamayı m² olarak vermiştir; bu değerler ürün sayfalarında belirtilir.'],
         ['Ultrasonik ve çift akışkanlı cihaz arasındaki fark nedir?', 'Ultrasonik cihazlar esansı titreşen bir plakayla sise dönüştürür; çok sessizdir ve küçük alanlara uygundur. Çift akışkanlı (basınçlı hava) cihazlar esansı hava akımıyla çok ince parçacıklara ayırır; daha büyük alanları kapsar ve bazı modeller klima sistemine bağlanabilir.'],
         ['Cihazlar ne kadar ses çıkarır?', 'Üretici verisine göre ultrasonik duvar modellerinin (CK-628, CK-638, CK-648) ses seviyesi 8 dBA\'nın altındadır. Çift akışkanlı ve profesyonel modellerde değerler modele göre yaklaşık 35 ile 42 dB arasındadır. Her modelin değeri kendi ürün sayfasında yazar.'],
-        ['Klima sistemine bağlanabilen modeller hangileri?', 'Üretici verisine göre CK-631, ADS-620B / 640B / 670B, CK-611 / 612 / 613 ve CK-621 / 622 / 623 klima bağlantısını, CK-686 taze hava sistemi bağlantısını destekler. Bağlantı noktası binanın mekanik tesisatına göre belirlenir.']
+        ['Klima sistemine bağlanabilen modeller hangileri?', 'Üretici verisine göre CK-631, ADS-620B / 640B / 670B, CK-611 / 612 / 613 ve CK-621 / 622 / 623 klima bağlantısını, ADS-687 kolon difüzör taze hava sistemi bağlantısını destekler. Bağlantı noktası binanın mekanik tesisatına göre belirlenir.']
       ]
     },
     {
