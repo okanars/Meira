@@ -9,6 +9,7 @@
  *   - Ürün sayfaları (urun-<id>.html) products.js verisinden
  *   - Blog dizini ve yazıları (tools/content/blog.mjs), Sürdürülebilirlik ve SSS (tools/content/pages.mjs)
  *   - urunler.html katalog ızgarası ve esanslar.html koku listesinin önceden basılmış HTML'i
+ *   - index.html ürün videoları ve sertifika şeridi, kurumsal.html sertifikalar bölümü (işaretli bölgeler)
  *   - sitemap.xml, robots.txt, 404.html
  *
  * Kullanım:  node tools/build.mjs
@@ -22,6 +23,7 @@ import { fileURLToPath } from 'node:url';
 import crypto from 'node:crypto';
 import { POSTS } from './content/blog.mjs';
 import { SUSTAINABILITY, FAQ, PRIVACY } from './content/pages.mjs';
+import { CERTS, CERT_INFO } from './content/certs.mjs';
 
 // [DOĞRULANACAK] Alan adı yer tutucudur. Kesinleşince yalnızca bu değeri değiştirip betiği çalıştırın.
 const SITE_URL = 'https://www.meira.com.tr';
@@ -90,7 +92,11 @@ const dims = rel => { const d = imageSize(rel); return d ? ` width="${d.w}" heig
 // Önbellek sürümü: dosya içeriğinin özeti. CSS/JS değişince adres değişir, uzun önbellek güvenle kullanılır.
 const hashOf = rel => crypto.createHash('sha256').update(fs.readFileSync(path.join(SITE, rel))).digest('hex').slice(0, 10);
 const JS_FILES = ['site-config', 'products', 'components', 'site'];
-const VER = { css: hashOf('css/style.css'), ...Object.fromEntries(JS_FILES.map(n => [n, hashOf(`js/${n}.js`)])) };
+const VER = { css: hashOf('css/style.css'), logo: hashOf('images/brand/logo-sprite.svg'), ...Object.fromEntries(JS_FILES.map(n => [n, hashOf(`js/${n}.js`)])) };
+
+// Meira logosu (images/brand/logo-sprite.svg). word: yazı ve duman (2,33:1), full: "AIR SCENT" sloganıyla (1,88:1)
+const LOGO_VB = { word: '0 0 1199.1 515.6', full: '0 0 1199.1 638.9' };
+const logo = (kind, cls) => `<svg class="${cls}" viewBox="${LOGO_VB[kind]}" aria-hidden="true" focusable="false"><use href="images/brand/logo-sprite.svg?v=${VER.logo}#logo-${kind}"></use></svg>`;
 
 // Ürün görseli: modern tarayıcıya 640 px WebP, diğerlerine özgün JPEG (images/products/w640/*.webp)
 const webpPath = (p, suffix = '') => p.external ? '' : `images/products/w640/${p.img}${suffix}.webp`;
@@ -132,7 +138,7 @@ const ORG = {
   description: 'JVCK koku difüzörleri ve esanslarının Türkiye distribütörü. Oteller, ofisler, mağazalar ve yaşam alanları için profesyonel mekân kokulandırma ürünleri ve teklif.',
   address: { '@type': 'PostalAddress', addressLocality: 'İstanbul', addressCountry: 'TR' },
   areaServed: 'TR',
-  logo: { '@type': 'ImageObject', url: abs('images/brand/logo-meira.png'), width: 640, height: 160 },
+  logo: { '@type': 'ImageObject', url: abs('images/brand/logo-meira.png'), width: 1040, height: 600 },
   image: abs(DEFAULT_OG)
 };
 const WEBSITE = { '@context': 'https://schema.org', '@type': 'WebSite', '@id': `${SITE_URL}/#website`, url: `${SITE_URL}/`, name: BRAND, inLanguage: 'tr-TR', publisher: { '@id': ORG_ID } };
@@ -201,7 +207,7 @@ const NAV = [
 function header({ dark = false } = {}) {
   return `<header class="site-header"${dark ? ' data-header' : ''}>
     <div class="wrap site-header__inner">
-      <a href="index.html" class="brand" lang="en"><span data-site="brand">${BRAND}</span><span class="brand__sub" lang="tr">Türkiye</span></a>
+      <a href="index.html" class="brand">${logo('word', 'brand__logo')}<span class="visually-hidden" lang="en" data-site="brand">${BRAND}</span></a>
 
       <nav class="nav" id="navLinks" aria-label="Ana menü">
         ${NAV.map(([href, label]) => `<a href="${href}" class="nav-item">${label}</a>`).join('\n        ')}
@@ -227,9 +233,10 @@ function footer() {
     <div class="wrap">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="index.html" class="brand" lang="en"><span data-site="brand">${BRAND}</span></a>
+          <a href="index.html" class="brand">${logo('word', 'brand__logo')}<span class="visually-hidden" lang="en" data-site="brand">${BRAND}</span></a>
           <!-- [DOĞRULANACAK] Distribütörlüğün kapsamı (resmi / tek yetkili) belgelenmeden bu ifadeler kullanılmamalı. -->
           <p>JVCK koku difüzörleri ve esanslarının Türkiye distribütörü. Oteller, ofisler, mağazalar ve yaşam alanları için ürün seçimi ve teklif.</p>
+          <p class="footer-certs"><a href="kurumsal.html#sertifikalar">${CERTS.map(c => esc(c.short)).join(' · ')} sertifikalı</a></p>
         </div>
         <div class="footer-col footer-col--a">
           <h2>Ürünler</h2>
@@ -267,7 +274,7 @@ function footer() {
           </ul>
         </div>
       </div>
-      <p class="footer-wordmark" aria-hidden="true" lang="en"><span data-site="brand">${BRAND}</span></p>
+      <div class="footer-wordmark" aria-hidden="true">${logo('full', 'footer-wordmark__logo')}</div>
       <div class="footer-bottom">
         <span>© <span data-year>2026</span> <span data-site="brand">${BRAND}</span>. Tüm hakları saklıdır.</span>
         <span>Teknik veriler üreticinin 2025 ürün kataloğundan alınmıştır. <a href="gizlilik.html">Gizlilik ve KVKK</a></span>
@@ -301,13 +308,60 @@ ${main}
 }
 
 // ---------------------------------------------------------------------------
+// Ürün videoları (products.js -> videos). Dosyalar images/products/videos/<file>.mp4 ve kapak <file>.jpg/.webp
+// ---------------------------------------------------------------------------
+const VIDEO_UPLOAD = '2026-10-08T12:00:00+03:00';
+const videoSrc = v => `images/products/videos/${v.file}.mp4`;
+const videoPoster = v => `images/products/videos/${v.file}.jpg`;
+const mmss = sec => `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`;
+const isoDuration = sec => `PT${Math.floor(sec / 60) ? Math.floor(sec / 60) + 'M' : ''}${sec % 60}S`;
+const durationTr = sec => `${Math.floor(sec / 60)} dk${sec % 60 ? ` ${sec % 60} sn` : ''}`;
+const videoMeta = v => `Video süresi ${durationTr(v.duration)}`;
+const videoLd = (p, v) => ({
+  '@context': 'https://schema.org',
+  '@type': 'VideoObject',
+  name: `${v.title} (${p.model}${v.label ? ` ${v.label.toLocaleLowerCase('tr')}` : ''})`,
+  description: v.summary,
+  thumbnailUrl: [abs(videoPoster(v))],
+  uploadDate: VIDEO_UPLOAD,
+  duration: isoDuration(v.duration),
+  contentUrl: abs(videoSrc(v))
+});
+
+function productVideoSection(p) {
+  if (!p.videos || !p.videos.length) return '';
+  const v0 = p.videos[0];
+  const switcher = p.videos.length > 1
+    ? `<div class="video-switch" role="group" aria-label="Video">
+            ${p.videos.map((v, i) => `<button type="button" class="video-switch__btn" aria-pressed="${i === 0}" data-video-switch data-src="${videoSrc(v)}" data-poster="${videoPoster(v)}" data-title="${esc(v.title)}" data-summary="${esc(v.summary)}" data-meta="${esc(videoMeta(v))}">${esc(v.label)}</button>`).join('\n            ')}
+          </div>`
+    : '';
+  return `
+    <section class="section section--dark pd-video" aria-labelledby="video-title" data-video-player>
+      <div class="wrap pd-video__grid">
+        <div class="pd-video__text reveal">
+          <p class="section-label" aria-hidden="true">Ürün videosu</p>
+          <h2 id="video-title" data-video-title>${esc(v0.title)}</h2>
+          <p class="pd-video__summary" data-video-summary>${esc(v0.summary)}</p>
+          ${switcher}
+          <p class="note" data-video-meta>${esc(videoMeta(v0))}</p>
+        </div>
+        <div class="pd-video__player reveal">
+          <div class="media media--16x9"><video controls playsinline preload="none" poster="${videoPoster(v0)}"${dims(videoPoster(v0))} aria-label="${esc(v0.title)}"><source src="${videoSrc(v0)}" type="video/mp4"></video></div>
+        </div>
+      </div>
+    </section>
+`;
+}
+
+// ---------------------------------------------------------------------------
 // Ürün kartı (katalog ızgarası, ilgili ürünler). urunler.html içindeki şablonla aynı tutulmalı.
 // ---------------------------------------------------------------------------
 function productCard(p, headingTag = 'h2') {
   const area = spec(p, /kapsama/i);
   const cap = spec(p, /kapasite/i);
   return `<article class="product-card" data-id="${esc(p.id)}">
-            <div class="media">${productPicture(p, { alt: p.model + ' ' + p.title, attrs: ` loading="lazy" decoding="async" style="object-position:${esc(p.pos || 'center')}"` })}</div>
+            <div class="media">${productPicture(p, { alt: p.model + ' ' + p.title, attrs: ` loading="lazy" decoding="async" style="object-position:${esc(p.pos || 'center')}"` })}${p.videos ? `<span class="product-card__video">${icon('play')}Video</span>` : ''}</div>
             <div class="product-card__body">
               <div class="product-card__top">
                 <span class="product-card__code">${esc(p.model)}</span>
@@ -457,7 +511,7 @@ function productPage(p) {
         </ul>
       </div>
     </section>
-
+${productVideoSection(p)}
     <section class="section" aria-label="Ürün ayrıntıları">
       <div class="wrap pd-body">
         <div class="pd-body__main prose prose--article">
@@ -526,7 +580,7 @@ function productPage(p) {
     </section>
 `;
   return page({
-    meta: { title, description, url: productUrl(p), image: images[0], imageAlt: `${p.model} ${p.title}`, type: 'product', jsonld: [productLd, breadcrumbLd(crumbs), faqLd] },
+    meta: { title, description, url: productUrl(p), image: images[0], imageAlt: `${p.model} ${p.title}`, type: 'product', jsonld: [productLd, breadcrumbLd(crumbs), faqLd, ...(p.videos || []).map(v => videoLd(p, v))] },
     section: 'urunler.html',
     main
   });
@@ -838,7 +892,7 @@ const HAND_PAGES = {
   },
   'kurumsal.html': {
     title: `Kurumsal, Distribütörlük ve OEM / ODM | ${BRAND}`,
-    description: 'JVCK ürünlerinin Türkiye distribütörü. Üretici bilgileri, özel markalı üretim (OEM), ortak ürün geliştirme (ODM) ve kurumsal koku süreci.',
+    description: 'JVCK ürünlerinin Türkiye distribütörü. ISO 9001, ISO 14001 ve ISO 22716 sertifikaları, üretici bilgileri, özel markalı üretim (OEM / ODM) ve kurumsal koku süreci.',
     image: 'images/general/factory2.jpg', crumbs: 'Kurumsal ve OEM'
   },
   'iletisim.html': {
@@ -881,6 +935,90 @@ function oilsHtml() {
           <!-- dolum:bitir -->`;
 }
 
+// Ana sayfa: ürün videoları (kapak kartı + tek bir <dialog> oynatıcı)
+function homeVideosHtml() {
+  const items = PRODUCTS.filter(p => p.videos && p.videos.length).map(p => ({ p, v: p.videos[0] }));
+  return `<div class="video-cards">
+          ${items.map(({ p, v }) => `<article class="video-card reveal">
+            <button type="button" class="video-card__play" data-video-open data-src="${videoSrc(v)}" data-poster="${videoPoster(v)}" data-title="${esc(v.title)}" data-summary="${esc(v.summary)}" data-meta="${esc(videoMeta(v))}" aria-label="Videoyu izle: ${esc(v.title)}, ${durationTr(v.duration)}">
+              <span class="media media--16x9"><picture><source type="image/webp" srcset="images/products/videos/${v.file}.webp 640w" sizes="(min-width: 1100px) 300px, (min-width: 640px) 45vw, 92vw"><img src="${videoPoster(v)}" alt=""${dims(videoPoster(v))} loading="lazy" decoding="async"></picture></span>
+              <span class="video-card__icon">${icon('play')}</span>
+              <span class="video-card__time">${mmss(v.duration)}</span>
+            </button>
+            <div class="video-card__body">
+              <h3>${esc(v.title)}</h3>
+              <p>${esc(v.teaser)}</p>
+              <a href="${productUrl(p)}" class="link-arrow">Ürünü incele ${icon('arrow-right')}</a>
+            </div>
+          </article>`).join('\n          ')}
+        </div>
+        <dialog class="video-dialog" id="videoDialog" aria-labelledby="videoDialogTitle">
+          <div class="video-dialog__head">
+            <h2 class="video-dialog__title" id="videoDialogTitle">Ürün videosu</h2>
+            <button type="button" class="video-dialog__close" data-video-close aria-label="Videoyu kapat">${icon('x')}</button>
+          </div>
+          <div class="media media--16x9"><video controls playsinline preload="none"></video></div>
+          <div class="video-dialog__foot">
+            <p class="video-dialog__text"></p>
+            <p class="note video-dialog__meta"></p>
+          </div>
+        </dialog>`;
+}
+
+// Ana sayfa: sertifika şeridi
+function certStripHtml() {
+  return `<div class="cert-strip reveal">
+          <p class="cert-strip__label">Uluslararası sertifikalar</p>
+          <ul class="cert-strip__list">
+            ${CERTS.map(c => `<li><span class="cert-strip__std">${esc(c.standard)}</span><span class="cert-strip__name">${esc(c.name)}</span></li>`).join('\n            ')}
+          </ul>
+          <a href="kurumsal.html#sertifikalar" class="link-arrow">Sertifikaları inceleyin ${icon('arrow-right')}</a>
+        </div>`;
+}
+
+// Kurumsal: sertifikalar bölümü. Önizlemeye tıklayınca büyük görsel bir <dialog> içinde açılır (PDF yayınlanmaz).
+function certsHtml() {
+  return `<div class="section-head reveal">
+          <h2 id="certs-title">Sertifikalarımız</h2>
+          <p class="lead">Kalite, çevre ve kozmetikte iyi üretim uygulamaları alanlarındaki yönetim sistemlerimiz, ${esc(CERT_INFO.issuer.split(' (')[0])} tarafından uluslararası ISO standartlarına göre sertifikalandırılmıştır.</p>
+        </div>
+        <ul class="cert-grid">
+          ${CERTS.map(c => `<li class="cert-card reveal">
+            <button type="button" class="cert-card__doc" data-cert-open data-src="${c.image}-buyuk.jpg" data-webp="${c.image}-buyuk.webp" data-title="${esc(c.standard + ' ' + c.name)}" aria-label="${esc(c.standard)} sertifikasını büyüt">
+              <picture><source type="image/webp" srcset="${c.image}.webp 480w" sizes="(min-width: 900px) 300px, 92vw"><img src="${c.image}.jpg" alt=""${dims(c.image + '.jpg')} loading="lazy" decoding="async"></picture>
+              <span class="cert-card__zoom" aria-hidden="true">${icon('magnifying-glass')}Büyüt</span>
+            </button>
+            <p class="cert-card__std">${esc(c.standard)}</p>
+            <h3 class="cert-card__name">${esc(c.name)}</h3>
+            <dl class="cert-card__meta">
+              <div><dt>Sertifika no</dt><dd>${esc(c.number)}</dd></div>
+              <div><dt>Geçerlilik tarihi</dt><dd>${esc(CERT_INFO.validUntil)}</dd></div>
+            </dl>
+          </li>`).join('\n          ')}
+        </ul>
+        <dl class="cert-info reveal">
+          <div><dt>Sertifika sahibi</dt><dd>${esc(CERT_INFO.holder)}</dd></div>
+          <div><dt>Sertifikayı veren kuruluş</dt><dd>${esc(CERT_INFO.issuer)}</dd></div>
+          <div><dt>Kapsam</dt><dd>${esc(CERT_INFO.scope)}</dd></div>
+          <div><dt>Geçerlilik süresi</dt><dd>${esc(CERT_INFO.issued)} - ${esc(CERT_INFO.validUntil)}</dd></div>
+        </dl>
+        <p class="note mt-5">Sertifikaların geçerliliği her yıl yapılan gözetim denetimleriyle sürdürülür. Güncel durum, sertifikayı veren kuruluştan (${esc(CERT_INFO.verifyEmail)}) teyit edilebilir.</p>
+        <dialog class="cert-dialog" id="certDialog" aria-labelledby="certDialogTitle">
+          <div class="cert-dialog__head">
+            <h2 class="cert-dialog__title" id="certDialogTitle">Sertifika</h2>
+            <button type="button" class="video-dialog__close" data-cert-close aria-label="Kapat">${icon('x')}</button>
+          </div>
+          <div class="cert-dialog__frame"></div>
+        </dialog>`;
+}
+
+// <!-- ad:basla ... --> ile <!-- ad:bitir --> arasını yeniden yazar
+function replaceMarker(html, name, inner, file) {
+  const re = new RegExp(`<!-- ${name}:basla[^>]*-->[\\s\\S]*?<!-- ${name}:bitir -->`);
+  if (!re.test(html)) throw new Error(`${file}: işaret bulunamadı ${name}`);
+  return html.replace(re, () => `<!-- ${name}:basla (tools/build.mjs) -->\n        ${inner}\n        <!-- ${name}:bitir -->`);
+}
+
 function replaceBetween(html, startRe, endStr, inner, file) {
   const m = html.match(startRe);
   if (!m) throw new Error(`${file}: başlangıç bulunamadı ${startRe}`);
@@ -905,6 +1043,13 @@ function processHandPage(file, cfg) {
   html = html.replace(/<script src="js\/([\w-]+)\.js(?:\?v=[\w]+)?"><\/script>/g, (m, n) => VER[n] ? `<script src="js/${n}.js?v=${VER[n]}"></script>` : m);
   if (file === 'urunler.html') {
     html = replaceBetween(html, /<div class="product-grid" id="catalogGrid">/, '</div>\n      <div class="empty-state"', `\n          ${catalogGridHtml()}\n        `, file);
+  }
+  if (file === 'index.html') {
+    html = replaceMarker(html, 'videolar', homeVideosHtml(), file);
+    html = replaceMarker(html, 'sertifika-seridi', certStripHtml(), file);
+  }
+  if (file === 'kurumsal.html') {
+    html = replaceMarker(html, 'sertifikalar', certsHtml(), file);
   }
   if (file === 'esanslar.html') {
     html = replaceBetween(html, /<div class="scent-index" id="scentsContainer">/, '</div>\n      </div>\n    </section>', `\n          ${scentsHtml()}\n        `, file);

@@ -3,6 +3,8 @@
  * sitede "üretici beyanına göre" kalıbıyla verilir. Belge talep edilmeden kesin ifade kullanmayın.
  * [DOĞRULANACAK] Katalogda "CK-613" kodu hem elektriksiz koku kutusu (CK-613A/B/C) hem de
  * çift başlıklı difüzör serisinde (CK-613A, 2 x 5000 ml) geçiyor; üreticiden teyit edin.
+ * Ürün videoları (videos): Meira'nın ilettiği üretici tanıtım videoları, images/products/videos/<file>.mp4
+ * ve kapak karesi <file>.jpg / .webp. Başlık (title) ürün adı içermez; özet (summary) videoda gösterileni anlatır. [DOĞRULANACAK] Videolardaki desenli panellerde "Just Aroma" yazısı görünüyor.
  * Koku adları: otel ve parfüm markası adları nötr, betimleyici adlarla değiştirildi (RAPOR.md).
  * MEIRA Difüzör Fiyat Listesi 2026'da yer alan ürünlerde (ADS-687, CK-629, ADS-689, CK-644, zemin tipi ADS-687,
  * ADS-685, ADS-620B/640B/670B) model kodu ve teknik veriler bu listeden alınmıştır; katalogla çelişen
@@ -95,6 +97,7 @@ const PRODUCTS = [
     short: '150 ml kapasiteli, yenilenmiş ekran panelli ve Bluetooth uygulama kontrollü kompakt difüzör; 300-600 m³ kapsama.',
     desc: 'Çift akışkanlı atomizasyon ile hızlı ve eşit koku dağılımı. Bluetooth mobil uygulama ve yenilenmiş ekran paneliyle kolay kullanım. Gıda sınıfı, yüksek sıcaklığa dayanıklı PP gövde; üretici beyanına göre FDA dahil uluslararası standartlara uygundur.',
     img: 'ck687', pos: '40% 50%', gallery: 3,
+    videos: [{ file: 'ck687-kurulum', duration: 65, title: 'Duvara montajdan çalışma programına', teaser: 'Duvarı delmeden montajı ve uygulamadan haftalık çalışma programı kurmayı adım adım izleyin.', summary: 'Cihaz, yapışkan bantla duvarı delmeden monte ediliyor; ardından piller ve esans şişesi takılıyor. Ekrandaki ayar tuşları ve telefon uygulamasında haftalık çalışma programının nasıl oluşturulduğu adım adım anlatılıyor. Son bölümde cihazın masa üzerinde, prize bağlı kullanımı gösteriliyor.' }],
     features: ['Çift akışkanlı atomizasyon', 'Bluetooth uygulama kontrolü', 'Yenilenmiş ekran paneli', 'Düşük gürültü (≤35 dB)', 'Zamanlı püskürtme'],
     variants: ['ADS-687A (Beyaz)', 'ADS-687B (Siyah)'],
     specs: [['Boyut', '148 × 67 × 185 mm'], ['Renk', 'Beyaz / Siyah'], ['Malzeme', 'PP'], ['Gerilim / Güç', 'DC 6V / 2W'], ['Ses seviyesi', '≤ 35 dB'], ['Esans kapasitesi', '150 ml'], ['Kapsama alanı', '300-600 m³'], ['Kontrol', 'Bluetooth uygulama, yenilenmiş ekran paneli'], ['Kurulum', 'Masaüstü'], ['Net ağırlık', '512 g'], ['Koli', '30 adet · 465×385×490 mm · 19 kg brüt']],
@@ -151,6 +154,8 @@ const PRODUCTS = [
     short: 'Zeminde ayakta duran alüminyum kolon; 500 ml kapasite ve 1.500-2.000 m³ kapsama alanı.',
     desc: 'Taş dokulu atomizer başlığıyla tasarıma imza atan, zeminde ayakta duran kolon tipi ticari difüzör. Tak-çıkar atomizer ile kolay yağ değişimi, manyetik kilit mekanizması. LED ekranlı akıllı uygulama ile tek dokunuşla kontrol. Nano sis teknolojisiyle 1.500-2.000 m³ alan difüzyonu; WiFi ve Bluetooth modlarında zamanlı çalışma, taze hava sistemine bağlanabilir.',
     img: 'ck686', pos: '50% 35%', gallery: 3,
+    // [DOĞRULANACAK] Videoda ürün "M63" adıyla ve 1000 ml olarak tanıtılıyor; fiyat listesinde 500 ml.
+    videos: [{ file: 'ck686-tanitim', duration: 101, title: 'Tasarım ayrıntıları ve sis çıkışı', teaser: 'Alüminyum gövdenin ayrıntılarını, esans değişimini ve yoğun sis çıkışını yakından görün.', summary: 'Alüminyum gövdenin ayrıntıları, çıkarılabilir atomizer başlığı ve esans şişesinin değiştirilmesi yakından gösteriliyor. Telefon uygulamasından yapılan ayarların ardından cihazın yoğun ve dengeli sis çıkışı izleniyor.' }],
     features: ['Nano atomizasyon', 'Bluetooth uygulama kontrolü', 'Düşük gürültü (≤35 dB)', 'Şebeke gücü', 'Taze hava sistemine bağlanabilir', 'Zamanlı püskürtme'],
     variants: ['ADS-687A (Beyaz)', 'ADS-687B (Siyah)'],
     specs: [['Boyut', '575 × 115 × 160 mm'], ['Renk', 'Beyaz / Siyah'], ['Malzeme', 'Alüminyum alaşım'], ['Gerilim / Güç', 'DC 12V / 12W'], ['Ses seviyesi', '≤ 35 dB'], ['Kapasite', '500 ml'], ['Kapsama alanı', '1.500-2.000 m³'], ['Kurulum', 'Zemin (ayakta durur)']],
@@ -162,6 +167,7 @@ const PRODUCTS = [
     short: '5000 mAh dahili pil, Bluetooth kontrol ve 300 m³ kapsama alanı.',
     desc: 'Ultra kompakt tasarım sayesinde nakliye maliyetlerini düşürür. 5000 mAh bataryasıyla kesintisiz çalışma, 300 m³ kapsama. Dahili Bluetooth ile ayarlar kolayca yönetilir; Type-C girişi, su geçirmez dokunmatik kontrol.',
     img: 'ck683', pos: '50% 40%', gallery: 3,
+    videos: [{ file: 'ck683-tanitim', duration: 76, title: 'Prize bağlı kalmadan, her yerde', teaser: 'Kablosuz kullanımı, saniyeler süren esans değişimini ve güvenlik sensörünü yakından görün.', summary: 'Dahili pili sayesinde kablo gerektirmeden çalışan cihaz kutusundan çıkarılıyor. Esans şişesinin birkaç saniyede değiştirilmesi, cihaz devrildiğinde çalışmayı durduran güvenlik sensörü ve uzaktan kumanda ile telefon uygulamasından yapılan ayarlar gösteriliyor.' }],
     features: ['Çift akışkanlı atomizasyon', 'Bluetooth uygulama kontrolü', 'Düşük gürültü', 'Dahili pil', 'Type-C arayüz', 'Su geçirmez dokunmatik kontrol'],
     variants: ['CK-683A (Gümüş)', 'CK-683B (Siyah)'],
     specs: [['Boyut', 'Ø92 × 305 mm'], ['Renk', 'Gümüş / Siyah'], ['Malzeme', 'Alüminyum alaşım'], ['Gerilim / Güç', 'DC5V-2A (Type-C) / 8W'], ['Pil', '5000 mAh'], ['Ses seviyesi', '≤ 38 dB'], ['Esans kapasitesi', '110 ml'], ['Kapsama alanı', '300 m³'], ['Net ağırlık', '0,82 kg']],
@@ -195,6 +201,10 @@ const PRODUCTS = [
     short: 'Prize takılarak duvara monte edilen Bluetooth difüzör; 100 ml kapasite, 100-300 m³ kapsama.',
     desc: 'Hafif PP gövde ve tak-çalıştır tasarımla anında kullanım. Prize takılarak duvara monte edilir; delme gerektirmeden çeşitli prizlere uyum sağlayan 3 fiş seçeneği sunar. Bluetooth mobil uygulama ile yönetilir.',
     img: 'ck644', pos: '40% 50%', gallery: 0,
+    videos: [
+      { file: 'ck644-siyah-kurulum', label: 'Siyah', duration: 60, title: 'Prize takın, uygulamadan yönetin', teaser: 'Prize takılır takılmaz çalışan cihazın uygulama ayarlarını ve gece modunu izleyin.', summary: 'Esans şişesinin değiştirilmesi, cihazın prize takılması ve çalışma saatlerinin telefon uygulamasından ayarlanması gösteriliyor. Uygulamada beşe kadar farklı çalışma programı tanımlanabiliyor. Videonun sonunda karanlık ortamlar için gece modu yer alıyor.' },
+      { file: 'ck644-beyaz-kurulum', label: 'Beyaz', duration: 59, title: 'Prize takın, uygulamadan yönetin', teaser: 'Prize takılır takılmaz çalışan cihazın uygulama ayarlarını ve gece modunu izleyin.', summary: 'Esans şişesinin değiştirilmesi, cihazın prize takılması ve çalışma saatlerinin telefon uygulamasından ayarlanması gösteriliyor. Uygulamada beşe kadar farklı çalışma programı tanımlanabiliyor. Videonun sonunda karanlık ortamlar için gece modu yer alıyor.' }
+    ],
     features: ['İki akışkanlı atomizasyon', 'Bluetooth uygulama kontrolü', 'Düşük gürültü (≤35 dB)', 'Tak ve çalıştır', 'Duvarı çizmez'],
     variants: ['CK-644A (Beyaz)', 'CK-644B (Siyah)', 'İki pimli / Avrupa tipi iki yuvarlak pimli / üç pimli fiş'],
     specs: [['Boyut', '150 × 73 × 235 mm'], ['Renk', 'Beyaz / Siyah'], ['Malzeme', 'PP'], ['Gerilim / Güç', 'DC 6V / 5W'], ['Ses seviyesi', '≤ 35 dB'], ['Kapasite', '100 ml'], ['Kapsama alanı', '100-300 m³'], ['Kontrol', 'Bluetooth uygulama'], ['Kurulum', 'Duvara monte (prize takılır)']],

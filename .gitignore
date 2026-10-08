@@ -8,6 +8,8 @@ RAPOR.md
 reference/
 *.pdf
 1_JVCK_translated 英文.pdf
+# Müşteriden gelen ham içerik (videolar, sertifikalar, logo); sitede işlenmiş kopyaları kullanılır
+latest_content/
 
 # Agent skills & local agent settings
 .claude/skills/

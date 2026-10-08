@@ -95,6 +95,93 @@
   }
 
 
+  // Ürün videoları (ana sayfa): kapak kartı tek bir <dialog> oynatıcı açar. Video yalnızca açılınca yüklenir;
+  // pencere kapanınca durur ve kaynak bırakılır. Esc ve odak tuzağı <dialog>'un kendisinden gelir.
+  function initVideoDialog() {
+    const dialog = document.getElementById('videoDialog');
+    if (!dialog || typeof dialog.showModal !== 'function') return;
+    const video = dialog.querySelector('video');
+    const title = dialog.querySelector('.video-dialog__title');
+    const text = dialog.querySelector('.video-dialog__text');
+    const meta = dialog.querySelector('.video-dialog__meta');
+
+    document.querySelectorAll('[data-video-open]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        title.textContent = btn.dataset.title || '';
+        if (text) text.textContent = btn.dataset.summary || '';
+        meta.textContent = btn.dataset.meta || '';
+        video.poster = btn.dataset.poster || '';
+        video.src = btn.dataset.src;
+        dialog.showModal();
+        const p = video.play();
+        if (p && typeof p.catch === 'function') p.catch(() => {});
+      });
+    });
+    dialog.querySelector('[data-video-close]')?.addEventListener('click', () => dialog.close());
+    // Arka plana tıklama: hedef <dialog>'un kendisiyse (içerik değil) kapat
+    dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
+    dialog.addEventListener('close', () => {
+      video.pause();
+      video.removeAttribute('src');
+      video.load();
+    });
+  }
+
+  // Ürün sayfası: renk sürümleri arasında video geçişi (ör. CK-644 siyah / beyaz)
+  function initVideoSwitch() {
+    document.querySelectorAll('[data-video-player]').forEach(root => {
+      const buttons = root.querySelectorAll('[data-video-switch]');
+      const video = root.querySelector('video');
+      if (!buttons.length || !video) return;
+      const title = root.querySelector('[data-video-title]');
+      const summary = root.querySelector('[data-video-summary]');
+      const meta = root.querySelector('[data-video-meta]');
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (btn.getAttribute('aria-pressed') === 'true') return;
+          const wasPlaying = !video.paused;
+          buttons.forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+          video.pause();
+          video.poster = btn.dataset.poster;
+          video.querySelector('source')?.setAttribute('src', btn.dataset.src);
+          video.load();
+          if (title) title.textContent = btn.dataset.title;
+          video.setAttribute('aria-label', btn.dataset.title);
+          if (summary) summary.textContent = btn.dataset.summary;
+          if (meta) meta.textContent = btn.dataset.meta;
+          if (wasPlaying) {
+            const p = video.play();
+            if (p && typeof p.catch === 'function') p.catch(() => {});
+          }
+        });
+      });
+    });
+  }
+
+  // Kurumsal: sertifika önizlemesine tıklayınca büyük görsel bir <dialog> içinde açılır (PDF yok).
+  // Görsel yalnızca ilk açılışta indirilir; WebP desteklenmezse JPEG'e düşer.
+  function initCertDialog() {
+    const dialog = document.getElementById('certDialog');
+    if (!dialog || typeof dialog.showModal !== 'function') return;
+    const title = dialog.querySelector('.cert-dialog__title');
+    const frame = dialog.querySelector('.cert-dialog__frame');
+    document.querySelectorAll('[data-cert-open]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        title.textContent = btn.dataset.title || 'Sertifika';
+        const img = new Image(1240, 1754);
+        img.className = 'cert-dialog__img';
+        img.alt = btn.dataset.title || '';
+        img.decoding = 'async';
+        img.addEventListener('error', () => { if (img.src !== new URL(btn.dataset.src, location.href).href) img.src = btn.dataset.src; }, { once: true });
+        img.src = btn.dataset.webp || btn.dataset.src;
+        frame.replaceChildren(img);
+        dialog.showModal();
+      });
+    });
+    dialog.querySelector('[data-cert-close]')?.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
+  }
+
   // Ana sayfa görsel duvarı: üç sıra, zıt yönlerde yavaş akış.
   // Durdur/oynat düğmesi (WCAG 2.2.2); ekran dışındayken ve azaltılmış harekette durur.
   const HERO_ROWS = [
@@ -163,6 +250,9 @@
     initHeaderOnDark();
     initReveal();
     initVideos();
+    initVideoDialog();
+    initVideoSwitch();
+    initCertDialog();
     initYear();
     initCounts();
   }

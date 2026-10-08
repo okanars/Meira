@@ -139,8 +139,13 @@ Fontlar `site/fonts/` altında yerel barındırılır (değişken woff2, latin +
 - Vurgu için aynı fontun italiği kullanılır, başka font karıştırılmaz.
 - Navigasyon, butonlar ve çipler cümle düzeninde (Manrope 500-600, 14-16 px). Büyük harf yalnızca kısa
   etiketlerde: eyebrow, bölüm etiketi, footer sütun başlıkları, içindekiler başlığı.
-- Marka adı Newsreader 500, büyük harf, `0.2em` aralık ("MEIRA"). Marka bağlantısı `lang="en"` taşır; aksi halde
-  Türkçe büyük harf kuralı "i" harfini "İ" yapar. Alt yazı ("Türkiye") `lang="tr"`.
+- Marka, müşterinin logosuyla gösterilir (`MEIRA LOGO 1.pdf`, vektör): serif "MEIRA", "I" üzerinde duman kıvrımı,
+  altında "AIR SCENT". Kaynak `site/images/brand/logo-sprite.svg` (`#logo-word`: yazı ve duman, 2,33:1;
+  `#logo-full`: sloganlı, 1,88:1), renk `currentColor`, adres içerik özetiyle sürümlü. Header'da `#logo-word`
+  44 px (mobilde 34 px) yükseklikte; "AIR SCENT" bu boyutta okunmadığı için yalnızca büyük kullanımlarda
+  (footer, açılış perdesi, `images/brand/meira-logo.svg`). Logonun yanında ekran okuyucu için gizli "Meira" metni
+  (`lang="en"`) bulunur.
+- Favicon ve uygulama ikonları: logo yazı tipindeki "M", gece mavisi zemin üzerinde şampanya.
 - Büyük harfli üst etiket (eyebrow), başında 36 px şampanya çizgisiyle; yalnızca hero'da.
 - Vurgu italiği açık zeminde metin renginde, koyu zeminde şampanya.
 - Uzun tire ve orta uzunlukta tire kullanılmaz; aralıklarda kısa tire (`-`) kullanılır.
@@ -281,8 +286,20 @@ Odak: kenar vurgu rengi + 3 px `--c-accent-tint` halka.
 **Video:** `<figure>` içinde, altında "Görsel temsilidir." notu ve durdur/oynat butonu.
 `prefers-reduced-motion: reduce` durumunda otomatik oynatılmaz.
 
-**Footer:** Gece mavisi zemin, fildişi tonlarında metin, şampanya sütun başlıkları; beş sütun (marka, ürün grupları, kurumsal, kaynaklar, iletişim). En altta büyük Newsreader marka yazısı
-(`.footer-wordmark`, `aria-hidden`, adı `site-config.js`'ten gelir).
+**Footer:** Gece mavisi zemin, fildişi tonlarında metin, şampanya sütun başlıkları; beş sütun (marka, ürün grupları, kurumsal, kaynaklar, iletişim). Marka sütununda küçük logo ve
+"ISO 9001 · ISO 14001 · ISO 22716 sertifikalı" bağlantısı (kurumsal.html#sertifikalar); en altta dekoratif tam logo
+(`.footer-wordmark`, `aria-hidden`, `#65707F`).
+
+**Ürün videoları:** Üretici tanıtım videoları (sesli, 1-1,5 dk) otomatik oynatılmaz. Ürün sayfasında koyu
+bölümde `controls` ve `preload="none"` ile; renk sürümü varsa "Siyah / Beyaz" geçişi. Ana sayfada kapak kartları
+tek bir `<dialog>` oynatıcı açar (giriş 220 ms, çıkış anlık; kapanınca kaynak bırakılır). Başlıklar ürün adı
+içermez, videoda gösterileni anlatır (`title`); kartta tek cümlelik tanıtım (`teaser`), ürün sayfasında ve
+pencerede ayrıntılı anlatım (`summary`) ve "Video süresi 1 dk 41 sn" satırı yer alır.
+
+**Sertifikalar:** Kurumsal sayfada koyu bölümde "Sertifikalarımız": üç kart (önizleme, standart, sertifika no,
+geçerlilik tarihi) ve ortak bilgiler. PDF yayınlanmaz; önizlemeye tıklayınca 1240 px görsel bir `<dialog>` içinde
+ekran yüksekliğine sığarak açılır ("Büyüt" etiketi farede üzerine gelince, dokunmatikte hep görünür). Ana sayfada
+"Yaklaşımımız" altında metin şeridi.
 
 **İkonlar:** Phosphor Icons Light, tek SVG sprite (`site/images/icons.svg`). Boyut 16-20 px,
 renk `currentColor`. Elle çizilmiş ikon yok, emoji yok.
@@ -314,8 +331,8 @@ sık tekrarlanan işlem animasyonsuz, nadir ve ilk kez görülen an biraz keyif 
 | `--press` | `scale(0.97)` | Basılabilir her öğenin `:active` durumu |
 
 **Açılış perdesi (`.site-intro`, yalnızca ana sayfa)**
-- Zaman çizelgesi: harfler 60 ms arayla bulanıklıktan netleşerek yükselir (0,1-0,9 s), şampanya çizgi soldan
-  çizilir (0,35-1,05 s), alt yazı belirir; 1,25 s'de işaret yükselip söner; 1,35 s'de perde `clip-path` ile
+- Zaman çizelgesi: logo harfleri 60 ms arayla bulanıklıktan netleşerek yükselir (0,1-0,9 s), şampanya renkli
+  duman kıvrımı aşağıdan yükselir (0,38-1,28 s), "AIR SCENT" belirir (0,7 s); 1,25 s'de işaret yükselip söner; 1,35 s'de perde `clip-path` ile
   alttan yukarı açılır (0,75 s); hero metni 1,5 s'den itibaren 80 ms arayla girer, görsel duvarı hafif
   yakınlaşmadan oturur.
 - Karar `<head>` içinde, ilk boyamadan önce verilir (`has-intro` / `no-intro`). Oynamaz: oturumda site daha önce
