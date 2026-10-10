@@ -140,7 +140,7 @@ export const PRIVACY = {
   <div><dt>Ticaret unvanı</dt><dd>Yayından önce eklenecek</dd></div>
   <div><dt>MERSİS numarası</dt><dd>Yayından önce eklenecek</dd></div>
   <div><dt>Adres</dt><dd><span data-site="city">İstanbul, Türkiye</span> (açık adres yayından önce eklenecek)</dd></div>
-  <div><dt>E-posta</dt><dd><a href="mailto:info@meira.com.tr" data-site-href="email"><span data-site="email">info@meira.com.tr</span></a></dd></div>
+  <div><dt>E-posta</dt><dd><a href="mailto:info@meirascent.com" data-site-href="email"><span data-site="email">info@meirascent.com</span></a></dd></div>
   <div><dt>KEP adresi</dt><dd>Yayından önce eklenecek</dd></div>
 </dl>
 <!-- [DOĞRULANACAK] Ticaret unvanı, MERSİS, açık adres, KEP ve gerçek e-posta (6563 sayılı Kanun kapsamında hizmet sağlayıcı bilgileri de bu bölümde yer alabilir). -->`
@@ -203,7 +203,7 @@ export const PRIVACY = {
     {
       id: 'basvuru',
       title: 'Başvuru',
-      html: `<p>Haklarınıza ilişkin taleplerinizi, Veri Sorumlusuna Başvuru Usul ve Esasları Hakkında Tebliğ'e uygun olarak, kimliğinizi doğrulayan bilgilerle birlikte <a href="mailto:info@meira.com.tr" data-site-href="email"><span data-site="email">info@meira.com.tr</span></a> adresine e-posta ile ya da yazılı olarak iletebilirsiniz. Başvurular en geç 30 gün içinde sonuçlandırılır.</p>`
+      html: `<p>Haklarınıza ilişkin taleplerinizi, Veri Sorumlusuna Başvuru Usul ve Esasları Hakkında Tebliğ'e uygun olarak, kimliğinizi doğrulayan bilgilerle birlikte <a href="mailto:info@meirascent.com" data-site-href="email"><span data-site="email">info@meirascent.com</span></a> adresine e-posta ile ya da yazılı olarak iletebilirsiniz. Başvurular en geç 30 gün içinde sonuçlandırılır.</p>`
     },
     {
       id: 'cerezler',

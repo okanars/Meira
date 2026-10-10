@@ -296,6 +296,11 @@ tek bir `<dialog>` oynatıcı açar (giriş 220 ms, çıkış anlık; kapanınca
 içermez, videoda gösterileni anlatır (`title`); kartta tek cümlelik tanıtım (`teaser`), ürün sayfasında ve
 pencerede ayrıntılı anlatım (`summary`) ve "Video süresi 1 dk 41 sn" satırı yer alır.
 
+**Ürün galerisi ve tanıtım görselleri:** Üreticinin dekupe ürün fotoğrafları galeride 4:3 kareye, porselen
+zemine eritilerek (ton eğrisi + `multiply`) yerleştirilir; galeri küçük resimleri masaüstünde alt satıra geçer,
+mobilde yatay kayar. Üzerinde yazı olan yatay tanıtım görselleri kırpılmaz: ürün sayfasında "Uygulama görselleri"
+ızgarasında gösterilir, tıklayınca büyür (ortak `image-dialog`).
+
 **Sertifikalar:** Kurumsal sayfada koyu bölümde "Sertifikalarımız": üç kart (önizleme, standart, sertifika no,
 geçerlilik tarihi) ve ortak bilgiler. PDF yayınlanmaz; önizlemeye tıklayınca 1240 px görsel bir `<dialog>` içinde
 ekran yüksekliğine sığarak açılır ("Büyüt" etiketi farede üzerine gelince, dokunmatikte hep görünür). Ana sayfada

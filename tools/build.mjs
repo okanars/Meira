@@ -28,7 +28,7 @@ import { CERTS, CERT_INFO } from './content/certs.mjs';
 // [DOĞRULANACAK] Alan adı yer tutucudur. Kesinleşince yalnızca bu değeri değiştirip betiği çalıştırın.
 const SITE_URL = 'https://www.meira.com.tr';
 const BRAND = 'Meira';
-const EMAIL = 'info@meira.com.tr';
+const EMAIL = 'info@meirascent.com';
 const TODAY = '2026-10-07';
 const DEFAULT_OG = 'images/brand/og-meira.jpg';
 const DEFAULT_OG_ALT = 'Meira: oteller, ofisler ve mağazalar için profesyonel koku difüzörleri';
@@ -328,6 +328,41 @@ const videoLd = (p, v) => ({
   contentUrl: abs(videoSrc(v))
 });
 
+// Büyütme penceresi: [data-image-open] düğmeleri tek bir <dialog> açar (site.js initImageDialog)
+const imageDialogHtml = title => `<dialog class="image-dialog" id="imageDialog" aria-labelledby="imageDialogTitle">
+          <div class="image-dialog__head">
+            <h2 class="image-dialog__title" id="imageDialogTitle">${esc(title)}</h2>
+            <button type="button" class="video-dialog__close" data-image-close aria-label="Kapat">${icon('x')}</button>
+          </div>
+          <div class="image-dialog__frame"></div>
+        </dialog>`;
+
+// Ürün sayfası: üreticinin yatay tanıtım görselleri (products.js -> banners; dosyalar <img>-b<n>.jpg/.webp/-960.webp)
+const bannerPath = (p, i, ext = '.jpg') => `images/products/${p.img}-b${i + 1}${ext}`;
+function productBannersSection(p) {
+  if (!p.banners || !p.banners.length) return '';
+  return `
+    <section class="section" aria-labelledby="banners-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2 id="banners-title">Uygulama görselleri</h2>
+          <p class="lead">Cihazın farklı mekânlardaki kullanımı ve öne çıkan özellikleri. Büyütmek için görsele dokunun.</p>
+        </div>
+        <ul class="banner-grid">
+          ${p.banners.map((alt, i) => `<li class="reveal">
+            <button type="button" class="banner-grid__item" data-image-open data-src="${bannerPath(p, i)}" data-webp="${bannerPath(p, i, '.webp')}"${(() => { const d = imageSize(bannerPath(p, i)); return d ? ` data-w="${d.w}" data-h="${d.h}"` : ''; })()} data-title="${esc(alt)}" aria-label="Görseli büyüt: ${esc(alt)}">
+              <picture><source type="image/webp" srcset="${bannerPath(p, i, '-960.webp')} 960w" sizes="(min-width: 900px) 620px, 92vw"><img src="${bannerPath(p, i)}" alt=""${dims(bannerPath(p, i))} loading="lazy" decoding="async"></picture>
+              <span class="zoom-chip" aria-hidden="true">${icon('magnifying-glass')}Büyüt</span>
+            </button>
+          </li>`).join('\n          ')}
+        </ul>
+        <p class="note mt-5">Görsellerdeki İngilizce yazılar ve değerler üreticinin tanıtım malzemesine aittir; teknik veriler için yukarıdaki tabloyu esas alın.</p>
+      </div>
+      ${imageDialogHtml('Uygulama görseli')}
+    </section>
+`;
+}
+
 function productVideoSection(p) {
   if (!p.videos || !p.videos.length) return '';
   const v0 = p.videos[0];
@@ -540,7 +575,7 @@ ${productVideoSection(p)}
         </div>
       </div>
     </section>
-
+${productBannersSection(p)}
     <section class="section section--deep" aria-labelledby="refill-title">
       <div class="wrap split split--top">
         <div class="split__a">
@@ -984,9 +1019,9 @@ function certsHtml() {
         </div>
         <ul class="cert-grid">
           ${CERTS.map(c => `<li class="cert-card reveal">
-            <button type="button" class="cert-card__doc" data-cert-open data-src="${c.image}-buyuk.jpg" data-webp="${c.image}-buyuk.webp" data-title="${esc(c.standard + ' ' + c.name)}" aria-label="${esc(c.standard)} sertifikasını büyüt">
+            <button type="button" class="cert-card__doc" data-image-open data-src="${c.image}-buyuk.jpg" data-webp="${c.image}-buyuk.webp" data-w="1240" data-h="1754" data-title="${esc(c.standard + ' ' + c.name)}" aria-label="${esc(c.standard)} sertifikasını büyüt">
               <picture><source type="image/webp" srcset="${c.image}.webp 480w" sizes="(min-width: 900px) 300px, 92vw"><img src="${c.image}.jpg" alt=""${dims(c.image + '.jpg')} loading="lazy" decoding="async"></picture>
-              <span class="cert-card__zoom" aria-hidden="true">${icon('magnifying-glass')}Büyüt</span>
+              <span class="zoom-chip" aria-hidden="true">${icon('magnifying-glass')}Büyüt</span>
             </button>
             <p class="cert-card__std">${esc(c.standard)}</p>
             <h3 class="cert-card__name">${esc(c.name)}</h3>
@@ -1003,13 +1038,7 @@ function certsHtml() {
           <div><dt>Geçerlilik süresi</dt><dd>${esc(CERT_INFO.issued)} - ${esc(CERT_INFO.validUntil)}</dd></div>
         </dl>
         <p class="note mt-5">Sertifikaların geçerliliği her yıl yapılan gözetim denetimleriyle sürdürülür. Güncel durum, sertifikayı veren kuruluştan (${esc(CERT_INFO.verifyEmail)}) teyit edilebilir.</p>
-        <dialog class="cert-dialog" id="certDialog" aria-labelledby="certDialogTitle">
-          <div class="cert-dialog__head">
-            <h2 class="cert-dialog__title" id="certDialogTitle">Sertifika</h2>
-            <button type="button" class="video-dialog__close" data-cert-close aria-label="Kapat">${icon('x')}</button>
-          </div>
-          <div class="cert-dialog__frame"></div>
-        </dialog>`;
+        ${imageDialogHtml('Sertifika')}`;
 }
 
 // <!-- ad:basla ... --> ile <!-- ad:bitir --> arasını yeniden yazar

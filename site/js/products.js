@@ -4,7 +4,7 @@
  * [DOĞRULANACAK] Katalogda "CK-613" kodu hem elektriksiz koku kutusu (CK-613A/B/C) hem de
  * çift başlıklı difüzör serisinde (CK-613A, 2 x 5000 ml) geçiyor; üreticiden teyit edin.
  * Ürün videoları (videos): Meira'nın ilettiği üretici tanıtım videoları, images/products/videos/<file>.mp4
- * ve kapak karesi <file>.jpg / .webp. Başlık (title) ürün adı içermez; özet (summary) videoda gösterileni anlatır. [DOĞRULANACAK] Videolardaki desenli panellerde "Just Aroma" yazısı görünüyor.
+ * ve kapak karesi <file>.jpg / .webp. Başlık (title) ürün adı içermez; özet (summary) videoda gösterileni anlatır. Desenli panellerdeki "Jvck Aroma" yazısı üreticinin (JVCK) markasıdır.
  * Koku adları: otel ve parfüm markası adları nötr, betimleyici adlarla değiştirildi (RAPOR.md).
  * MEIRA Difüzör Fiyat Listesi 2026'da yer alan ürünlerde (ADS-687, CK-629, ADS-689, CK-644, zemin tipi ADS-687,
  * ADS-685, ADS-620B/640B/670B) model kodu ve teknik veriler bu listeden alınmıştır; katalogla çelişen
@@ -96,7 +96,7 @@ const PRODUCTS = [
     title: 'Kompakt Çift Akışkanlı Difüzör',
     short: '150 ml kapasiteli, yenilenmiş ekran panelli ve Bluetooth uygulama kontrollü kompakt difüzör; 300-600 m³ kapsama.',
     desc: 'Çift akışkanlı atomizasyon ile hızlı ve eşit koku dağılımı. Bluetooth mobil uygulama ve yenilenmiş ekran paneliyle kolay kullanım. Gıda sınıfı, yüksek sıcaklığa dayanıklı PP gövde; üretici beyanına göre FDA dahil uluslararası standartlara uygundur.',
-    img: 'ck687', pos: '40% 50%', gallery: 3,
+    img: 'ck687', pos: '40% 50%', gallery: 16,
     videos: [{ file: 'ck687-kurulum', duration: 65, title: 'Duvara montajdan çalışma programına', teaser: 'Duvarı delmeden montajı ve uygulamadan haftalık çalışma programı kurmayı adım adım izleyin.', summary: 'Cihaz, yapışkan bantla duvarı delmeden monte ediliyor; ardından piller ve esans şişesi takılıyor. Ekrandaki ayar tuşları ve telefon uygulamasında haftalık çalışma programının nasıl oluşturulduğu adım adım anlatılıyor. Son bölümde cihazın masa üzerinde, prize bağlı kullanımı gösteriliyor.' }],
     features: ['Çift akışkanlı atomizasyon', 'Bluetooth uygulama kontrolü', 'Yenilenmiş ekran paneli', 'Düşük gürültü (≤35 dB)', 'Zamanlı püskürtme'],
     variants: ['ADS-687A (Beyaz)', 'ADS-687B (Siyah)'],
@@ -166,7 +166,22 @@ const PRODUCTS = [
     title: 'Kompakt Alüminyum Çift Akışkanlı Difüzör',
     short: '5000 mAh dahili pil, Bluetooth kontrol ve 300 m³ kapsama alanı.',
     desc: 'Ultra kompakt tasarım sayesinde nakliye maliyetlerini düşürür. 5000 mAh bataryasıyla kesintisiz çalışma, 300 m³ kapsama. Dahili Bluetooth ile ayarlar kolayca yönetilir; Type-C girişi, su geçirmez dokunmatik kontrol.',
-    img: 'ck683', pos: '50% 40%', gallery: 3,
+    img: 'ck683', pos: '50% 40%', gallery: 18,
+    // Üreticinin İngilizce tanıtım görselleri (images/products/ck683-b<n>.jpg / .webp / -960.webp).
+    // [DOĞRULANACAK] Görsellerdeki değerler (Ø94×318 mm, 120 ml, 4000 sq ft) katalogla çelişiyor; teknik veriler katalogdan.
+    banners: [
+      'Modern bir salonda sehpa üzerinde siyah difüzör ve telefon uygulaması; evde otel atmosferi',
+      'Kitaplıklı bir çalışma odasında difüzör; ev, otel, AVM, kafe, yemekhane ve ofis kullanım alanları',
+      'Siyah difüzör ve özellikleri: 5000 mAh pil, alüminyum gövde, zamanlı püskürtme, uygulama ve kumanda kontrolü',
+      'Salonda çalışan difüzör; Bluetooth uygulaması, uzaktan kumanda ve düğmeyle üç kontrol yöntemi',
+      'Sehpa üzerinde difüzör; yedi renkli taban ışığı, zamanlayıcı ve üç yoğunluk seviyesi',
+      'Çalışma masasında difüzör; 5000 mAh dahili pil ve Type-C şarj girişi',
+      'Bir dairenin kesit çiziminde ortada çalışan difüzör; kapsama alanı gösterimi',
+      'Bir kafede tezgâh üzerinde çalışan difüzör',
+      'Yatak odasında komodin üzerinde çalışan difüzör',
+      'Ailenin ve köpeğin oturduğu salonda sehpa üzerinde çalışan difüzör',
+      'Yatak odasında komodin üzerinde difüzör ve üreticinin ürün parametreleri tablosu'
+    ],
     videos: [{ file: 'ck683-tanitim', duration: 76, title: 'Prize bağlı kalmadan, her yerde', teaser: 'Kablosuz kullanımı, saniyeler süren esans değişimini ve güvenlik sensörünü yakından görün.', summary: 'Dahili pili sayesinde kablo gerektirmeden çalışan cihaz kutusundan çıkarılıyor. Esans şişesinin birkaç saniyede değiştirilmesi, cihaz devrildiğinde çalışmayı durduran güvenlik sensörü ve uzaktan kumanda ile telefon uygulamasından yapılan ayarlar gösteriliyor.' }],
     features: ['Çift akışkanlı atomizasyon', 'Bluetooth uygulama kontrolü', 'Düşük gürültü', 'Dahili pil', 'Type-C arayüz', 'Su geçirmez dokunmatik kontrol'],
     variants: ['CK-683A (Gümüş)', 'CK-683B (Siyah)'],
@@ -200,7 +215,7 @@ const PRODUCTS = [
     title: 'Akıllı Bluetooth Prize Difüzörü',
     short: 'Prize takılarak duvara monte edilen Bluetooth difüzör; 100 ml kapasite, 100-300 m³ kapsama.',
     desc: 'Hafif PP gövde ve tak-çalıştır tasarımla anında kullanım. Prize takılarak duvara monte edilir; delme gerektirmeden çeşitli prizlere uyum sağlayan 3 fiş seçeneği sunar. Bluetooth mobil uygulama ile yönetilir.',
-    img: 'ck644', pos: '40% 50%', gallery: 0,
+    img: 'ck644', pos: '40% 50%', gallery: 10,
     videos: [
       { file: 'ck644-siyah-kurulum', label: 'Siyah', duration: 60, title: 'Prize takın, uygulamadan yönetin', teaser: 'Prize takılır takılmaz çalışan cihazın uygulama ayarlarını ve gece modunu izleyin.', summary: 'Esans şişesinin değiştirilmesi, cihazın prize takılması ve çalışma saatlerinin telefon uygulamasından ayarlanması gösteriliyor. Uygulamada beşe kadar farklı çalışma programı tanımlanabiliyor. Videonun sonunda karanlık ortamlar için gece modu yer alıyor.' },
       { file: 'ck644-beyaz-kurulum', label: 'Beyaz', duration: 59, title: 'Prize takın, uygulamadan yönetin', teaser: 'Prize takılır takılmaz çalışan cihazın uygulama ayarlarını ve gece modunu izleyin.', summary: 'Esans şişesinin değiştirilmesi, cihazın prize takılması ve çalışma saatlerinin telefon uygulamasından ayarlanması gösteriliyor. Uygulamada beşe kadar farklı çalışma programı tanımlanabiliyor. Videonun sonunda karanlık ortamlar için gece modu yer alıyor.' }

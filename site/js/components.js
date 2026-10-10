@@ -5,7 +5,7 @@
  */
 
 (function (root) {
-  const SITE_CFG = root.SITE || { brand: 'Meira', email: 'info@meira.com.tr' };
+  const SITE_CFG = root.SITE || { brand: 'Meira', email: 'info@meirascent.com' };
   const ICONS = 'images/icons.svg';
 
   function icon(name, cls) {

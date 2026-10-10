@@ -158,27 +158,28 @@
     });
   }
 
-  // Kurumsal: sertifika önizlemesine tıklayınca büyük görsel bir <dialog> içinde açılır (PDF yok).
-  // Görsel yalnızca ilk açılışta indirilir; WebP desteklenmezse JPEG'e düşer.
-  function initCertDialog() {
-    const dialog = document.getElementById('certDialog');
+  // Büyütme penceresi (sertifikalar, ürün tanıtım görselleri): [data-image-open] düğmesi büyük görseli bir
+  // <dialog> içinde açar. Görsel yalnızca açılınca indirilir; WebP yüklenemezse JPEG'e düşer.
+  function initImageDialog() {
+    const dialog = document.getElementById('imageDialog');
     if (!dialog || typeof dialog.showModal !== 'function') return;
-    const title = dialog.querySelector('.cert-dialog__title');
-    const frame = dialog.querySelector('.cert-dialog__frame');
-    document.querySelectorAll('[data-cert-open]').forEach(btn => {
+    const title = dialog.querySelector('.image-dialog__title');
+    const frame = dialog.querySelector('.image-dialog__frame');
+    document.querySelectorAll('[data-image-open]').forEach(btn => {
       btn.addEventListener('click', () => {
-        title.textContent = btn.dataset.title || 'Sertifika';
-        const img = new Image(1240, 1754);
-        img.className = 'cert-dialog__img';
+        title.textContent = btn.dataset.title || '';
+        const img = new Image(Number(btn.dataset.w) || undefined, Number(btn.dataset.h) || undefined);
+        img.className = 'image-dialog__img';
         img.alt = btn.dataset.title || '';
         img.decoding = 'async';
-        img.addEventListener('error', () => { if (img.src !== new URL(btn.dataset.src, location.href).href) img.src = btn.dataset.src; }, { once: true });
+        const jpg = new URL(btn.dataset.src, location.href).href;
+        img.addEventListener('error', () => { if (img.src !== jpg) img.src = jpg; }, { once: true });
         img.src = btn.dataset.webp || btn.dataset.src;
         frame.replaceChildren(img);
         dialog.showModal();
       });
     });
-    dialog.querySelector('[data-cert-close]')?.addEventListener('click', () => dialog.close());
+    dialog.querySelector('[data-image-close]')?.addEventListener('click', () => dialog.close());
     dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
   }
 
@@ -252,7 +253,7 @@
     initVideos();
     initVideoDialog();
     initVideoSwitch();
-    initCertDialog();
+    initImageDialog();
     initYear();
     initCounts();
   }

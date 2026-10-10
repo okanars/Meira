@@ -21,7 +21,7 @@ date_default_timezone_set('Europe/Istanbul');
 // 1. AYARLAR
 // ==========================================
 $DEMO_MODE   = true;
-$TO_EMAIL    = 'info@meira.com.tr';
+$TO_EMAIL    = 'info@meirascent.com';
 $FROM_EMAIL  = 'noreply@meira.com.tr';
 $BRAND_NAME  = 'Meira Türkiye';
 $LOG_FILE    = __DIR__ . '/submissions.log';
