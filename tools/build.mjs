@@ -1058,7 +1058,7 @@ const HAND_PAGES = () => ({
   },
   'kurumsal.html': {
     title: tt(`Kurumsal, Distribütörlük ve OEM / ODM | ${BRAND}`, `Company, Distribution and OEM / ODM | ${BRAND}`),
-    description: tt(`${MANUFACTURER} ürünlerinin Türkiye distribütörü. ISO 9001, ISO 14001 ve ISO 22716 sertifikaları, üretici bilgileri, OEM / ODM ve kurumsal koku süreci.`, `Turkish distributor of ${MANUFACTURER} products. ISO 9001, ISO 14001 and ISO 22716 certificates, manufacturer details, OEM / ODM and the corporate scent process.`),
+    description: tt('Andusic ürünlerinin Türkiye distribütörü: üretici, üretim tesisi ve kalite süreçleri, ISO 9001, 14001 ve 22716 sertifikaları, OEM / ODM ve kurumsal koku süreci.', 'Turkish distributor of Andusic products: the manufacturer, its facility and quality processes, ISO 9001, 14001 and 22716 certificates, OEM / ODM.'),
     image: 'images/general/factory2.jpg', crumbs: tt('Kurumsal ve OEM', 'Company and OEM')
   },
   'iletisim.html': {

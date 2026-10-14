@@ -4,6 +4,75 @@
 
 export const POSTS = [
   {
+    slug: 'uretici-andusic',
+    title: 'Üreticimizi tanıyın: Andusic ve Dongguan\'daki üretim tesisi',
+    navTitle: 'Üreticimiz Andusic',
+    description: 'Distribütörü olduğumuz Andusic\'in üretim tesisi, ürün grupları, kalite süreçleri ve OEM / ODM iş birlikleri: siparişten sevkiyata nasıl çalıştıkları.',
+    date: '2026-10-14',
+    minutes: 5,
+    image: 'images/general/andusic-showroom.jpg',
+    imagePos: '50% 55%',
+    imageAlt: 'Andusic showroomu: duvarlarda difüzör ve dispenser modelleri, orta masada kolon difüzörler',
+    tags: ['Kurumsal', 'Üretici'],
+    related: ['ck620', 'ck686', 'ck687'],
+    body: `
+<p class="lead">Sitemizdeki koku difüzörlerinin tasarımı ve üretimi, distribütörü olduğumuz Dongguan Andusic Technology Co. Ltd. (Andusic) tarafından yapılır. Bu yazıda üreticimizi; tesisi, ürün grupları, kalite süreçleri ve iş birlikleriyle, şirketin kendi tanıtım sunumundaki bilgilere dayanarak tanıtıyoruz.</p>
+
+<h2>Dongguan merkezli bir üretici</h2>
+<p>Andusic, Çin'in önemli üretim merkezlerinden Dongguan'da kurulmuştur. 2018'den bu yana ticari alanlar, oteller ve kamu sağlığı tesisleri için hijyen ve koku çözümleri geliştiren şirket, kendisini hijyen, çevre, sağlık ve akıllı yaşam alanlarında teknoloji ve sistem çözümü sağlayıcısı olarak tanımlar. Şirketin vurguladığı nokta, bir ticaret şirketi değil üretici olmasıdır: tasarım, üretim, test ve sevkiyat aynı çatı altında yürütülür.</p>
+
+<h2>Rakamlarla Andusic</h2>
+<p>Üreticinin sunumunda paylaştığı rakamlar şöyledir:</p>
+<ul>
+  <li><strong>21 yıl</strong> üretim deneyimi</li>
+  <li><strong>20.000 m²</strong> kapalı üretim alanı</li>
+  <li><strong>2 milyon set</strong>ten fazla yıllık üretim kapasitesi</li>
+  <li><strong>80'den fazla</strong> ülkeye ihracat</li>
+  <li><strong>10.000'den fazla</strong> kurumsal müşteri</li>
+  <li><strong>100'den fazla</strong> patent ve buluş</li>
+</ul>
+<!-- [DOĞRULANACAK] Rakamlar ve iş ortağı adları üreticinin tanıtım sunumundaki beyanlardır. -->
+
+<figure>
+  <img src="images/general/andusic-production.jpg" alt="Andusic tesisinden kareler: üretim hattı, ofis, sergi salonu, mamul deposu, üretim atölyesi ve CNC tezgâhları" width="1432" height="746" loading="lazy" decoding="async">
+  <figcaption>Tesisten kareler: üretim hattı, ofis, sergi salonu, mamul deposu, üretim atölyesi ve CNC tezgâhları.</figcaption>
+</figure>
+
+<h2>İki ürün grubu</h2>
+<p>Andusic, ticari tesislerin ihtiyaç duyduğu ürünleri tek tedarikçiden sunmayı hedefler:</p>
+<ul>
+  <li><strong>Koku serisi:</strong> esans ve aroma difüzörleri ile uyumlu esanslar. Meira'nın Türkiye'de sunduğu ürünler bu seridendir; duvar tipi, klima bağlantılı ve masaüstü modelleri <a href="urunler.html">ürün kataloğunda</a> inceleyebilirsiniz.</li>
+  <li><strong>Hijyen serisi:</strong> sabun dispenserleri, el kurutma makineleri ve havlu dispenserleri. Bu ürünler için talep halinde teklif hazırlıyoruz.</li>
+</ul>
+
+<h2>Siparişten sevkiyata dört adım</h2>
+<ol>
+  <li><strong>Onay:</strong> sipariş onaylanır, üretim belgeleri hazırlanır ve malzemeler planlanır.</li>
+  <li><strong>Üretim:</strong> malzemeler hazırlanır, montaj yapılır; ürünler yaşlandırma ve performans testinden geçer.</li>
+  <li><strong>Kalite:</strong> üretim sırasında ara kontrol, ardından son kontrol yapılır ve ürünler paketlenir.</li>
+  <li><strong>Teslimat:</strong> ürünler yüklenir ve konteynerle sevk edilir.</li>
+</ol>
+
+<h2>Kalite ve uygunluk</h2>
+<p>Üretici beyanına göre ürünler CE ve RoHS uyumludur ve esanslar için güvenlik bilgi formu (MSDS) sağlanır. Kalite kontrol; malzeme tedariki, işleme, test ve paketleme aşamalarının her birinde yapılır. İlgili belgeleri teklif sürecinde talep edebilirsiniz.</p>
+
+<figure>
+  <img src="images/general/andusic-exhibition.jpg" alt="Andusic sergi salonu ve ürün inceleme masası" width="1400" height="1052" loading="lazy" decoding="async">
+  <figcaption>Andusic sergi salonu.</figcaption>
+</figure>
+
+<h2>OEM / ODM iş birlikleri</h2>
+<p>Üretici, sunumunda BYD, TCL, Skyworth, ICBC, Alibaba Group, OCT, JLL ve COCO Park gibi kurumların yanı sıra hastaneler, üniversiteler ve mülk yönetim şirketleriyle ortak markalı (OEM / ODM) ürünler geliştirdiğini belirtmektedir. Kendi markanız için logo baskısı, renk, ambalaj ya da özel koku talebinizi <a href="iletisim.html?konu=oem">OEM / ODM formu</a> üzerinden iletebilirsiniz; talebinizi üreticiye iletir ve süreci sizin adınıza takip ederiz.</p>
+
+<h2>Meira'nın rolü</h2>
+<p>Meira, Andusic'in koku ürünlerinin Türkiye distribütörü olarak ürün seçimi, teklif ve tedarik süreçlerini yürütür. Mekânınıza uygun cihazı belirlemek için <a href="cozumler.html#hesaplayici">hacim hesaplayıcıyı</a> kullanabilir ya da <a href="iletisim.html">teklif formundan</a> bize ulaşabilirsiniz.</p>
+`,
+    sources: [
+      { label: 'Andusic (Dongguan Andusic Technology Co. Ltd.). Şirket tanıtım sunumu: Smart Hygiene & Aroma Solutions.' }
+    ]
+  },
+
+  {
     slug: 'koku-pazarlamasi-nedir',
     title: 'Koku pazarlaması nedir? Araştırmalar mekân kokusu hakkında ne söylüyor',
     navTitle: 'Koku pazarlaması nedir?',

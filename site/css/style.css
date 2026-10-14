@@ -2190,47 +2190,21 @@ a.media img,
 @media (hover: hover) and (pointer: fine) { .contact-list__value a:hover { text-decoration-color: var(--c-accent); color: var(--c-accent); } }
 .contact-list small { display: block; margin-top: 2px; font-size: var(--fs-small); font-weight: 400; color: var(--c-ink-3); }
 
-.form-panel {
-  padding: clamp(1.5rem, 1rem + 2.5vw, 3.5rem);
-  background: var(--c-surface);
-  border-radius: var(--r);
-}
-
-/* İletişim formu paneli: gece mavisi zemin; içindeki token'lar açık tonlara döner (koyu bant yaklaşımı).
-   Alanlar yarı saydam fildişi, odak ve seçim şampanya; gönder düğmesi açık zemin üzerine koyu yazı kalır. */
-.form-panel--noir {
-  --c-ink: var(--c-ivory);
-  --c-ink-2: var(--c-ivory-2);
-  --c-ink-3: var(--c-ivory-3);
-  --c-line: var(--c-line-dark);
-  --c-line-strong: rgba(244, 239, 230, 0.3);
-  --c-accent: var(--c-champagne);
-  --c-accent-hover: #EFE4CF;
-  --c-accent-tint: rgba(221, 203, 170, 0.2);
-  --c-surface: rgba(244, 239, 230, 0.05);
-  --c-bg-deep: rgba(221, 203, 170, 0.14);
-  --c-error: #F0B9AC;
-  color-scheme: dark;
+/* İletişim formu: açık kart. Üstte şampanya çizgi; konu seçimi, ürünler, iletişim bilgileri, açılır proje
+   bilgileri ve ekranın altına yapışan gönder çubuğu (uzun formda düğme her zaman görünür). */
+.form-card {
+  --pad: clamp(1.25rem, 0.8rem + 2vw, 2.5rem);
   position: relative;
-  background:
-    radial-gradient(120% 60% at 100% 0%, rgba(221, 203, 170, 0.1), transparent 60%),
-    var(--c-noir);
-  color: var(--c-ivory-2);
-  box-shadow: var(--shadow-float);
-}
-.form-panel--noir :focus-visible { outline-color: var(--c-champagne); }
-.form-panel--noir .form-select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256' fill='%23C3C8D0'%3E%3Cpath d='M212.24,100.24l-80,80a6,6,0,0,1-8.48,0l-80-80a6,6,0,0,1,8.48-8.48L128,167.51l75.76-75.75a6,6,0,0,1,8.48,8.48Z'/%3E%3C/svg%3E");
-}
-.form-panel--noir .form-select option { background: var(--c-noir); color: var(--c-ivory); }
-.form-panel--noir .check-chip:has(input:checked) { border-color: var(--c-champagne); }
-.form-panel--noir .check-chip input:checked { border-color: var(--c-champagne); }
-.form-panel--noir .btn--primary { color: #141C27; }
-@media (hover: hover) and (pointer: fine) {
-  .form-panel--noir .check-chip:hover { border-color: var(--c-ivory-2); }
+  gap: var(--s-6);
+  padding: var(--pad) var(--pad) var(--s-5);
+  background: var(--c-surface);
+  border: 1px solid var(--c-line);
+  border-top: 3px solid var(--c-champagne);
+  border-radius: var(--r);
+  box-shadow: 0 24px 60px -40px rgba(20, 28, 39, 0.35);
 }
 
-/* Konu seçimi: kartlar. Seçili kart şampanya zemin, koyu yazı. */
+/* Konu: tek satırda kaydırmasız sarılan seçim çipleri; seçili çip şampanya */
 .topic-picker { display: grid; gap: var(--s-3); min-width: 0; margin: 0; padding: 0; border: 0; }
 .form-step {
   float: left;
@@ -2242,62 +2216,125 @@ a.media img,
   text-transform: uppercase;
   color: var(--c-ink-3);
 }
-.topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 140px), 1fr)); gap: var(--s-2); }
-.topic-card {
+.topic-chips { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+.topic-chip {
   position: relative;
-  display: grid;
-  align-content: start;
-  gap: 2px;
-  min-height: 64px;
-  padding: var(--s-3) var(--s-4);
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 var(--s-4);
   border: 1px solid var(--c-line-strong);
   border-radius: var(--r);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  color: var(--c-ink-2);
   cursor: pointer;
   user-select: none;
-  transition: background-color var(--t-fast) ease, border-color var(--t-fast) ease, transform var(--t-press) var(--ease-out);
+  transition: background-color var(--t-fast) ease, border-color var(--t-fast) ease, color var(--t-fast) ease, transform var(--t-press) var(--ease-out);
 }
-.topic-card input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
-.topic-card__title { font-size: var(--fs-small); font-weight: 600; line-height: 1.3; color: var(--c-ink); }
-.topic-card__sub { font-size: var(--fs-label); line-height: 1.35; color: var(--c-ink-3); }
-.topic-card:active { transform: var(--press); }
-.topic-card:has(input:checked) { background: var(--c-champagne); border-color: var(--c-champagne); }
-.topic-card:has(input:checked) .topic-card__title { color: #141C27; }
-.topic-card:has(input:checked) .topic-card__sub { color: rgba(20, 28, 39, 0.72); }
-.topic-card:has(input:focus-visible) { outline: 2px solid var(--c-champagne); outline-offset: 3px; }
-@media (hover: hover) and (pointer: fine) { .topic-card:hover:not(:has(input:checked)) { border-color: var(--c-ink-2); } }
+.topic-chip input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.topic-chip:active { transform: var(--press); }
+.topic-chip:has(input:checked) { background: var(--c-champagne); border-color: var(--c-champagne-deep); color: #141C27; font-weight: 600; }
+.topic-chip:has(input:focus-visible) { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .topic-chip:hover:not(:has(input:checked)) { border-color: var(--c-ink-2); color: var(--c-ink); } }
+.topic-picker__text { max-width: 60ch; font-size: var(--fs-small); color: var(--c-ink-2); }
 
-/* Seçime göre değişen başlık ve açıklama */
-.form-intro { display: grid; gap: var(--s-2); padding-top: var(--s-6); border-top: 1px solid var(--c-line); }
-.form-intro__title { font-size: clamp(1.6rem, 1.35rem + 1vw, 2.15rem); line-height: 1.15; color: var(--c-ink); }
-.form-intro__text { max-width: 58ch; color: var(--c-ink-2); }
+/* Form blokları: başlık satırı + içerik, aralarında ince çizgi */
+.form-block { display: grid; gap: var(--s-4); min-width: 0; margin: 0; padding: var(--s-6) 0 0; border: 0; border-top: 1px solid var(--c-line); }
+.form-block__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--s-1) var(--s-4); }
+.form-block__title {
+  float: left;
+  width: 100%;
+  padding: 0;
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--c-ink);
+}
+.form-block__head .form-block__title { float: none; width: auto; }
+.form-block__hint { font-size: var(--fs-label); color: var(--c-ink-3); }
 
-/* Teklif listesi özeti (eklenen ürünlere göre canlı) */
-.form-cart {
-  display: grid;
-  gap: var(--s-3);
-  padding: var(--s-4) var(--s-5);
-  border: 1px solid var(--c-line-strong);
+/* Seçili ürünler: adet ve kaldırma doğrudan formda */
+.item-list { display: grid; }
+.item-list__empty {
+  padding: var(--s-4);
+  border: 1px dashed var(--c-line-strong);
   border-radius: var(--r);
-  background: rgba(244, 239, 230, 0.04);
+  font-size: var(--fs-small);
+  color: var(--c-ink-3);
 }
-.form-cart--empty { border-style: dashed; background: transparent; }
-.form-cart__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-2) var(--s-4); }
-.form-cart__title { display: inline-flex; align-items: center; gap: var(--s-2); font-size: var(--fs-small); font-weight: 600; color: var(--c-ink); }
-.form-cart__title .icon { width: 18px; height: 18px; color: var(--c-accent); }
-.form-cart__note { font-size: var(--fs-small); color: var(--c-ink-3); }
-.form-cart__list { display: grid; }
-.form-cart__list li {
+.item-row {
   display: grid;
-  grid-template-columns: 52px minmax(0, 1fr) auto;
+  grid-template-columns: 56px minmax(0, 1fr) auto auto;
   align-items: center;
   gap: var(--s-3);
-  padding: var(--s-2) 0;
-  border-top: 1px solid var(--c-line);
+  padding: var(--s-3) 0;
+  border-bottom: 1px solid var(--c-line);
 }
-.form-cart__list picture, .form-cart__img { display: block; width: 52px; height: 39px; object-fit: cover; border-radius: var(--r); background: var(--c-bg-deep); }
-.form-cart__model { display: block; font-size: var(--fs-label); color: var(--c-ink-3); font-variant-numeric: tabular-nums; }
-.form-cart__name { display: block; overflow: hidden; font-size: var(--fs-small); font-weight: 500; color: var(--c-ink); text-overflow: ellipsis; white-space: nowrap; }
-.form-cart__qty { font-size: var(--fs-small); font-weight: 600; color: var(--c-ink-2); font-variant-numeric: tabular-nums; }
+.item-row:first-child { border-top: 1px solid var(--c-line); }
+.item-row > picture, .item-row__img { display: block; width: 56px; height: 42px; object-fit: cover; border-radius: var(--r); background: var(--c-bg-deep); }
+.item-row__model { display: block; font-size: var(--fs-label); color: var(--c-ink-3); font-variant-numeric: tabular-nums; }
+.item-row__name { display: block; overflow: hidden; font-size: var(--fs-small); font-weight: 600; color: var(--c-ink); text-overflow: ellipsis; white-space: nowrap; }
+.item-row__remove { width: 40px; height: 40px; color: var(--c-ink-3); }
+.item-row .qty-controls { grid-area: auto; }
+.item-row .qty-btn { width: 36px; height: 36px; }
+@media (max-width: 520px) {
+  .item-row { grid-template-columns: 48px minmax(0, 1fr) auto; }
+  .item-row > picture, .item-row__img { width: 48px; height: 36px; }
+  .item-row .qty-controls { grid-column: 2; justify-self: start; }
+  .item-row__remove { grid-column: 3; grid-row: 1 / span 2; }
+}
+.item-add { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--s-2); }
+.item-add__btn { min-height: 48px; padding: 0 var(--s-5); }
+
+/* Proje bilgileri: kapalı gelen açılır bölüm */
+.form-more { border-top: 1px solid var(--c-line); border-bottom: 1px solid var(--c-line); }
+.form-more__summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px var(--s-4);
+  padding: var(--s-4) 0;
+  cursor: pointer;
+  list-style: none;
+}
+.form-more__summary::-webkit-details-marker { display: none; }
+.form-more__title { font-family: var(--font-serif); font-size: 1.2rem; color: var(--c-ink); }
+.form-more__sub { grid-row: 2; font-size: var(--fs-small); color: var(--c-ink-3); }
+.form-more__icon { grid-row: 1 / span 2; grid-column: 2; align-self: center; color: var(--c-ink-2); transition: transform var(--t-base) var(--ease-out); }
+.form-more[open] .form-more__icon { transform: rotate(45deg); }
+.form-more__summary:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.form-more__body { display: grid; gap: var(--s-5); padding: var(--s-2) 0 var(--s-6); }
+
+/* Gönder çubuğu: form görünürken ekranın altına yapışır */
+.form-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3) var(--s-5);
+  margin: 0 calc(var(--pad) * -1);
+  padding: var(--s-4) var(--pad);
+  background: var(--c-surface);
+  border-top: 1px solid var(--c-line);
+  box-shadow: 0 -12px 24px -20px rgba(20, 28, 39, 0.4);
+}
+.form-actions__summary { font-size: var(--fs-small); color: var(--c-ink-2); }
+.form-actions__summary strong { color: var(--c-ink); font-weight: 600; }
+@media (max-width: 999px) {
+  /* Mobil ve tablet: form iletişim bilgilerinin önünde gelir */
+  .contact__form { order: -1; }
+}
+@media (max-width: 520px) {
+  .form-actions { flex-wrap: nowrap; gap: var(--s-3); padding-block: var(--s-3); }
+  .form-actions__summary { font-size: var(--fs-label); line-height: 1.4; }
+  .form-actions .btn { flex: none; min-height: 48px; padding: 0 var(--s-4); }
+}
+.form-card > .note { margin-top: calc(var(--s-3) * -1); }
+.form-card .form-textarea { min-height: 120px; }
 
 /* Mekân tipine göre ipucu ve hacme göre öneri */
 .form-hint {
@@ -2314,13 +2351,8 @@ a.media img,
 .form-volume__in { display: inline-flex; align-items: center; gap: 4px; color: var(--c-accent); font-weight: 500; }
 .form-volume__in .icon { width: 14px; height: 14px; }
 
-[data-theme="dark"] .form-panel--noir {
-  --c-line-strong: rgba(217, 220, 225, 0.28);
-  --c-accent-tint: rgba(217, 220, 225, 0.16);
-  --c-bg-deep: rgba(217, 220, 225, 0.12);
-  background: radial-gradient(120% 60% at 100% 0%, rgba(217, 220, 225, 0.06), transparent 60%), #141416;
-  border: 1px solid var(--c-line-dark);
-}
+[data-theme="dark"] .form-card { box-shadow: none; }
+[data-theme="dark"] .form-actions { box-shadow: 0 -12px 24px -20px rgba(0, 0, 0, 0.8); }
 
 .inline-action {
   transition: color var(--t-fast) ease, transform var(--t-press) var(--ease-out);
@@ -3279,6 +3311,27 @@ a.media img,
 
 /* Hesaplayıcı: önerilerin altında tüm ürünlere geçiş */
 .calc-results__more { justify-self: start; }
+
+/* Kurumsal: üretim adımları ve ürün grubu kartları */
+.mini-steps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-4) var(--s-5); margin-top: var(--s-6); counter-reset: step; }
+.mini-steps li { display: grid; gap: 2px; padding-top: var(--s-3); border-top: 1px solid var(--c-line); counter-increment: step; }
+.mini-steps b { font-weight: 600; color: var(--c-ink); }
+.mini-steps b::before { content: counter(step, decimal-leading-zero) " "; color: var(--c-gold-line); font-variant-numeric: tabular-nums; }
+.mini-steps span { font-size: var(--fs-small); color: var(--c-ink-2); }
+@media (max-width: 520px) { .mini-steps { grid-template-columns: 1fr; } }
+.group-cards { display: grid; gap: var(--s-6); margin-top: clamp(3rem, 2rem + 3vw, 5rem); }
+@media (min-width: 900px) { .group-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.group-card { display: grid; align-content: start; gap: var(--s-3); }
+.group-card .media { margin-bottom: var(--s-2); }
+.group-card h3 { font-size: var(--fs-h3); }
+.group-card p { font-size: var(--fs-small); color: var(--c-ink-2); }
+.group-card--quality { padding: var(--s-6); background: var(--c-surface); border-radius: var(--r); }
+.group-card--quality .tag-list { margin: var(--s-1) 0 var(--s-2); }
+
+/* Makale içi görsel (blog) */
+.prose--article figure { margin: var(--s-7) 0; }
+.prose--article figure img { display: block; width: 100%; height: auto; border-radius: var(--r); background: var(--c-bg-deep); }
+.prose--article figcaption { margin-top: var(--s-2); font-size: var(--fs-small); color: var(--c-ink-3); }
 
 /* 31. Koyu tema ------------------------------------------------------------- */
 /* Varsayılan açık temadır. Koyu tema yalnızca başlıktaki düğmeyle seçilir (<html data-theme="dark">,

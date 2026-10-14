@@ -111,7 +111,7 @@ export const FAQ = {
     {
       title: 'Company',
       items: [
-        ['Who makes the products?', 'The products are developed and made by Dongguan Andusic Technology Co. Ltd. (Dongguan, China). Meira is the Turkish distributor of Dongguan Andusic Technology Co. Ltd. products and handles product selection, quotes and supply for projects in Türkiye.'],
+        ['Who makes the products?', 'The products are developed and made by Andusic (Dongguan Andusic Technology Co. Ltd.), founded in Dongguan, China, in 2018. Meira is the Turkish distributor of Dongguan Andusic Technology Co. Ltd. products and handles product selection, quotes and supply for projects in Türkiye.'],
         ['Where does the technical data come from?', 'The technical data on the product pages comes from the manufacturer\'s 2025 product catalogue. Values may vary by model and variant; exact details are confirmed during the quote.']
       ]
     }
@@ -123,7 +123,7 @@ export const PRIVACY = {
   title: 'Privacy Notice | Meira',
   h1: 'Privacy notice',
   crumb: 'Privacy',
-  description: 'How personal data collected through the quote and contact form is processed, who it may be shared with, how long it is kept and your rights under Turkish data protection law (KVKK).',
+  description: 'How data from the quote and contact form is processed, who it may be shared with, how long it is kept and your rights under Turkish law (KVKK).',
   updated: '2026-10-14',
   lead: 'This notice explains how the personal data you share through the quote and contact form on our website is processed under Turkish Personal Data Protection Law No. 6698 (KVKK). The Turkish version of this notice is the governing text.',
   sections: [

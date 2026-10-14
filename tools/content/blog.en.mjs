@@ -4,6 +4,74 @@
 
 export const POSTS = [
   {
+    slug: 'uretici-andusic',
+    title: 'Meet our manufacturer: Andusic and its production facility in Dongguan',
+    navTitle: 'Our manufacturer Andusic',
+    description: 'The facility, product groups, quality processes and OEM / ODM partnerships of Andusic, the manufacturer we distribute, from order to shipment.',
+    date: '2026-10-14',
+    minutes: 5,
+    image: 'images/general/andusic-showroom.jpg',
+    imagePos: '50% 55%',
+    imageAlt: 'Andusic showroom: diffuser and dispenser models on the walls, column diffusers on the central table',
+    tags: ['Company', 'Manufacturer'],
+    related: ['ck620', 'ck686', 'ck687'],
+    body: `
+<p class="lead">The scent diffusers on our site are designed and made by Dongguan Andusic Technology Co. Ltd. (Andusic), the manufacturer we distribute in Türkiye. In this article we introduce Andusic: its facility, product groups, quality processes and partnerships, based on the company's own presentation.</p>
+
+<h2>A manufacturer based in Dongguan</h2>
+<p>Andusic was founded in Dongguan, one of China's major manufacturing centres. Since 2018 it has been developing hygiene and scent solutions for commercial spaces, hotels and public-health facilities, and describes itself as a technology and system-solution provider for hygiene, environment, health and smart living. The company stresses that it is a manufacturer, not a trading company: design, production, testing and shipment all take place under one roof.</p>
+
+<h2>Andusic in numbers</h2>
+<p>The figures shared in the manufacturer's presentation are:</p>
+<ul>
+  <li><strong>21 years</strong> of manufacturing experience</li>
+  <li><strong>20,000 m²</strong> of production area under roof</li>
+  <li>Annual output capacity of more than <strong>2 million sets</strong></li>
+  <li>Exports to more than <strong>80 countries</strong></li>
+  <li>More than <strong>10,000</strong> corporate clients</li>
+  <li>More than <strong>100</strong> patents and inventions</li>
+</ul>
+
+<figure>
+  <img src="images/general/andusic-production.jpg" alt="Views of the Andusic facility: production line, office, exhibition hall, finished goods warehouse, production workshop and CNC machines" width="1432" height="746" loading="lazy" decoding="async">
+  <figcaption>Views of the facility: production line, office, exhibition hall, finished goods warehouse, production workshop and CNC machines.</figcaption>
+</figure>
+
+<h2>Two product groups</h2>
+<p>Andusic aims to supply what commercial facilities need from a single source:</p>
+<ul>
+  <li><strong>Fragrance series:</strong> essential-oil and aroma diffusers with matching fragrances. The products Meira offers in Türkiye come from this series; see the wall-mounted, HVAC-connected and tabletop models in the <a href="urunler.html">product catalogue</a>.</li>
+  <li><strong>Washroom series:</strong> soap dispensers, hand dryers and towel dispensers. We prepare quotes for these products on request.</li>
+</ul>
+
+<h2>Four steps from order to shipment</h2>
+<ol>
+  <li><strong>Confirmation:</strong> the order is confirmed, production documents are prepared and materials are planned.</li>
+  <li><strong>Production:</strong> materials are prepared and assembled; products go through ageing and performance tests.</li>
+  <li><strong>Quality:</strong> in-process inspection is followed by a final inspection, and the products are packed.</li>
+  <li><strong>Delivery:</strong> products are loaded and shipped by container.</li>
+</ol>
+
+<h2>Quality and compliance</h2>
+<p>According to the manufacturer, the products comply with CE and RoHS, and a safety data sheet (MSDS) is provided for the fragrances. Quality is checked at every stage: material sourcing, processing, testing and packing. You can request the relevant documents during the quote process.</p>
+
+<figure>
+  <img src="images/general/andusic-exhibition.jpg" alt="Andusic exhibition hall and product review table" width="1400" height="1052" loading="lazy" decoding="async">
+  <figcaption>The Andusic exhibition hall.</figcaption>
+</figure>
+
+<h2>OEM / ODM partnerships</h2>
+<p>In its presentation, the manufacturer states that it has developed co-branded (OEM / ODM) products with organisations such as BYD, TCL, Skyworth, ICBC, Alibaba Group, OCT, JLL and COCO Park, as well as hospitals, universities and property groups. For logo printing, colours, packaging or a custom scent for your own brand, please use the <a href="iletisim.html?konu=oem">OEM / ODM form</a>; we pass your request to the manufacturer and follow the process on your behalf.</p>
+
+<h2>Meira's role</h2>
+<p>As the Turkish distributor of Andusic's fragrance products, Meira handles product selection, quotes and supply. To find the right device for your space, try the <a href="cozumler.html#hesaplayici">volume calculator</a> or contact us through the <a href="iletisim.html">quote form</a>.</p>
+`,
+    sources: [
+      { label: 'Andusic (Dongguan Andusic Technology Co. Ltd.). Company presentation: Smart Hygiene & Aroma Solutions.' }
+    ]
+  },
+
+  {
     slug: 'koku-pazarlamasi-nedir',
     title: 'What is scent marketing? What research says about ambient scent',
     navTitle: 'What is scent marketing?',
@@ -274,7 +342,7 @@ export const POSTS = [
     slug: 'ifra-standartlari-nedir',
     title: 'What are IFRA standards? Which documents to ask your fragrance supplier for',
     navTitle: 'What are IFRA standards?',
-    description: 'What the International Fragrance Association (IFRA) standards regulate, how a fragrance\'s compliance is documented and which documents to request in business purchasing.',
+    description: 'What IFRA (International Fragrance Association) standards regulate, how compliance is documented and which documents to request when buying fragrances.',
     date: '2026-10-06',
     minutes: 4,
     image: 'images/general/perfumer.jpg',

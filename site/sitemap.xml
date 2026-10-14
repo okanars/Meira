@@ -167,6 +167,14 @@
     <image:image><image:loc>https://www.meira.com.tr/images/products/ads611.jpg</image:loc></image:image>
   </url>
   <url>
+    <loc>https://www.meira.com.tr/blog-uretici-andusic.html</loc>
+    <lastmod>2026-10-14</lastmod>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://www.meira.com.tr/blog-uretici-andusic.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.meira.com.tr/en/blog-uretici-andusic.html"/>
+    <image:image><image:loc>https://www.meira.com.tr/images/general/andusic-showroom.jpg</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://www.meira.com.tr/blog-koku-pazarlamasi-nedir.html</loc>
     <lastmod>2026-10-14</lastmod>
     <priority>0.6</priority>
@@ -387,6 +395,14 @@
     <xhtml:link rel="alternate" hreflang="tr" href="https://www.meira.com.tr/urun-ads611.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.meira.com.tr/en/urun-ads611.html"/>
     <image:image><image:loc>https://www.meira.com.tr/images/products/ads611.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://www.meira.com.tr/en/blog-uretici-andusic.html</loc>
+    <lastmod>2026-10-14</lastmod>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://www.meira.com.tr/blog-uretici-andusic.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.meira.com.tr/en/blog-uretici-andusic.html"/>
+    <image:image><image:loc>https://www.meira.com.tr/images/general/andusic-showroom.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://www.meira.com.tr/en/blog-koku-pazarlamasi-nedir.html</loc>

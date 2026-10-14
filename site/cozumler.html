@@ -30,7 +30,7 @@
   <link rel="alternate" type="application/rss+xml" title="Meira Blog" href="feed.xml">
   <link rel="preload" href="fonts/newsreader-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/style.css?v=4828614983">
+  <link rel="stylesheet" href="css/style.css?v=9c5c4aaba8">
   <script>(function(d){d.classList.add('js');try{if(localStorage.getItem('meira-theme')==='dark')d.dataset.theme='dark'}catch(e){}})(document.documentElement);</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Ana sayfa","item":"https://www.meira.com.tr/index.html"},{"@type":"ListItem","position":2,"name":"Çözümler"}]}</script>
 </head>
@@ -85,7 +85,7 @@
         <div class="calc reveal">
           <div class="calc__inputs">
             <h2 id="calc-title">Hacim hesaplayıcı</h2>
-            <p>Taban alanını ve tavan yüksekliğini girin. Bu hacmi karşılayan iki model, kapsama değeri en yakın olandan başlayarak önerilir.</p>
+            <p>Lütfen taban alanını ve tavan yüksekliğini girin. Bu hacmi karşılayan iki model, kapsama değeri en yakın olandan başlayarak önerilir.</p>
             <div class="calc__fields">
               <div class="form-group">
                 <label class="form-label" for="calcArea">Taban alanı (m²)</label>
@@ -250,7 +250,7 @@
 
   <script src="js/site-config.js?v=b89e394d3f"></script>
   <script src="js/products.js?v=e9d9d94b15"></script>
-  <script src="js/components.js?v=484e993899"></script>
+  <script src="js/components.js?v=e1354c304c"></script>
   <script src="js/site.js?v=fbf8bec3fa"></script>
   <script>
     (function () {
@@ -285,7 +285,7 @@
         if (typeof PRODUCTS === 'undefined') return;
 
         if (vol <= 0) {
-          resultsContainer.innerHTML = `<p class="calc-message">Hesaplama için taban alanı ve tavan yüksekliği girin.</p>`;
+          resultsContainer.innerHTML = `<p class="calc-message">Lütfen hesaplama için taban alanını ve tavan yüksekliğini girin.</p>`;
           return;
         }
 

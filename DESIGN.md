@@ -259,12 +259,12 @@ kısa açıklama, kapsama ve kapasite (tabular), en altta hizalı eylemler (İnc
 ürün sayfasındaki esans bölümünde ve `esanslar.html`'de kullanılır; bağlantı içermez. Menüde aynı durum
 `.nav-item--soon` (soluk metin + "Yakında" etiketi, tıklanmaz).
 
-**İletişim formu (`.form-panel--noir`):** Gece mavisi panel (koyu temada `#141416` + ince çizgi); içindeki token'lar
-koyu bant gibi açık tonlara döner, alanlar yarı saydam fildişi, odak ve seçim şampanya, gönder düğmesi açık zemin
-üzerine koyu yazı. Sırasıyla: konu kartları (`.topic-card`, seçili kart şampanya), konuya göre değişen başlık ve
-açıklama (`.form-intro`), canlı teklif listesi özeti (`.form-cart`, boşken kesik çizgili), iletişim bilgileri, proje
-bilgileri (mekân tipine göre ipucu `.form-hint`, hacme göre model önerisi `.form-volume`), mesaj ve gönder. Konuya göre
-proje bilgileri ve liste özeti gizlenebilir; düğme metni konuya ve listedeki adede göre değişir (components.js `TOPICS`).
+**İletişim formu (`.form-card`):** Açık kart (yüzey rengi, ince çizgi, üstte 3 px şampanya çizgi). Tek sütun, sırasıyla:
+konu çipleri (`.topic-chip`, seçili çip şampanya) ve konuya göre değişen tek satırlık açıklama; seçili ürünler (adet artır/azalt,
+kaldır, listeden ürün ekleme; teklif listesiyle aynı veri); iletişim bilgileri ve kısa mesaj; kapalı gelen "Proje bilgileri"
+(`details.form-more`; mekân tipine göre ipucu, hacme göre model önerisi). Gönder düğmesi, seçili ürün sayısı ve konuyu
+gösteren yapışık çubuktadır (`.form-actions`, `position: sticky; bottom: 0`): uzun formda düğme her zaman görünür.
+Mobil ve tablette form iletişim bilgilerinin önünde gelir. Doğrulama ve yönlendirme metinleri "Lütfen ..." ile başlar.
 
 **Dil seçici ve tema düğmesi (başlık):** `TR / EN` metin bağlantıları (etkin dil altı çizili; aynı sayfanın diğer
 dildeki karşılığına gider) ve ay/güneş ikonlu tema düğmesi (`aria-pressed`). İkonlar aynı yerde 200 ms dönerek

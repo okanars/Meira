@@ -115,7 +115,7 @@ export const FAQ = {
     {
       title: 'Şirket',
       items: [
-        ['Ürünleri kim üretiyor?', 'Ürünler Dongguan Andusic Technology Co. Ltd. (Dongguan, Çin) tarafından geliştirilir ve üretilir. Meira, Dongguan Andusic Technology Co. Ltd. ürünlerinin Türkiye distribütörüdür ve Türkiye\'deki projeler için ürün seçimi, teklif ve tedarik süreçlerini yürütür.'],
+        ['Ürünleri kim üretiyor?', 'Ürünler, 2018\'de Dongguan\'da (Çin) kurulan Andusic (Dongguan Andusic Technology Co. Ltd.) tarafından geliştirilir ve üretilir. Meira, Dongguan Andusic Technology Co. Ltd. ürünlerinin Türkiye distribütörüdür ve Türkiye\'deki projeler için ürün seçimi, teklif ve tedarik süreçlerini yürütür.'],
         ['Teknik veriler nereden alınıyor?', 'Ürün sayfalarındaki teknik veriler üreticinin 2025 ürün kataloğundan alınmıştır. Değerler modele ve varyanta göre değişebilir; kesin bilgi teklif aşamasında teyit edilir.']
       ]
     }

@@ -30,7 +30,7 @@
   <link rel="alternate" type="application/rss+xml" title="Meira Blog" href="feed.xml">
   <link rel="preload" href="../fonts/newsreader-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../css/style.css?v=4828614983">
+  <link rel="stylesheet" href="../css/style.css?v=9c5c4aaba8">
   <script>(function(d){d.classList.add('js');try{if(localStorage.getItem('meira-theme')==='dark')d.dataset.theme='dark'}catch(e){}})(document.documentElement);</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.meira.com.tr/en/index.html"},{"@type":"ListItem","position":2,"name":"Contact"}]}</script>
 </head>
@@ -76,7 +76,7 @@
     <section class="page-head" aria-labelledby="page-title">
       <div class="wrap">
         <h1 id="page-title">Quotes and contact</h1>
-        <p class="lead">The products in your quote list are added to the message automatically. If you describe the size of the space and how it is used, we will prepare the quote accordingly.</p>
+        <p class="lead">You can add products and adjust quantities directly in the form. If you share the size of the space and how it is used, we will prepare the quote accordingly.</p>
       </div>
     </section>
 
@@ -100,88 +100,82 @@
           </ul>
           <div class="quote-block mt-7">
             <p class="quote-block__title">Samples</p>
-            <p>Our fragrance collection is being prepared. For a scent sample, choose “Price and samples” in the form and describe your space and the character of scent you are looking for.</p>
+            <p>Our fragrance collection is being prepared. For a scent sample, please choose “Price and samples” in the form and briefly describe your space and the character of scent you are looking for.</p>
           </div>
         </div>
 
         <div class="contact__form">
-          <div class="form-panel form-panel--noir">
-            <!-- Seçeneklerin value değerleri arka uçta (api/send-quote.php) Türkçe listelerle doğrulanır.
-                 Başlık, açıklama, mesaj şablonu ve düğme metni seçilen konuya ve teklif listesine göre components.js'te değişir. -->
-            <form id="contactForm" class="form" action="../api/send-quote.php" method="post" novalidate aria-label="Quote and contact form">
-              <div class="hp-field" aria-hidden="true">
-                <label for="hp_company_website">Leave this field empty</label>
-                <input type="text" id="hp_company_website" name="hp_company_website" tabindex="-1" autocomplete="off">
+          <!-- Seçeneklerin value değerleri arka uçta (api/send-quote.php) Türkçe listelerle doğrulanır.
+               Konuya ve seçili ürünlere göre değişen metinler ile ürün ekleme/çıkarma components.js initContactPage içindedir. -->
+          <form id="contactForm" class="form form-card" action="../api/send-quote.php" method="post" novalidate aria-label="Quote and contact form">
+            <div class="hp-field" aria-hidden="true">
+              <label for="hp_company_website">Leave this field empty</label>
+              <input type="text" id="hp_company_website" name="hp_company_website" tabindex="-1" autocomplete="off">
+            </div>
+
+            <fieldset class="topic-picker" aria-describedby="formIntroText">
+              <legend class="form-step">Subject</legend>
+              <div class="topic-chips">
+                  <label class="topic-chip"><input type="radio" name="subject" value="Fiyat ve Numune Teklifi" data-topic="numune" checked><span>Price and samples</span></label>
+                  <label class="topic-chip"><input type="radio" name="subject" value="Toptan Satış &amp; Bayilik" data-topic="bayilik"><span>Wholesale and dealership</span></label>
+                  <label class="topic-chip"><input type="radio" name="subject" value="Özel Markalı Üretim (OEM/ODM)" data-topic="oem"><span>OEM / ODM</span></label>
+                  <label class="topic-chip"><input type="radio" name="subject" value="Merkezi Klima (HVAC) Projelendirme" data-topic="hvac"><span>HVAC project</span></label>
+                  <label class="topic-chip"><input type="radio" name="subject" value="Teknik Destek ve Servis" data-topic="destek"><span>Technical support</span></label>
               </div>
+              <p class="topic-picker__text" id="formIntroText" aria-live="polite">We prepare a quote with unit prices, availability and delivery times for the products you choose.</p>
+            </fieldset>
 
-              <fieldset class="topic-picker">
-                <legend class="form-step">What is your request about?</legend>
-                <div class="topic-grid">
-                  <label class="topic-card">
-                    <input type="radio" name="subject" value="Fiyat ve Numune Teklifi" data-topic="numune" checked>
-                    <span class="topic-card__title">Price and samples</span>
-                    <span class="topic-card__sub">Product quote, scent samples</span>
-                  </label>
-                  <label class="topic-card">
-                    <input type="radio" name="subject" value="Toptan Satış &amp; Bayilik" data-topic="bayilik">
-                    <span class="topic-card__title">Wholesale and dealership</span>
-                    <span class="topic-card__sub">Regional sales, trade prices</span>
-                  </label>
-                  <label class="topic-card">
-                    <input type="radio" name="subject" value="Özel Markalı Üretim (OEM/ODM)" data-topic="oem">
-                    <span class="topic-card__title">OEM / ODM</span>
-                    <span class="topic-card__sub">Logo, colour, packaging, custom scent</span>
-                  </label>
-                  <label class="topic-card">
-                    <input type="radio" name="subject" value="Merkezi Klima (HVAC) Projelendirme" data-topic="hvac">
-                    <span class="topic-card__title">HVAC project</span>
-                    <span class="topic-card__sub">Large spaces, duct connection</span>
-                  </label>
-                  <label class="topic-card">
-                    <input type="radio" name="subject" value="Teknik Destek ve Servis" data-topic="destek">
-                    <span class="topic-card__title">Technical support</span>
-                    <span class="topic-card__sub">Faults, maintenance, use</span>
-                  </label>
-                </div>
-              </fieldset>
-
-              <div class="form-intro" aria-live="polite">
-                <h2 class="form-intro__title" id="formIntroTitle">Price and sample quote</h2>
-                <p class="form-intro__text" id="formIntroText">We prepare a quote with unit prices, availability and delivery times for the products you choose. For a scent sample, just describe your space.</p>
+            <section class="form-block" aria-labelledby="itemsTitle">
+              <div class="form-block__head">
+                <h2 class="form-block__title" id="itemsTitle">Products to quote</h2>
+                <span class="form-block__hint">You can change quantities here</span>
               </div>
+              <ul class="item-list" id="formItemList" aria-live="polite"></ul>
+              <div class="item-add">
+                <label class="visually-hidden" for="itemSelect">Add a product</label>
+                <select id="itemSelect" class="form-select">
+                  <option value="">Choose a product</option>
+                </select>
+                <button type="button" class="btn btn--quiet item-add__btn" id="itemAddBtn"><svg class="icon icon--sm" aria-hidden="true" focusable="false"><use href="../images/icons.svg?v=2fcf615f80#i-plus"></use></svg><span>Add</span></button>
+              </div>
+            </section>
 
-              <div class="form-cart form-cart--empty" id="formCart" aria-live="polite"></div>
-
-              <fieldset class="form-fieldset">
-                <legend class="form-legend">Your contact details</legend>
-                <div class="form-grid">
-                  <div class="form-group">
-                    <label class="form-label" for="f-name">Full name <span class="req">required</span></label>
-                    <input type="text" id="f-name" name="name" class="form-input" required autocomplete="name" aria-describedby="err-name" data-required-msg="Enter your full name.">
-                    <p class="form-error" id="err-name" hidden></p>
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label" for="f-company">Organisation or company</label>
-                    <input type="text" id="f-company" name="company" class="form-input" autocomplete="organization">
-                  </div>
+            <fieldset class="form-block">
+              <legend class="form-block__title">Your contact details</legend>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="f-name">Full name <span class="req">required</span></label>
+                  <input type="text" id="f-name" name="name" class="form-input" required autocomplete="name" aria-describedby="err-name" data-required-msg="Please enter your full name.">
+                  <p class="form-error" id="err-name" hidden></p>
                 </div>
-                <div class="form-grid">
-                  <div class="form-group">
-                    <label class="form-label" for="f-email">Email <span class="req">required</span></label>
-                    <input type="email" id="f-email" name="email" class="form-input" required autocomplete="email" placeholder="name@company.com" aria-describedby="err-email" data-required-msg="Enter your email address.">
-                    <p class="form-error" id="err-email" hidden></p>
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label" for="f-phone">Phone</label>
-                    <input type="tel" id="f-phone" name="phone" class="form-input" autocomplete="tel" placeholder="+90 5XX XXX XX XX">
-                  </div>
+                <div class="form-group">
+                  <label class="form-label" for="f-email">Email <span class="req">required</span></label>
+                  <input type="email" id="f-email" name="email" class="form-input" required autocomplete="email" placeholder="name@company.com" aria-describedby="err-email" data-required-msg="Please enter your email address.">
+                  <p class="form-error" id="err-email" hidden></p>
                 </div>
-              </fieldset>
+                <div class="form-group">
+                  <label class="form-label" for="f-company">Organisation or company</label>
+                  <input type="text" id="f-company" name="company" class="form-input" autocomplete="organization">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="f-phone">Phone</label>
+                  <input type="tel" id="f-phone" name="phone" class="form-input" autocomplete="tel" placeholder="+90 5XX XXX XX XX">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="contactMessage">Your message <span class="req">optional</span></label>
+                <textarea name="message" id="contactMessage" class="form-textarea" rows="4" maxlength="6000" aria-describedby="err-message" placeholder="Delivery date, quantities or anything else you would like to ask"></textarea>
+                <p class="form-error" id="err-message" hidden></p>
+              </div>
+            </fieldset>
 
-              <fieldset class="form-fieldset" id="projectFieldset" aria-describedby="project-help">
-                <legend class="form-legend">Project details <span class="form-legend__hint">optional</span></legend>
-                <p class="form-help" id="project-help">Describe your space so that we can suggest the right model and quantity.</p>
-
+            <details class="form-more" id="projectDetails">
+              <summary class="form-more__summary">
+                <span class="form-more__title">Add project details</span>
+                <span class="form-more__sub">Optional; helps us suggest the right model and quantity</span>
+                <svg class="icon form-more__icon" aria-hidden="true" focusable="false"><use href="../images/icons.svg?v=2fcf615f80#i-plus"></use></svg>
+              </summary>
+              <div class="form-more__body">
                 <div class="form-grid">
                   <div class="form-group">
                     <label class="form-label" for="f-space">Type of space</label>
@@ -195,16 +189,15 @@
                         <option value="AVM ve ortak alan">Shopping centre and common areas</option>
                         <option value="Sağlık ve klinik">Healthcare and clinic</option>
                         <option value="Konut">Residential</option>
-                        <option value="Diğer">Other (please specify)</option>
+                        <option value="Diğer">Other</option>
                     </select>
                   </div>
                   <div class="form-group" data-space-other>
-                    <label class="form-label" for="f-space-other">Describe the type of space</label>
-                    <input type="text" id="f-space-other" name="space_type_other" class="form-input" maxlength="80" placeholder="e.g. exhibition stand, yacht, place of worship">
+                    <label class="form-label" for="f-space-other">Type of space</label>
+                    <input type="text" id="f-space-other" name="space_type_other" class="form-input" maxlength="80" placeholder="e.g. exhibition stand, yacht">
                   </div>
                 </div>
                 <p class="form-hint" id="spaceHint" aria-live="polite" hidden></p>
-
                 <div class="form-grid">
                   <div class="form-group">
                     <label class="form-label" for="f-area">Floor area (m²)</label>
@@ -218,7 +211,6 @@
                   </div>
                 </div>
                 <div class="form-volume" id="projectVolume" aria-live="polite" hidden></div>
-
                 <div class="form-group">
                   <span class="form-label" id="extras-label">Additional requests</span>
                   <div class="check-chips" role="group" aria-labelledby="extras-label">
@@ -229,28 +221,20 @@
                     <label class="check-chip"><input type="checkbox" name="extras[]" value="Düzenli esans dolumu ve bakım"><span>Regular refills and maintenance</span></label>
                   </div>
                 </div>
-              </fieldset>
-
-              <div class="form-group">
-                <div class="form-label">
-                  <label for="contactMessage">Message and other details</label>
-                  <button type="button" id="btnRefreshQuote" class="inline-action">Add products from my list</button>
-                </div>
-                <textarea name="message" id="contactMessage" class="form-textarea" maxlength="6000" aria-describedby="msg-help err-message" placeholder="Your questions, delivery date, other requests"></textarea>
-                <p class="form-help" id="msg-help">The products in your quote list are added here automatically; you can edit them as you like.</p>
-                <p class="form-error" id="err-message" hidden></p>
               </div>
+            </details>
 
-              <p class="form-error" id="formError" role="alert" hidden></p>
+            <p class="form-error" id="formError" role="alert" hidden></p>
 
-              <button type="submit" class="btn btn--primary btn--lg btn--block">
+            <div class="form-actions">
+              <p class="form-actions__summary" id="formSummary" aria-live="polite">Price and sample quote · no products selected</p>
+              <button type="submit" class="btn btn--primary btn--lg">
                 <span>Request a quote</span>
                 <svg class="icon icon--move" aria-hidden="true" focusable="false"><use href="../images/icons.svg?v=2fcf615f80#i-arrow-right"></use></svg>
               </button>
-
-              <p class="note">Your request is sent by email to <span data-site="email">info@meirascent.com</span>. The information you share is processed only to answer your request; see the <a href="gizlilik.html" class="text-link">privacy notice</a> for details.</p>
-            </form>
-          </div>
+            </div>
+            <p class="note">Your request is sent by email to <span data-site="email">info@meirascent.com</span>. The information you share is processed only to answer your request; for details, please see our <a href="gizlilik.html" class="text-link">privacy notice</a>.</p>
+          </form>
         </div>
       </div>
     </section>
@@ -318,7 +302,7 @@
   <script src="../js/site-config.js?v=b89e394d3f"></script>
   <script src="../js/products.js?v=e9d9d94b15"></script>
   <script src="../js/products.en.js?v=06c20448ac"></script>
-  <script src="../js/components.js?v=484e993899"></script>
+  <script src="../js/components.js?v=e1354c304c"></script>
   <script src="../js/site.js?v=fbf8bec3fa"></script>
 </body>
 </html>
