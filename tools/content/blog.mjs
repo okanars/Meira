@@ -220,7 +220,7 @@ export const POSTS = [
   <li><strong>Dolum:</strong> Büyük hazneli modeller dolum sıklığını azaltır. Esans tüketimi, yoğunluk ayarına ve çalışma süresine bağlıdır.</li>
   <li><strong>Kontrol:</strong> İlk haftalarda menfezlerden farklı noktalarda koku yoğunluğu kontrol edilip ayar yapılmalı.</li>
 </ul>
-<p>Klima bağlantılı bir proje için teklif formunda konu olarak <a href="iletisim.html?konu=hvac">"Merkezi klima (HVAC) projelendirme"</a> seçebilirsiniz.</p>
+<p>Klima bağlantılı bir proje için teklif formunda <a href="iletisim.html?konu=hvac">"Klima (HVAC) projesi"</a> konusunu seçebilirsiniz.</p>
 `,
     sources: [
       { label: 'Ürün teknik verileri: üreticinin 2025 ürün kataloğu (ürün sayfalarında).' }

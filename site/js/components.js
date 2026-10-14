@@ -163,13 +163,13 @@
     return cart.reduce((acc, cur) => acc + (cur.qty || 1), 0);
   }
 
-  // Otomatik teklif mesaj metni oluşturucu
-  function buildQuoteMessageText() {
+  // Otomatik teklif mesaj metni oluşturucu. topic: iletişim formundaki konu (TOPICS); giriş cümlesi konuya göre değişir.
+  function buildQuoteMessageText(topic = 'numune') {
     const cart = getCart();
     if (!cart.length || typeof PRODUCTS === 'undefined') return '';
 
     let text = tt(`Merhaba ${SITE_CFG.brand} Satış Ekibi,\n\n`, `Hello ${SITE_CFG.brand} Sales Team,\n\n`);
-    text += tt(`Aşağıda listelediğim ürünler için birim fiyat, stok durumu ve teslimat süresi içeren bir teklif rica ediyorum:\n\n`, `I would like a quote with unit prices, availability and delivery times for the products listed below:\n\n`);
+    text += `${(TOPICS[topic] || TOPICS.numune).intro}\n\n`;
 
     let line = 0;
     cart.forEach(item => {
@@ -631,51 +631,203 @@
     return true;
   }
 
+  // Form konuları. value: arka uçtaki (api/send-quote.php) Türkçe konu listesiyle aynı değer.
+  // Seçilen konuya göre başlık, açıklama, mesaj şablonu, düğme metni ve görünen bölümler değişir.
+  // project: proje bilgileri görünsün mü; cart: teklif listesi özeti ve mesaja ürün aktarımı; extra: seçilince işaretlenen ek istek
+  const TOPICS = {
+    numune: {
+      value: 'Fiyat ve Numune Teklifi', project: true, cart: true,
+      title: tt('Fiyat ve numune teklifi', 'Price and sample quote'),
+      text: tt('Seçtiğiniz ürünler için birim fiyat, stok durumu ve teslim süresi içeren bir teklif hazırlarız. Koku numunesi için mekânınızı anlatmanız yeterli.', 'We prepare a quote with unit prices, availability and delivery times for the products you choose. For a scent sample, just describe your space.'),
+      placeholder: tt('Sorularınız, teslim tarihi, diğer istekleriniz', 'Your questions, delivery date, other requests'),
+      intro: tt('Aşağıda listelediğim ürünler için birim fiyat, stok durumu ve teslimat süresi içeren bir teklif rica ediyorum:', 'I would like a quote with unit prices, availability and delivery times for the products listed below:'),
+      submit: tt('Teklif iste', 'Request a quote')
+    },
+    bayilik: {
+      value: 'Toptan Satış & Bayilik', project: false, cart: true,
+      title: tt('Toptan satış ve bayilik', 'Wholesale and dealership'),
+      text: tt('Bölgenizi, satış kanallarınızı ve tahmini yıllık adedi yazın; toptan fiyatları ve bayilik koşullarını paylaşalım.', 'Tell us your region, sales channels and estimated yearly volume, and we will share wholesale prices and dealership terms.'),
+      placeholder: tt('Firmanız, bölgeniz, satış kanallarınız ve tahmini adetler', 'Your company, region, sales channels and estimated quantities'),
+      intro: tt('Bayilik koşulları ve aşağıdaki ürünler için toptan fiyat bilgisi rica ediyorum:', 'I would like your dealership terms and wholesale prices for the products below:'),
+      submit: tt('Başvuruyu gönder', 'Send application')
+    },
+    oem: {
+      value: 'Özel Markalı Üretim (OEM/ODM)', project: false, cart: true,
+      title: tt('Özel markalı üretim (OEM / ODM)', 'Private-label production (OEM / ODM)'),
+      text: tt('Logo baskısı, renk, ambalaj ya da markanıza özel koku için talebinizi üreticiye iletir, süreci sizin adınıza takip ederiz.', 'For logo printing, colours, packaging or a scent made for your brand, we pass your request to the manufacturer and follow the process on your behalf.'),
+      placeholder: tt('Model, logo ve renk, ambalaj, hedef adet ve tarih', 'Model, logo and colours, packaging, target quantity and date'),
+      intro: tt('Aşağıdaki ürünlerin özel markalı (OEM) üretimi için bilgi ve teklif rica ediyorum:', 'I would like information and a quote for private-label (OEM) production of the products below:'),
+      submit: tt('Talebi gönder', 'Send request')
+    },
+    hvac: {
+      value: 'Merkezi Klima (HVAC) Projelendirme', project: true, cart: true, extra: 'Klima (HVAC) bağlantısı',
+      title: tt('Merkezi klima (HVAC) projesi', 'Central air conditioning (HVAC) project'),
+      text: tt('Alanın ölçülerini ve klima santrali bilgisini paylaşın; binanın havalandırmasına bağlanan bir kurulum önerelim.', 'Share the size of the space and details of the air handling units, and we will suggest an installation connected to the building\'s ventilation.'),
+      placeholder: tt('Kat planı, santral sayısı ve konumu, çalışma saatleri', 'Floor plan, number and location of air handling units, operating hours'),
+      intro: tt('Klima sistemine bağlanacak bir proje için aşağıdaki ürünlerle ilgili teklif rica ediyorum:', 'I would like a quote for the products below for a project connected to the HVAC system:'),
+      submit: tt('Proje teklifi iste', 'Request a project quote')
+    },
+    destek: {
+      value: 'Teknik Destek ve Servis', project: false, cart: false,
+      title: tt('Teknik destek ve servis', 'Technical support and service'),
+      text: tt('Cihazınızın modelini ve yaşadığınız sorunu yazın; en kısa sürede dönüş yapalım.', 'Tell us the model of your device and the problem you are having, and we will get back to you as soon as possible.'),
+      placeholder: tt('Cihaz modeli, satın alma tarihi ve sorunun tanımı', 'Device model, purchase date and a description of the problem'),
+      intro: tt('Aşağıdaki cihazlar için teknik destek rica ediyorum:', 'I would like technical support for the devices below:'),
+      submit: tt('Destek iste', 'Request support')
+    }
+  };
+
+  // Mekân tipine göre kısa yönlendirme (değerler arka uçtaki Türkçe listeyle aynı)
+  const SPACE_HINTS = {
+    'Otel ve konaklama': tt('Lobi, koridor ve odaları ayrı alanlar olarak yazarsanız her biri için uygun cihazı öneririz.', 'If you list the lobby, corridors and rooms separately, we can suggest a device for each.'),
+    'Mağaza ve showroom': tt('Satış alanının ölçüsünü ve giriş kapısının sık açılıp açılmadığını belirtin.', 'Give the size of the sales floor and whether the entrance door opens often.'),
+    'Ofis ve plaza': tt('Toplantı odalarını ve açık ofisi ayrı yazın; sessiz çalışan modelleri öneririz.', 'List meeting rooms and the open-plan office separately; we will suggest quiet models.'),
+    'Restoran ve kafe': tt('Yemek kokusuyla yarışmaması için genellikle yalnızca giriş ve bekleme alanına öneri yaparız.', 'So that it does not compete with the food, we usually suggest scenting only the entrance and waiting area.'),
+    'Spa ve güzellik salonu': tt('Kabin ve oda sayısını yazarsanız cihaz adedini birlikte hesaplarız.', 'Tell us the number of cabins and rooms and we will work out the number of devices together.'),
+    'AVM ve ortak alan': tt('Büyük ve bölmeli alanlarda klima (HVAC) bağlantısı genellikle daha dengeli sonuç verir.', 'In large, partitioned spaces an HVAC connection usually gives a more even result.'),
+    'Sağlık ve klinik': tt('Bekleme alanları için düşük yoğunlukta, hafif kokular öneririz.', 'For waiting areas we recommend light scents at low intensity.'),
+    'Konut': tt('Oda sayısını yazın; masaüstü ve duvar tipi modeller arasından seçim yapalım.', 'Tell us the number of rooms and we will choose between tabletop and wall models.'),
+    'Diğer': tt('Mekânınızı kısaca tanımlayın; benzer projelerden yola çıkarak öneri yapalım.', 'Briefly describe your space and we will make a suggestion based on similar projects.')
+  };
+
+  // Kapsama metnindeki en yüksek m³ değeri (m² ile verilen değerler hacim karşılaştırmasına alınmaz)
+  function maxCoverage(p) {
+    const s = specValue(p, RE_COV);
+    if (!/m³/.test(s)) return 0;
+    const nums = (s.match(/\d[\d.,]*/g) || []).map(n => parseInt(n.replace(/[.,]/g, ''), 10)).filter(Boolean);
+    return nums.length ? Math.max(...nums) : 0;
+  }
+
   function initContactPage() {
     const form = document.getElementById('contactForm');
     const messageField = document.getElementById('contactMessage');
-    const quoteBanner = document.getElementById('quoteBanner');
     if (!form || !messageField) return;
 
     const urlParams = new URLSearchParams(window.location.search);
-    const hasQuoteParam = urlParams.has('teklif') || urlParams.has('from');
-    const cart = getCart();
+    const topicInputs = Array.from(form.querySelectorAll('[name="subject"]'));
+    const introTitle = document.getElementById('formIntroTitle');
+    const introText = document.getElementById('formIntroText');
+    const cartBox = document.getElementById('formCart');
+    const projectSet = document.getElementById('projectFieldset');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const submitLabel = submitBtn?.querySelector('span');
 
-    if (cart.length > 0) {
-      // Mesaj kutusu boşsa veya teklif bağlantısından gelinmişse otomatik doldur
-      if (!messageField.value.trim() || hasQuoteParam) {
-        messageField.value = buildQuoteMessageText();
+    const currentTopic = () => (topicInputs.find(i => i.checked) || topicInputs[0])?.dataset.topic || 'numune';
 
-        if (quoteBanner) {
-          quoteBanner.hidden = false;
-          quoteBanner.innerHTML = `
-            <span>${icon('check')} ${tt(`Teklif listenizdeki <strong class="num">${getCartTotalCount()} adet ürün</strong> mesaja aktarıldı.`, `The <strong class="num">${getCartTotalCount()} ${getCartTotalCount() === 1 ? 'item' : 'items'}</strong> in your quote list have been added to the message.`)}</span>
-            <button type="button" class="inline-action" id="bannerEditList">${tt('Listeyi düzenle', 'Edit list')}</button>
-          `;
-          document.getElementById('bannerEditList')?.addEventListener('click', openDrawer);
-        }
-      }
+    // ?konu=oem|numune|hvac|destek|bayilik
+    const konu = urlParams.get('konu');
+    if (konu && TOPICS[konu]) topicInputs.forEach(i => { i.checked = i.dataset.topic === konu; });
+
+    // Konunun ek isteğini işaretler (ör. HVAC projesi -> "Klima (HVAC) bağlantısı"); kullanıcı sonra kaldırabilir
+    function applyTopicExtra() {
+      const t = TOPICS[currentTopic()];
+      if (!t.extra) return;
+      const chip = form.querySelector(`[name="extras[]"][value="${CSS.escape(t.extra)}"]`);
+      if (chip) chip.checked = true;
     }
+    if (konu) applyTopicExtra();
+
+    // Teklif listesi özeti: liste değiştikçe yeniden çizilir (çekmeceden adet değişimi dahil)
+    function renderCart() {
+      if (!cartBox) return;
+      const t = TOPICS[currentTopic()];
+      cartBox.hidden = !t.cart;
+      const cart = getCart();
+      if (!cart.length) {
+        cartBox.classList.add('form-cart--empty');
+        cartBox.innerHTML = `
+          <div class="form-cart__head">
+            <span class="form-cart__title">${icon('clipboard-text')}${tt('Teklif listeniz boş', 'Your quote list is empty')}</span>
+            <a href="urunler.html" class="inline-action">${tt('Ürünleri incele', 'Browse products')}</a>
+          </div>
+          <p class="form-cart__note">${tt('Katalogdan ürün ekleyebilir ya da ihtiyacınızı aşağıda anlatabilirsiniz.', 'Add products from the catalogue or describe what you need below.')}</p>`;
+        return;
+      }
+      const total = getCartTotalCount();
+      cartBox.classList.remove('form-cart--empty');
+      cartBox.innerHTML = `
+        <div class="form-cart__head">
+          <span class="form-cart__title">${icon('clipboard-text')}${tt(`Teklif listenizde ${cart.length} model, ${total} adet`, `${cart.length} ${cart.length === 1 ? 'model' : 'models'}, ${total} ${total === 1 ? 'unit' : 'units'} in your quote list`)}</span>
+          <button type="button" class="inline-action" data-edit-list>${tt('Listeyi düzenle', 'Edit list')}</button>
+        </div>
+        <ul class="form-cart__list">
+          ${cart.map(item => {
+            const p = findProduct(item.id);
+            return p ? `<li>${productThumb(p, 'form-cart__img')}<span><span class="form-cart__model">${esc(p.model)}</span><span class="form-cart__name">${esc(p.title)}</span></span><span class="form-cart__qty">× ${item.qty}</span></li>` : '';
+          }).join('')}
+        </ul>`;
+    }
+    cartBox?.addEventListener('click', (e) => { if (e.target.closest('[data-edit-list]')) openDrawer(); });
+
+    // Başlık, açıklama, mesaj şablonu ve düğme metni: konuya ve listedeki ürünlere göre
+    function renderIntro() {
+      const t = TOPICS[currentTopic()];
+      const cart = getCart();
+      const total = getCartTotalCount();
+      if (introTitle) introTitle.textContent = t.title;
+      if (introText) {
+        introText.textContent = t.text + (t.cart && cart.length
+          ? ' ' + tt(`Listenizdeki ${cart.length} model (${total} adet) talebe eklendi.`, `The ${cart.length} ${cart.length === 1 ? 'model' : 'models'} (${total} ${total === 1 ? 'unit' : 'units'}) in your list ${cart.length === 1 ? 'has' : 'have'} been added to the request.`)
+          : '');
+      }
+      messageField.placeholder = t.placeholder;
+      if (submitLabel) submitLabel.textContent = t.submit + (t.cart && total ? ` · ${total} ${tt('ürün', total === 1 ? 'item' : 'items')}` : '');
+      if (projectSet) projectSet.hidden = !t.project;
+    }
+
+    // Mesaj kutusu: kullanıcı değiştirmediyse liste ve konu değiştikçe otomatik metin yenilenir
+    let autoText = '';
+    function syncMessage(force) {
+      const t = TOPICS[currentTopic()];
+      const next = t.cart ? buildQuoteMessageText(currentTopic()) : '';
+      const cur = messageField.value.trim();
+      if (force || !cur || cur === autoText.trim()) messageField.value = next;
+      autoText = next;
+    }
+
+    topicInputs.forEach(input => input.addEventListener('change', () => {
+      applyTopicExtra();
+      renderIntro();
+      renderCart();
+      syncMessage(false);
+      updateVolume();
+    }));
+
+    document.getElementById('btnRefreshQuote')?.addEventListener('click', () => {
+      if (!getCart().length) {
+        toast.show({ message: tt('Teklif listeniz henüz boş.', 'Your quote list is empty.'), type: 'info' });
+        return;
+      }
+      syncMessage(true);
+      setFieldError(messageField, '');
+      toast.show({ message: tt('Teklif listenizdeki ürünler mesaja aktarıldı.', 'The products in your quote list have been added to the message.'), type: 'accent' });
+    });
 
     // Proje bilgileri: mekân tipi ("Diğer" seçilince serbest metin), ölçüler, ek istekler
     const spaceSelect = form.querySelector('[name="space_type"]');
     const spaceOther = form.querySelector('[data-space-other]');
     const spaceOtherInput = form.querySelector('[name="space_type_other"]');
+    const spaceHint = document.getElementById('spaceHint');
     const areaInput = form.querySelector('[name="area"]');
     const heightInput = form.querySelector('[name="height"]');
     const volumeOut = document.getElementById('projectVolume');
 
-    function syncSpaceOther() {
-      if (!spaceSelect || !spaceOther) return;
+    function syncSpace() {
+      if (!spaceSelect) return;
       const isOther = spaceSelect.value === 'Diğer';
-      spaceOther.hidden = !isOther;
+      if (spaceOther) spaceOther.hidden = !isOther;
       if (!isOther && spaceOtherInput) spaceOtherInput.value = '';
+      if (spaceHint) {
+        const hint = SPACE_HINTS[spaceSelect.value] || '';
+        spaceHint.textContent = hint;
+        spaceHint.hidden = !hint;
+      }
     }
     spaceSelect?.addEventListener('change', () => {
-      syncSpaceOther();
+      syncSpace();
       if (spaceSelect.value === 'Diğer') spaceOtherInput?.focus();
     });
-    syncSpaceOther();
+    syncSpace();
 
     // Boş bırakılabilir; doluysa sınırlar içinde bir sayı olmalı
     function numValue(input) {
@@ -700,16 +852,29 @@
       return true;
     }
     const fmtNum = n => n.toLocaleString(LOCALE);
+    // Hacim ve bu hacmi karşılayan, kapsaması en yakın satıştaki model (hesaplayıcıyla aynı kural)
     function updateVolume() {
       if (!volumeOut) return;
       const a = numValue(areaInput), h = numValue(heightInput);
-      if (a > 0 && h > 0) {
-        volumeOut.textContent = tt(`Yaklaşık hava hacmi: ${fmtNum(Math.round(a * h))} m³`, `Approximate air volume: ${fmtNum(Math.round(a * h))} m³`);
-        volumeOut.hidden = false;
-      } else {
-        volumeOut.hidden = true;
-      }
+      if (!(a > 0 && h > 0)) { volumeOut.hidden = true; volumeOut.innerHTML = ''; return; }
+      const vol = Math.round(a * h);
+      const best = (typeof PRODUCTS === 'undefined' ? [] : PRODUCTS)
+        .filter(p => !p.soon)
+        .map(p => ({ p, cov: maxCoverage(p) }))
+        .filter(x => x.cov >= vol)
+        .sort((x, y) => x.cov - y.cov)[0];
+      const inCart = best && getCart().some(i => i.id === best.p.id);
+      volumeOut.innerHTML = `<span>${tt('Yaklaşık hava hacmi', 'Approximate air volume')}: <strong>${fmtNum(vol)} m³</strong></span>`
+        + (best
+          ? `<span class="form-volume__suggest">${tt('Bu hacim için önerilen', 'Suggested for this volume')}: <a href="urun-${encodeURIComponent(best.p.id)}.html">${esc(best.p.model)}</a> · ${esc(specValue(best.p, RE_COV))}
+              ${inCart ? `<span class="form-volume__in">${icon('check')}${tt('Listenizde', 'In your list')}</span>` : `<button type="button" class="inline-action" data-add-product="${esc(best.p.id)}">${tt('Listeye ekle', 'Add to list')}</button>`}</span>`
+          : `<span class="form-volume__suggest">${tt('Bu hacim için birden fazla cihaz ya da klima (HVAC) bağlantılı kurulum gerekir.', 'This volume needs several devices or an HVAC-connected installation.')}</span>`);
+      volumeOut.hidden = false;
     }
+    volumeOut?.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-add-product]');
+      if (btn) addToCart(btn.dataset.addProduct, 1);
+    });
     const AREA_LABEL = tt('Taban alanı', 'Floor area');
     const HEIGHT_LABEL = tt('Tavan yüksekliği', 'Ceiling height');
     [[areaInput, AREA_LABEL], [heightInput, HEIGHT_LABEL]].forEach(([input, label]) => {
@@ -723,7 +888,12 @@
     const tavanParam = Number(urlParams.get('tavan'));
     if (areaInput && alanParam > 0) areaInput.value = String(alanParam);
     if (heightInput && tavanParam > 0) heightInput.value = String(tavanParam);
+
+    renderIntro();
+    renderCart();
+    syncMessage(false);
     updateVolume();
+    window.addEventListener('dc:cart-updated', () => { renderIntro(); renderCart(); syncMessage(false); updateVolume(); });
 
     function projectData() {
       return {
@@ -774,10 +944,10 @@
         return;
       }
 
+      const topic = TOPICS[currentTopic()];
       // Mesaj silinmiş ama teklif listesi doluysa liste e-postaya mesaj metniyle ulaşır
-      if (!messageField.value.trim() && getCart().length) messageField.value = buildQuoteMessageText();
+      if (!messageField.value.trim() && topic.cart && getCart().length) messageField.value = buildQuoteMessageText(currentTopic());
 
-      const submitBtn = form.querySelector('button[type="submit"]');
       const originalText = submitBtn.innerHTML;
       submitBtn.disabled = true;
       submitBtn.innerHTML = `<span>${tt('Gönderiliyor', 'Sending')}</span>`;
@@ -787,11 +957,11 @@
         email: form.querySelector('[name="email"]').value.trim(),
         phone: form.querySelector('[name="phone"]')?.value.trim() || '',
         company: form.querySelector('[name="company"]')?.value.trim() || '',
-        subject: form.querySelector('[name="subject"]')?.value || 'Teklif Talebi',
+        subject: topic.value,
         message: messageField.value.trim(),
-        ...projectData(),
+        ...(topic.project ? projectData() : { space_type: '', space_type_other: '', area: '', height: '', extras: projectData().extras }),
         hp_company_website: form.querySelector('[name="hp_company_website"]')?.value || '',
-        items: getCart()
+        items: topic.cart ? getCart() : []
       };
 
       function restoreButton() {
@@ -845,17 +1015,16 @@
         form.innerHTML = `
           <div class="form-success" tabindex="-1" id="formSuccess">
             <h2>${tt('Talebiniz alındı', 'Request received')}</h2>
-            <p>${tt('Teklif listeniz ve proje bilgileriniz satış ekibine iletildi. Referans numaranız:', 'Your quote list and project details have been sent to the sales team. Your reference number:')} <span class="ref">${esc(result.reference || '-')}</span></p>
+            <p>${tt('Talebiniz satış ekibine iletildi. Referans numaranız:', 'Your request has been sent to the sales team. Your reference number:')} <span class="ref">${esc(result.reference || '-')}</span></p>
             ${modeNote}
             <div class="btn-row">
-              <a href="urunler.html" class="btn btn--quiet">${tt('Ürünleri incele', 'Browse products')}</a>
+              <a href="urunler.html" class="btn btn--primary">${tt('Ürünleri incele', 'Browse products')}</a>
             </div>
           </div>
         `;
         if (result.mode === 'demo') console.info('Teklif formu demo modunda: e-posta gönderilmedi. Yayına alırken api/send-quote.php içinde $DEMO_MODE = false yapın.');
         document.getElementById('formSuccess')?.focus();
-        if (quoteBanner) quoteBanner.hidden = true;
-        saveCart([]);
+        if (topic.cart) saveCart([]);
       }
     });
   }

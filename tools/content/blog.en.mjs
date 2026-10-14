@@ -220,7 +220,7 @@ export const POSTS = [
   <li><strong>Refills:</strong> larger reservoirs reduce how often you refill. Fragrance use depends on the intensity setting and running time.</li>
   <li><strong>Checks:</strong> in the first weeks, check the intensity at different vents and adjust.</li>
 </ul>
-<p>For an HVAC-connected project, choose <a href="iletisim.html?konu=hvac">"Central air conditioning (HVAC) project"</a> as the subject in the quote form.</p>
+<p>For an HVAC-connected project, choose <a href="iletisim.html?konu=hvac">"HVAC project"</a> in the quote form.</p>
 `,
     sources: [
       { label: 'Product technical data: the manufacturer\'s 2025 product catalogue (on the product pages).' }

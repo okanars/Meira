@@ -259,6 +259,13 @@ kısa açıklama, kapsama ve kapasite (tabular), en altta hizalı eylemler (İnc
 ürün sayfasındaki esans bölümünde ve `esanslar.html`'de kullanılır; bağlantı içermez. Menüde aynı durum
 `.nav-item--soon` (soluk metin + "Yakında" etiketi, tıklanmaz).
 
+**İletişim formu (`.form-panel--noir`):** Gece mavisi panel (koyu temada `#141416` + ince çizgi); içindeki token'lar
+koyu bant gibi açık tonlara döner, alanlar yarı saydam fildişi, odak ve seçim şampanya, gönder düğmesi açık zemin
+üzerine koyu yazı. Sırasıyla: konu kartları (`.topic-card`, seçili kart şampanya), konuya göre değişen başlık ve
+açıklama (`.form-intro`), canlı teklif listesi özeti (`.form-cart`, boşken kesik çizgili), iletişim bilgileri, proje
+bilgileri (mekân tipine göre ipucu `.form-hint`, hacme göre model önerisi `.form-volume`), mesaj ve gönder. Konuya göre
+proje bilgileri ve liste özeti gizlenebilir; düğme metni konuya ve listedeki adede göre değişir (components.js `TOPICS`).
+
 **Dil seçici ve tema düğmesi (başlık):** `TR / EN` metin bağlantıları (etkin dil altı çizili; aynı sayfanın diğer
 dildeki karşılığına gider) ve ay/güneş ikonlu tema düğmesi (`aria-pressed`). İkonlar aynı yerde 200 ms dönerek
 yer değiştirir; tema değişirken renk geçişleri kapatılır (`.theme-switching`), sayfa tek karede değişir.

@@ -30,7 +30,7 @@
   <link rel="alternate" type="application/rss+xml" title="Meira Blog" href="feed.xml">
   <link rel="preload" href="../fonts/newsreader-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../css/style.css?v=c26b12025e">
+  <link rel="stylesheet" href="../css/style.css?v=4828614983">
   <script>(function(d){d.classList.add('js');try{if(localStorage.getItem('meira-theme')==='dark')d.dataset.theme='dark'}catch(e){}})(document.documentElement);</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.meira.com.tr/en/index.html"},{"@type":"ListItem","position":2,"name":"Contact"}]}</script>
 </head>
@@ -100,57 +100,85 @@
           </ul>
           <div class="quote-block mt-7">
             <p class="quote-block__title">Samples</p>
-            <p>Our fragrance collection is being prepared. For a scent sample, choose “Price and sample quote” as the subject and describe your space and the character of scent you are looking for.</p>
+            <p>Our fragrance collection is being prepared. For a scent sample, choose “Price and samples” in the form and describe your space and the character of scent you are looking for.</p>
           </div>
         </div>
 
         <div class="contact__form">
-          <div class="form-panel">
-            <div id="quoteBanner" class="quote-preview-banner" hidden></div>
-
-            <!-- Seçeneklerin value değerleri arka uçta (api/send-quote.php) Türkçe listelerle doğrulanır; yalnızca etiketler İngilizcedir -->
-            <form id="contactForm" class="form" action="../api/send-quote.php" method="post" novalidate>
+          <div class="form-panel form-panel--noir">
+            <!-- Seçeneklerin value değerleri arka uçta (api/send-quote.php) Türkçe listelerle doğrulanır.
+                 Başlık, açıklama, mesaj şablonu ve düğme metni seçilen konuya ve teklif listesine göre components.js'te değişir. -->
+            <form id="contactForm" class="form" action="../api/send-quote.php" method="post" novalidate aria-label="Quote and contact form">
               <div class="hp-field" aria-hidden="true">
                 <label for="hp_company_website">Leave this field empty</label>
                 <input type="text" id="hp_company_website" name="hp_company_website" tabindex="-1" autocomplete="off">
               </div>
 
-              <div class="form-grid">
-                <div class="form-group">
-                  <label class="form-label" for="f-name">Full name <span class="req">required</span></label>
-                  <input type="text" id="f-name" name="name" class="form-input" required autocomplete="name" aria-describedby="err-name" data-required-msg="Enter your full name.">
-                  <p class="form-error" id="err-name" hidden></p>
+              <fieldset class="topic-picker">
+                <legend class="form-step">What is your request about?</legend>
+                <div class="topic-grid">
+                  <label class="topic-card">
+                    <input type="radio" name="subject" value="Fiyat ve Numune Teklifi" data-topic="numune" checked>
+                    <span class="topic-card__title">Price and samples</span>
+                    <span class="topic-card__sub">Product quote, scent samples</span>
+                  </label>
+                  <label class="topic-card">
+                    <input type="radio" name="subject" value="Toptan Satış &amp; Bayilik" data-topic="bayilik">
+                    <span class="topic-card__title">Wholesale and dealership</span>
+                    <span class="topic-card__sub">Regional sales, trade prices</span>
+                  </label>
+                  <label class="topic-card">
+                    <input type="radio" name="subject" value="Özel Markalı Üretim (OEM/ODM)" data-topic="oem">
+                    <span class="topic-card__title">OEM / ODM</span>
+                    <span class="topic-card__sub">Logo, colour, packaging, custom scent</span>
+                  </label>
+                  <label class="topic-card">
+                    <input type="radio" name="subject" value="Merkezi Klima (HVAC) Projelendirme" data-topic="hvac">
+                    <span class="topic-card__title">HVAC project</span>
+                    <span class="topic-card__sub">Large spaces, duct connection</span>
+                  </label>
+                  <label class="topic-card">
+                    <input type="radio" name="subject" value="Teknik Destek ve Servis" data-topic="destek">
+                    <span class="topic-card__title">Technical support</span>
+                    <span class="topic-card__sub">Faults, maintenance, use</span>
+                  </label>
                 </div>
-                <div class="form-group">
-                  <label class="form-label" for="f-company">Organisation or company</label>
-                  <input type="text" id="f-company" name="company" class="form-input" autocomplete="organization">
-                </div>
+              </fieldset>
+
+              <div class="form-intro" aria-live="polite">
+                <h2 class="form-intro__title" id="formIntroTitle">Price and sample quote</h2>
+                <p class="form-intro__text" id="formIntroText">We prepare a quote with unit prices, availability and delivery times for the products you choose. For a scent sample, just describe your space.</p>
               </div>
 
-              <div class="form-grid">
-                <div class="form-group">
-                  <label class="form-label" for="f-email">Email <span class="req">required</span></label>
-                  <input type="email" id="f-email" name="email" class="form-input" required autocomplete="email" placeholder="name@company.com" aria-describedby="err-email" data-required-msg="Enter your email address.">
-                  <p class="form-error" id="err-email" hidden></p>
-                </div>
-                <div class="form-group">
-                  <label class="form-label" for="f-phone">Phone</label>
-                  <input type="tel" id="f-phone" name="phone" class="form-input" autocomplete="tel" placeholder="+90 5XX XXX XX XX">
-                </div>
-              </div>
+              <div class="form-cart form-cart--empty" id="formCart" aria-live="polite"></div>
 
-              <div class="form-group">
-                <label class="form-label" for="contactSubject">Subject</label>
-                <select name="subject" class="form-select" id="contactSubject">
-                  <option value="Fiyat ve Numune Teklifi">Price and sample quote</option>
-                  <option value="Toptan Satış &amp; Bayilik">Wholesale and dealership</option>
-                  <option value="Özel Markalı Üretim (OEM/ODM)">Private-label production (OEM / ODM)</option>
-                  <option value="Merkezi Klima (HVAC) Projelendirme">Central air conditioning (HVAC) project</option>
-                  <option value="Teknik Destek ve Servis">Technical support and service</option>
-                </select>
-              </div>
+              <fieldset class="form-fieldset">
+                <legend class="form-legend">Your contact details</legend>
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label class="form-label" for="f-name">Full name <span class="req">required</span></label>
+                    <input type="text" id="f-name" name="name" class="form-input" required autocomplete="name" aria-describedby="err-name" data-required-msg="Enter your full name.">
+                    <p class="form-error" id="err-name" hidden></p>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="f-company">Organisation or company</label>
+                    <input type="text" id="f-company" name="company" class="form-input" autocomplete="organization">
+                  </div>
+                </div>
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label class="form-label" for="f-email">Email <span class="req">required</span></label>
+                    <input type="email" id="f-email" name="email" class="form-input" required autocomplete="email" placeholder="name@company.com" aria-describedby="err-email" data-required-msg="Enter your email address.">
+                    <p class="form-error" id="err-email" hidden></p>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="f-phone">Phone</label>
+                    <input type="tel" id="f-phone" name="phone" class="form-input" autocomplete="tel" placeholder="+90 5XX XXX XX XX">
+                  </div>
+                </div>
+              </fieldset>
 
-              <fieldset class="form-fieldset" aria-describedby="project-help">
+              <fieldset class="form-fieldset" id="projectFieldset" aria-describedby="project-help">
                 <legend class="form-legend">Project details <span class="form-legend__hint">optional</span></legend>
                 <p class="form-help" id="project-help">Describe your space so that we can suggest the right model and quantity.</p>
 
@@ -159,15 +187,15 @@
                     <label class="form-label" for="f-space">Type of space</label>
                     <select name="space_type" class="form-select" id="f-space">
                       <option value="">Choose</option>
-                      <option value="Otel ve konaklama">Hotel and hospitality</option>
-                      <option value="Mağaza ve showroom">Shop and showroom</option>
-                      <option value="Ofis ve plaza">Office</option>
-                      <option value="Restoran ve kafe">Restaurant and café</option>
-                      <option value="Spa ve güzellik salonu">Spa and beauty salon</option>
-                      <option value="AVM ve ortak alan">Shopping centre and common areas</option>
-                      <option value="Sağlık ve klinik">Healthcare and clinic</option>
-                      <option value="Konut">Residential</option>
-                      <option value="Diğer">Other (please specify)</option>
+                        <option value="Otel ve konaklama">Hotel and hospitality</option>
+                        <option value="Mağaza ve showroom">Shop and showroom</option>
+                        <option value="Ofis ve plaza">Office</option>
+                        <option value="Restoran ve kafe">Restaurant and café</option>
+                        <option value="Spa ve güzellik salonu">Spa and beauty salon</option>
+                        <option value="AVM ve ortak alan">Shopping centre and common areas</option>
+                        <option value="Sağlık ve klinik">Healthcare and clinic</option>
+                        <option value="Konut">Residential</option>
+                        <option value="Diğer">Other (please specify)</option>
                     </select>
                   </div>
                   <div class="form-group" data-space-other>
@@ -175,6 +203,7 @@
                     <input type="text" id="f-space-other" name="space_type_other" class="form-input" maxlength="80" placeholder="e.g. exhibition stand, yacht, place of worship">
                   </div>
                 </div>
+                <p class="form-hint" id="spaceHint" aria-live="polite" hidden></p>
 
                 <div class="form-grid">
                   <div class="form-group">
@@ -188,7 +217,7 @@
                     <p class="form-error" id="err-height" hidden></p>
                   </div>
                 </div>
-                <p class="form-volume" id="projectVolume" aria-live="polite" hidden></p>
+                <div class="form-volume" id="projectVolume" aria-live="polite" hidden></div>
 
                 <div class="form-group">
                   <span class="form-label" id="extras-label">Additional requests</span>
@@ -215,7 +244,7 @@
               <p class="form-error" id="formError" role="alert" hidden></p>
 
               <button type="submit" class="btn btn--primary btn--lg btn--block">
-                <span>Send request</span>
+                <span>Request a quote</span>
                 <svg class="icon icon--move" aria-hidden="true" focusable="false"><use href="../images/icons.svg?v=2fcf615f80#i-arrow-right"></use></svg>
               </button>
 
@@ -234,7 +263,7 @@
         <div class="footer-brand">
           <a href="index.html" class="brand"><svg class="brand__logo" viewBox="0 0 1199.1 515.6" aria-hidden="true" focusable="false"><use href="../images/brand/logo-sprite.svg?v=06101ca1a3#logo-word"></use></svg><span class="visually-hidden" lang="en" data-site="brand">Meira</span></a>
           <!-- [DOĞRULANACAK] Distribütörlüğün kapsamı (resmi / tek yetkili) belgelenmeden bu ifadeler kullanılmamalı. -->
-          <p>Turkish distributor of Dongguan Andusic Technology Co., Ltd. scent diffusers and fragrances. Product selection and quotes for hotels, offices, shops and homes.</p>
+          <p>Turkish distributor of Dongguan Andusic Technology Co. Ltd. scent diffusers and fragrances. Product selection and quotes for hotels, offices, shops and homes.</p>
           <p class="footer-certs"><a href="kurumsal.html#sertifikalar">ISO 9001 · ISO 14001 · ISO 22716 certified</a></p>
         </div>
         <div class="footer-col footer-col--a">
@@ -287,45 +316,9 @@
   </footer>
 
   <script src="../js/site-config.js?v=b89e394d3f"></script>
-  <script src="../js/products.js?v=0541f0817f"></script>
+  <script src="../js/products.js?v=e9d9d94b15"></script>
   <script src="../js/products.en.js?v=06c20448ac"></script>
-  <script src="../js/components.js?v=a6acf2bf77"></script>
+  <script src="../js/components.js?v=484e993899"></script>
   <script src="../js/site.js?v=fbf8bec3fa"></script>
-  <script>
-    (function () {
-      const btnRefresh = document.getElementById('btnRefreshQuote');
-      const msgField = document.getElementById('contactMessage');
-
-      btnRefresh?.addEventListener('click', () => {
-        const text = MeiraApp.buildQuoteMessageText();
-        if (text) {
-          msgField.value = text;
-          msgField.removeAttribute('aria-invalid');
-          const err = document.getElementById('err-message');
-          if (err) err.hidden = true;
-          MeiraApp.toast.show({ message: 'The products in your quote list have been added to the message.', type: 'accent' });
-        } else {
-          MeiraApp.toast.show({ message: 'Your quote list is empty.', type: 'info' });
-        }
-      });
-
-      // URL parametreleri (ör. ?konu=oem). Değerler arka uçtaki Türkçe konu listesiyle aynıdır.
-      const urlParams = new URLSearchParams(window.location.search);
-      const konuParam = urlParams.get('konu');
-      const subjectSelect = document.getElementById('contactSubject');
-
-      const SUBJECTS = {
-        oem: 'Özel Markalı Üretim (OEM/ODM)',
-        numune: 'Fiyat ve Numune Teklifi',
-        hvac: 'Merkezi Klima (HVAC) Projelendirme',
-        destek: 'Teknik Destek ve Servis',
-        bayilik: 'Toptan Satış & Bayilik'
-      };
-
-      if (konuParam && SUBJECTS[konuParam] && subjectSelect) {
-        subjectSelect.value = SUBJECTS[konuParam];
-      }
-    })();
-  </script>
 </body>
 </html>

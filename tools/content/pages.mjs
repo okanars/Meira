@@ -89,7 +89,7 @@ export const FAQ = {
       items: [
         ['Sitede online satış var mı?', 'Hayır. Ürünler kurumsal teklif ile satılır; sitede fiyat, ödeme ya da hesap yoktur. İlgilendiğiniz ürünleri teklif listesine ekleyip tek formla teklif isteyebilirsiniz.'],
         ['Teklif nasıl istenir?', 'Katalogda ürünlerin yanındaki "Listeye ekle" butonuyla teklif listenizi oluşturun. Sağ üstteki "Teklif listesi" düğmesinden listeyi açıp "Teklif formuna aktar" deyin; ürünler ve adetler mesaja otomatik eklenir. Mekânın ölçülerini ve kullanım amacını da yazarsanız teklif buna göre hazırlanır.'],
-        ['Numune alabilir miyim?', 'Esans koleksiyonumuz hazırlanıyor. Koku numunesi için teklif formunda konu olarak "Fiyat ve numune teklifi" seçip mekânınızı ve aradığınız koku karakterini yazabilirsiniz; numune koşulları teklifle birlikte bildirilir.'],
+        ['Numune alabilir miyim?', 'Esans koleksiyonumuz hazırlanıyor. Koku numunesi için teklif formunda "Fiyat ve numune" konusunu seçip mekânınızı ve aradığınız koku karakterini yazabilirsiniz; numune koşulları teklifle birlikte bildirilir.'],
         ['Kendi markamın logosuyla ürün yaptırabilir miyim?', 'Üretici, özel markalı üretim (OEM) ve ortak ürün geliştirme (ODM) desteği sunduğunu belirtmektedir: cihaz gövdesine logo baskısı, renk seçimi, özel ambalaj ve markaya özel koku formülü. Talebinizi üreticiye iletir, süreci sizin adınıza takip ederiz. Asgari sipariş ve süre koşulları talebe göre bildirilir.']
       ]
     },
@@ -115,7 +115,7 @@ export const FAQ = {
     {
       title: 'Şirket',
       items: [
-        ['Ürünleri kim üretiyor?', 'Ürünler Dongguan Andusic Technology Co., Ltd. (Dongguan, Çin) tarafından geliştirilir ve üretilir. Meira, Dongguan Andusic Technology Co., Ltd. ürünlerinin Türkiye distribütörüdür ve Türkiye\'deki projeler için ürün seçimi, teklif ve tedarik süreçlerini yürütür.'],
+        ['Ürünleri kim üretiyor?', 'Ürünler Dongguan Andusic Technology Co. Ltd. (Dongguan, Çin) tarafından geliştirilir ve üretilir. Meira, Dongguan Andusic Technology Co. Ltd. ürünlerinin Türkiye distribütörüdür ve Türkiye\'deki projeler için ürün seçimi, teklif ve tedarik süreçlerini yürütür.'],
         ['Teknik veriler nereden alınıyor?', 'Ürün sayfalarındaki teknik veriler üreticinin 2025 ürün kataloğundan alınmıştır. Değerler modele ve varyanta göre değişebilir; kesin bilgi teklif aşamasında teyit edilir.']
       ]
     }

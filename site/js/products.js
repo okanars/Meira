@@ -1,4 +1,4 @@
-/* Ürün veritabanı: üreticinin (Dongguan Andusic Technology Co., Ltd.) 2025 ürün kataloğundan (İngilizce çeviri) derlenmiştir.
+/* Ürün veritabanı: üreticinin (Dongguan Andusic Technology Co. Ltd.) 2025 ürün kataloğundan (İngilizce çeviri) derlenmiştir.
  * [DOĞRULANACAK] FDA, gıda sınıfı malzeme ve güvenlik standardı ifadeleri üretici beyanıdır;
  * sitede "üretici beyanına göre" kalıbıyla verilir. Belge talep edilmeden kesin ifade kullanmayın.
  * [DOĞRULANACAK] Katalogda "CK-613" kodu hem elektriksiz koku kutusu (CK-613A/B/C) hem de

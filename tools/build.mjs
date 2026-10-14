@@ -40,7 +40,7 @@ const EMAIL = 'info@meirascent.com';
 const TODAY = '2026-10-14';
 const DEFAULT_OG = 'images/brand/og-meira.jpg';
 // Üretici (ürünlerin geliştirildiği ve üretildiği şirket). Sitede bu adla anılır.
-const MANUFACTURER = 'Dongguan Andusic Technology Co., Ltd.';
+const MANUFACTURER = 'Dongguan Andusic Technology Co. Ltd.';
 
 const DIR = path.dirname(fileURLToPath(import.meta.url));
 const SITE = path.resolve(DIR, '../site');

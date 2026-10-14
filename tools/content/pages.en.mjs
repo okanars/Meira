@@ -85,7 +85,7 @@ export const FAQ = {
       items: [
         ['Can I buy online?', 'No. Products are sold through business quotes; there are no prices, payments or accounts on the site. Add the products you are interested in to the quote list and request a quote with a single form.'],
         ['How do I request a quote?', 'Build your quote list with the "Add to list" button next to products in the catalogue. Open the list with the "Quote list" button at the top right and choose "Transfer to quote form"; products and quantities are added to the message automatically. If you also describe the size and use of the space, the quote is prepared accordingly.'],
-        ['Can I get samples?', 'Our fragrance collection is being prepared. For a scent sample, choose "Price and sample quote" as the subject in the quote form and describe your space and the character of scent you are looking for; sample terms are given with the quote.'],
+        ['Can I get samples?', 'Our fragrance collection is being prepared. For a scent sample, choose "Price and samples" in the quote form and describe your space and the character of scent you are looking for; sample terms are given with the quote.'],
         ['Can I have products made with my own brand\'s logo?', 'The manufacturer states that it offers private-label production (OEM) and joint product development (ODM): logo printing on the device body, colour choice, custom packaging and a fragrance formula made for your brand. We pass your request to the manufacturer and follow the process on your behalf. Minimum order and lead times are given per request.']
       ]
     },
@@ -111,7 +111,7 @@ export const FAQ = {
     {
       title: 'Company',
       items: [
-        ['Who makes the products?', 'The products are developed and made by Dongguan Andusic Technology Co., Ltd. (Dongguan, China). Meira is the Turkish distributor of Dongguan Andusic Technology Co., Ltd. products and handles product selection, quotes and supply for projects in Türkiye.'],
+        ['Who makes the products?', 'The products are developed and made by Dongguan Andusic Technology Co. Ltd. (Dongguan, China). Meira is the Turkish distributor of Dongguan Andusic Technology Co. Ltd. products and handles product selection, quotes and supply for projects in Türkiye.'],
         ['Where does the technical data come from?', 'The technical data on the product pages comes from the manufacturer\'s 2025 product catalogue. Values may vary by model and variant; exact details are confirmed during the quote.']
       ]
     }
