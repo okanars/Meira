@@ -124,8 +124,8 @@ export const PRIVACY = {
   h1: 'Privacy notice',
   crumb: 'Privacy',
   description: 'How data from the quote and contact form is processed, who it may be shared with, how long it is kept and your rights under Turkish law (KVKK).',
-  updated: '2026-10-14',
-  lead: 'This notice explains how the personal data you share through the quote and contact form on our website is processed under Turkish Personal Data Protection Law No. 6698 (KVKK). The Turkish version of this notice is the governing text.',
+  updated: '2026-10-15',
+  lead: 'This notice explains how the personal data you share through the quote and contact form on our website is processed under Turkish Personal Data Protection Law No. 6698 (KVKK), and what the site stores in your browser. The Turkish version of this notice is the governing text.',
   sections: [
     {
       id: 'veri-sorumlusu',
@@ -146,10 +146,11 @@ export const PRIVACY = {
 <ul>
   <li><strong>Identity:</strong> first and last name.</li>
   <li><strong>Contact:</strong> email address, phone number (optional).</li>
-  <li><strong>Customer transaction:</strong> organisation or company name, subject, message and the products and quantities in your quote list.</li>
+  <li><strong>Customer transaction:</strong> organisation or company name, subject, message, the products and quantities in your quote list and, if you share them, project details (type of space, floor area, ceiling height, additional requests).</li>
   <li><strong>Transaction security:</strong> the IP address and time the request was sent (to prevent misuse).</li>
 </ul>
-<p>The form does not ask for special categories of personal data (health, beliefs and so on); please do not share such information in the message field.</p>`
+<p>The form does not ask for special categories of personal data (health, beliefs and so on); please do not share such information in the message field.</p>
+<p>If you only browse the site, no personal data is requested from you and your visit is not tracked. As on any website, the hosting provider's servers may keep technical connection logs such as IP address and access time for security and under obligations arising from Law No. 5651.</p>`
     },
     {
       id: 'amaclar',
@@ -160,22 +161,32 @@ export const PRIVACY = {
   <li>contact you about your request, sample, OEM / ODM or technical support enquiry,</li>
   <li>prevent misuse of the form and unwanted submissions.</li>
 </ul>
-<p>This processing is based on Article 5(2) of KVKK: it is directly related to the conclusion of a contract (the quote process) and the legitimate interest of the data controller (information security).</p>`
+<p>Your personal data is collected electronically when you fill in the quote and contact form. This processing is based on Article 5(2) of KVKK: under point (c), it is directly related to the conclusion of a contract (the quote process), and under point (f), the legitimate interest of the data controller (information security).</p>
+<p>The “I have read and understood the Privacy Notice” box in the form only confirms that you have read this notice; it is not a declaration of explicit consent. Your data is not processed on the basis of explicit consent.</p>
+<p>Your contact details are used only for correspondence about your request. We do not send you commercial electronic messages (advertising or campaigns) without your consent (Law No. 6563).</p>`
     },
     {
       id: 'aktarim',
       title: 'Transfers',
       html: `<p>Your personal data may be shared only for the purposes above and only as far as necessary:</p>
 <ul>
-  <li><strong>Service providers:</strong> companies that provide the website's hosting and email services.</li>
-  <li><strong>Manufacturer:</strong> private-label (OEM / ODM) or product-specific technical requests may be passed to the manufacturer abroad (China) so that they can be fulfilled. Such transfers follow the conditions in Article 9 of KVKK and are limited to the information needed for your request.</li>
+  <li><strong>Service providers:</strong> companies that provide the website's hosting and email services (so that your request reaches us and is stored).</li>
+  <li><strong>Manufacturer:</strong> for private-label (OEM / ODM) or product-specific technical requests, as a rule only the technical details of the request are shared with the manufacturer. If your personal data needs to be passed to the manufacturer abroad (China), the transfer is made occasionally and only as far as it is necessary to take pre-contractual steps at your request, under Article 9(6)(b) of KVKK.</li>
   <li><strong>Authorities:</strong> competent public institutions where there is a legal obligation.</li>
-</ul>`
+</ul>
+<p>Your personal data is not sold and is not shared with third parties for marketing.</p>`
     },
     {
       id: 'saklama',
       title: 'Retention',
-      html: `<p>Your personal data is kept for as long as the purpose of processing requires and for the periods set by the relevant legislation; at the end of these periods it is deleted, destroyed or anonymised.</p>`
+      html: `<p>Your personal data is kept for as long as the purpose of processing requires and for the periods set by the relevant legislation:</p>
+<ul>
+  <li><strong>Quote and contact correspondence:</strong> until your request is concluded; at most 2 years if no business relationship follows.</li>
+  <li><strong>If a business relationship follows:</strong> correspondence supporting quotes, orders and invoices, for 10 years under Article 82 of the Turkish Commercial Code.</li>
+  <li><strong>Form log file:</strong> a summary of each submission (name, email, phone, company, subject and time) for at most 2 years.</li>
+  <li><strong>Rate-limit record:</strong> to prevent many submissions in a short time, an irreversible hash of your IP address (not the address itself) is kept for 10 minutes.</li>
+</ul>
+<p>At the end of these periods your data is deleted, destroyed or anonymised.</p>`
     },
     {
       id: 'haklar',
@@ -198,13 +209,15 @@ export const PRIVACY = {
     {
       id: 'cerezler',
       title: 'Cookies and browser storage',
-      html: `<p>This site does not use cookies and contains no visitor tracking or advertising analytics. Your browser's local storage is used for the following so that the site works:</p>
+      html: `<p>This site does not use cookies. It contains no visitor tracking, advertising or analytics tools and no third-party content (external fonts, maps, videos or social media plugins); all of the site's files are served from our own server.</p>
+<p>So that the site works, only the following is kept in your browser's local storage. Apart from the quote list, none of it is sent to our server, and the quote list is sent only as part of the message when you submit the form:</p>
 <ul>
-  <li><strong>Quote list:</strong> the products and quantities you add to the list (<code>localStorage</code>). This stays only in your browser and is sent as part of the message when you submit the quote form.</li>
-  <li><strong>Theme preference:</strong> if you choose the dark theme, that preference (<code>localStorage</code>); on later visits the site opens in the theme you chose.</li>
-  <li><strong>Opening animation:</strong> a flag (<code>sessionStorage</code>) so that the home page opening animation is shown once per session; it is deleted when the browser tab is closed.</li>
+  <li><strong><code>dc_quote_cart_v2</code></strong> (<code>localStorage</code>): the products and quantities you add to the quote list; until you clear the list or send your request.</li>
+  <li><strong><code>meira-theme</code></strong> (<code>localStorage</code>): your light or dark theme choice; until you delete it.</li>
+  <li><strong><code>meira-notice</code></strong> (<code>localStorage</code>): that you closed the cookie notice, so it is not shown again; until you delete it.</li>
+  <li><strong><code>meira-visited</code></strong> (<code>sessionStorage</code>): that the home page opening animation has been shown in this session; deleted when the browser tab is closed.</li>
 </ul>
-<p>You can delete this information at any time by clearing your browser's site data.</p>`
+<p>This information is not used to identify or track you. It is strictly necessary for a feature you use (the quote list, the theme choice) and therefore does not require your consent. You can delete it at any time by clearing your browser's site data.</p>`
     }
   ]
 };

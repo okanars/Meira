@@ -617,9 +617,12 @@
     }
   }
 
+  // Onay kutusunun value'su hep doludur; dolu sayılması için işaretli olmalı
+  const isFilled = field => (field.type === 'checkbox' ? field.checked : Boolean(field.value.trim()));
+
   function validateField(field) {
     const value = field.value.trim();
-    if (field.required && !value) {
+    if (field.required && !isFilled(field)) {
       setFieldError(field, field.dataset.requiredMsg || tt('Lütfen bu alanı doldurun.', 'Please fill in this field.'));
       return false;
     }
@@ -935,9 +938,21 @@
 
     const required = Array.from(form.querySelectorAll('[required]'));
     required.forEach(field => {
-      field.addEventListener('blur', () => { if (field.value.trim() || field.hasAttribute('aria-invalid')) validateField(field); });
+      field.addEventListener('blur', () => { if (isFilled(field) || field.hasAttribute('aria-invalid')) validateField(field); });
       field.addEventListener('input', () => { if (field.hasAttribute('aria-invalid')) validateField(field); });
     });
+
+    // Aydınlatma metni: bağlantıya basılınca onay kutusunun altında açılır (kutuyu işaretlemez)
+    const noticeToggle = form.querySelector('[data-notice-toggle]');
+    const noticePanel = noticeToggle && document.getElementById(noticeToggle.getAttribute('aria-controls'));
+    if (noticePanel) {
+      noticeToggle.addEventListener('click', () => {
+        const open = noticeToggle.getAttribute('aria-expanded') !== 'true';
+        noticeToggle.setAttribute('aria-expanded', String(open));
+        noticePanel.toggleAttribute('data-collapsed', !open);
+        if (open) noticePanel.scrollIntoView({ block: 'nearest', behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+      });
+    }
 
     const formError = document.getElementById('formError');
     function showFormError(message) {
@@ -979,6 +994,7 @@
         subject: topic.value,
         message: composeMessage(),
         ...projectData(),
+        consent: Boolean(form.querySelector('[name="consent"]')?.checked),
         hp_company_website: form.querySelector('[name="hp_company_website"]')?.value || '',
         items: getCart()
       };

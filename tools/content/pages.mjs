@@ -131,8 +131,8 @@ export const PRIVACY = {
   h1: 'Gizlilik ve KVKK aydınlatma metni',
   crumb: 'Gizlilik ve KVKK',
   description: 'Teklif ve iletişim formu aracılığıyla toplanan kişisel verilerin hangi amaçla işlendiği, kimlere aktarılabileceği, saklama süresi ve KVKK kapsamındaki haklarınız.',
-  updated: '2026-10-14',
-  lead: 'Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında, web sitemizdeki teklif ve iletişim formu aracılığıyla paylaştığınız kişisel verilerin nasıl işlendiğini açıklar.',
+  updated: '2026-10-15',
+  lead: 'Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında, web sitemizdeki teklif ve iletişim formu aracılığıyla paylaştığınız kişisel verilerin nasıl işlendiğini ve sitemizin tarayıcınızda hangi bilgileri sakladığını açıklar.',
   sections: [
     {
       id: 'veri-sorumlusu',
@@ -154,10 +154,11 @@ export const PRIVACY = {
 <ul>
   <li><strong>Kimlik:</strong> ad soyad.</li>
   <li><strong>İletişim:</strong> e-posta adresi, telefon numarası (isteğe bağlı).</li>
-  <li><strong>Müşteri işlem:</strong> kurum veya firma adı, talep konusu, mesaj içeriği ve teklif listenizdeki ürünler ile adetleri.</li>
+  <li><strong>Müşteri işlem:</strong> kurum veya firma adı, talep konusu, mesaj içeriği, teklif listenizdeki ürünler ile adetleri ve paylaşmanız halinde proje bilgileri (mekân tipi, taban alanı, tavan yüksekliği, ek istekler).</li>
   <li><strong>İşlem güvenliği:</strong> talebin gönderildiği IP adresi ve zaman bilgisi (kötüye kullanımın önlenmesi için).</li>
 </ul>
-<p>Formda özel nitelikli kişisel veri (sağlık, inanç vb.) istenmez; lütfen mesaj alanında bu tür bilgileri paylaşmayın.</p>`
+<p>Formda özel nitelikli kişisel veri (sağlık, inanç vb.) istenmez; lütfen mesaj alanında bu tür bilgileri paylaşmayın.</p>
+<p>Siteyi yalnızca gezdiğinizde sizden kişisel veri istenmez ve ziyaretiniz izlenmez. Her web sitesinde olduğu gibi barındırma sağlayıcısının sunucuları, güvenlik ve 5651 sayılı Kanun'dan doğan yükümlülükler kapsamında IP adresi ve erişim zamanı gibi teknik bağlantı kayıtları tutabilir.</p>`
     },
     {
       id: 'amaclar',
@@ -168,7 +169,9 @@ export const PRIVACY = {
   <li>Talebiniz, numune, OEM / ODM veya teknik destek isteğiniz hakkında sizinle iletişime geçmek,</li>
   <li>Formun kötüye kullanımını ve istenmeyen gönderileri önlemek.</li>
 </ul>
-<p>Bu işleme, KVKK'nın 5. maddesinin 2. fıkrası kapsamında, bir sözleşmenin kurulmasıyla doğrudan ilgili olması (teklif süreci) ve veri sorumlusunun meşru menfaati (bilgi güvenliği) hukuki sebeplerine dayanır.</p>
+<p>Kişisel verileriniz, teklif ve iletişim formunu doldurmanız yoluyla elektronik ortamda toplanır. Bu işleme, KVKK'nın 5. maddesinin 2. fıkrası kapsamında, (c) bendindeki bir sözleşmenin kurulmasıyla doğrudan ilgili olması (teklif süreci) ve (f) bendindeki veri sorumlusunun meşru menfaati (bilgi güvenliği) hukuki sebeplerine dayanır.</p>
+<p>Formdaki “Aydınlatma Metni’ni okudum, anladım.” kutusu yalnızca bu metni okuduğunuzu teyit eder; açık rıza beyanı değildir. Verileriniz açık rızaya dayanılarak işlenmez.</p>
+<p>İletişim bilgileriniz yalnızca talebinizle ilgili yazışmalarda kullanılır. Onayınız olmadan size reklam veya kampanya içerikli ticari elektronik ileti gönderilmez (6563 sayılı Kanun).</p>
 <!-- [DOĞRULANACAK] Hukuki sebeplerin nitelendirmesi hukuk danışmanınca teyit edilmeli. -->`
     },
     {
@@ -176,17 +179,25 @@ export const PRIVACY = {
       title: 'Aktarım',
       html: `<p>Kişisel verileriniz yalnızca yukarıdaki amaçlar için ve gerektiği ölçüde aktarılabilir:</p>
 <ul>
-  <li><strong>Hizmet sağlayıcılar:</strong> web sitesinin barındırma ve e-posta hizmetini sağlayan şirketler.</li>
-  <li><strong>Üretici:</strong> özel markalı üretim (OEM / ODM) veya ürüne özgü teknik talepleriniz, talebin yerine getirilebilmesi için yurt dışındaki üreticiye (Çin) iletilebilir. Bu aktarım, KVKK'nın 9. maddesinde öngörülen şartlara uygun olarak yapılır ve yalnızca talebiniz için gerekli bilgilerle sınırlıdır.</li>
+  <li><strong>Hizmet sağlayıcılar:</strong> web sitesinin barındırma ve e-posta hizmetini sağlayan şirketler (talebinizin bize iletilmesi ve saklanması için).</li>
+  <li><strong>Üretici:</strong> özel markalı üretim (OEM / ODM) veya ürüne özgü teknik taleplerinizde üreticiyle kural olarak yalnızca talebin teknik ayrıntıları paylaşılır. Kişisel verilerinizin yurt dışındaki üreticiye (Çin) iletilmesi gerekirse bu aktarım, KVKK'nın 9. maddesinin 6. fıkrasının (b) bendi uyarınca, talebiniz üzerine alınan sözleşme öncesi tedbirlerin uygulanması için zorunlu olduğu ölçüde ve arızi olarak yapılır.</li>
   <li><strong>Yetkili kurumlar:</strong> kanuni bir yükümlülük olması halinde yetkili kamu kurum ve kuruluşları.</li>
 </ul>
+<p>Kişisel verileriniz satılmaz ve pazarlama amacıyla üçüncü kişilerle paylaşılmaz.</p>
 <!-- [DOĞRULANACAK] Barındırma ve e-posta sağlayıcısının konumu (yurt içi / yurt dışı) ve üreticiye aktarımın KVKK m.9 kapsamındaki dayanağı (açık rıza, standart sözleşme vb.) netleştirilmeli. -->`
     },
     {
       id: 'saklama',
       title: 'Saklama süresi',
-      html: `<p>Kişisel verileriniz, işleme amacının gerektirdiği süre ve ilgili mevzuatta öngörülen süreler boyunca saklanır; bu sürelerin sonunda silinir, yok edilir veya anonim hale getirilir.</p>
-<!-- [DOĞRULANACAK] Somut saklama süreleri (ör. sonuçlanmayan teklifler için X ay; api/submissions.log kayıtları için Y ay) belirlenmeli ve bu paragrafa yazılmalı. -->`
+      html: `<p>Kişisel verileriniz, işleme amacının gerektirdiği süre ve ilgili mevzuatta öngörülen süreler boyunca saklanır:</p>
+<ul>
+  <li><strong>Teklif ve iletişim yazışmaları:</strong> talebiniz sonuçlanana kadar; ticari ilişki kurulmazsa en fazla 2 yıl.</li>
+  <li><strong>Ticari ilişki kurulursa:</strong> teklif, sipariş ve faturaya dayanak yazışmalar, Türk Ticaret Kanunu'nun 82. maddesi uyarınca 10 yıl.</li>
+  <li><strong>Form kayıt dosyası:</strong> gönderimlerin özeti (ad, e-posta, telefon, firma, konu ve gönderim zamanı) en fazla 2 yıl.</li>
+  <li><strong>Hız sınırı kaydı:</strong> kısa sürede çok sayıda gönderimi önlemek için IP adresinizin kendisi değil, geri döndürülemez bir özeti 10 dakika tutulur.</li>
+</ul>
+<p>Bu sürelerin sonunda verileriniz silinir, yok edilir veya anonim hale getirilir.</p>
+<!-- [DOĞRULANACAK] Süreler uygulamayla uyumlu olmalı: gelen kutusu ve api/submissions.log en az yılda bir temizlenmeli. -->`
     },
     {
       id: 'haklar',
@@ -210,13 +221,15 @@ export const PRIVACY = {
     {
       id: 'cerezler',
       title: 'Çerezler ve tarayıcı depolama',
-      html: `<p>Bu site çerez kullanmaz ve ziyaretçi takibi ya da reklam amaçlı analiz aracı içermez. Sitenin çalışması için tarayıcınızın yerel depolama alanı şu amaçlarla kullanılır:</p>
+      html: `<p>Bu site çerez kullanmaz. Ziyaretçi takibi, reklam veya analiz aracı ve üçüncü taraf içerik (harici yazı tipi, harita, video ya da sosyal medya eklentisi) bulunmaz; sitenin tüm dosyaları kendi sunucumuzdan sunulur.</p>
+<p>Sitenin çalışması için tarayıcınızın yerel depolama alanında yalnızca aşağıdaki bilgiler tutulur. Teklif listesi dışında hiçbiri sunucumuza gönderilmez; teklif listesi de yalnızca formu gönderdiğinizde mesajın parçası olarak iletilir:</p>
 <ul>
-  <li><strong>Teklif listesi:</strong> listeye eklediğiniz ürünler ve adetleri (<code>localStorage</code>). Bu bilgi yalnızca tarayıcınızda tutulur; teklif formunu gönderdiğinizde mesajın bir parçası olarak iletilir.</li>
-  <li><strong>Tema tercihi:</strong> koyu temayı seçtiyseniz bu tercih (<code>localStorage</code>); sonraki ziyaretlerde site seçtiğiniz temayla açılır.</li>
-  <li><strong>Açılış efekti:</strong> ana sayfa açılış animasyonunun oturum başına bir kez gösterilmesi için bir işaret (<code>sessionStorage</code>); tarayıcı sekmesi kapanınca silinir.</li>
+  <li><strong><code>dc_quote_cart_v2</code></strong> (<code>localStorage</code>): teklif listesine eklediğiniz ürünler ve adetleri; listeyi temizleyene ya da talebinizi gönderene kadar.</li>
+  <li><strong><code>meira-theme</code></strong> (<code>localStorage</code>): açık veya koyu tema tercihiniz; siz silene kadar.</li>
+  <li><strong><code>meira-notice</code></strong> (<code>localStorage</code>): çerez bilgilendirmesini kapattığınız, tekrar gösterilmemesi için; siz silene kadar.</li>
+  <li><strong><code>meira-visited</code></strong> (<code>sessionStorage</code>): ana sayfa açılış animasyonunun bu oturumda gösterildiği; tarayıcı sekmesi kapanınca silinir.</li>
 </ul>
-<p>Bu bilgileri tarayıcınızın site verilerini temizleyerek istediğiniz zaman silebilirsiniz.</p>
+<p>Bu bilgiler sizi tanımlamak veya izlemek için kullanılmaz; yalnızca kullandığınız bir işlevin (teklif listesi, tema seçimi) çalışması için zorunludur ve bu nedenle onayınızı gerektirmez. Tarayıcınızın site verilerini temizleyerek istediğiniz zaman silebilirsiniz.</p>
 <!-- [DOĞRULANACAK] Sonradan analiz veya reklam aracı eklenirse bu bölüm ve çerez onayı mekanizması güncellenmeli. -->`
     }
   ]

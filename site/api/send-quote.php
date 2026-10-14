@@ -212,6 +212,10 @@ $hasProject = $space !== '' || $area !== null || $height !== null || $extras;
 if ($name === '' || $email === '') {
     respond(false, 400, ['error' => 'Lütfen zorunlu alanları (ad soyad, e-posta) doldurun.']);
 }
+// KVKK: aydınlatma metninin okunduğunun teyidi (açık rıza değil). JSON'da true, düz POST'ta "1" gelir.
+if (!filter_var($data['consent'] ?? false, FILTER_VALIDATE_BOOLEAN)) {
+    respond(false, 400, ['error' => 'Devam etmek için Aydınlatma Metni’ni okuduğunuzu onaylayın.']);
+}
 if ($message === '' && !$hasProject) {
     respond(false, 400, ['error' => 'Lütfen talebinizi kısaca yazın ya da proje bilgilerini doldurun.']);
 }
@@ -239,6 +243,7 @@ $rows = [
     ['Firma', $company !== '' ? h($company) : '-'],
     ['Konu', h($subject)],
     ['IP', h($ip)],
+    ['Aydınlatma metni', 'Okudum, anladım işaretlendi'],
 ];
 $projectRows = [
     ['Mekân tipi', $space !== '' ? h($space) : '-'],
@@ -294,6 +299,7 @@ $logEntry = '[' . date('Y-m-d H:i:s') . '] REF: ' . $refNo
     . ' | KONU: ' . $subject
     . ' | MEKÂN: ' . ($space ?: '-')
     . ' | HACİM: ' . ($volume !== null ? $volume . ' m3' : '-')
+    . ' | AYDINLATMA: okundu'
     . ' | GÖNDERİM: ' . ($DEMO_MODE ? 'demo' : ($mailSent ? 'ok' : 'hata')) . "\n";
 @file_put_contents($LOG_FILE, $logEntry, FILE_APPEND | LOCK_EX);
 

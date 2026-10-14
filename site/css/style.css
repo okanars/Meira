@@ -149,6 +149,7 @@
 
   /* Katmanlar */
   --z-header: 30;
+  --z-notice: 35;   /* çerez bilgilendirmesi: menü, çekmece ve bildirimlerin altında */
   --z-menu: 40;
   --z-overlay: 50;
   --z-toast: 60;
@@ -1642,6 +1643,50 @@ a.media img,
   .toast.show { transform: none; }
 }
 
+/* 13a. Çerez bilgilendirmesi ---------------------------------------------- */
+/* Alttan gelen, içeriği kapatmayan küçük kart (site.js). Masaüstünde sol altta: bildirimler sağ altta çıkar. */
+.cookie-notice {
+  position: fixed;
+  left: var(--s-5);
+  bottom: var(--s-5);
+  z-index: var(--z-notice);
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  width: min(480px, calc(100% - 2 * var(--s-5)));
+  padding: var(--s-3) var(--s-3) var(--s-3) var(--s-5);
+  background: var(--c-surface);
+  color: var(--c-ink-2);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-float);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity 160ms var(--ease-out), transform 160ms var(--ease-out), visibility 0s linear 160ms;
+}
+.cookie-notice.is-in {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity var(--t-panel) var(--ease-out), transform var(--t-panel) var(--ease-out), visibility 0s;
+}
+.cookie-notice p { flex: 1; margin: 0; }
+.cookie-notice a { color: var(--c-ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; white-space: nowrap; }
+.cookie-notice .btn { flex: none; }
+@media (max-width: 640px) {
+  .cookie-notice {
+    left: var(--s-4);
+    right: var(--s-4);
+    bottom: calc(var(--s-4) + env(safe-area-inset-bottom));
+    width: auto;
+    padding-left: var(--s-4);
+  }
+}
+@media (prefers-reduced-motion: reduce) { .cookie-notice { transform: none; } }
+
 /* 14. Formlar --------------------------------------------------------------- */
 .form { display: grid; gap: var(--s-5); }
 .form-grid { display: grid; gap: var(--s-5); }
@@ -1755,7 +1800,8 @@ a.media img,
   transition: background-color var(--t-fast) ease, border-color var(--t-fast) ease, transform 140ms var(--ease-out);
 }
 .check-chip:active { transform: scale(0.98); }
-.check-chip input {
+.check-chip input,
+.consent__box {
   appearance: none;
   display: grid;
   place-content: center;
@@ -1768,7 +1814,8 @@ a.media img,
   border-radius: var(--r);
   transition: background-color var(--t-fast) ease, border-color var(--t-fast) ease;
 }
-.check-chip input::after {
+.check-chip input::after,
+.consent__box::after {
   content: '';
   width: 10px;
   height: 5px;
@@ -1779,17 +1826,63 @@ a.media img,
   transform: rotate(-45deg) scale(0.6);
   transition: opacity var(--t-fast) ease, transform var(--t-fast) var(--ease-out);
 }
-.check-chip input:checked { background: var(--c-champagne); border-color: var(--c-noir); }
-.check-chip input:checked::after { opacity: 1; transform: rotate(-45deg) scale(1); }
+.check-chip input:checked, .consent__box:checked { background: var(--c-champagne); border-color: var(--c-noir); }
+.check-chip input:checked::after, .consent__box:checked::after { opacity: 1; transform: rotate(-45deg) scale(1); }
 .check-chip:has(input:checked) { background: var(--c-bg-deep); border-color: var(--c-noir); }
 .check-chip:has(input:focus-visible) { border-color: var(--c-accent); box-shadow: 0 0 0 3px var(--c-accent-tint); }
 @media (hover: hover) and (pointer: fine) {
   .check-chip:hover { border-color: var(--c-ink-2); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .check-chip, .check-chip input, .check-chip input::after { transition: none; }
+  .check-chip, .check-chip input, .check-chip input::after, .consent__box, .consent__box::after { transition: none; }
   .check-chip:active { transform: none; }
 }
+
+/* Aydınlatma metni onayı: metnin okunduğunun teyidi (açık rıza değil). Kısa metin, bağlantıya basılınca
+   onay kutusunun altında açılır (components.js); JS kapalıysa açık durur. */
+.consent { display: grid; gap: var(--s-3); }
+.consent__row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-3);
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  color: var(--c-ink);
+}
+.consent__box { margin-top: 2px; cursor: pointer; }
+.consent__box:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.consent__row label { cursor: pointer; }
+.consent__link {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: var(--c-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+@media (hover: hover) and (pointer: fine) { .consent__link:hover { color: var(--c-accent-hover); } }
+.consent__notice {
+  display: grid;
+  gap: var(--s-2);
+  max-height: 300px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-margin-bottom: 120px; /* açılınca yapışkan gönder çubuğunun altında kalmasın */
+  padding: var(--s-4) var(--s-5);
+  background: var(--c-bg);
+  border-left: 2px solid var(--c-gold-line);
+  font-size: var(--fs-label);
+  line-height: 1.6;
+  color: var(--c-ink-2);
+}
+.consent__notice p { margin: 0; }
+.consent__notice strong { font-weight: 600; color: var(--c-ink); }
+.consent__notice .text-link { justify-self: start; font-weight: 500; }
+.js .consent__notice[data-collapsed] { display: none; }
 
 .hp-field {
   position: absolute !important;
@@ -2333,7 +2426,6 @@ a.media img,
   .form-actions__summary { font-size: var(--fs-label); line-height: 1.4; }
   .form-actions .btn { flex: none; min-height: 48px; padding: 0 var(--s-4); }
 }
-.form-card > .note { margin-top: calc(var(--s-3) * -1); }
 .form-card .form-textarea { min-height: 120px; }
 
 /* Mekân tipine göre ipucu ve hacme göre öneri */

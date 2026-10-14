@@ -237,6 +237,37 @@
     }, { rootMargin: `0px 0px -${Math.max(window.innerHeight - headerH, 0)}px 0px` }).observe(hero);
   }
 
+  // Çerez bilgilendirmesi: sitede onay gerektiren çerez ya da takip aracı yok, bu yüzden "Kabul et" değil
+  // yalnızca "Tamam". Kapatılınca bir daha gösterilmez (localStorage 'meira-notice'; gizlilik.html#cerezler
+  // listesinde yer alır). Ana sayfada açılış perdesi bitince gelir.
+  function initCookieNotice() {
+    const KEY = 'meira-notice';
+    try { if (localStorage.getItem(KEY) === '1') return; } catch (e) { /* depolama kapalı: her sayfada gösterilir */ }
+    const bar = document.createElement('div');
+    bar.className = 'cookie-notice';
+    bar.setAttribute('role', 'region');
+    bar.setAttribute('aria-label', tt('Çerez bilgilendirmesi', 'Cookie notice'));
+    bar.innerHTML = `<p>${tt('Sitemiz çerez kullanmaz; reklam veya takip aracı yoktur. Yalnızca teklif listeniz ve tema tercihiniz tarayıcınızda saklanır.', 'This site uses no cookies, ads or tracking. Only your quote list and theme choice are stored in your browser.')} <a href="gizlilik.html#cerezler">${tt('Ayrıntılar', 'Details')}</a></p>
+      <button type="button" class="btn btn--primary btn--sm">${tt('Tamam', 'OK')}</button>`;
+    document.body.append(bar);
+
+    const show = () => setTimeout(() => bar.classList.add('is-in'), 600);
+    if (root.classList.contains('has-intro') && !root.classList.contains('intro-done')) {
+      const mo = new MutationObserver(() => {
+        if (root.classList.contains('intro-done')) { mo.disconnect(); show(); }
+      });
+      mo.observe(root, { attributes: true, attributeFilter: ['class'] });
+    } else {
+      show();
+    }
+
+    bar.querySelector('button').addEventListener('click', () => {
+      try { localStorage.setItem(KEY, '1'); } catch (e) { /* yok say */ }
+      bar.classList.remove('is-in');
+      setTimeout(() => bar.remove(), reduceMotion.matches ? 0 : 200);
+    });
+  }
+
   function initYear() {
     const y = String(new Date().getFullYear());
     document.querySelectorAll('[data-year]').forEach(el => { el.textContent = y; });
@@ -259,6 +290,7 @@
     initImageDialog();
     initYear();
     initCounts();
+    initCookieNotice();
   }
 
   document.documentElement.classList.add('js');

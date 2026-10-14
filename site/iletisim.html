@@ -30,7 +30,7 @@
   <link rel="alternate" type="application/rss+xml" title="Meira Blog" href="feed.xml">
   <link rel="preload" href="fonts/newsreader-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/style.css?v=9c5c4aaba8">
+  <link rel="stylesheet" href="css/style.css?v=9075c4c43b">
   <script>(function(d){d.classList.add('js');try{if(localStorage.getItem('meira-theme')==='dark')d.dataset.theme='dark'}catch(e){}})(document.documentElement);</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Ana sayfa","item":"https://www.meira.com.tr/index.html"},{"@type":"ListItem","position":2,"name":"İletişim"}]}</script>
 </head>
@@ -225,6 +225,27 @@
               </div>
             </details>
 
+            <!-- KVKK: açık rıza değil, aydınlatma metninin okunduğunun teyidi (hukuki sebep m.5/2-c ve f).
+                 Kısa metin gizlilik sayfasının özetidir (tools/content/pages.mjs, PRIVACY); ikisi birlikte güncellenmeli.
+                 Metin düğmeyle formun içinde açılır; JS kapalıysa açık görünür (style.css .consent__notice). -->
+            <div class="consent">
+              <div class="consent__row">
+                <input type="checkbox" class="consent__box" id="f-consent" name="consent" value="1" required aria-describedby="err-consent" data-required-msg="Devam etmek için Aydınlatma Metni’ni okuduğunuzu onaylayın.">
+                <label for="f-consent"><button type="button" class="consent__link" data-notice-toggle aria-expanded="false" aria-controls="consentNotice">Aydınlatma Metni</button>’ni okudum, anladım.</label>
+              </div>
+              <p class="form-error" id="err-consent" hidden></p>
+              <div class="consent__notice" id="consentNotice" data-collapsed>
+                <!-- [DOĞRULANACAK] Ticaret unvanı kesinleşince "Meira" yerine yazılmalı. -->
+                <p><strong>Veri sorumlusu:</strong> <span data-site="brand">Meira</span>, <span data-site="city">İstanbul, Türkiye</span>. Ticaret unvanı ve iletişim bilgileri tam metinde yer alır.</p>
+                <p><strong>İşlenen veriler:</strong> Bu formda paylaştığınız ad soyad, e-posta, telefon, firma, talep konusu, mesaj, proje bilgileri ve teklif listenizdeki ürünler; güvenlik amacıyla IP adresiniz.</p>
+                <p><strong>Amaç ve hukuki sebep:</strong> Talebinizi yanıtlamak, teklif ve numune sürecini yürütmek (KVKK m. 5/2-c) ve formun kötüye kullanılmasını önlemek (m. 5/2-f). Veriler bu form aracılığıyla elektronik ortamda toplanır.</p>
+                <p><strong>Aktarım:</strong> Talebiniz barındırma ve e-posta hizmeti sağlayıcılarımız aracılığıyla bize ulaşır. OEM / ODM ve ürüne özgü teknik taleplerde, gerekirse yalnızca talep için zorunlu bilgiler yurt dışındaki üreticiye iletilebilir. Verileriniz satılmaz, pazarlama amacıyla paylaşılmaz; size reklam iletisi gönderilmez.</p>
+                <p><strong>Saklama:</strong> Yazışmalar talebinizin gerektirdiği süre, ticari ilişki kurulmazsa en fazla 2 yıl saklanır.</p>
+                <p><strong>Haklarınız:</strong> KVKK m. 11 kapsamındaki haklarınız için <span data-site="email">info@meirascent.com</span> adresine başvurabilirsiniz.</p>
+                <a href="gizlilik.html" class="text-link" target="_blank" rel="noopener">Tam metin: Gizlilik ve KVKK aydınlatma metni</a>
+              </div>
+            </div>
+
             <p class="form-error" id="formError" role="alert" hidden></p>
 
             <div class="form-actions">
@@ -234,7 +255,6 @@
                 <svg class="icon icon--move" aria-hidden="true" focusable="false"><use href="images/icons.svg?v=2fcf615f80#i-arrow-right"></use></svg>
               </button>
             </div>
-            <p class="note">Talebiniz <span data-site="email">info@meirascent.com</span> adresine e-posta ile iletilir. Paylaştığınız bilgiler yalnızca talebinizi yanıtlamak amacıyla işlenir; ayrıntılı bilgi için lütfen <a href="gizlilik.html" class="text-link">Gizlilik ve KVKK aydınlatma metnini</a> inceleyin.</p>
           </form>
         </div>
       </div>
@@ -302,7 +322,7 @@
 
   <script src="js/site-config.js?v=b89e394d3f"></script>
   <script src="js/products.js?v=e9d9d94b15"></script>
-  <script src="js/components.js?v=e1354c304c"></script>
-  <script src="js/site.js?v=fbf8bec3fa"></script>
+  <script src="js/components.js?v=ca08c9e5bb"></script>
+  <script src="js/site.js?v=b6a5b832f3"></script>
 </body>
 </html>

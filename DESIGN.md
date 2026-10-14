@@ -299,6 +299,13 @@ kaldır. Boş durumda kataloğa yönlendiren açıklama.
 **Bildirim (toast):** Mürekkep zemin, açık metin, sağ altta (mobilde üstte tam genişlik). Bulunduğu kenardan
 kayarak gelir.
 
+**Çerez bilgilendirmesi:** Yüzey zeminli küçük kart, sol altta (mobilde altta tam genişlik), bildirimle
+çakışmaz. Sitede onay gerektiren çerez olmadığı için yalnızca "Tamam" düğmesi; kapatılınca bir daha çıkmaz.
+Ana sayfada açılış perdesi bittikten sonra gelir.
+
+**Aydınlatma metni onayı:** Teklif formunda gönder çubuğunun üstünde zorunlu onay kutusu ("Aydınlatma Metni'ni
+okudum, anladım."). Bağlantı kısa metni kutunun altında açar; kutuyu işaretlemez.
+
 **Koku küratörü:** Masaüstünde sol sütunda sekme listesi, sağda panel. Fareyle seçimde panel kısa bir
 geçişle değişir; klavyede (ok tuşları) anında.
 
@@ -400,6 +407,7 @@ sık tekrarlanan işlem animasyonsuz, nadir ve ilk kez görülen an biraz keyif 
 | Çekmece | Giriş `translateX(100%)` → 0, 280 ms çekmece eğrisi; çıkış 200 ms |
 | Mobil menü | Panel 200 ms belirir; bağlantılar 40 ms arayla 8 px yükselir |
 | Bildirim | Kenardan 8 px kayarak; giriş 240 ms, çıkış 160 ms; geçiş (keyframe değil) |
+| Çerez bilgilendirmesi | 12 px yükselerek; giriş 280 ms, çıkış 160 ms; azaltılmış harekette yalnızca opaklık |
 | Galeri | Tıklanan noktadan 2x yakınlaşma (280 ms); küçük görsel değişiminde 200 ms opaklık + bulanıklık |
 
 **Kurallar**
@@ -429,6 +437,7 @@ kısa opaklık geçişleri (180-240 ms) kalır. Hero akışı ve videolar oynama
 | Token | Değer | Katman |
 | :--- | :--- | :--- |
 | `--z-header` | 30 | Yapışkan başlık |
+| `--z-notice` | 35 | Çerez bilgilendirmesi (menü, çekmece ve bildirimin altında) |
 | `--z-menu` | 40 | Mobil menü |
 | `--z-overlay` | 50 | Modal ve çekmece |
 | `--z-toast` | 60 | Bildirim, sepete uçan nokta |

@@ -30,7 +30,7 @@
   <link rel="alternate" type="application/rss+xml" title="Meira Blog" href="feed.xml">
   <link rel="preload" href="../fonts/newsreader-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../css/style.css?v=9c5c4aaba8">
+  <link rel="stylesheet" href="../css/style.css?v=9075c4c43b">
   <script>(function(d){d.classList.add('js');try{if(localStorage.getItem('meira-theme')==='dark')d.dataset.theme='dark'}catch(e){}})(document.documentElement);</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.meira.com.tr/en/index.html"},{"@type":"ListItem","position":2,"name":"Contact"}]}</script>
 </head>
@@ -224,6 +224,25 @@
               </div>
             </details>
 
+            <!-- KVKK: açık rıza değil, aydınlatma metninin okunduğunun teyidi (hukuki sebep m.5/2-c ve f).
+                 Kısa metin gizlilik sayfasının özetidir (tools/content/pages.en.mjs, PRIVACY); ikisi birlikte güncellenmeli. -->
+            <div class="consent">
+              <div class="consent__row">
+                <input type="checkbox" class="consent__box" id="f-consent" name="consent" value="1" required aria-describedby="err-consent" data-required-msg="Please confirm that you have read the Privacy Notice to continue.">
+                <label for="f-consent">I have read and understood the <button type="button" class="consent__link" data-notice-toggle aria-expanded="false" aria-controls="consentNotice">Privacy Notice</button>.</label>
+              </div>
+              <p class="form-error" id="err-consent" hidden></p>
+              <div class="consent__notice" id="consentNotice" data-collapsed>
+                <p><strong>Data controller:</strong> <span data-site="brand">Meira</span>, Istanbul, Türkiye. The trade name and contact details are given in the full notice.</p>
+                <p><strong>Data processed:</strong> the name, email, phone, company, subject, message, project details and quote-list products you share in this form; your IP address for security.</p>
+                <p><strong>Purpose and legal grounds:</strong> to answer your request and run the quote and sample process (KVKK Art. 5(2)(c)) and to prevent misuse of the form (Art. 5(2)(f)). The data is collected electronically through this form.</p>
+                <p><strong>Transfers:</strong> your request reaches us through our hosting and email providers. For OEM / ODM or product-specific technical requests, only the information strictly needed may be passed to the manufacturer abroad. Your data is not sold or shared for marketing, and we do not send you advertising messages.</p>
+                <p><strong>Retention:</strong> correspondence is kept for as long as your request requires, and for at most 2 years if no business relationship follows.</p>
+                <p><strong>Your rights:</strong> to exercise your rights under Article 11 of KVKK, write to <span data-site="email">info@meirascent.com</span>.</p>
+                <a href="gizlilik.html" class="text-link" target="_blank" rel="noopener">Full text: Privacy notice</a>
+              </div>
+            </div>
+
             <p class="form-error" id="formError" role="alert" hidden></p>
 
             <div class="form-actions">
@@ -233,7 +252,6 @@
                 <svg class="icon icon--move" aria-hidden="true" focusable="false"><use href="../images/icons.svg?v=2fcf615f80#i-arrow-right"></use></svg>
               </button>
             </div>
-            <p class="note">Your request is sent by email to <span data-site="email">info@meirascent.com</span>. The information you share is processed only to answer your request; for details, please see our <a href="gizlilik.html" class="text-link">privacy notice</a>.</p>
           </form>
         </div>
       </div>
@@ -302,7 +320,7 @@
   <script src="../js/site-config.js?v=b89e394d3f"></script>
   <script src="../js/products.js?v=e9d9d94b15"></script>
   <script src="../js/products.en.js?v=06c20448ac"></script>
-  <script src="../js/components.js?v=e1354c304c"></script>
-  <script src="../js/site.js?v=fbf8bec3fa"></script>
+  <script src="../js/components.js?v=ca08c9e5bb"></script>
+  <script src="../js/site.js?v=b6a5b832f3"></script>
 </body>
 </html>
