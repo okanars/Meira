@@ -100,10 +100,17 @@ Butonlar: gece mavisi yazı / şampanya zemin 10.8:1, hover zemininde 8.7:1, por
 **Hero görsel üzerindeki metin:** örtü metin bölgesinde en az %80 gece mavisi; `--c-ivory-2` için 5.4:1 ve üzeri,
 giriş paragrafı (`#DCDFE4`) ve başlık için daha yüksek.
 
+**Koyu tema (`<html data-theme="dark">`, isteğe bağlı):** Varsayılan açık temadır; koyu tema yalnızca başlıktaki
+düğmeyle seçilir ve `localStorage['meira-theme']` ile hatırlanır (karar ilk boyamadan önce `<head>`'de verilir).
+Siyah zemin üzerinde gümüş metin: zemin `#0B0B0C`, bant `#141416`, yüzey `#19191C`, metin `#D9DCE1` /
+`#B4B9C0` / `#8D939B`; şampanya vurgular gümüşe döner (`#C9CDD3`, butonlarda koyu yazı). Koyu bantlar, başlık ve
+footer saf siyah (`#000`) ve ince gümüş çizgiyle ayrılır. Token'lar `style.css` bölüm 31'de; bileşenler
+token kullandığı için ayrıca stil gerekmez, yalnızca sabit renkli kurallar orada düzeltilir.
+
 **Kurallar**
-- Üç rengin dışına çıkılmaz. Hata rengi yalnızca form hatalarında.
+- Üç rengin dışına çıkılmaz (koyu temada gümüş tonları bu rollerin karşılığıdır). Hata rengi yalnızca form hatalarında.
 - Butonlar her zaman açık zemin üzerine koyu yazıdır (bkz. bölüm 7). Koyu zeminli, açık yazılı buton yoktur.
-- Saf siyah (`#000`) ve saf beyaz (`#fff`) kullanılmaz.
+- Açık temada saf siyah (`#000`) ve saf beyaz (`#fff`) kullanılmaz (koyu temada koyu çerçeve saf siyahtır).
 - Gölgeler gece mavisinden türetilir.
 - Zemine çok hafif bir doku (grain) eklenir: sabit, `pointer-events: none` bir katmanda, opaklık 0.035.
 
@@ -241,6 +248,20 @@ zemin üzerine koyu yazı.**
 
 **Ürün kartı:** Kenarlıksız. Üstte 4:3 görsel plakası, altında model kodu, serif başlık, iki satırlık
 kısa açıklama, kapsama ve kapasite (tabular), en altta hizalı eylemler (İncele, Listeye ekle).
+- **Premium** (`.product-card--premium`, metal gövdeli modeller): kod satırında fırçalanmış metal tonunda küçük
+  "Premium" rozeti (`.product-card__premium`, iki temada da aynı; `lang="en"` ile Türkçe büyük harf dönüşümü
+  engellenir) ve görselin altında ince gümüş çizgi. Katalogda öne alınır.
+- **Pek yakında** (`.product-card--soon`, satışta olmayan CK kodlu modeller): görselin sağ üstünde "Pek yakında"
+  etiketi, görsel hafif soluk; başlık bağlantısız, eylem yerine "Henüz satışta değil" notu. Kart tıklanmaz.
+- Katalog sırası (`catalogOrder`, products.js): önce satıştakiler, "pek yakında"lar en sonda; her grupta videolu ürünler, ardından premium.
+
+**Kilitli içerik (`.locked-card`):** Kesik çizgili kenar, kilit ikonu, serif başlık. Esanslar kesinleşene kadar
+ürün sayfasındaki esans bölümünde ve `esanslar.html`'de kullanılır; bağlantı içermez. Menüde aynı durum
+`.nav-item--soon` (soluk metin + "Yakında" etiketi, tıklanmaz).
+
+**Dil seçici ve tema düğmesi (başlık):** `TR / EN` metin bağlantıları (etkin dil altı çizili; aynı sayfanın diğer
+dildeki karşılığına gider) ve ay/güneş ikonlu tema düğmesi (`aria-pressed`). İkonlar aynı yerde 200 ms dönerek
+yer değiştirir; tema değişirken renk geçişleri kapatılır (`.theme-switching`), sayfa tek karede değişir.
 
 **Filtre ve arama:** Metin sekmeleri; aktif sekme mürekkep rengi ve alt vurgu çizgisi. Animasyon yok.
 Arama alanının görünür etiketi vardır.
@@ -321,7 +342,7 @@ sık tekrarlanan işlem animasyonsuz, nadir ve ilk kez görülen an biraz keyif 
 | :--- | :--- | :--- |
 | Arayüz geri bildirimi | 140-280 ms | Basma, hover, çekmece, menü, bildirim, sekme, galeri |
 | Giriş (pazarlama / anlatım) | 640-1200 ms | Kaydırma girişleri, görsel maskesi, sayfa girişleri, bölüm etiketi çizgisi |
-| Açılış (oturumda bir kez) | ~2,1 s, geçilebilir | Ana sayfa perdesi |
+| Açılış (oturumda bir kez) | ~3,1 s, geçilebilir | Ana sayfa perdesi |
 
 | Token | Değer | Kullanım |
 | :--- | :--- | :--- |
@@ -337,9 +358,10 @@ sık tekrarlanan işlem animasyonsuz, nadir ve ilk kez görülen an biraz keyif 
 
 **Açılış perdesi (`.site-intro`, yalnızca ana sayfa)**
 - Zaman çizelgesi: logo harfleri 60 ms arayla bulanıklıktan netleşerek yükselir (0,1-0,9 s), şampanya renkli
-  duman kıvrımı aşağıdan yükselir (0,38-1,28 s), "AIR SCENT" belirir (0,7 s); 1,25 s'de işaret yükselip söner; 1,35 s'de perde `clip-path` ile
-  alttan yukarı açılır (0,75 s); hero metni 1,5 s'den itibaren 80 ms arayla girer, görsel duvarı hafif
-  yakınlaşmadan oturur.
+  duman kıvrımı aşağıdan yükselir (0,38-1,28 s), "AIR SCENT" belirir (0,7 s); logo 1 s daha ekranda kalır;
+  2,25 s'de işaret yükselip söner; 2,35 s'de perde `clip-path` ile alttan yukarı açılır (0,75 s); hero metni
+  2,5 s'den itibaren 80 ms arayla girer, görsel duvarı hafif yakınlaşmadan oturur. Süre üç yerde birlikte
+  değişir: `style.css` (`.site-intro`, `.has-intro .hero`) ve `site.js` (`INTRO_MS`).
 - Karar `<head>` içinde, ilk boyamadan önce verilir (`has-intro` / `no-intro`). Oynamaz: oturumda site daha önce
   açıldıysa (her sayfa `sessionStorage['meira-visited']` yazar), azaltılmış hareket tercihinde, depolama
   erişilemezse.

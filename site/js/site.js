@@ -5,6 +5,9 @@
 (function () {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const root = document.documentElement;
+  const tt = (tr, en) => (root.lang === 'en' ? en : tr);
+  // İngilizce sayfalar en/ altındadır; kök klasördeki görsellere data-base ("../") ile ulaşılır
+  const BASE = root.dataset.base || '';
 
   // Açılış perdesi (yalnızca ana sayfa, oturumun ilk açılışı). Karar <head> içinde verilir (has-intro);
   // zamanlama CSS'tedir. Burada: sayfa kaydırması kilitlenir, tıklama veya tuş perdeyi geçer,
@@ -13,7 +16,7 @@
   function initIntro() {
     try { sessionStorage.setItem('meira-visited', '1'); } catch (e) { /* gizli mod vb. */ }
     if (!root.classList.contains('has-intro')) return;
-    const INTRO_MS = 2100;
+    const INTRO_MS = 3100; // CSS'teki açılış zamanlamasıyla aynı (bkz. style.css .site-intro)
     document.body.classList.add('is-locked');
     let done = false;
     function finish(skipped) {
@@ -70,7 +73,7 @@
       function sync() {
         const paused = video.paused;
         toggle.dataset.state = paused ? 'paused' : 'playing';
-        if (label) label.textContent = paused ? 'Videoyu oynat' : 'Videoyu durdur';
+        if (label) label.textContent = paused ? tt('Videoyu oynat', 'Play video') : tt('Videoyu durdur', 'Pause video');
       }
       function play() {
         const p = video.play();
@@ -186,16 +189,16 @@
   // Ana sayfa görsel duvarı: üç sıra, zıt yönlerde yavaş akış.
   // Durdur/oynat düğmesi (WCAG 2.2.2); ekran dışındayken ve azaltılmış harekette durur.
   const HERO_ROWS = [
-    { dur: 110, items: ['ck628', 'ck631', 'ck620', 'ck686', 'ads622', 'ck611', 'ck638', 'ck683', 'ck687', 'ck644', 'ck608ab'] },
-    { dur: 140, rev: true, items: ['ck686-g1', 'ck611-g1', 'ck621-g2', 'ck689-g1', 'ck613-g1', 'ck687-g1', 'ck688-g1', 'ck631-g1', 'ck620-g1', 'ck638-g1', 'ck688-g2'] },
-    { dur: 125, items: ['ck686-g2', 'reed2', 'ads611', 'ck656', 'ck683-g1', 'reed4', 'ck621', 'ck628-g2', 'ck645', 'reed3', 'ck689', 'reed1'] }
+    { dur: 110, items: ['ck628', 'ck631', 'ck620', 'ck686', 'ads622', 'ck611', 'ck638', 'ck683', 'ck687', 'ck644', 'ck620-g4'] },
+    { dur: 140, rev: true, items: ['ck686-g1', 'ck611-g1', 'ck621-g2', 'ck689-g1', 'ads685-g1', 'ck687-g1', 'ck688-g1', 'ck631-g1', 'ck620-g1', 'ck638-g1', 'ck688-g2'] },
+    { dur: 125, items: ['ck686-g2', 'reed2', 'ads611', 'ck687-g18', 'ck683-g1', 'reed4', 'ck621', 'ck628-g2', 'ck645', 'reed3', 'ck689', 'reed1'] }
   ];
 
   function initHeroWall() {
     const wall = document.querySelector('[data-hero-wall]');
     if (!wall) return;
     // Her karo: WebP (modern tarayıcı) + JPEG yedeği. İlk 4 karo hemen, gerisi tembel ve düşük öncelikle yüklenir.
-    const tile = (name, eager) => `<figure class="hero-row__item"><picture><source type="image/webp" srcset="images/hero/${name}.webp"><img src="images/hero/${name}.jpg" alt="" width="360" height="450" decoding="async"${eager ? '' : ' loading="lazy" fetchpriority="low"'}></picture></figure>`;
+    const tile = (name, eager) => `<figure class="hero-row__item"><picture><source type="image/webp" srcset="${BASE}images/hero/${name}.webp"><img src="${BASE}images/hero/${name}.jpg" alt="" width="360" height="450" decoding="async"${eager ? '' : ' loading="lazy" fetchpriority="low"'}></picture></figure>`;
     wall.innerHTML = HERO_ROWS.map(row => {
       // İçerik iki kez yazılır: iz yarısı kadar kayınca kesintisiz başa döner
       const once = row.items.map((n, i) => tile(n, i < 4)).join('');
@@ -211,7 +214,7 @@
     function apply() {
       wall.classList.toggle('is-paused', userPaused || offscreen);
       toggle.setAttribute('aria-pressed', String(userPaused));
-      if (label) label.textContent = userPaused ? 'Görsel akışını oynat' : 'Görsel akışını durdur';
+      if (label) label.textContent = userPaused ? tt('Görsel akışını oynat', 'Play image stream') : tt('Görsel akışını durdur', 'Pause image stream');
     }
     toggle.hidden = false;
     toggle.addEventListener('click', () => { userPaused = !userPaused; apply(); });

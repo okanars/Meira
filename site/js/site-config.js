@@ -2,7 +2,7 @@
  * Site yapılandırması: marka ve iletişim bilgileri tek yerden yönetilir.
  * Sayfadaki [data-site] alanları ve teklif mesajı metni bu değerlerden doldurulur.
  *
- * [DOĞRULANACAK] Alan adı (meira.com.tr), e-posta ve telefon yer tutucudur. Kesinleşince:
+ * [DOĞRULANACAK] Alan adı (meira.com.tr) ve e-posta yer tutucudur. Kesinleşince:
  *   1. Aşağıdaki değerleri değiştirin.
  *   2. tools/build.mjs içindeki SITE_URL değerini değiştirip `node tools/build.mjs` çalıştırın
  *      (kanonik adresler, Open Graph, yapılandırılmış veri, sitemap.xml, robots.txt yeniden yazılır).
@@ -12,8 +12,8 @@
   const SITE = {
     brand: 'Meira',
     email: 'info@meirascent.com',
-    phone: '+90\u00A0212\u00A0000\u00A000\u00A000', // bölünmez boşluk: numara satır sonunda bölünmez
-    phoneHref: '+902120000000',
+    phone: '+90\u00A0552\u00A0777\u00A019\u00A074', // bölünmez boşluk: numara satır sonunda bölünmez
+    phoneHref: '+905527771974',
     city: 'İstanbul, Türkiye'
   };
 

@@ -1,12 +1,24 @@
 /**
  * Paylaşılan bileşenler ve durum: teklif listesi (sepet), çekmece, bildirim,
- * navigasyon, iletişim formu, koku küratörü, atomizasyon simülatörü.
+ * navigasyon, tema seçimi, iletişim formu, cihaz küratörü, atomizasyon simülatörü.
  * Görsel sınıflar DESIGN.md / css/style.css ile eşleşir.
+ *
+ * İki dil: metinler tt('Türkçe', 'English') ile yazılır; dil <html lang> değerinden okunur.
+ * İngilizce sayfalar site/en/ altındadır; kök klasördeki dosyalara (görsel, API) <html data-base="../"> ile ulaşılır.
  */
 
 (function (root) {
   const SITE_CFG = root.SITE || { brand: 'Meira', email: 'info@meirascent.com' };
-  const ICONS = 'images/icons.svg';
+  const EN = document.documentElement.lang === 'en';
+  const tt = (tr, en) => (EN ? en : tr);
+  const LOCALE = EN ? 'en-GB' : 'tr-TR';
+  const BASE = document.documentElement.dataset.base || '';
+  // Simge dosyasının sürümlü adresi sayfadaki ilk simgeden okunur (tools/build.mjs sürüm ekler)
+  const ICONS = ((document.querySelector('use[href*="icons.svg"]') || {}).getAttribute?.('href') || `${BASE}images/icons.svg`).split('#')[0];
+  // Teknik veri etiketleri iki dilde aranır (products.en.js etiketleri İngilizcedir)
+  const RE_COV = /kapsama|coverage/i;
+  const RE_CAP = /kapasite|capacity/i;
+  const RE_NOISE = /^ses|^noise/i;
 
   function icon(name, cls) {
     return `<svg class="icon${cls ? ' ' + cls : ''}" aria-hidden="true" focusable="false"><use href="${ICONS}#i-${name}"></use></svg>`;
@@ -21,12 +33,12 @@
   }
 
   function productImage(p) {
-    return `images/${p.external ? 'general' : 'products'}/${p.img}.jpg`;
+    return `${BASE}images/${p.external ? 'general' : 'products'}/${p.img}.jpg`;
   }
 
   // Küçük ürün görseli: modern tarayıcıya 640 px WebP, diğerlerine özgün JPEG
   function productThumb(p, cls, extra) {
-    const webp = p.external ? '' : `images/products/w640/${p.img}.webp`;
+    const webp = p.external ? '' : `${BASE}images/products/w640/${p.img}.webp`;
     return `<picture>${webp ? `<source type="image/webp" srcset="${webp}">` : ''}<img src="${productImage(p)}" alt="" class="${cls || ''}" loading="lazy" decoding="async"${extra || ''}></picture>`;
   }
 
@@ -79,9 +91,9 @@
       cart = [];
     }
     if (!Array.isArray(cart)) return [];
-    // Katalogda olmayan kayıtları yok say (eski sürümden kalan geçersiz kimlikler)
+    // Katalogda olmayan ve satışta olmayan (soon) kayıtları yok say (eski sürümden kalan kimlikler)
     if (typeof PRODUCTS !== 'undefined') {
-      cart = cart.filter(item => item && findProduct(item.id));
+      cart = cart.filter(item => { const p = item && findProduct(item.id); return p && !p.soon; });
     }
     return cart;
   }
@@ -98,7 +110,11 @@
   function addToCart(productId, qty = 1) {
     const product = findProduct(productId);
     if (typeof PRODUCTS !== 'undefined' && !product) {
-      toast.show({ message: 'Bu ürün katalogda bulunamadı.', type: 'error' });
+      toast.show({ message: tt('Bu ürün katalogda bulunamadı.', 'This product is not in the catalogue.'), type: 'error' });
+      return;
+    }
+    if (product && product.soon) {
+      toast.show({ message: tt('Bu ürün henüz satışta değil.', 'This product is not on sale yet.'), type: 'error' });
       return;
     }
     const cart = getCart();
@@ -110,9 +126,9 @@
     }
     saveCart(cart);
 
-    const name = product ? `${product.model} ${product.title}` : 'Ürün';
+    const name = product ? `${product.model} ${product.title}` : tt('Ürün', 'Product');
     toast.show({
-      message: `<strong>${esc(name)}</strong> teklif listesine eklendi.`,
+      message: tt(`<strong>${esc(name)}</strong> teklif listesine eklendi.`, `<strong>${esc(name)}</strong> added to the quote list.`),
       type: 'accent'
     });
   }
@@ -125,7 +141,7 @@
     item.qty += delta;
     if (item.qty <= 0) {
       cart = cart.filter(i => i.id !== productId);
-      toast.show({ message: 'Ürün teklif listesinden kaldırıldı.', type: 'info' });
+      toast.show({ message: tt('Ürün teklif listesinden kaldırıldı.', 'Product removed from the quote list.'), type: 'info' });
     }
     saveCart(cart);
   }
@@ -134,12 +150,12 @@
     let cart = getCart();
     cart = cart.filter(i => i.id !== productId);
     saveCart(cart);
-    toast.show({ message: 'Ürün teklif listesinden çıkarıldı.', type: 'info' });
+    toast.show({ message: tt('Ürün teklif listesinden çıkarıldı.', 'Product removed from the quote list.'), type: 'info' });
   }
 
   function clearCart() {
     saveCart([]);
-    toast.show({ message: 'Teklif listesi temizlendi.', type: 'info' });
+    toast.show({ message: tt('Teklif listesi temizlendi.', 'Quote list cleared.'), type: 'info' });
   }
 
   function getCartTotalCount() {
@@ -152,8 +168,8 @@
     const cart = getCart();
     if (!cart.length || typeof PRODUCTS === 'undefined') return '';
 
-    let text = `Merhaba ${SITE_CFG.brand} Satış Ekibi,\n\n`;
-    text += `Aşağıda listelediğim ürünler için birim fiyat, stok durumu ve teslimat süresi içeren bir teklif rica ediyorum:\n\n`;
+    let text = tt(`Merhaba ${SITE_CFG.brand} Satış Ekibi,\n\n`, `Hello ${SITE_CFG.brand} Sales Team,\n\n`);
+    text += tt(`Aşağıda listelediğim ürünler için birim fiyat, stok durumu ve teslimat süresi içeren bir teklif rica ediyorum:\n\n`, `I would like a quote with unit prices, availability and delivery times for the products listed below:\n\n`);
 
     let line = 0;
     cart.forEach(item => {
@@ -161,12 +177,12 @@
       if (!p) return;
       line += 1;
 
-      const cap = specValue(p, /kapasite/i) || '-';
-      const area = specValue(p, /kapsama/i) || '-';
+      const cap = specValue(p, RE_CAP) || '-';
+      const area = specValue(p, RE_COV) || '-';
 
       text += `${line}. [${p.model}] ${p.title}\n`;
-      text += `   - Talep adedi: ${item.qty} adet\n`;
-      text += `   - Kapsama: ${area} | Kapasite: ${cap}\n\n`;
+      text += tt(`   - Talep adedi: ${item.qty} adet\n`, `   - Quantity: ${item.qty}\n`);
+      text += tt(`   - Kapsama: ${area} | Kapasite: ${cap}\n\n`, `   - Coverage: ${area} | Capacity: ${cap}\n\n`);
     });
 
     return text.trimEnd() + '\n';
@@ -221,8 +237,8 @@
     overlay.innerHTML = `
       <div class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
         <div class="drawer-header">
-          <h2 id="drawer-title">Teklif listesi</h2>
-          <button type="button" class="icon-btn" id="dc-drawer-close" aria-label="Teklif listesini kapat">${icon('x')}</button>
+          <h2 id="drawer-title">${tt('Teklif listesi', 'Quote list')}</h2>
+          <button type="button" class="icon-btn" id="dc-drawer-close" aria-label="${tt('Teklif listesini kapat', 'Close the quote list')}">${icon('x')}</button>
         </div>
         <div class="drawer-body" id="dc-drawer-items"></div>
         <div class="drawer-footer" id="dc-drawer-footer"></div>
@@ -282,12 +298,12 @@
     if (!cart.length || typeof PRODUCTS === 'undefined') {
       itemsContainer.innerHTML = `
         <div class="drawer-empty-state">
-          <h3>Listeniz boş</h3>
-          <p>Katalogdan cihaz ve esans ekleyerek tek seferde teklif isteyebilirsiniz.</p>
+          <h3>${tt('Listeniz boş', 'Your list is empty')}</h3>
+          <p>${tt('Katalogdan cihaz ekleyerek tek seferde teklif isteyebilirsiniz.', 'Add devices from the catalogue and request a quote for all of them at once.')}</p>
         </div>
       `;
       footerContainer.innerHTML = `
-        <a href="urunler.html" class="btn btn--quiet btn--block" id="dc-btn-browse">Ürünleri incele</a>
+        <a href="urunler.html" class="btn btn--quiet btn--block" id="dc-btn-browse">${tt('Ürünleri incele', 'Browse products')}</a>
       `;
       return;
     }
@@ -302,11 +318,11 @@
             <span class="drawer-item-model">${esc(p.model)}</span>
             <div class="drawer-item-title">${esc(p.title)}</div>
           </div>
-          <button type="button" class="icon-btn drawer-item-remove" data-act="remove" aria-label="${esc(p.model)} ürününü listeden kaldır">${icon('trash')}</button>
-          <div class="qty-controls" role="group" aria-label="${esc(p.model)} adedi">
-            <button type="button" class="qty-btn" data-act="minus" aria-label="Adedi azalt">${icon('minus')}</button>
+          <button type="button" class="icon-btn drawer-item-remove" data-act="remove" aria-label="${esc(tt(`${p.model} ürününü listeden kaldır`, `Remove ${p.model} from the list`))}">${icon('trash')}</button>
+          <div class="qty-controls" role="group" aria-label="${esc(tt(`${p.model} adedi`, `${p.model} quantity`))}">
+            <button type="button" class="qty-btn" data-act="minus" aria-label="${tt('Adedi azalt', 'Decrease quantity')}">${icon('minus')}</button>
             <span class="qty-val">${item.qty}</span>
-            <button type="button" class="qty-btn" data-act="plus" aria-label="Adedi artır">${icon('plus')}</button>
+            <button type="button" class="qty-btn" data-act="plus" aria-label="${tt('Adedi artır', 'Increase quantity')}">${icon('plus')}</button>
           </div>
         </div>
       `;
@@ -315,12 +331,12 @@
     const total = getCartTotalCount();
     footerContainer.innerHTML = `
       <button type="button" class="btn btn--primary btn--lg btn--block" id="dc-btn-go-quote">
-        <span>Teklif formuna aktar</span>
+        <span>${tt('Teklif formuna aktar', 'Transfer to quote form')}</span>
         ${icon('arrow-right', 'icon--move')}
       </button>
       <div class="drawer-footer__meta">
-        <span class="num">${cart.length} model, toplam ${total} adet</span>
-        <button type="button" id="dc-btn-clear-cart">Listeyi temizle</button>
+        <span class="num">${tt(`${cart.length} model, toplam ${total} adet`, `${cart.length} ${cart.length === 1 ? 'model' : 'models'}, ${total} ${total === 1 ? 'unit' : 'units'} in total`)}</span>
+        <button type="button" id="dc-btn-clear-cart">${tt('Listeyi temizle', 'Clear list')}</button>
       </div>
     `;
   }
@@ -370,7 +386,7 @@
       if (grew) { if (wait) setTimeout(() => bumpBadge(b), wait); else bumpBadge(b); }
     });
     document.querySelectorAll('.quote-trigger').forEach(btn => {
-      btn.setAttribute('aria-label', `Teklif listesi, ${total} adet ürün`);
+      btn.setAttribute('aria-label', tt(`Teklif listesi, ${total} adet ürün`, `Quote list, ${total} ${total === 1 ? 'item' : 'items'}`));
     });
   }
 
@@ -416,7 +432,7 @@
     if (!btn.dataset.icon && use) btn.dataset.icon = use.getAttribute('href');
     clearTimeout(btn._addedTimer);
     btn.classList.add('is-added');
-    if (label) label.textContent = 'Eklendi';
+    if (label) label.textContent = tt('Eklendi', 'Added');
     if (use) use.setAttribute('href', `${ICONS}#i-check`);
     btn._addedTimer = setTimeout(() => {
       btn.classList.remove('is-added');
@@ -448,7 +464,7 @@
         if (on) main.style.transformOrigin = `${x}% ${y}%`;
         zoom.classList.toggle('is-zoomed', on);
         zoom.setAttribute('aria-pressed', String(on));
-        zoom.setAttribute('aria-label', on ? 'Yakınlaştırmayı kapat' : 'Görseli yakınlaştır');
+        zoom.setAttribute('aria-label', on ? tt('Yakınlaştırmayı kapat', 'Zoom out') : tt('Görseli yakınlaştır', 'Zoom image'));
       }
       zoom.addEventListener('click', (e) => {
         const on = !zoom.classList.contains('is-zoomed');
@@ -494,7 +510,32 @@
   }
 
   // =========================================================================
-  // 4. BAŞLIK, MENÜ, AKTİF SAYFA
+  // 4. TEMA (açık varsayılan; koyu tema seçilirse localStorage['meira-theme'] = 'dark')
+  // İlk boyamadan önceki karar <head> içindeki küçük betikte verilir (tools/build.mjs BOOT_SCRIPT).
+  // =========================================================================
+  function initTheme() {
+    const html = document.documentElement;
+    const buttons = Array.from(document.querySelectorAll('[data-theme-toggle]'));
+    if (!buttons.length) return;
+    const sync = () => {
+      const dark = html.dataset.theme === 'dark';
+      buttons.forEach(b => b.setAttribute('aria-pressed', String(dark)));
+    };
+    buttons.forEach(btn => btn.addEventListener('click', () => {
+      const dark = html.dataset.theme !== 'dark';
+      // Geçiş anında renk geçişleri kapatılır: tüm sayfa tek karede yeni temaya geçer
+      html.classList.add('theme-switching');
+      if (dark) html.dataset.theme = 'dark';
+      else delete html.dataset.theme;
+      try { localStorage.setItem('meira-theme', dark ? 'dark' : 'light'); } catch (e) { /* gizli mod vb. */ }
+      sync();
+      requestAnimationFrame(() => requestAnimationFrame(() => html.classList.remove('theme-switching')));
+    }));
+    sync();
+  }
+
+  // =========================================================================
+  // 5. BAŞLIK, MENÜ, AKTİF SAYFA
   // =========================================================================
   function closeMobileMenu() {
     const burger = document.getElementById('burgerBtn');
@@ -555,7 +596,7 @@
   }
 
   // =========================================================================
-  // 5. İLETİŞİM SAYFASI: FORM DOLDURMA, DOĞRULAMA, GÖNDERİM
+  // 6. İLETİŞİM SAYFASI: FORM DOLDURMA, DOĞRULAMA, GÖNDERİM
   // =========================================================================
   const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -579,11 +620,11 @@
   function validateField(field) {
     const value = field.value.trim();
     if (field.required && !value) {
-      setFieldError(field, field.dataset.requiredMsg || 'Bu alan zorunludur.');
+      setFieldError(field, field.dataset.requiredMsg || tt('Bu alan zorunludur.', 'This field is required.'));
       return false;
     }
     if (field.type === 'email' && value && !EMAIL_RE.test(value)) {
-      setFieldError(field, 'Geçerli bir e-posta adresi girin (ör. ad@firma.com).');
+      setFieldError(field, tt('Geçerli bir e-posta adresi girin (ör. ad@firma.com).', 'Enter a valid email address (e.g. name@company.com).'));
       return false;
     }
     setFieldError(field, '');
@@ -608,8 +649,8 @@
         if (quoteBanner) {
           quoteBanner.hidden = false;
           quoteBanner.innerHTML = `
-            <span>${icon('check')} Teklif listenizdeki <strong class="num">${getCartTotalCount()} adet ürün</strong> mesaja aktarıldı.</span>
-            <button type="button" class="inline-action" id="bannerEditList">Listeyi düzenle</button>
+            <span>${icon('check')} ${tt(`Teklif listenizdeki <strong class="num">${getCartTotalCount()} adet ürün</strong> mesaja aktarıldı.`, `The <strong class="num">${getCartTotalCount()} ${getCartTotalCount() === 1 ? 'item' : 'items'}</strong> in your quote list have been added to the message.`)}</span>
+            <button type="button" class="inline-action" id="bannerEditList">${tt('Listeyi düzenle', 'Edit list')}</button>
           `;
           document.getElementById('bannerEditList')?.addEventListener('click', openDrawer);
         }
@@ -647,29 +688,31 @@
       if (!input) return true;
       const n = numValue(input);
       if (input.validity.badInput || Number.isNaN(n)) {
-        setFieldError(input, `${label} için bir sayı girin.`);
+        setFieldError(input, tt(`${label} için bir sayı girin.`, `Enter a number for ${label.toLowerCase()}.`));
         return false;
       }
       const min = Number(input.min), max = Number(input.max);
       if (n !== null && (n < min || n > max)) {
-        setFieldError(input, `${label} ${fmtNum(min)} ile ${fmtNum(max)} arasında olmalı.`);
+        setFieldError(input, tt(`${label} ${fmtNum(min)} ile ${fmtNum(max)} arasında olmalı.`, `${label} must be between ${fmtNum(min)} and ${fmtNum(max)}.`));
         return false;
       }
       setFieldError(input, '');
       return true;
     }
-    const fmtNum = n => n.toLocaleString('tr-TR');
+    const fmtNum = n => n.toLocaleString(LOCALE);
     function updateVolume() {
       if (!volumeOut) return;
       const a = numValue(areaInput), h = numValue(heightInput);
       if (a > 0 && h > 0) {
-        volumeOut.textContent = `Yaklaşık hava hacmi: ${fmtNum(Math.round(a * h))} m³`;
+        volumeOut.textContent = tt(`Yaklaşık hava hacmi: ${fmtNum(Math.round(a * h))} m³`, `Approximate air volume: ${fmtNum(Math.round(a * h))} m³`);
         volumeOut.hidden = false;
       } else {
         volumeOut.hidden = true;
       }
     }
-    [[areaInput, 'Taban alanı'], [heightInput, 'Tavan yüksekliği']].forEach(([input, label]) => {
+    const AREA_LABEL = tt('Taban alanı', 'Floor area');
+    const HEIGHT_LABEL = tt('Tavan yüksekliği', 'Ceiling height');
+    [[areaInput, AREA_LABEL], [heightInput, HEIGHT_LABEL]].forEach(([input, label]) => {
       if (!input) return;
       input.addEventListener('input', () => { updateVolume(); if (input.hasAttribute('aria-invalid')) validateNumber(input, label); });
       input.addEventListener('blur', () => validateNumber(input, label));
@@ -696,7 +739,7 @@
     function validateContent() {
       const pr = projectData();
       const hasContent = messageField.value.trim() || pr.space_type || pr.area || pr.height || pr.extras.length || getCart().length;
-      setFieldError(messageField, hasContent ? '' : 'Talebinizi kısaca yazın ya da proje bilgilerini doldurun.');
+      setFieldError(messageField, hasContent ? '' : tt('Talebinizi kısaca yazın ya da proje bilgilerini doldurun.', 'Briefly describe your request or fill in the project details.'));
       return Boolean(hasContent);
     }
     messageField.addEventListener('input', () => { if (messageField.hasAttribute('aria-invalid')) validateContent(); });
@@ -723,8 +766,8 @@
       if (formError) formError.hidden = true;
 
       const invalid = required.filter(field => !validateField(field));
-      if (!validateNumber(areaInput, 'Taban alanı')) invalid.push(areaInput);
-      if (!validateNumber(heightInput, 'Tavan yüksekliği')) invalid.push(heightInput);
+      if (!validateNumber(areaInput, AREA_LABEL)) invalid.push(areaInput);
+      if (!validateNumber(heightInput, HEIGHT_LABEL)) invalid.push(heightInput);
       if (!validateContent()) invalid.push(messageField);
       if (invalid.length) {
         invalid[0].focus();
@@ -737,7 +780,7 @@
       const submitBtn = form.querySelector('button[type="submit"]');
       const originalText = submitBtn.innerHTML;
       submitBtn.disabled = true;
-      submitBtn.innerHTML = `<span>Gönderiliyor</span>`;
+      submitBtn.innerHTML = `<span>${tt('Gönderiliyor', 'Sending')}</span>`;
 
       const payload = {
         name: form.querySelector('[name="name"]').value.trim(),
@@ -758,14 +801,14 @@
 
       let response;
       try {
-        response = await fetch('api/send-quote.php', {
+        response = await fetch(`${BASE}api/send-quote.php`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
       } catch (networkError) {
         restoreButton();
-        showFormError(`Bağlantı kurulamadı. Lütfen tekrar deneyin veya ${SITE_CFG.email} adresine yazın.`);
+        showFormError(tt(`Bağlantı kurulamadı. Lütfen tekrar deneyin veya ${SITE_CFG.email} adresine yazın.`, `Could not connect. Please try again or write to ${SITE_CFG.email}.`));
         return;
       }
 
@@ -788,22 +831,24 @@
         handleSuccess(data);
       } else {
         restoreButton();
-        showFormError(data.error || `Talebiniz gönderilemedi. Lütfen tekrar deneyin veya ${SITE_CFG.email} adresine yazın.`);
+        // Sunucu hata metinleri Türkçedir; İngilizce sayfada genel metin gösterilir
+        const fallback = tt(`Talebiniz gönderilemedi. Lütfen tekrar deneyin veya ${SITE_CFG.email} adresine yazın.`, `Your request could not be sent. Please try again or write to ${SITE_CFG.email}.`);
+        showFormError(EN ? (response.status === 429 ? 'Too many requests in a short time. Please try again in a few minutes.' : fallback) : (data.error || fallback));
       }
 
       function handleSuccess(result) {
         const modeNote = result.mode === 'preview'
-          ? '<p class="note">Yerel önizleme: PHP çalışmadığı için talep sunucuya gönderilmedi.</p>'
+          ? `<p class="note">${tt('Yerel önizleme: PHP çalışmadığı için talep sunucuya gönderilmedi.', 'Local preview: the request was not sent to the server because PHP is not running.')}</p>`
           : result.mode === 'demo'
-            ? '<p class="note">Not: Site şu anda deneme modunda; talebiniz e-posta ile iletilmedi. Acil talepler için e-posta adresimize yazabilirsiniz.</p>'
+            ? `<p class="note">${tt('Not: Site şu anda deneme modunda; talebiniz e-posta ile iletilmedi. Acil talepler için e-posta adresimize yazabilirsiniz.', 'Note: the site is in demo mode; your request was not sent by email. For urgent requests, please write to our email address.')}</p>`
             : '';
         form.innerHTML = `
           <div class="form-success" tabindex="-1" id="formSuccess">
-            <h2>Talebiniz alındı</h2>
-            <p>Teklif listeniz ve proje bilgileriniz satış ekibine iletildi. Referans numaranız: <span class="ref">${esc(result.reference || '-')}</span></p>
+            <h2>${tt('Talebiniz alındı', 'Request received')}</h2>
+            <p>${tt('Teklif listeniz ve proje bilgileriniz satış ekibine iletildi. Referans numaranız:', 'Your quote list and project details have been sent to the sales team. Your reference number:')} <span class="ref">${esc(result.reference || '-')}</span></p>
             ${modeNote}
             <div class="btn-row">
-              <a href="urunler.html" class="btn btn--quiet">Ürünleri incele</a>
+              <a href="urunler.html" class="btn btn--quiet">${tt('Ürünleri incele', 'Browse products')}</a>
             </div>
           </div>
         `;
@@ -816,74 +861,63 @@
   }
 
   // =========================================================================
-  // 6. KOKU KÜRATÖRÜ (Ana sayfa)
-  // Cihazlar PRODUCTS'tan, koku notaları SCENTS'ten okunur; burada uydurma veri yok.
+  // 7. CİHAZ KÜRATÖRÜ (Ana sayfa)
+  // Cihazlar PRODUCTS'tan okunur; burada uydurma veri yok. Yalnızca satıştaki ürünler önerilir.
+  // Esanslar kesinleşmediği için koku önerisi gösterilmez.
   // =========================================================================
   const ATMOSPHERES = {
     hotel: {
-      title: 'Otel lobisi ve karşılama alanları',
-      desc: 'Yüksek tavanlı, sürekli kullanılan alanlar için klima sistemine bağlanabilen, geniş kapsamalı bir cihaz ve yumuşak, ferah bir çay kokusu.',
-      productId: 'ck631',
-      scent: 'Encountering White Tea',
-      image: 'images/products/ck631.jpg',
-      alt: 'Otel resepsiyonunda duvara monte CK-631 difüzör'
+      title: tt('Otel lobisi ve karşılama alanları', 'Hotel lobbies and reception areas'),
+      desc: tt('Yüksek tavanlı, sürekli kullanılan alanlar için zeminde duran, taze hava sistemine bağlanabilen alüminyum gövdeli bir kolon difüzör.', 'A free-standing aluminium column diffuser that connects to the fresh-air system, for busy spaces with high ceilings.'),
+      productId: 'ck686',
+      image: 'images/products/ck686.jpg',
+      alt: tt('Modern bir salonda zemine yerleştirilmiş ADS-687 kolon difüzör', 'ADS-687 column diffuser standing on the floor in a modern living room')
     },
     office: {
-      title: 'Ofis ve toplantı alanları',
-      desc: 'Çalışma alanları ve toplantı odaları için ince gövdeli, uygulamayla zamanlanabilen bir duvar cihazı ve hafif, temiz bir koku.',
-      productId: 'ck688',
-      scent: 'Gardenya Beyaz Çay',
-      image: 'images/products/ck688.jpg',
-      alt: 'Aydınlık bir salonda duvara monte CK-688 difüzör ve telefon uygulaması'
+      title: tt('Ofis ve toplantı alanları', 'Offices and meeting rooms'),
+      desc: tt('Çalışma alanları ve toplantı odaları için sessiz çalışan, uygulama ya da kablosuz kumandayla zamanlanabilen ince bir duvar cihazı.', 'A quiet, slim wall unit for workspaces and meeting rooms that can be scheduled from an app or wireless remote.'),
+      productId: 'ck689',
+      image: 'images/products/ck689.jpg',
+      alt: tt('Bir lobide duvara monte ADS-689 difüzör ve telefon uygulaması', 'ADS-689 diffuser mounted on the wall in a lobby, with the phone app')
     },
     retail: {
-      title: 'Mağaza ve showroom',
-      desc: 'Satış alanının büyüklüğüne göre seçilebilen üç farklı kapasitede seri ve meyvemsi, ferah bir koku.',
+      title: tt('Mağaza ve showroom', 'Shops and showrooms'),
+      desc: tt('Satış alanının büyüklüğüne göre üç kapasitede seçilebilen, zemine yerleştirilen ve klima sistemine bağlanabilen metal gövdeli seri.', 'A metal-bodied, floor-standing series in three capacities to suit the size of the sales floor; connects to the HVAC system.'),
       productId: 'ck620',
-      scent: 'Stellar Encounters',
       image: 'images/products/ck620.jpg',
-      alt: 'Butik bir iç mekânda zemine yerleştirilmiş siyah ADS-620B difüzör'
+      alt: tt('Butik bir iç mekânda zemine yerleştirilmiş siyah ADS-620B difüzör', 'Black ADS-620B diffuser standing on the floor in a boutique interior')
     },
     residence: {
-      title: 'Rezidans ve özel yaşam alanları',
-      desc: 'Yatak odası ve salon gibi küçük alanlar için pilli, taşınabilir alüminyum bir cihaz ve lavantalı, sakin bir koku.',
-      productId: 'ck683',
-      scent: 'Fougère No. 2',
-      image: 'images/products/ck683.jpg',
-      alt: 'Mermer komodin üzerinde gümüş renkli CK-683 difüzör'
+      title: tt('Rezidans ve özel yaşam alanları', 'Residences and private spaces'),
+      desc: tt('Yatak odası ve salon gibi küçük alanlar için cam gövdeli, masif ahşap tabanlı ve şarjlı bir aroma difüzörü.', 'A rechargeable aroma diffuser with a glass body and solid wood base, for small rooms such as bedrooms and living rooms.'),
+      productId: 'ads622',
+      image: 'images/products/ads622.jpg',
+      alt: tt('Sehpa üzerinde masif ahşap tabanlı ADS-622 aroma difüzörü', 'ADS-622 aroma diffuser with a solid wood base on a coffee table')
     }
   };
 
   function renderAtmosphere(key) {
     const data = ATMOSPHERES[key];
     const p = findProduct(data.productId);
-    const s = (typeof SCENTS !== 'undefined') ? SCENTS.find(x => x.name === data.scent) : null;
     if (!p) return '';
 
-    const coverage = specValue(p, /kapsama/i);
-    const noise = specValue(p, /ses/i);
+    const coverage = specValue(p, RE_COV);
+    const noise = specValue(p, RE_NOISE);
 
     return `
       <div class="curator__panel">
-        <div class="media"><img src="${data.image}" alt="${esc(data.alt)}" loading="lazy"></div>
+        <div class="media"><img src="${BASE}${data.image}" alt="${esc(data.alt)}" loading="lazy"></div>
         <div class="curator__body">
           <h3>${esc(data.title)}</h3>
           <p>${esc(data.desc)}</p>
           <dl class="spec-pairs">
-            <div class="span-2"><dt>Önerilen cihaz</dt><dd>${esc(p.model)}, ${esc(p.title)}</dd></div>
-            ${coverage ? `<div><dt>Kapsama alanı</dt><dd>${esc(coverage)}</dd></div>` : ''}
-            ${noise ? `<div><dt>Ses seviyesi (üretici verisi)</dt><dd>${esc(noise)}</dd></div>` : ''}
-            ${s ? `<div class="span-2"><dt>Önerilen koku</dt><dd>${esc(s.name)} <span class="meta">(${esc(s.family)})</span></dd></div>` : ''}
+            <div class="span-2"><dt>${tt('Önerilen cihaz', 'Recommended device')}</dt><dd>${esc(p.model)}, ${esc(p.title)}</dd></div>
+            ${coverage ? `<div><dt>${tt('Kapsama alanı', 'Coverage')}</dt><dd>${esc(coverage)}</dd></div>` : ''}
+            ${noise ? `<div><dt>${tt('Ses seviyesi (üretici verisi)', 'Noise level (manufacturer data)')}</dt><dd>${esc(noise)}</dd></div>` : ''}
           </dl>
-          ${s ? `
-          <div class="notes-line">
-            <span><b>Üst nota</b>${esc(s.top)}</span>
-            <span><b>Kalp notası</b>${esc(s.mid)}</span>
-            <span><b>Dip nota</b>${esc(s.base)}</span>
-          </div>` : ''}
           <div class="btn-row">
-            <button type="button" class="btn btn--primary" data-add-product="${esc(p.id)}">${icon('plus', 'icon--sm')}<span>Listeye ekle</span></button>
-            <a href="urun-${encodeURIComponent(p.id)}.html" class="link-arrow">Ürünü incele ${icon('arrow-right')}</a>
+            <button type="button" class="btn btn--primary" data-add-product="${esc(p.id)}">${icon('plus', 'icon--sm')}<span>${tt('Listeye ekle', 'Add to list')}</span></button>
+            <a href="urun-${encodeURIComponent(p.id)}.html" class="link-arrow">${tt('Ürünü incele', 'View product')} ${icon('arrow-right')}</a>
           </div>
         </div>
       </div>
@@ -970,7 +1004,7 @@
   }
 
   // =========================================================================
-  // 7. ATOMİZASYON KARŞILAŞTIRMASI (Teknoloji sayfası)
+  // 8. ATOMİZASYON KARŞILAŞTIRMASI (Teknoloji sayfası)
   // Sayısal değer yok: üreticinin teknoloji açıklamasına dayanan nitel karşılaştırma.
   // =========================================================================
   function initParticleSimulator() {
@@ -980,18 +1014,18 @@
 
     const SIM_DATA = {
       nano: {
-        status: 'Çift akışkanlı (basınçlı hava) atomizasyon',
-        desc: 'Basınçlı hava esansı mikro parçacıklara ayırır; üreticinin açıklamasına göre iyonize, yüksek hızlı bir hızlandırıcı bu parçacıkları nano ölçeğe indirir. Çok ince parçacıklar yüzeye çarptığında kırılmadan geri seker.',
-        size: 'Nano ölçekli parçacık',
-        contact: 'Yüzeyden seker, yapışmaz',
-        residue: 'Islak kalıntı bırakmaz'
+        status: tt('Çift akışkanlı (basınçlı hava) atomizasyon', 'Dual-fluid (compressed air) atomisation'),
+        desc: tt('Basınçlı hava esansı mikro parçacıklara ayırır; üreticinin açıklamasına göre iyonize, yüksek hızlı bir hızlandırıcı bu parçacıkları nano ölçeğe indirir. Çok ince parçacıklar yüzeye çarptığında kırılmadan geri seker.', 'Compressed air breaks the fragrance into micro particles; according to the manufacturer, an ionised high-speed accelerator reduces them to nano scale. Very fine particles bounce off surfaces without breaking.'),
+        size: tt('Nano ölçekli parçacık', 'Nano-scale particles'),
+        contact: tt('Yüzeyden seker, yapışmaz', 'Bounces off, does not stick'),
+        residue: tt('Islak kalıntı bırakmaz', 'Leaves no wet residue')
       },
       aerosol: {
-        status: 'Büyük damlacıklı püskürtme',
-        desc: 'Büyük yağ damlacıkları yüzeye çarptığında kırılır. Temas ettiği mobilya, cam ve tekstil yüzeylerinde ıslak kalıntı bırakabilir.',
-        size: 'Büyük yağ damlacığı',
-        contact: 'Çarpınca kırılır',
-        residue: 'Islak kalıntı bırakabilir'
+        status: tt('Büyük damlacıklı püskürtme', 'Large-droplet spray'),
+        desc: tt('Büyük yağ damlacıkları yüzeye çarptığında kırılır. Temas ettiği mobilya, cam ve tekstil yüzeylerinde ıslak kalıntı bırakabilir.', 'Large oil droplets break when they hit a surface. They can leave a wet residue on furniture, glass and textiles they touch.'),
+        size: tt('Büyük yağ damlacığı', 'Large oil droplets'),
+        contact: tt('Çarpınca kırılır', 'Breaks on impact'),
+        residue: tt('Islak kalıntı bırakabilir', 'May leave a wet residue')
       }
     };
 
@@ -1004,9 +1038,9 @@
         <p class="sim__status">${esc(d.status)}</p>
         <p class="sim__desc">${esc(d.desc)}</p>
         <dl class="sim-metrics">
-          <div class="sim-metric"><dt>Parçacık</dt><dd>${esc(d.size)}</dd></div>
-          <div class="sim-metric"><dt>Yüzeyle temas</dt><dd>${esc(d.contact)}</dd></div>
-          <div class="sim-metric"><dt>Kalıntı</dt><dd>${esc(d.residue)}</dd></div>
+          <div class="sim-metric"><dt>${tt('Parçacık', 'Particles')}</dt><dd>${esc(d.size)}</dd></div>
+          <div class="sim-metric"><dt>${tt('Yüzeyle temas', 'Surface contact')}</dt><dd>${esc(d.contact)}</dd></div>
+          <div class="sim-metric"><dt>${tt('Kalıntı', 'Residue')}</dt><dd>${esc(d.residue)}</dd></div>
         </dl>
       `;
     }
@@ -1030,6 +1064,7 @@
   // BAŞLATMA
   // =========================================================================
   document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
     initNavigation();
     updateBadge();
     initAddFeedback();
@@ -1066,6 +1101,7 @@
     trapFocus,
     icon,
     esc,
+    tt,
     productThumb
   };
 

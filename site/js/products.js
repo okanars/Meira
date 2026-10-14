@@ -1,17 +1,23 @@
-/* Ürün veritabanı: JVCK 2025 ürün kataloğundan (İngilizce çeviri) derlenmiştir.
+/* Ürün veritabanı: üreticinin (Dongguan Andusic Technology Co., Ltd.) 2025 ürün kataloğundan (İngilizce çeviri) derlenmiştir.
  * [DOĞRULANACAK] FDA, gıda sınıfı malzeme ve güvenlik standardı ifadeleri üretici beyanıdır;
  * sitede "üretici beyanına göre" kalıbıyla verilir. Belge talep edilmeden kesin ifade kullanmayın.
  * [DOĞRULANACAK] Katalogda "CK-613" kodu hem elektriksiz koku kutusu (CK-613A/B/C) hem de
  * çift başlıklı difüzör serisinde (CK-613A, 2 x 5000 ml) geçiyor; üreticiden teyit edin.
  * Ürün videoları (videos): Meira'nın ilettiği üretici tanıtım videoları, images/products/videos/<file>.mp4
- * ve kapak karesi <file>.jpg / .webp. Başlık (title) ürün adı içermez; özet (summary) videoda gösterileni anlatır. Desenli panellerdeki "Jvck Aroma" yazısı üreticinin (JVCK) markasıdır.
+ * ve kapak karesi <file>.jpg / .webp. Başlık (title) ürün adı içermez; özet (summary) videoda gösterileni anlatır. Desenli panellerdeki yazı üreticinin markasıdır.
  * Koku adları: otel ve parfüm markası adları nötr, betimleyici adlarla değiştirildi (RAPOR.md).
  * MEIRA Difüzör Fiyat Listesi 2026'da yer alan ürünlerde (ADS-687, CK-629, ADS-689, CK-644, zemin tipi ADS-687,
  * ADS-685, ADS-620B/640B/670B) model kodu ve teknik veriler bu listeden alınmıştır; katalogla çelişen
  * değerlerde liste esas alınır. Fiyatlar sitede gösterilmez.
  * [DOĞRULANACAK] Listede "Kapsadığı Alan" birimsizdir; katalogla tutarlı olarak m³ kabul edildi.
  * Listeye göre zemin tipi kolon (ck686, katalogda CK-686) da ADS-687A/B kodunu taşır; 150 ml
- * ADS-687'den başlığı ve kategorisiyle ayrılır. */
+ * ADS-687'den başlığı ve kategorisiyle ayrılır.
+ * Ölçüler (2026-10): ADS-687 (148 × 185), ADS-689 (168 × 240) ve CK-628 (66 × 212) ön yüz ölçüleri Meira'nın
+ * ilettiği ölçü çiziminden; derinlik tümünde 56 mm (5,6 cm) olarak verildi.
+ * premium: metal (alüminyum) gövdeli modeller; katalogda "Premium" filtresiyle ve öne çıkarılarak gösterilir.
+ * soon: model kodu CK ile başlayan ürünler henüz satışta değil; "Pek yakında" etiketiyle gösterilir, kartları
+ * tıklanmaz ve teklif listesine eklenmez (dosyanın sonunda atanır; tek bir ürün için soon: false yazılabilir).
+ * Esanslar (SCENTS, OILS) henüz kesinleşmedi; sitede gösterilmez, veri ileride kullanılmak üzere duruyor. */
 const CATEGORIES = [
   { id: 'all',   label: 'Tüm Ürünler' },
   { id: 'wall',  label: 'Duvar Tipi Difüzörler' },
@@ -30,10 +36,10 @@ const PRODUCTS = [
     title: 'Ultrasonik Akıllı Duvar Difüzörü',
     short: 'LED ışık sensörü, LCD ekran ve akıllı kumanda seçenekli, 300 m³ kapsama alanlı ultrasonik difüzör.',
     desc: 'Ultrasonik atomizasyon teknolojisiyle hızlı ve homojen koku dağılımı sağlar. 4 AA pil veya Type-C 6V ile çalışır; akıllı uzaktan kumanda, LED ışık algılama ve LCD dijital ekran seçenekleri mevcuttur. Yüksek sıcaklığa dayanıklı gıda sınıfı PP malzemeden üretilmiştir; kokusuz ve toksik değildir; üretici beyanına göre uluslararası güvenlik standartları ve FDA ile uyumludur. Yapışkanla 3 saniyede, iz bırakmadan monte edilir.',
-    img: 'ck628', pos: '40% 50%', gallery: 3,
+    img: 'ck628', pos: '40% 50%', gallery: 7,
     features: ['Ultrasonik atomizasyon', 'Uzaktan / manuel kontrol', 'Düşük gürültü (<8 dBA)', 'Pil veya Type-C güç', 'Masaüstü ve duvar çift kullanım', 'Zamanlı püskürtme', 'Değiştirilebilir ultrasonik plaka'],
     variants: ['CK-628A (Beyaz)', 'CK-628B (Siyah)', 'Akıllı kumanda: CK-628-YK', 'LED ışık algılama: CK-628-LED', 'LCD dijital ekran: CK-628-LCD'],
-    specs: [['Boyut', '85 × 65 × 180 mm'], ['Renk', 'Beyaz / Siyah'], ['Malzeme', 'PP (gıda sınıfı)'], ['Gerilim / Güç', 'DC 6V / 2W'], ['Ses seviyesi', '< 8 dBA'], ['Esans kapasitesi', '168 ml'], ['Kapsama alanı', '300 m³'], ['Güç kaynağı', '4 × AA pil / Type-C 6V'], ['Net ağırlık', '223 g'], ['Koli', '50 adet · 493×395×380 mm · 14,8 kg brüt']],
+    specs: [['Boyut', '66 × 56 × 212 mm'], ['Renk', 'Beyaz / Siyah'], ['Malzeme', 'PP (gıda sınıfı)'], ['Gerilim / Güç', 'DC 6V / 2W'], ['Ses seviyesi', '< 8 dBA'], ['Esans kapasitesi', '168 ml'], ['Kapsama alanı', '300 m³'], ['Güç kaynağı', '4 × AA pil / Type-C 6V'], ['Net ağırlık', '223 g'], ['Koli', '50 adet · 493×395×380 mm · 14,8 kg brüt']],
     use: COMMON_USE_SMALL
   },
   {
@@ -52,7 +58,7 @@ const PRODUCTS = [
     title: 'Ultrasonik Duvar Difüzörü - LED / LCD',
     short: 'Korozyona dayanıklı PP gövde, LED sensör ve LCD kontrol paneli ile 300 m³ kapsama.',
     desc: 'Ultrasonik atomizasyonla hızlı koku dağılımı sunan CK-638; akıllı kumanda, LED ışık algılama ve LCD dijital kontrol paneli ile gelir. Gıda sınıfı, korozyona dayanıklı PP malzeme üretici beyanına göre FDA uyumludur. İz bırakmayan yapışkanla 3 saniyede kurulum yapılır.',
-    img: 'ck638', pos: '40% 50%', gallery: 3,
+    img: 'ck638', pos: '40% 50%', gallery: 11,
     features: ['Ultrasonik atomizasyon', 'Uzaktan / manuel kontrol', 'Düşük gürültü', 'Pil veya Type-C güç', 'Masaüstü ve duvar çift kullanım', 'Zamanlı püskürtme', 'Değiştirilebilir ultrasonik plaka'],
     variants: ['CK-638A', 'CK-638B', 'Akıllı kumanda: CK-638-YK', 'LED: CK-638-LED', 'LCD: CK-638-LCD'],
     specs: [['Boyut', '85 × 65 × 180 mm'], ['Renk', 'Beyaz / Siyah'], ['Malzeme', 'PP (gıda sınıfı)'], ['Gerilim / Güç', 'DC 6V / 2W'], ['Ses seviyesi', '< 8 dBA'], ['Esans kapasitesi', '168 ml'], ['Kapsama alanı', '300 m³'], ['Güç kaynağı', '4 × AA pil / Type-C 6V'], ['Net ağırlık', '255 g'], ['Koli', '50 adet · 493×395×380 mm · 14,8 kg brüt']],
@@ -63,7 +69,7 @@ const PRODUCTS = [
     title: 'Ultrasonik Duvar Difüzörü - 3 Renk',
     short: 'Beyaz, siyah ve üçüncü renk seçeneğiyle eğlence mekânlarına da uygun kompakt difüzör.',
     desc: 'Taşınabilir tasarımıyla kolay kullanım sunar. Akıllı uzaktan kumanda, LED ışık algılama ve LCD dijital ekran seçenekleri vardır. Yüksek sıcaklığa dayanıklı gıda sınıfı PP, kokusuz ve toksik değildir; üretici beyanına göre FDA uyumludur.',
-    img: 'ck648', pos: '40% 50%', gallery: 3,
+    img: 'ck648', pos: '40% 50%', gallery: 9,
     features: ['Ultrasonik atomizasyon', 'Uzaktan / manuel kontrol', 'Düşük gürültü', 'Pil veya Type-C güç', 'Masaüstü ve duvar çift kullanım', 'Zamanlı püskürtme'],
     variants: ['CK-648A', 'CK-648B', 'CK-648C', 'Akıllı kumanda: CK-648-YK', 'LED: CK-648-LED', 'LCD: CK-648-LCD'],
     specs: [['Boyut', '85 × 65 × 180 mm'], ['Renk', 'Beyaz / Siyah / Siyah (alternatif)'], ['Malzeme', 'PP (gıda sınıfı)'], ['Gerilim / Güç', 'DC 6V / 2W'], ['Ses seviyesi', '< 8 dBA'], ['Esans kapasitesi', '168 ml'], ['Kapsama alanı', '300 m³'], ['Güç kaynağı', '4 × AA pil / Type-C 6V'], ['Net ağırlık', '255 g'], ['Koli', '50 adet · 493×395×380 mm · 14,4 kg brüt']],
@@ -74,7 +80,7 @@ const PRODUCTS = [
     title: 'Çift Akışkanlı Büyük Alan Difüzörü',
     short: '500 ml kapasite, 5,3 cm ultra ince gövde ve uygulama kontrolüyle 800 m³ kapsama.',
     desc: 'Çift akışkanlı atomizasyon ile hızlı ve homojen koku yayılımı. 4 AA pil (Type-C 6V) ile çalışır; akıllı uzaktan kumanda ve mobil uygulama ile yönetilir. Gıda sınıfı, yüksek sıcaklık ve korozyona dayanıklı PP malzeme üretici beyanına göre FDA uyumludur. Kalıntı bırakmadan 3 saniyede monte edilir.',
-    img: 'ck688', pos: '35% 50%', gallery: 3,
+    img: 'ck688', pos: '35% 50%', gallery: 12,
     features: ['Çift akışkanlı atomizasyon', 'Uzaktan kumanda / mobil uygulama', 'Düşük gürültü', 'Pil veya güç kaynağı', 'Dikişsiz duvar montajı', 'Zamanlı püskürtme', 'Sadece 5,3 cm kalınlık'],
     variants: ['CK-688A (Beyaz)', 'CK-688B (Siyah)'],
     specs: [['Boyut', '168 × 53 × 240 mm'], ['Renk', 'Beyaz / Siyah'], ['Malzeme', 'PP (gıda sınıfı)'], ['Gerilim / Güç', 'DC 6V / 2W'], ['Ses seviyesi', '< 36 dB'], ['Esans kapasitesi', '500 ml'], ['Kapsama alanı', '800 m³'], ['Güç kaynağı', '4 × AA pil / Type-C 6V'], ['Net ağırlık', '618 g'], ['Koli', '32 adet · 480×360×600 mm · 24,5 kg brüt']],
@@ -88,7 +94,7 @@ const PRODUCTS = [
     img: 'ck689', pos: '35% 50%', gallery: 3,
     features: ['Çift akışkanlı atomizasyon', 'Bluetooth uygulama veya kablosuz kumanda', 'Düşük gürültü (≤35 dB)', 'Pil veya güç kaynağı', 'Zamanlı püskürtme', 'Kişiye özel tasarım'],
     variants: ['ADS-689B · Bluetooth uygulama (Beyaz / Siyah)', 'ADS-689-YK · Kablosuz kumanda (Beyaz / Siyah)'],
-    specs: [['Boyut', '168 × 53,8 × 240 mm'], ['Renk', 'Beyaz / Siyah (opsiyonel)'], ['Malzeme', 'ABS + PP'], ['Gerilim / Güç', 'DC 6V / 2W'], ['Ses seviyesi', '≤ 35 dB'], ['Esans kapasitesi', '500 ml'], ['Kapsama alanı', '600-800 m³'], ['Kontrol', 'Bluetooth uygulama (ADS-689B) / kablosuz kumanda (ADS-689-YK)'], ['Kurulum', 'Masaüstü'], ['Güç kaynağı', '4 × AA pil / Type-C 6V'], ['Net ağırlık', '536 g'], ['Koli', '32 adet · 480×360×600 mm · 21,6 kg brüt']],
+    specs: [['Boyut', '168 × 56 × 240 mm'], ['Renk', 'Beyaz / Siyah (opsiyonel)'], ['Malzeme', 'ABS + PP'], ['Gerilim / Güç', 'DC 6V / 2W'], ['Ses seviyesi', '≤ 35 dB'], ['Esans kapasitesi', '500 ml'], ['Kapsama alanı', '600-800 m³'], ['Kontrol', 'Bluetooth uygulama (ADS-689B) / kablosuz kumanda (ADS-689-YK)'], ['Kurulum', 'Masaüstü'], ['Güç kaynağı', '4 × AA pil / Type-C 6V'], ['Net ağırlık', '536 g'], ['Koli', '32 adet · 480×360×600 mm · 21,6 kg brüt']],
     use: COMMON_USE_COMMERCIAL
   },
   {
@@ -96,11 +102,11 @@ const PRODUCTS = [
     title: 'Kompakt Çift Akışkanlı Difüzör',
     short: '150 ml kapasiteli, yenilenmiş ekran panelli ve Bluetooth uygulama kontrollü kompakt difüzör; 300-600 m³ kapsama.',
     desc: 'Çift akışkanlı atomizasyon ile hızlı ve eşit koku dağılımı. Bluetooth mobil uygulama ve yenilenmiş ekran paneliyle kolay kullanım. Gıda sınıfı, yüksek sıcaklığa dayanıklı PP gövde; üretici beyanına göre FDA dahil uluslararası standartlara uygundur.',
-    img: 'ck687', pos: '40% 50%', gallery: 16,
+    img: 'ck687', pos: '40% 50%', gallery: 22,
     videos: [{ file: 'ck687-kurulum', duration: 65, title: 'Duvara montajdan çalışma programına', teaser: 'Duvarı delmeden montajı ve uygulamadan haftalık çalışma programı kurmayı adım adım izleyin.', summary: 'Cihaz, yapışkan bantla duvarı delmeden monte ediliyor; ardından piller ve esans şişesi takılıyor. Ekrandaki ayar tuşları ve telefon uygulamasında haftalık çalışma programının nasıl oluşturulduğu adım adım anlatılıyor. Son bölümde cihazın masa üzerinde, prize bağlı kullanımı gösteriliyor.' }],
     features: ['Çift akışkanlı atomizasyon', 'Bluetooth uygulama kontrolü', 'Yenilenmiş ekran paneli', 'Düşük gürültü (≤35 dB)', 'Zamanlı püskürtme'],
     variants: ['ADS-687A (Beyaz)', 'ADS-687B (Siyah)'],
-    specs: [['Boyut', '148 × 67 × 185 mm'], ['Renk', 'Beyaz / Siyah'], ['Malzeme', 'PP'], ['Gerilim / Güç', 'DC 6V / 2W'], ['Ses seviyesi', '≤ 35 dB'], ['Esans kapasitesi', '150 ml'], ['Kapsama alanı', '300-600 m³'], ['Kontrol', 'Bluetooth uygulama, yenilenmiş ekran paneli'], ['Kurulum', 'Masaüstü'], ['Net ağırlık', '512 g'], ['Koli', '30 adet · 465×385×490 mm · 19 kg brüt']],
+    specs: [['Boyut', '148 × 56 × 185 mm'], ['Renk', 'Beyaz / Siyah'], ['Malzeme', 'PP'], ['Gerilim / Güç', 'DC 6V / 2W'], ['Ses seviyesi', '≤ 35 dB'], ['Esans kapasitesi', '150 ml'], ['Kapsama alanı', '300-600 m³'], ['Kontrol', 'Bluetooth uygulama, yenilenmiş ekran paneli'], ['Kurulum', 'Masaüstü'], ['Net ağırlık', '512 g'], ['Koli', '30 adet · 465×385×490 mm · 19 kg brüt']],
     use: COMMON_USE_COMMERCIAL
   },
   {
@@ -119,7 +125,7 @@ const PRODUCTS = [
     title: 'Yüksek Hacimli Sis Difüzör Serisi',
     short: '1000 ml kapasite, 2.000-12.000 m³ kapsama; zemine yerleştirilen, klima (HVAC) sistemine bağlanabilen metal gövde.',
     desc: 'Yüksek sis hacimli teknolojiyle saniyeler içinde etki. Zemine yerleştirilir ve merkezi klima (HVAC) sistemine bağlanabilir. Akıllı uygulamadan tek tuşla kontrol, CNC ekran ve ayarlanabilir koku yoğunluğu. Çok sessiz çalışma; tak-çıkar atomizer başlığı ve manyetik kilit ile sorunsuz bakım.',
-    img: 'ck620', pos: '30% 50%', gallery: 3,
+    img: 'ck620', pos: '30% 50%', gallery: 11, premium: true,
     features: ['Bluetooth uygulama kontrolü', 'Süper atomizasyon', 'Düşük gürültü (≤35 dB)', 'Zemine yerleştirme', 'Zamanlı püskürtme', 'Ultra büyük kapasite', 'Klima bağlantısı', 'Dokunmatik kontrol'],
     // [DOĞRULANACAK] Listede ADS-640B ve ADS-670B için aynı ölçü (428×128×372 mm) verilmiş.
     variants: ['ADS-620B · 328×128×372 mm · 12W · 2.000-5.000 m³', 'ADS-640B · 428×128×372 mm · 15W · 4.000-8.000 m³', 'ADS-670B · 428×128×372 mm · 18W · 7.000-12.000 m³'],
@@ -131,7 +137,7 @@ const PRODUCTS = [
     title: 'Çift Başlıklı Havacılık Alüminyum Difüzör',
     short: '2 × 1000 / 3000 / 5000 ml seçenekli, 5.000 - 15.000 m³ kapsama alanı.',
     desc: 'Mekânın boyutuna göre tek veya çift delikli sis seçilebilen çift atomizer başlıklı tasarım; daha hızlı koku yayılımı sağlar. Merkezi klima/taze hava sistemine bağlanabilir. Akıllı uygulama ile tek tuşla kontrol, CNC ekran ve ayarlanabilir koku yoğunluğu. Ultra sessiz çalışma ile 5.000 - 15.000 m³ alanda zamanlı koku yayılımı.',
-    img: 'ck611', pos: '50% 50%', gallery: 3,
+    img: 'ck611', pos: '50% 50%', gallery: 3, premium: true,
     features: ['Çift başlıklı atomizasyon', 'Bluetooth uygulama kontrolü', 'Süper güçlü atomizasyon', 'Düşük gürültü', 'Zamanlı püskürtme', 'Ultra büyük kapasite', 'Klima bağlantısı'],
     variants: ['CK-611A · 2 × 1000 ml', 'CK-612A · 2 × 3000 ml', 'CK-613A · 2 × 5000 ml'],
     specs: [['Malzeme', 'Havacılık alüminyum profil'], ['Gerilim', 'DC 12V - 3A'], ['Güç', '28W'], ['Ses seviyesi', '≤ 40 dB'], ['Kapasite', '2 × 1000 / 3000 / 5000 ml'], ['Kapsama alanı', '5.000 - 15.000 m³'], ['Koli', '1 adet']],
@@ -142,7 +148,7 @@ const PRODUCTS = [
     title: 'Havacılık Alüminyum Büyük Hacim Difüzörü',
     short: '1000 / 3000 / 5000 ml kapasite ve 8.000 m³ geniş alan kapsama.',
     desc: 'Süper atomizer başlığı, merkezi klima/taze hava sistemine bağlanabilme, akıllı uygulama ile tek tuşla kontrol, CNC ekran ve ayarlanabilir koku yoğunluğu. 8.000 m³ geniş alan koku yayılımı ve zamanlayıcı işlevi ile sürekli aromatik yayılım.',
-    img: 'ck621', pos: '50% 50%', gallery: 3,
+    img: 'ck621', pos: '50% 50%', gallery: 3, premium: true,
     features: ['Süper atomizasyon', 'Bluetooth uygulama kontrolü', 'Düşük gürültü', 'Zamanlı püskürtme', 'Ultra büyük kapasite', 'Klima bağlantısı'],
     variants: ['CK-621A · 1000 ml', 'CK-622A · 3000 ml', 'CK-623A · 5000 ml'],
     specs: [['Malzeme', 'Havacılık alüminyum profil'], ['Gerilim', 'DC 12V - 3A'], ['Güç', '28W'], ['Ses seviyesi', '≤ 40 dB'], ['Kapasite', '1000 / 3000 / 5000 ml'], ['Kapsama alanı', '8.000 m³'], ['Koli', '1 adet']],
@@ -153,7 +159,7 @@ const PRODUCTS = [
     title: 'Nano Atomizasyonlu Kolon Difüzör',
     short: 'Zeminde ayakta duran alüminyum kolon; 500 ml kapasite ve 1.500-2.000 m³ kapsama alanı.',
     desc: 'Taş dokulu atomizer başlığıyla tasarıma imza atan, zeminde ayakta duran kolon tipi ticari difüzör. Tak-çıkar atomizer ile kolay yağ değişimi, manyetik kilit mekanizması. LED ekranlı akıllı uygulama ile tek dokunuşla kontrol. Nano sis teknolojisiyle 1.500-2.000 m³ alan difüzyonu; WiFi ve Bluetooth modlarında zamanlı çalışma, taze hava sistemine bağlanabilir.',
-    img: 'ck686', pos: '50% 35%', gallery: 3,
+    img: 'ck686', pos: '50% 35%', gallery: 3, premium: true,
     // [DOĞRULANACAK] Videoda ürün "M63" adıyla ve 1000 ml olarak tanıtılıyor; fiyat listesinde 500 ml.
     videos: [{ file: 'ck686-tanitim', duration: 101, title: 'Tasarım ayrıntıları ve sis çıkışı', teaser: 'Alüminyum gövdenin ayrıntılarını, esans değişimini ve yoğun sis çıkışını yakından görün.', summary: 'Alüminyum gövdenin ayrıntıları, çıkarılabilir atomizer başlığı ve esans şişesinin değiştirilmesi yakından gösteriliyor. Telefon uygulamasından yapılan ayarların ardından cihazın yoğun ve dengeli sis çıkışı izleniyor.' }],
     features: ['Nano atomizasyon', 'Bluetooth uygulama kontrolü', 'Düşük gürültü (≤35 dB)', 'Şebeke gücü', 'Taze hava sistemine bağlanabilir', 'Zamanlı püskürtme'],
@@ -166,7 +172,7 @@ const PRODUCTS = [
     title: 'Kompakt Alüminyum Çift Akışkanlı Difüzör',
     short: '5000 mAh dahili pil, Bluetooth kontrol ve 300 m³ kapsama alanı.',
     desc: 'Ultra kompakt tasarım sayesinde nakliye maliyetlerini düşürür. 5000 mAh bataryasıyla kesintisiz çalışma, 300 m³ kapsama. Dahili Bluetooth ile ayarlar kolayca yönetilir; Type-C girişi, su geçirmez dokunmatik kontrol.',
-    img: 'ck683', pos: '50% 40%', gallery: 18,
+    img: 'ck683', pos: '50% 40%', gallery: 18, premium: true,
     // Üreticinin İngilizce tanıtım görselleri (images/products/ck683-b<n>.jpg / .webp / -960.webp).
     // [DOĞRULANACAK] Görsellerdeki değerler (Ø94×318 mm, 120 ml, 4000 sq ft) katalogla çelişiyor; teknik veriler katalogdan.
     banners: [
@@ -193,22 +199,11 @@ const PRODUCTS = [
     title: 'Masaüstü Ticari Koku Difüzörü',
     short: 'Alüminyum kolon gövde, 200 ml kapasite ve 400-1.200 m³ kapsama; masaüstü kullanım.',
     desc: 'Ticari alanlar için tasarlanmış, alüminyum gövdeli masaüstü difüzör. Tabanındaki ışık halkasıyla dekoratif bir duruşu vardır. DC 12V ile 12 W güç tüketir, ≤35 dB ses seviyesinde çalışır ve 200 ml esans haznesiyle 400-1.200 m³ alanı kokulandırır. Beyaz ve siyah renk seçenekleri mevcuttur.',
-    img: 'ads685', pos: '50% 50%', gallery: 0,
+    img: 'ads685', pos: '50% 50%', gallery: 1, premium: true,
     features: ['Ticari kullanım', 'Alüminyum gövde', 'Düşük gürültü (≤35 dB)', 'Masaüstü yerleşim'],
     variants: ['ADS-685C (Beyaz)', 'ADS-685B (Siyah)'],
     specs: [['Boyut', '324 × 81 × 114 mm'], ['Renk', 'Beyaz / Siyah'], ['Malzeme', 'Alüminyum alaşım'], ['Gerilim / Güç', 'DC 12V / 12W'], ['Ses seviyesi', '≤ 35 dB'], ['Esans kapasitesi', '200 ml'], ['Kapsama alanı', '400-1.200 m³'], ['Kurulum', 'Masaüstü']],
     use: COMMON_USE_COMMERCIAL
-  },
-  {
-    id: 'ck656', model: 'CK-656', cat: 'pro', badge: 'Tavan Tipi',
-    title: 'Tavan / Duvar / Ray Montajlı Difüzör',
-    short: '350 ml şişe, 3 metrelik teleskopik çubukla merdivensiz yağ değişimi.',
-    desc: 'Tavan, duvar ve ray montaj seçenekleriyle stabil performans sunan şık difüzör. 350 ml büyük kapasiteli şişe sık dolum gerektirmez. Tek parça vidalı şişe ve 3 metrelik teleskopik çubuk sayesinde merdivene çıkmadan yağ değişimi; bakım süresi ve maliyeti belirgin biçimde azalır.',
-    img: 'ck656', pos: '45% 50%', gallery: 0,
-    features: ['Nano atomizasyon', 'Bluetooth uygulama kontrolü', 'Düşük gürültü', 'İz bırakmayan montaj', '24 saat modu'],
-    variants: ['CK-656A (Beyaz)', 'CK-656B (Siyah)', 'Klasik el ile yağ değişimi veya merdivensiz yağ değişimi versiyonu'],
-    specs: [['Boyut', '147 × 147 × 188 mm'], ['Renk', 'Beyaz / Siyah'], ['Malzeme', 'PP'], ['Gerilim', 'DC 12V'], ['Ses seviyesi', '< 38 dB'], ['Kapasite', '300 ml / 350 ml'], ['Kapsama alanı', '500 m³'], ['Koli', '18 adet']],
-    use: 'Otel, havalimanı, sinema, ofis, ev, banyo, asansör, koridor'
   },
   {
     id: 'ck644', model: 'CK-644', cat: 'plug', badge: 'Prize Takılan',
@@ -235,28 +230,6 @@ const PRODUCTS = [
     variants: ['CK-645A (Beyaz)', 'CK-645B (Siyah)'],
     specs: [['Boyut', '70 × 61 × 270 mm'], ['Renk', 'Beyaz / Siyah'], ['Malzeme', 'PP'], ['Gerilim / Güç', '100-240V / 2,5W'], ['Ses seviyesi', '< 38 dB'], ['Kapasite', '100 ml'], ['Kapsama alanı', '300 m³'], ['Koli', '6 adet']],
     use: 'Ev, banyo, asansör, koridor'
-  },
-  {
-    id: 'ck613', model: 'CK-613', cat: 'plug', badge: 'Elektriksiz',
-    title: 'Elektriksiz Koku Kutusu',
-    short: 'Küçük alanlar için pilsiz, güvenli, iz bırakmayan pasif koku kutusu (30 m³).',
-    desc: 'Küçük alanlar için hızlı koku giderme, temiz hava sirkülasyonu ve kalıcı koku sağlayan kompakt koku kutusu. Elektriksiz çalışır; hamile ve bebekli ortamlara uygun, çevre dostu malzemelerle üretilmiştir. Gıda sınıfı PP; üretici beyanına göre FDA uyumlu. 3 saniyede iz bırakmadan kurulum.',
-    img: 'ck613', pos: '50% 50%', gallery: 3,
-    features: ['Sigara kokusunu giderir', 'Temiz hava', 'Doğal bitkisel ekstrelerle', 'Kalıcı koku', 'Duvarı çizmez', 'Güvenli ve toksik değil'],
-    variants: ['CK-613A (Beyaz)', 'CK-613B (Siyah)', 'CK-613C (Gri)'],
-    specs: [['Boyut', '85 × 25 × 130 mm'], ['Renk', 'Beyaz / Siyah / Gri'], ['Malzeme', 'PP (gıda sınıfı)'], ['Kapsama alanı', '30 m³'], ['Net ağırlık', '55 g'], ['Koli', '80 adet · 660×500×430 mm · 6,7 kg brüt']],
-    use: 'Banyo, oda, oturma odası, asansör, koridor/merdiven, evcil hayvan alanı, gardırop, ayakkabılık'
-  },
-  {
-    id: 'ck608ab', model: 'CK-608A / 608B', cat: 'home', badge: 'Araç & Ev',
-    title: 'Araç Hava Temizleme Koku Cihazı',
-    short: 'Ultrasonik atomizasyon, tek dokunuş kontrol; evde ve araçta kullanım.',
-    desc: 'Kompakt, zarif ve sade tasarımıyla hem evde hem araçta kullanılabilir. Ferah ve hoş kokusu tüm duyularınızı canlandırır.',
-    img: 'ck608ab', pos: '50% 50%', gallery: 0,
-    features: ['Ultrasonik atomizasyon', 'Tek tuşla kontrol', 'Düşük gürültü'],
-    variants: ['CK-608A (Beyaz)', 'CK-608B (Siyah)'],
-    specs: [['Boyut', '71 × 138 mm'], ['Renk', 'Beyaz / Siyah'], ['Malzeme', 'ABS'], ['Güç', 'DC5V / 1W'], ['Pil', '500 mAh'], ['Kapsama alanı', '300 m³'], ['Koli', '60 adet']],
-    use: 'Yatak odası, çalışma odası, oturma odası, araç'
   },
   {
     id: 'ck608d', model: 'CK-608D', cat: 'home', badge: 'Araç & Ev',
@@ -336,6 +309,20 @@ const PRODUCTS = [
     use: 'Ofis, çalışma odası, oturma odası, yatak odası'
   }
 ];
+
+// Satış durumu: CK kodlu modeller henüz satışta değil (bkz. dosya başı). Ürün kaydında soon: false yazılarak
+// tek tek açılabilir.
+PRODUCTS.forEach(p => { if (p.soon === undefined) p.soon = /^CK/.test(p.model); });
+
+// Katalog sırası (katalog ızgarası, tools/build.mjs ve urunler.html aynı işlevi kullanır): önce satıştaki ürünler,
+// "pek yakında"lar en sonda; her grupta videolu ürünler önde, ardından premium (metal gövdeli) modeller;
+// eşitlikte veri sırası.
+function catalogOrder(list) {
+  return list
+    .map((p, i) => [p, i])
+    .sort(([a, i], [b, j]) => (!!a.soon - !!b.soon) || (!!b.videos - !!a.videos) || (!!b.premium - !!a.premium) || i - j)
+    .map(([p]) => p);
+}
 
 const SCENTS = [
   { name: 'Yasemin & Vanilya', family: 'Çiçeksi · Pudralı', top: 'Portakal, limon', mid: 'Leylak, yasemin, gül, ylang-ylang', base: 'Vanilya, misk' },

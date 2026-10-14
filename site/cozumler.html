@@ -9,8 +9,12 @@
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#141C27">
   <link rel="canonical" href="https://www.meira.com.tr/cozumler.html">
+  <link rel="alternate" hreflang="tr" href="https://www.meira.com.tr/cozumler.html">
+  <link rel="alternate" hreflang="en" href="https://www.meira.com.tr/en/cozumler.html">
+  <link rel="alternate" hreflang="x-default" href="https://www.meira.com.tr/cozumler.html">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="tr_TR">
+  <meta property="og:locale:alternate" content="en_GB">
   <meta property="og:site_name" content="Meira">
   <meta property="og:title" content="Otel, Ofis ve Mağaza için Koku Çözümleri | Meira">
   <meta property="og:description" content="Mekân hacmine göre difüzör seçimi: hacim hesaplayıcı, oteller, mağazalar, ofisler ve büyük alanlar için önerilen modeller ve kapsama aralıkları.">
@@ -26,8 +30,8 @@
   <link rel="alternate" type="application/rss+xml" title="Meira Blog" href="feed.xml">
   <link rel="preload" href="fonts/newsreader-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/style.css?v=04a4094772">
-  <script>document.documentElement.classList.add('js');</script>
+  <link rel="stylesheet" href="css/style.css?v=c26b12025e">
+  <script>(function(d){d.classList.add('js');try{if(localStorage.getItem('meira-theme')==='dark')d.dataset.theme='dark'}catch(e){}})(document.documentElement);</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Ana sayfa","item":"https://www.meira.com.tr/index.html"},{"@type":"ListItem","position":2,"name":"Çözümler"}]}</script>
 </head>
 <body data-section="cozumler.html">
@@ -41,20 +45,27 @@
         <a href="urunler.html" class="nav-item">Ürünler</a>
         <a href="cozumler.html" class="nav-item">Çözümler</a>
         <a href="teknoloji.html" class="nav-item">Teknoloji</a>
-        <a href="esanslar.html" class="nav-item">Esanslar</a>
+        <span class="nav-item nav-item--soon" role="link" aria-disabled="true">Esanslar<span class="nav-soon">Yakında</span></span>
         <a href="kurumsal.html" class="nav-item">Kurumsal &amp; OEM</a>
         <a href="blog.html" class="nav-item">Blog</a>
         <a href="iletisim.html" class="nav-item">İletişim</a>
       </nav>
 
       <div class="nav-actions">
+        <nav class="lang-switch" aria-label="Dil">
+          <a href="cozumler.html" hreflang="tr" lang="tr" aria-current="true"><span class="visually-hidden">Türkçe</span><span aria-hidden="true">TR</span></a>
+          <a href="en/cozumler.html" hreflang="en" lang="en"><span class="visually-hidden">English</span><span aria-hidden="true">EN</span></a>
+        </nav>
+        <button type="button" class="theme-toggle" data-theme-toggle aria-pressed="false" aria-label="Koyu tema" title="Koyu tema">
+          <svg class="icon icon-moon" aria-hidden="true" focusable="false"><use href="images/icons.svg?v=2fcf615f80#i-moon"></use></svg><svg class="icon icon-sun" aria-hidden="true" focusable="false"><use href="images/icons.svg?v=2fcf615f80#i-sun"></use></svg>
+        </button>
         <button type="button" class="quote-trigger" aria-label="Teklif listesi">
-          <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-clipboard-text"></use></svg>
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg?v=2fcf615f80#i-clipboard-text"></use></svg>
           <span class="quote-trigger__label">Teklif listesi</span>
           <span class="quote-badge dc-cart-count empty" aria-hidden="true">0</span>
         </button>
         <button type="button" class="burger-btn" id="burgerBtn" aria-label="Menü" aria-expanded="false" aria-controls="navLinks">
-          <svg class="icon icon--lg icon-open" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-list"></use></svg><svg class="icon icon--lg icon-close" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-x"></use></svg>
+          <svg class="icon icon--lg icon-open" aria-hidden="true" focusable="false"><use href="images/icons.svg?v=2fcf615f80#i-list"></use></svg><svg class="icon icon--lg icon-close" aria-hidden="true" focusable="false"><use href="images/icons.svg?v=2fcf615f80#i-x"></use></svg>
         </button>
       </div>
     </div>
@@ -74,7 +85,7 @@
         <div class="calc reveal">
           <div class="calc__inputs">
             <h2 id="calc-title">Hacim hesaplayıcı</h2>
-            <p>Taban alanını ve tavan yüksekliğini girin. Bu hacmi karşılayan modeller, kapsama değeri en yakın olandan başlayarak listelenir.</p>
+            <p>Taban alanını ve tavan yüksekliğini girin. Bu hacmi karşılayan iki model, kapsama değeri en yakın olandan başlayarak önerilir.</p>
             <div class="calc__fields">
               <div class="form-group">
                 <label class="form-label" for="calcArea">Taban alanı (m²)</label>
@@ -102,14 +113,14 @@
         <div class="split__a reveal">
           <h2 id="hotel-title">Oteller ve konaklama</h2>
           <div class="mt-5 prose">
-            <p>Lobide ilk izlenimi koku belirler. Lobi ve restoran gibi geniş alanlarda klima sistemine bağlanabilen ya da kolon tipi cihazlar, koridor ve odalarda sessiz duvar veya tavan tipi modeller kullanılır.</p>
+            <p>Lobide ilk izlenimi koku belirler. Lobi ve restoran gibi geniş alanlarda klima sistemine bağlanabilen ya da kolon tipi cihazlar, koridor ve odalarda sessiz duvar tipi ya da masaüstü modeller kullanılır.</p>
           </div>
           <dl class="mt-6 spec-pairs">
-            <div class="span-2"><dt>Önerilen modeller</dt><dd>CK-631, ADS-687 kolon, CK-656</dd></div>
-            <div><dt>Kapsama (bu modeller)</dt><dd>500-3.500 m³</dd></div>
+            <div class="span-2"><dt>Önerilen modeller</dt><dd>ADS-687 kolon, ADS-620B / 640B / 670B, ADS-685</dd></div>
+            <div><dt>Kapsama (bu modeller)</dt><dd>400-12.000 m³</dd></div>
           </dl>
           <div class="mt-6 btn-row">
-            <a href="urunler.html?cat=pro" class="link-arrow">Profesyonel modeller <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
+            <a href="urunler.html?cat=pro" class="link-arrow">Profesyonel modeller <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg?v=2fcf615f80#i-arrow-right"></use></svg></a>
           </div>
         </div>
         <div class="split__b reveal">
@@ -121,7 +132,7 @@
           </div>
           <figcaption class="video-figure__bar">
             <span class="media-caption"><span class="visually-hidden">Otel odasında komodin üzerinde çalışan cam kubbeli difüzör; yapay zekâ ile üretilmiş tanıtım videosu. </span>Görsel temsilidir. Yapay zekâ ile üretilmiş tanıtım videosudur.</span>
-            <button type="button" class="video-toggle"><svg class="icon icon-pause" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-pause"></use></svg><svg class="icon icon-play" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-play"></use></svg><span class="video-toggle__label">Videoyu durdur</span></button>
+            <button type="button" class="video-toggle"><svg class="icon icon-pause" aria-hidden="true" focusable="false"><use href="images/icons.svg?v=2fcf615f80#i-pause"></use></svg><svg class="icon icon-play" aria-hidden="true" focusable="false"><use href="images/icons.svg?v=2fcf615f80#i-play"></use></svg><span class="video-toggle__label">Videoyu durdur</span></button>
           </figcaption>
         </figure>
         </div>
@@ -143,34 +154,34 @@
               <p>Giyim ve aksesuar mağazalarında kokunun ürünlerde kalıntı bırakmaması önemlidir. Üreticiye göre çift akışkanlı modeller ıslak kalıntı bırakmaz. Showroom büyüklüğüne göre üç kapasitede seri seçilebilir.</p>
             </div>
             <div class="sector-row__aside">
-              <p class="sector-row__models"><b>ADS-620B / 640B / 670B, CK-688, ADS-689</b></p>
-              <a href="urunler.html?cat=wall" class="link-arrow">Duvar tipi modeller <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
+              <p class="sector-row__models"><b>ADS-620B / 640B / 670B, ADS-689, ADS-687 kolon</b></p>
+              <a href="urunler.html?cat=wall" class="link-arrow">Duvar tipi modeller <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg?v=2fcf615f80#i-arrow-right"></use></svg></a>
             </div>
           </article>
           <article class="sector-row reveal">
             <div class="sector-row__name">
               <h3>Ofisler ve toplantı salonları</h3>
-              <p class="sector-row__range">Önerilen modeller: 300 m³</p>
+              <p class="sector-row__range">Önerilen modeller: 300-800 m³</p>
             </div>
             <div class="sector-row__text">
-              <p>Toplantı odaları ve çalışma alanlarında cihazın sesi önemlidir. Üretici verisine göre CK-628, CK-638 ve CK-648 modellerinin ses seviyesi 8 dBA'nın altındadır. Prize takılan CK-644 delme gerektirmez.</p>
+              <p>Toplantı odaları ve çalışma alanlarında cihazın sesi önemlidir. Üretici verisine göre ADS-687 ve ADS-689 modelleri 35 dB ve altında çalışır; çalışma saatleri Bluetooth uygulamadan ayarlanır.</p>
             </div>
             <div class="sector-row__aside">
-              <p class="sector-row__models"><b>CK-628, CK-638, CK-648, CK-644</b></p>
-              <a href="urunler.html?cat=wall" class="link-arrow">Duvar tipi modeller <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
+              <p class="sector-row__models"><b>ADS-687, ADS-689</b></p>
+              <a href="urunler.html?cat=wall" class="link-arrow">Duvar tipi modeller <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg?v=2fcf615f80#i-arrow-right"></use></svg></a>
             </div>
           </article>
           <article class="sector-row reveal">
             <div class="sector-row__name">
               <h3>Havalimanı, kongre merkezi, AVM</h3>
-              <p class="sector-row__range">Önerilen modeller: 5.000-15.000 m³</p>
+              <p class="sector-row__range">Önerilen modeller: 4.000-15.000 m³</p>
             </div>
             <div class="sector-row__text">
-              <p>Çok büyük alanlarda cihaz merkezi klima veya taze hava sistemine bağlanır ve koku kanallar üzerinden dağıtılır. 2 x 5000 ml'ye varan hazne seçenekleri dolum sıklığını azaltır.</p>
+              <p>Çok büyük alanlarda cihaz merkezi klima veya taze hava sistemine bağlanır ve koku kanallar üzerinden dağıtılır. ADS-640B ve ADS-670B 12.000 m³'e kadar kapsar; 2 x 5000 ml'ye varan hazneli CK-611 ve CK-621 serileri pek yakında.</p>
             </div>
             <div class="sector-row__aside">
-              <p class="sector-row__models"><b>CK-611 / 612 / 613, CK-621 / 622 / 623</b></p>
-              <a href="urunler.html?cat=pro" class="link-arrow">Profesyonel modeller <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
+              <p class="sector-row__models"><b>ADS-640B / 670B, CK-611 / 612 / 613, CK-621 / 622 / 623</b></p>
+              <a href="urunler.html?cat=pro" class="link-arrow">Profesyonel modeller <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg?v=2fcf615f80#i-arrow-right"></use></svg></a>
             </div>
           </article>
         </div>
@@ -185,12 +196,13 @@
         <div class="footer-brand">
           <a href="index.html" class="brand"><svg class="brand__logo" viewBox="0 0 1199.1 515.6" aria-hidden="true" focusable="false"><use href="images/brand/logo-sprite.svg?v=06101ca1a3#logo-word"></use></svg><span class="visually-hidden" lang="en" data-site="brand">Meira</span></a>
           <!-- [DOĞRULANACAK] Distribütörlüğün kapsamı (resmi / tek yetkili) belgelenmeden bu ifadeler kullanılmamalı. -->
-          <p>JVCK koku difüzörleri ve esanslarının Türkiye distribütörü. Oteller, ofisler, mağazalar ve yaşam alanları için ürün seçimi ve teklif.</p>
+          <p>Dongguan Andusic Technology Co., Ltd. koku difüzörleri ve esanslarının Türkiye distribütörü. Oteller, ofisler, mağazalar ve yaşam alanları için ürün seçimi ve teklif.</p>
           <p class="footer-certs"><a href="kurumsal.html#sertifikalar">ISO 9001 · ISO 14001 · ISO 22716 sertifikalı</a></p>
         </div>
         <div class="footer-col footer-col--a">
           <h2>Ürünler</h2>
           <ul>
+            <li><a href="urunler.html?cat=premium">Premium</a></li>
             <li><a href="urunler.html?cat=wall">Duvar tipi</a></li>
             <li><a href="urunler.html?cat=pro">Profesyonel ve klima</a></li>
             <li><a href="urunler.html?cat=plug">Prize takılan ve pasif</a></li>
@@ -203,7 +215,7 @@
           <ul>
             <li><a href="cozumler.html">Çözümler</a></li>
             <li><a href="teknoloji.html">Teknoloji</a></li>
-            <li><a href="esanslar.html">Esanslar</a></li>
+            <li><span class="footer-soon" aria-disabled="true">Esanslar <span class="nav-soon">Yakında</span></span></li>
             <li><a href="kurumsal.html">Kurumsal &amp; OEM</a></li>
             <li><a href="surdurulebilirlik.html">Sürdürülebilirlik</a></li>
           </ul>
@@ -223,7 +235,7 @@
           <!-- [DOĞRULANACAK] E-posta, telefon ve adres yer tutucudur (js/site-config.js). -->
           <ul>
             <li><a href="mailto:info@meirascent.com" data-site-href="email"><span data-site="email">info@meirascent.com</span></a></li>
-            <li><a href="tel:+902120000000" data-site-href="phone"><span data-site="phone">+90&nbsp;212&nbsp;000&nbsp;00&nbsp;00</span></a></li>
+            <li><a href="tel:+905527771974" data-site-href="phone"><span data-site="phone">+90&nbsp;552&nbsp;777&nbsp;19&nbsp;74</span></a></li>
             <li><span data-site="city">İstanbul, Türkiye</span></li>
           </ul>
         </div>
@@ -236,10 +248,10 @@
     </div>
   </footer>
 
-  <script src="js/site-config.js?v=c7145be163"></script>
-  <script src="js/products.js?v=560d289263"></script>
-  <script src="js/components.js?v=476e3eea5e"></script>
-  <script src="js/site.js?v=e53b853951"></script>
+  <script src="js/site-config.js?v=b89e394d3f"></script>
+  <script src="js/products.js?v=0541f0817f"></script>
+  <script src="js/components.js?v=a6acf2bf77"></script>
+  <script src="js/site.js?v=fbf8bec3fa"></script>
   <script>
     (function () {
       const { icon, esc } = MeiraApp;
@@ -251,12 +263,15 @@
 
       const imgPath = p => `images/${p.external ? 'general' : 'products'}/${p.img}.jpg`;
 
+      // Öneri sayısı; altında tüm ürünlere giden "Diğer ürünleri incele" düğmesi bulunur
+      const SUGGESTIONS = 2;
+
       // Kapsama metnindeki en yüksek m³ değeri (ör. "2.000 / 4.000 / 7.000 m³" -> 7000).
       // m² ile verilen (masaüstü) değerler hacim karşılaştırmasına alınmaz.
       function maxCoverage(p) {
-        const spec = p.specs.find(s => /kapsama/i.test(s[0]))?.[1] || '';
+        const spec = p.specs.find(s => /kapsama|coverage/i.test(s[0]))?.[1] || '';
         if (!/m³/.test(spec)) return 0;
-        const nums = (spec.match(/\d[\d.]*/g) || []).map(n => parseInt(n.replace(/\./g, ''), 10)).filter(Boolean);
+        const nums = (spec.match(/\d[\d.,]*/g) || []).map(n => parseInt(n.replace(/[.,]/g, ''), 10)).filter(Boolean);
         return nums.length ? Math.max(...nums) : 0;
       }
 
@@ -274,18 +289,21 @@
           return;
         }
 
+        // Yalnızca satıştaki modeller önerilir (soon olanlar hariç); en yakın kapsamadan başlayarak iki model
         const suitable = PRODUCTS
+          .filter(p => !p.soon)
           .map(p => ({ p, cov: maxCoverage(p) }))
           .filter(x => x.cov >= vol)
           .sort((a, b) => a.cov - b.cov)
-          .slice(0, 3)
+          .slice(0, SUGGESTIONS)
           .map(x => x.p);
 
         if (!suitable.length) {
           resultsContainer.innerHTML = `
-            <p class="calc-message">${vol.toLocaleString('tr-TR')} m³ için tek bir cihaz yeterli değil. Birden fazla cihaz veya klima bağlantılı CK-611 / CK-621 serisiyle kurulum gerekir.
+            <p class="calc-message">${vol.toLocaleString('tr-TR')} m³ için tek bir cihaz yeterli değil. Birden fazla cihazla ya da klima sistemine bağlanan yüksek kapasiteli modellerle kurulum gerekir.
               <a href="${quoteHref}&konu=hvac" class="text-link">Proje teklifi isteyin</a>
             </p>
+            <a href="urunler.html" class="btn btn--quiet calc-results__more">Diğer ürünleri incele ${icon('arrow-right')}</a>
           `;
           return;
         }
@@ -310,6 +328,7 @@
               </div>`;
             }).join('')}
           </div>
+          <a href="urunler.html" class="btn btn--quiet calc-results__more">Diğer ürünleri incele ${icon('arrow-right')}</a>
           <a href="${quoteHref}" class="link-arrow">Bu ölçülerle teklif isteyin ${icon('arrow-right')}</a>
         `;
       }

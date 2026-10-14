@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<!-- Baş bölüm, üst menü ve alt bilgi tools/build.mjs ile yazılır; ana içerik elle düzenlenir. -->
+<!-- Bu sayfa tools/build.mjs ile üretilir. Elle düzenlemeyin; içerik kaynağı için betiğe bakın. -->
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mekân Kokuları ve Difüzör Esansları | Meira</title>
-  <meta name="description" content="Otel lobisi karakterinde 12 koku, üst, kalp ve dip notalarıyla. 500 ml ve 5 L difüzör esansları, kartuşlar ve koku giderme ürünleri.">
-  <meta name="robots" content="index, follow, max-image-preview:large">
+  <title>Esans koleksiyonu hazırlanıyor | Meira</title>
+  <meta name="description" content="Esans koleksiyonumuz hazırlanıyor.">
+  <meta name="robots" content="noindex, follow">
   <meta name="theme-color" content="#141C27">
-  <link rel="canonical" href="https://www.meira.com.tr/esanslar.html">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="tr_TR">
+  <meta property="og:locale:alternate" content="en_GB">
   <meta property="og:site_name" content="Meira">
-  <meta property="og:title" content="Mekân Kokuları ve Difüzör Esansları | Meira">
-  <meta property="og:description" content="Otel lobisi karakterinde 12 koku, üst, kalp ve dip notalarıyla. 500 ml ve 5 L difüzör esansları, kartuşlar ve koku giderme ürünleri.">
+  <meta property="og:title" content="Esans koleksiyonu hazırlanıyor | Meira">
+  <meta property="og:description" content="Esans koleksiyonumuz hazırlanıyor.">
   <meta property="og:url" content="https://www.meira.com.tr/esanslar.html">
-  <meta property="og:image" content="https://www.meira.com.tr/images/general/oilrange.jpg">
-  <meta property="og:image:width" content="574">
-  <meta property="og:image:height" content="742">
+  <meta property="og:image" content="https://www.meira.com.tr/images/brand/og-meira.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Meira: oteller, ofisler ve mağazalar için profesyonel koku difüzörleri">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -26,11 +26,10 @@
   <link rel="alternate" type="application/rss+xml" title="Meira Blog" href="feed.xml">
   <link rel="preload" href="fonts/newsreader-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/style.css?v=04a4094772">
-  <script>document.documentElement.classList.add('js');</script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Ana sayfa","item":"https://www.meira.com.tr/index.html"},{"@type":"ListItem","position":2,"name":"Esanslar"}]}</script>
+  <link rel="stylesheet" href="css/style.css?v=c26b12025e">
+  <script>(function(d){d.classList.add('js');try{if(localStorage.getItem('meira-theme')==='dark')d.dataset.theme='dark'}catch(e){}})(document.documentElement);</script>
 </head>
-<body data-section="esanslar.html">
+<body>
   <a class="skip-link" href="#main">İçeriğe geç</a>
 
   <header class="site-header">
@@ -41,20 +40,27 @@
         <a href="urunler.html" class="nav-item">Ürünler</a>
         <a href="cozumler.html" class="nav-item">Çözümler</a>
         <a href="teknoloji.html" class="nav-item">Teknoloji</a>
-        <a href="esanslar.html" class="nav-item">Esanslar</a>
+        <span class="nav-item nav-item--soon" role="link" aria-disabled="true">Esanslar<span class="nav-soon">Yakında</span></span>
         <a href="kurumsal.html" class="nav-item">Kurumsal &amp; OEM</a>
         <a href="blog.html" class="nav-item">Blog</a>
         <a href="iletisim.html" class="nav-item">İletişim</a>
       </nav>
 
       <div class="nav-actions">
+        <nav class="lang-switch" aria-label="Dil">
+          <a href="esanslar.html" hreflang="tr" lang="tr" aria-current="true"><span class="visually-hidden">Türkçe</span><span aria-hidden="true">TR</span></a>
+          <a href="en/esanslar.html" hreflang="en" lang="en"><span class="visually-hidden">English</span><span aria-hidden="true">EN</span></a>
+        </nav>
+        <button type="button" class="theme-toggle" data-theme-toggle aria-pressed="false" aria-label="Koyu tema" title="Koyu tema">
+          <svg class="icon icon-moon" aria-hidden="true" focusable="false"><use href="images/icons.svg?v=2fcf615f80#i-moon"></use></svg><svg class="icon icon-sun" aria-hidden="true" focusable="false"><use href="images/icons.svg?v=2fcf615f80#i-sun"></use></svg>
+        </button>
         <button type="button" class="quote-trigger" aria-label="Teklif listesi">
-          <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-clipboard-text"></use></svg>
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg?v=2fcf615f80#i-clipboard-text"></use></svg>
           <span class="quote-trigger__label">Teklif listesi</span>
           <span class="quote-badge dc-cart-count empty" aria-hidden="true">0</span>
         </button>
         <button type="button" class="burger-btn" id="burgerBtn" aria-label="Menü" aria-expanded="false" aria-controls="navLinks">
-          <svg class="icon icon--lg icon-open" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-list"></use></svg><svg class="icon icon--lg icon-close" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-x"></use></svg>
+          <svg class="icon icon--lg icon-open" aria-hidden="true" focusable="false"><use href="images/icons.svg?v=2fcf615f80#i-list"></use></svg><svg class="icon icon--lg icon-close" aria-hidden="true" focusable="false"><use href="images/icons.svg?v=2fcf615f80#i-x"></use></svg>
         </button>
       </div>
     </div>
@@ -63,215 +69,16 @@
   <main id="main">
 
     <section class="page-head" aria-labelledby="page-title">
-      <div class="wrap split split--wide-b">
-        <div class="split__a">
-          <h1 id="page-title">Koku koleksiyonu</h1>
-          <p class="lead">Otel lobilerinde sık kullanılan koku ailelerinden 12 koku. Her biri üst, kalp ve dip notalarıyla; numune için talep formunu kullanabilirsiniz.</p>
-          <div class="mt-6 btn-row">
-            <a href="iletisim.html?konu=numune" class="link-arrow">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
-          </div>
-        </div>
-        <div class="split__b">
-          <figure class="video-figure" data-video>
-          <div class="media media--16x9">
-            <video data-autoplay loop muted playsinline preload="none" poster="images/general/video-hotel-poster.jpg">
-              <source src="images/products/videos/kling_20261006_VIDEO_Create_an__5223_0.mp4" type="video/mp4">
-            </video>
-          </div>
-          <figcaption class="video-figure__bar">
-            <span class="media-caption"><span class="visually-hidden">Otel odasında komodin üzerinde çalışan cam kubbeli difüzör; yapay zekâ ile üretilmiş tanıtım videosu. </span>Görsel temsilidir. Yapay zekâ ile üretilmiş tanıtım videosudur.</span>
-            <button type="button" class="video-toggle"><svg class="icon icon-pause" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-pause"></use></svg><svg class="icon icon-play" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-play"></use></svg><span class="video-toggle__label">Videoyu durdur</span></button>
-          </figcaption>
-        </figure>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="scents-title">
       <div class="wrap">
-        <div class="section-head reveal">
-          <h2 id="scents-title">12 koku, üç katmanlı notalar</h2>
-          <p class="lead">Koku adları betimleyicidir; notalar üreticinin koku kartlarından alınmıştır.</p>
+        <h1 id="page-title">Esans koleksiyonu</h1>
+        <p class="lead">Esans koleksiyonumuz hazırlanıyor. Koku seçenekleri kesinleştiğinde bu sayfada yer alacak.</p>
+        <div class="locked-card locked-card--inline mt-7">
+          <span class="locked-card__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg?v=2fcf615f80#i-lock"></use></svg></span>
+          <p class="locked-card__title">Esanslar yakında</p>
         </div>
-        <div class="scent-index" id="scentsContainer">
-          <!-- kokular:basla (tools/build.mjs) -->
-          <article class="scent">
-            <span class="scent__family">Çiçeksi · Pudralı</span>
-            <h3>Yasemin &amp; Vanilya</h3>
-            <dl>
-              <div><dt>Üst nota</dt><dd>Portakal, limon</dd></div>
-              <div><dt>Kalp notası</dt><dd>Leylak, yasemin, gül, ylang-ylang</dd></div>
-              <div><dt>Dip nota</dt><dd>Vanilya, misk</dd></div>
-            </dl>
-            <a class="link-arrow" href="iletisim.html?esans=Yasemin%20%26%20Vanilya">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
-          </article>
-          <article class="scent">
-            <span class="scent__family">Ferah · Çiçeksi</span>
-            <h3>Gardenya Beyaz Çay</h3>
-            <dl>
-              <div><dt>Üst nota</dt><dd>Beyaz çay</dd></div>
-              <div><dt>Kalp notası</dt><dd>Gardenya, yeşil çay, zencefil</dd></div>
-              <div><dt>Dip nota</dt><dd>Beyaz misk</dd></div>
-            </dl>
-            <a class="link-arrow" href="iletisim.html?esans=Gardenya%20Beyaz%20%C3%87ay">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
-          </article>
-          <article class="scent">
-            <span class="scent__family">Çiçeksi · Meyvemsi</span>
-            <h3>Falling in Love with Paris</h3>
-            <dl>
-              <div><dt>Üst nota</dt><dd>Ananas, manolya, şeftali, limon</dd></div>
-              <div><dt>Kalp notası</dt><dd>Papatya, menekşe, yasemin, gül</dd></div>
-              <div><dt>Dip nota</dt><dd>Vanilya, misk</dd></div>
-            </dl>
-            <a class="link-arrow" href="iletisim.html?esans=Falling%20in%20Love%20with%20Paris">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
-          </article>
-          <article class="scent">
-            <span class="scent__family">Çiçeksi · Odunsu</span>
-            <h3>Bergamot &amp; Sandal Ağacı</h3>
-            <dl>
-              <div><dt>Üst nota</dt><dd>Limon, bergamot, hindistan cevizi</dd></div>
-              <div><dt>Kalp notası</dt><dd>Yasemin, vadi zambağı</dd></div>
-              <div><dt>Dip nota</dt><dd>Sandal, amber, meşe yosunu</dd></div>
-            </dl>
-            <a class="link-arrow" href="iletisim.html?esans=Bergamot%20%26%20Sandal%20A%C4%9Fac%C4%B1">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
-          </article>
-          <article class="scent">
-            <span class="scent__family">Ferah · Çay</span>
-            <h3>Encountering White Tea</h3>
-            <dl>
-              <div><dt>Üst nota</dt><dd>Yeşil çay, limon, mandalina</dd></div>
-              <div><dt>Kalp notası</dt><dd>Beyaz çay</dd></div>
-              <div><dt>Dip nota</dt><dd>Beyaz amber, misk</dd></div>
-            </dl>
-            <a class="link-arrow" href="iletisim.html?esans=Encountering%20White%20Tea">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
-          </article>
-          <article class="scent">
-            <span class="scent__family">Ferah · Çay</span>
-            <h3>Beyaz Gül &amp; Misk</h3>
-            <dl>
-              <div><dt>Üst nota</dt><dd>Aldehit, narenciye</dd></div>
-              <div><dt>Kalp notası</dt><dd>Yasemin, vadi zambağı, beyaz gül</dd></div>
-              <div><dt>Dip nota</dt><dd>Misk</dd></div>
-            </dl>
-            <a class="link-arrow" href="iletisim.html?esans=Beyaz%20G%C3%BCl%20%26%20Misk">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
-          </article>
-          <article class="scent">
-            <span class="scent__family">Narenciye · Odunsu</span>
-            <h3>Frenk Üzümü &amp; İris</h3>
-            <dl>
-              <div><dt>Üst nota</dt><dd>Siyah frenk üzümü, Sicilya bergamotu</dd></div>
-              <div><dt>Kalp notası</dt><dd>Portakal çiçeği, iris, sedir</dd></div>
-              <div><dt>Dip nota</dt><dd>Sandal, amber, meşe yosunu</dd></div>
-            </dl>
-            <a class="link-arrow" href="iletisim.html?esans=Frenk%20%C3%9Cz%C3%BCm%C3%BC%20%26%20%C4%B0ris">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
-          </article>
-          <article class="scent">
-            <span class="scent__family">Meyvemsi · Ferah</span>
-            <h3>Stellar Encounters</h3>
-            <dl>
-              <div><dt>Üst nota</dt><dd>Greyfurt, elma</dd></div>
-              <div><dt>Kalp notası</dt><dd>Beyaz çiçekler, yasemin, gül</dd></div>
-              <div><dt>Dip nota</dt><dd>Misk</dd></div>
-            </dl>
-            <a class="link-arrow" href="iletisim.html?esans=Stellar%20Encounters">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
-          </article>
-          <article class="scent">
-            <span class="scent__family">Çiçeksi · Baharatlı</span>
-            <h3>Kiraz &amp; Beyaz Çiçek</h3>
-            <dl>
-              <div><dt>Üst nota</dt><dd>Kiraz, limon, bergamot</dd></div>
-              <div><dt>Kalp notası</dt><dd>Beyaz çiçek, gül, hindistan cevizi</dd></div>
-              <div><dt>Dip nota</dt><dd>Sandal, amber, misk</dd></div>
-            </dl>
-            <a class="link-arrow" href="iletisim.html?esans=Kiraz%20%26%20Beyaz%20%C3%87i%C3%A7ek">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
-          </article>
-          <article class="scent">
-            <span class="scent__family">Gül · Odunsu</span>
-            <h3>Gül &amp; Sedir</h3>
-            <dl>
-              <div><dt>Üst nota</dt><dd>Portakal, limon</dd></div>
-              <div><dt>Kalp notası</dt><dd>Gül, lavanta</dd></div>
-              <div><dt>Dip nota</dt><dd>Sedir, amber</dd></div>
-            </dl>
-            <a class="link-arrow" href="iletisim.html?esans=G%C3%BCl%20%26%20Sedir">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
-          </article>
-          <article class="scent">
-            <span class="scent__family">Ferah · Lavanta</span>
-            <h3>Fougère No. 2</h3>
-            <dl>
-              <div><dt>Üst nota</dt><dd>Taze narenciye</dd></div>
-              <div><dt>Kalp notası</dt><dd>Lavanta, papatya, gül</dd></div>
-              <div><dt>Dip nota</dt><dd>Beyaz misk, amber</dd></div>
-            </dl>
-            <a class="link-arrow" href="iletisim.html?esans=Foug%C3%A8re%20No.%202">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
-          </article>
-          <article class="scent">
-            <span class="scent__family">Narenciye · Tatlı</span>
-            <h3>Misket Limonu &amp; Adaçayı</h3>
-            <dl>
-              <div><dt>Üst nota</dt><dd>Limon, misket limonu</dd></div>
-              <div><dt>Kalp notası</dt><dd>Adaçayı, biberiye, portakal çiçeği</dd></div>
-              <div><dt>Dip nota</dt><dd>Kar çamı, amber</dd></div>
-            </dl>
-            <a class="link-arrow" href="iletisim.html?esans=Misket%20Limonu%20%26%20Ada%C3%A7ay%C4%B1">Numune iste <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
-          </article>
-          <!-- kokular:bitir -->
-        </div>
-      </div>
-    </section>
-
-    <section class="section section--deep" aria-labelledby="quality-title">
-      <div class="wrap split split--wide-a">
-        <div class="split__a reveal">
-          <div class="media media--3x2"><img src="images/general/perfumer.jpg" alt="Esans şişeleriyle dolu rafların önünde koku değerlendiren parfümör" loading="lazy" width="621" height="380"></div>
-        </div>
-        <div class="split__b reveal">
-          <h2 id="quality-title">Esans kalitesi</h2>
-          <!-- [DOĞRULANACAK] IFRA / SGS / IAA ifadeleri üretici beyanıdır; belge görülmeden kesin ifade kullanılmamalı. -->
-          <div class="mt-5 prose">
-            <p>Üretici beyanına göre esanslar alerjen, toksin ve kanserojen içermeyen doğal bitkisel özlerden üretilir; ham maddeler ABD ve Fransa'dan tedarik edilir.</p>
-            <p>Üretici ayrıca esansların IFRA (Uluslararası Koku Birliği) standartlarına uygunluğunun SGS tarafından test edildiğini ve bin üzerinde koku profilinden oluşan bir koku kütüphanesi bulunduğunu belirtmektedir.</p>
-          </div>
-          <div class="mt-6 quote-block">
-            <p>Test ve uygunluk belgelerini teklif sürecinde talep edebilirsiniz.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="oils" aria-labelledby="oils-title">
-      <div class="wrap split split--wide-a split--top">
-        <div class="split__a reveal">
-          <h2 id="oils-title">Dolum esansları ve koku giderme</h2>
-          <p class="mt-4 lead">Cihazlarınız için kartuş ve dolum esansları, koku giderici ürünler.</p>
-          <div class="mt-7 refill-groups" id="oilsListContainer">
-          <!-- dolum:basla (tools/build.mjs) -->
-          <div class="refill-group">
-            <h3>Difüzör esansları</h3>
-            <ul class="refill-list">
-              <li><span class="refill-list__code">ADS-168</span><span><span class="refill-list__name">Esans Kartuşu</span><span class="refill-list__note">168 ml · 72 adet/koli</span></span></li>
-              <li><span class="refill-list__code">ADS-500W</span><span><span class="refill-list__name">Difüzör Esansı</span><span class="refill-list__note">500 ml · 12 adet/koli</span></span></li>
-              <li><span class="refill-list__code">ADS-5000W</span><span><span class="refill-list__name">Difüzör Esansı</span><span class="refill-list__note">5 L · 2 adet/koli</span></span></li>
-              <li><span class="refill-list__code">ADS-500</span><span><span class="refill-list__name">Suda Çözünür Esans</span><span class="refill-list__note">500 ml · 12 adet/koli</span></span></li>
-              <li><span class="refill-list__code">ADS-5000Y</span><span><span class="refill-list__name">Suda Çözünür Esans</span><span class="refill-list__note">5 L · 2 adet/koli</span></span></li>
-            </ul>
-          </div>
-          <div class="refill-group">
-            <h3>Koku giderme</h3>
-            <ul class="refill-list">
-              <li><span class="refill-list__code">ADS-103</span><span><span class="refill-list__name">Koku Giderici Poşet</span><span class="refill-list__note">100 adet/koli</span></span></li>
-              <li><span class="refill-list__code">ADS-001</span><span><span class="refill-list__name">Aromatik Poşet</span><span class="refill-list__note">100 adet/koli</span></span></li>
-              <li><span class="refill-list__code">ADS-002</span><span><span class="refill-list__name">Pisuvar Koku Tableti</span><span class="refill-list__note">100 adet/koli · limon / lavanta / geranyum</span></span></li>
-            </ul>
-          </div>
-          <!-- dolum:bitir -->
-          </div>
-          <div class="mt-7 btn-row">
-            <a href="iletisim.html?teklif=1" class="btn btn--primary">Teklif iste <svg class="icon icon--move" aria-hidden="true" focusable="false"><use href="images/icons.svg#i-arrow-right"></use></svg></a>
-          </div>
-        </div>
-        <div class="split__b reveal">
-          <div class="media media--4x5 media--packshot"><img src="images/general/oilrange.jpg" alt="500 ml şişe ve 5 litre bidonda JVCK difüzör esansları" loading="lazy" width="574" height="742"></div>
+        <div class="btn-row mt-7">
+          <a href="urunler.html" class="btn btn--primary btn--lg">Ürünleri incele</a>
+          <a href="index.html" class="btn btn--quiet btn--lg">Ana sayfa</a>
         </div>
       </div>
     </section>
@@ -284,12 +91,13 @@
         <div class="footer-brand">
           <a href="index.html" class="brand"><svg class="brand__logo" viewBox="0 0 1199.1 515.6" aria-hidden="true" focusable="false"><use href="images/brand/logo-sprite.svg?v=06101ca1a3#logo-word"></use></svg><span class="visually-hidden" lang="en" data-site="brand">Meira</span></a>
           <!-- [DOĞRULANACAK] Distribütörlüğün kapsamı (resmi / tek yetkili) belgelenmeden bu ifadeler kullanılmamalı. -->
-          <p>JVCK koku difüzörleri ve esanslarının Türkiye distribütörü. Oteller, ofisler, mağazalar ve yaşam alanları için ürün seçimi ve teklif.</p>
+          <p>Dongguan Andusic Technology Co., Ltd. koku difüzörleri ve esanslarının Türkiye distribütörü. Oteller, ofisler, mağazalar ve yaşam alanları için ürün seçimi ve teklif.</p>
           <p class="footer-certs"><a href="kurumsal.html#sertifikalar">ISO 9001 · ISO 14001 · ISO 22716 sertifikalı</a></p>
         </div>
         <div class="footer-col footer-col--a">
           <h2>Ürünler</h2>
           <ul>
+            <li><a href="urunler.html?cat=premium">Premium</a></li>
             <li><a href="urunler.html?cat=wall">Duvar tipi</a></li>
             <li><a href="urunler.html?cat=pro">Profesyonel ve klima</a></li>
             <li><a href="urunler.html?cat=plug">Prize takılan ve pasif</a></li>
@@ -302,7 +110,7 @@
           <ul>
             <li><a href="cozumler.html">Çözümler</a></li>
             <li><a href="teknoloji.html">Teknoloji</a></li>
-            <li><a href="esanslar.html">Esanslar</a></li>
+            <li><span class="footer-soon" aria-disabled="true">Esanslar <span class="nav-soon">Yakında</span></span></li>
             <li><a href="kurumsal.html">Kurumsal &amp; OEM</a></li>
             <li><a href="surdurulebilirlik.html">Sürdürülebilirlik</a></li>
           </ul>
@@ -322,7 +130,7 @@
           <!-- [DOĞRULANACAK] E-posta, telefon ve adres yer tutucudur (js/site-config.js). -->
           <ul>
             <li><a href="mailto:info@meirascent.com" data-site-href="email"><span data-site="email">info@meirascent.com</span></a></li>
-            <li><a href="tel:+902120000000" data-site-href="phone"><span data-site="phone">+90&nbsp;212&nbsp;000&nbsp;00&nbsp;00</span></a></li>
+            <li><a href="tel:+905527771974" data-site-href="phone"><span data-site="phone">+90&nbsp;552&nbsp;777&nbsp;19&nbsp;74</span></a></li>
             <li><span data-site="city">İstanbul, Türkiye</span></li>
           </ul>
         </div>
@@ -335,9 +143,9 @@
     </div>
   </footer>
 
-  <script src="js/site-config.js?v=c7145be163"></script>
-  <script src="js/products.js?v=560d289263"></script>
-  <script src="js/components.js?v=476e3eea5e"></script>
-  <script src="js/site.js?v=e53b853951"></script>
+  <script src="js/site-config.js?v=b89e394d3f"></script>
+  <script src="js/products.js?v=0541f0817f"></script>
+  <script src="js/components.js?v=a6acf2bf77"></script>
+  <script src="js/site.js?v=fbf8bec3fa"></script>
 </body>
 </html>

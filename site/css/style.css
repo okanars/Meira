@@ -947,7 +947,7 @@ a.media img,
 /* Yükleme girişi: metin öğeleri 80 ms arayla bulanıklıktan netleşerek yükselir; görsel duvarı hafif
    bir yakınlaşmadan yerine oturur. Açılış perdesi oynuyorsa hepsi perde açılırken başlar (--intro-delay). */
 .hero { --intro-delay: 0ms; }
-.has-intro .hero { --intro-delay: 1500ms; }
+.has-intro .hero { --intro-delay: 2500ms; }
 .js .hero__text > *,
 .js .hero__foot { animation: enter-up var(--t-enter) var(--ease-out) both; animation-delay: var(--intro-delay); }
 .js .hero__text > :nth-child(2) { animation-delay: calc(var(--intro-delay) + 80ms); }
@@ -1334,12 +1334,13 @@ a.media img,
 }
 .product-card__top {
   display: flex;
-  justify-content: space-between;
-  gap: var(--s-3);
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-1) var(--s-3);
   font-size: var(--fs-small);
   color: var(--c-ink-3);
 }
-.product-card__code { font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+.product-card__code { margin-right: auto; font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
 .product-card__title,
 .post-card__title { font-family: var(--font-sans); font-size: 1.125rem; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; }
 .product-card__desc {
@@ -2826,9 +2827,10 @@ a.media img,
 }
 
 /* 22a. Açılış perdesi (yalnızca ana sayfa, oturumda bir kez) -------------- */
-/* Zaman çizelgesi (toplam ~2,1 s): harfler 60 ms arayla bulanıklıktan netleşir (0,1-0,9 s), şampanya
-   çizgi soldan çizilir (0,35-1,05 s), alt yazı belirir; 1,25 s'de işaret yükselip söner, perde 0,75 s'de
-   alttan yukarı açılır (ekranda yer değiştirme: ease-in-out). Zamanlama tamamen CSS'tedir; JS çalışmasa da
+/* Zaman çizelgesi (toplam ~3,1 s): harfler 60 ms arayla bulanıklıktan netleşir (0,1-0,9 s), şampanya
+   çizgi soldan çizilir (0,35-1,05 s), alt yazı belirir; logo 1 s daha ekranda kalır, 2,25 s'de işaret
+   yükselip söner, perde 0,75 s'de alttan yukarı açılır (ekranda yer değiştirme: ease-in-out).
+   Süreyi değiştirirseniz site.js INTRO_MS ve .has-intro .hero --intro-delay değerlerini birlikte güncelleyin. Zamanlama tamamen CSS'tedir; JS çalışmasa da
    perde kendiliğinden kalkar. Tıklama veya tuş perdeyi hemen geçer (site.js). */
 .site-intro { display: none; }
 .has-intro .site-intro {
@@ -2839,9 +2841,9 @@ a.media img,
   place-items: center;
   background: var(--c-noir);
   color: var(--c-ivory);
-  animation: intro-lift 750ms var(--ease-in-out) 1350ms both;
+  animation: intro-lift 750ms var(--ease-in-out) 2350ms both;
 }
-.site-intro__mark { display: grid; justify-items: center; gap: var(--s-4); animation: intro-mark-out 450ms var(--ease-out) 1250ms both; }
+.site-intro__mark { display: grid; justify-items: center; gap: var(--s-4); animation: intro-mark-out 450ms var(--ease-out) 2250ms both; }
 .site-intro__logo { display: block; width: clamp(240px, 52vw, 560px); height: auto; aspect-ratio: 1199.1 / 638.9; overflow: visible; }
 /* Harfler 60 ms arayla bulanıklıktan netleşir; ardından duman yükselir, en son slogan belirir */
 .site-intro__letter { transform-box: fill-box; transform-origin: 50% 100%; animation: intro-letter 800ms var(--ease-out) both; animation-delay: calc(100ms + var(--i) * 60ms); }
@@ -3010,3 +3012,255 @@ a.media img,
 @media print {
   body::after, .site-header, .site-footer, .catalog-bar { display: none; }
 }
+
+/* 30. Dil seçici, tema düğmesi, "pek yakında" ve premium durumları ---------- */
+/* Dil seçici (TR / EN): aynı sayfanın diğer dildeki karşılığı. Etkin dil altı çizili. */
+.lang-switch { display: inline-flex; align-items: center; }
+.lang-switch a {
+  display: inline-grid;
+  place-items: center;
+  min-width: 32px;
+  height: 44px;
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--c-ink-3);
+  transition: color var(--t-fast) ease;
+}
+.lang-switch a[aria-current="true"] {
+  color: var(--c-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--c-accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+}
+@media (hover: hover) and (pointer: fine) { .lang-switch a:hover { color: var(--c-ink); } }
+
+/* Tema düğmesi: ay (açık temada) ve güneş (koyu temada) aynı yerde, kısa dönüşle yer değiştirir */
+.theme-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r);
+  color: var(--c-ink-2);
+  transition: color var(--t-fast) ease, background-color var(--t-fast) ease, transform var(--t-press) var(--ease-out);
+}
+.theme-toggle:active { transform: var(--press); }
+@media (hover: hover) and (pointer: fine) { .theme-toggle:hover { color: var(--c-ink); background: rgba(244, 239, 230, 0.08); } }
+.theme-toggle > .icon { grid-area: 1 / 1; transition: opacity 160ms ease, transform 200ms var(--ease-out); }
+.theme-toggle .icon-sun { opacity: 0; transform: rotate(-45deg) scale(0.8); }
+[data-theme="dark"] .theme-toggle .icon-moon { opacity: 0; transform: rotate(45deg) scale(0.8); }
+[data-theme="dark"] .theme-toggle .icon-sun { opacity: 1; transform: none; }
+@media (max-width: 520px) {
+  .lang-switch a { min-width: 28px; }
+  .theme-toggle { width: 40px; }
+}
+/* Tema değişirken renk geçişleri kapalı: sayfa tek karede yeni temaya geçer (components.js initTheme) */
+.theme-switching *, .theme-switching *::before, .theme-switching *::after { transition: none !important; }
+
+/* Menüde henüz açılmamış bölüm (Esanslar): görünür ama tıklanmaz */
+.nav-item--soon { display: inline-flex; align-items: center; gap: var(--s-2); color: var(--c-ink-3); cursor: default; }
+.nav-item--soon::after { display: none; }
+@media (hover: hover) and (pointer: fine) { .nav-item--soon:hover { color: var(--c-ink-3); } }
+.nav-soon {
+  padding: 1px 5px;
+  border: 1px solid var(--c-line-strong);
+  border-radius: var(--r);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--c-ink-3);
+}
+@media (max-width: 1099px) {
+  .nav.mobile-open .nav-item--soon { justify-content: space-between; color: var(--c-ink-3); }
+  .nav.mobile-open .nav-item:nth-child(7) { animation-delay: 240ms; }
+}
+.footer-soon { display: inline-flex; align-items: center; gap: var(--s-2); min-height: 32px; color: var(--c-ivory-3); }
+.footer-soon .nav-soon { border-color: var(--c-line-dark); color: var(--c-ivory-3); }
+
+/* Ürün kartı: satışta olmayan (pek yakında) ve premium (metal gövdeli) */
+.product-card__soon {
+  position: absolute;
+  top: var(--s-3);
+  right: var(--s-3);
+  padding: 4px 10px;
+  border-radius: var(--r);
+  background: var(--c-surface);
+  border: 1px solid var(--c-line-strong);
+  color: var(--c-ink);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+}
+.product-card--soon .media img { opacity: 0.82; filter: grayscale(0.3); }
+.product-card--soon .product-card__title { color: var(--c-ink-2); }
+@media (hover: hover) and (pointer: fine) {
+  .product-card--soon:hover .product-card__title { text-decoration: none; }
+  .product-card--soon:hover .media img { transform: none; }
+}
+.product-card__status {
+  margin-top: auto;
+  padding-top: var(--s-4);
+  font-size: var(--fs-small);
+  color: var(--c-ink-3);
+}
+/* Premium etiketi: fırçalanmış metal tonunda küçük rozet; tema değişse de aynı kalır */
+.product-card__premium,
+.pd__badge--premium {
+  padding: 1px 7px;
+  border: 1px solid #A9AEB6;
+  border-radius: var(--r);
+  background: linear-gradient(135deg, #F1F2F4 0%, #C9CDD3 48%, #E7E9EC 100%);
+  color: #141C27;
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.product-card--premium .media { box-shadow: inset 0 -2px 0 #B9BEC5; }
+
+/* "Pek yakında" hapı (ana sayfa video kartı, ürün sayfası) */
+.soon-pill {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  padding: 3px 10px;
+  border: 1px solid var(--c-line-strong);
+  border-radius: var(--r);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-ink-2);
+}
+.pd__soon { display: grid; gap: var(--s-3); justify-items: start; margin-top: var(--s-6); }
+.pd__soon p { max-width: 46ch; color: var(--c-ink-2); }
+.video-card__model { font-size: var(--fs-label); font-weight: 600; letter-spacing: 0.04em; color: var(--c-ink-3); font-variant-numeric: tabular-nums; }
+
+/* Kilitli içerik (esanslar kesinleşene kadar) */
+.locked-card {
+  display: grid;
+  gap: var(--s-2);
+  justify-items: start;
+  padding: var(--s-6);
+  border: 1px dashed var(--c-line-strong);
+  border-radius: var(--r);
+  background: var(--c-surface);
+}
+.locked-card__icon {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: var(--s-2);
+  border: 1px solid var(--c-line-strong);
+  border-radius: var(--r);
+  color: var(--c-ink-2);
+}
+.locked-card__title { font-family: var(--font-serif); font-size: var(--fs-h3); line-height: 1.25; color: var(--c-ink); }
+.locked-card p:not(.locked-card__title) { font-size: var(--fs-small); color: var(--c-ink-2); }
+.locked-card--inline { grid-auto-flow: column; align-items: center; justify-content: start; gap: var(--s-4); width: fit-content; max-width: 100%; padding: var(--s-4) var(--s-6) var(--s-4) var(--s-4); }
+.locked-card--inline .locked-card__icon { margin-bottom: 0; }
+
+/* Hesaplayıcı: önerilerin altında tüm ürünlere geçiş */
+.calc-results__more { justify-self: start; }
+
+/* 31. Koyu tema ------------------------------------------------------------- */
+/* Varsayılan açık temadır. Koyu tema yalnızca başlıktaki düğmeyle seçilir (<html data-theme="dark">,
+   tercih localStorage['meira-theme']). Siyah zemin üzerinde gümüş metin; şampanya vurgular gümüşe döner.
+   Bileşenler token'ları kullandığı için çoğu otomatik uyum sağlar; aşağıda yalnızca sabit renkli kurallar düzeltilir. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --c-bg: #0B0B0C;              /* siyah zemin */
+  --c-bg-deep: #141416;         /* ayrılan bantlar */
+  --c-surface: #19191C;         /* kart, form, panel */
+  --c-ink: #D9DCE1;             /* gümüş: başlık ve metin */
+  --c-ink-2: #B4B9C0;
+  --c-ink-3: #8D939B;
+  --c-line: rgba(217, 220, 225, 0.14);
+  --c-line-strong: #6B7179;
+  --c-accent: #D9DCE1;
+  --c-accent-hover: #F2F3F5;
+  --c-accent-tint: rgba(217, 220, 225, 0.16);
+  --c-on-accent: #0B0B0C;
+  --c-champagne: #C9CDD3;       /* gümüş: buton zemini, rozet */
+  --c-champagne-deep: #AEB3BA;
+  --c-gold-line: #8D939B;
+  --c-error: #E39484;
+  --c-scrim: rgba(0, 0, 0, 0.6);
+  --c-noir: #000000;
+  --c-noir-2: #0E0E10;
+  --c-ivory: #E6E8EB;
+  --c-ivory-2: #B4B9C0;
+  --c-ivory-3: #8D939B;
+  --c-line-dark: rgba(217, 220, 225, 0.14);
+  --fluted:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0) 45%, rgba(0, 0, 0, 0.2)),
+    repeating-linear-gradient(90deg,
+      rgba(255, 255, 255, 0.07) 0 1px,
+      rgba(255, 255, 255, 0.02) 1px 5px,
+      rgba(0, 0, 0, 0) 5px 9px,
+      rgba(0, 0, 0, 0.18) 9px 13px,
+      rgba(0, 0, 0, 0.3) 13px 14px);
+  --shadow-float: 0 30px 80px -30px rgba(0, 0, 0, 0.8);
+  --shadow-toast: 0 12px 32px -12px rgba(0, 0, 0, 0.8);
+}
+/* Koyu bantlar siyah zeminden ince gümüş çizgiyle ayrılır */
+[data-theme="dark"] .section--dark { border-block: 1px solid var(--c-line); }
+[data-theme="dark"] .theme-light {
+  --c-ink: #D9DCE1;
+  --c-ink-2: #B4B9C0;
+  --c-ink-3: #8D939B;
+  --c-line: rgba(217, 220, 225, 0.14);
+  --c-line-strong: #6B7179;
+  --c-accent: #D9DCE1;
+}
+[data-theme="dark"] .site-header.scrolled { background: rgba(0, 0, 0, 0.9); }
+[data-theme="dark"] .site-header.on-dark.scrolled:not(.menu-open) { background: rgba(0, 0, 0, 0.72); }
+[data-theme="dark"] .hero__shade {
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.94) 0%, rgba(0, 0, 0, 0.9) 45%, rgba(0, 0, 0, 0.66) 75%, rgba(0, 0, 0, 0.5) 100%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0) 34%);
+}
+@media (max-width: 899px) {
+  [data-theme="dark"] .hero__shade { background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.9) 40%, rgba(0, 0, 0, 0.95) 100%); }
+}
+/* Gümüş zeminli butonlarda metin koyu kalır */
+[data-theme="dark"] .btn--primary,
+[data-theme="dark"] .btn--light,
+[data-theme="dark"] .btn-add.is-added { color: #0B0B0C; }
+[data-theme="dark"] .section--deep .btn--primary { background: var(--c-champagne); border-color: var(--c-champagne-deep); }
+@media (hover: hover) and (pointer: fine) {
+  [data-theme="dark"] .btn-add:hover { color: #0B0B0C; }
+  [data-theme="dark"] .section--deep .btn--primary:hover { background: var(--c-champagne-deep); border-color: var(--c-champagne-deep); }
+  [data-theme="dark"] .btn--quiet:hover,
+  [data-theme="dark"] .icon-btn:hover,
+  [data-theme="dark"] .qty-btn:hover { background: rgba(255, 255, 255, 0.06); }
+}
+[data-theme="dark"] .section--deep .section-label::after { background: var(--c-line); }
+[data-theme="dark"] .form-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256' fill='%23B4B9C0'%3E%3Cpath d='M212.24,100.24l-80,80a6,6,0,0,1-8.48,0l-80-80a6,6,0,0,1,8.48-8.48L128,167.51l75.76-75.75a6,6,0,0,1,8.48,8.48Z'/%3E%3C/svg%3E");
+}
+[data-theme="dark"] .particle-toggle-btn.active { box-shadow: 0 0 0 1px var(--c-line-strong); }
+[data-theme="dark"] .sim-visual__layer--nano {
+  background-image:
+    radial-gradient(circle, rgba(217, 220, 225, 0.6) 0 1.1px, transparent 1.6px),
+    radial-gradient(circle, rgba(217, 220, 225, 0.38) 0 0.9px, transparent 1.4px);
+}
+[data-theme="dark"] .sim-visual__layer--aerosol {
+  background-image:
+    radial-gradient(circle, rgba(217, 220, 225, 0.5) 0 5px, transparent 5.6px),
+    radial-gradient(circle, rgba(217, 220, 225, 0.36) 0 3.5px, transparent 4px);
+}
+[data-theme="dark"] .sim-visual__surface::after { background-image: radial-gradient(ellipse 9px 3px, rgba(217, 220, 225, 0.45) 60%, transparent 100%); }
+/* Ürün görselleri açık zeminli çekimlerdir; koyu zeminde kenarları yumuşatmak için hafif kısılır */
+[data-theme="dark"] .product-card .media img,
+[data-theme="dark"] .modal-main-img,
+[data-theme="dark"] .modal-thumb img,
+[data-theme="dark"] .calc-row img { filter: brightness(0.92); }
+[data-theme="dark"] .product-card--soon .media img { filter: brightness(0.85) grayscale(0.3); }

@@ -45,7 +45,7 @@ export const POSTS = [
   <li><strong>Geri bildirim toplayın.</strong> İlk haftalarda çalışanlardan ve misafirlerden yoğunluk hakkında görüş alın; cihazın püskürtme ve bekleme sürelerini buna göre ayarlayın.</li>
 </ol>
 
-<p>Mekânınıza uygun koku ailesini seçmek için <a href="esanslar.html">koku koleksiyonuna</a>, cihaz seçimi için <a href="urunler.html">ürün kataloğuna</a> göz atabilirsiniz.</p>
+<p>Cihaz seçimi için <a href="urunler.html">ürün kataloğuna</a> göz atabilirsiniz. Esans koleksiyonumuz hazırlanıyor; kesinleştiğinde sitede yer alacak.</p>
 `,
     sources: [
       { label: 'Spangenberg, E. R., Crowley, A. E. ve Henderson, P. W. (1996). Improving the store environment: Do olfactory cues affect evaluations and behaviors? Journal of Marketing, 60(2), 67-80.' },
@@ -86,12 +86,12 @@ export const POSTS = [
 <p>Bu hesabı <a href="cozumler.html#hesaplayici">hacim hesaplayıcı</a> sizin için yapar ve kapsaması bu hacmi karşılayan modelleri, kapsama değeri en yakın olandan başlayarak listeler.</p>
 
 <h2>Katalogdaki kapsama aralıkları</h2>
-<p>Üretici verisine göre katalogdaki cihazlar küçük bir koku kutusundan klima sistemine bağlanan çift başlıklı serilere kadar geniş bir aralığı kapsar. Birkaç örnek:</p>
+<p>Üretici verisine göre katalogdaki cihazlar prize takılan küçük modellerden klima sistemine bağlanan çift başlıklı serilere kadar geniş bir aralığı kapsar. Birkaç örnek:</p>
 <ul>
-  <li><a href="urun-ck628.html">CK-628</a> ultrasonik duvar difüzörü: 300 m³ (toplantı odası, otel odası, ofis).</li>
-  <li><a href="urun-ck688.html">CK-688</a> çift akışkanlı duvar difüzörü: 800 m³ (mağaza, showroom).</li>
+  <li>CK-628 ultrasonik duvar difüzörü: 300 m³ (toplantı odası, otel odası, ofis).</li>
+  <li>CK-688 çift akışkanlı duvar difüzörü: 800 m³ (mağaza, showroom).</li>
   <li><a href="urun-ck686.html">ADS-687</a> kolon difüzör: 1.500-2.000 m³ (lobi, restoran).</li>
-  <li><a href="urun-ck621.html">CK-621 / 622 / 623</a> serisi: 8.000 m³, 1000 / 3000 / 5000 ml hazne seçenekleri (büyük alanlar, klima bağlantısı).</li>
+  <li>CK-621 / 622 / 623 serisi: 8.000 m³, 1000 / 3000 / 5000 ml hazne seçenekleri (büyük alanlar, klima bağlantısı).</li>
 </ul>
 
 <h2>Hesabın yetmediği durumlar</h2>
@@ -133,7 +133,7 @@ export const POSTS = [
 <p class="lead">Profesyonel koku difüzörleri esansı havaya iki temel yöntemle verir: ultrasonik titreşim ya da basınçlı hava. İkisi de ısı kullanmaz; fark, parçacığın nasıl oluştuğunda ve bunun sonuçlarındadır.</p>
 
 <h2>Ultrasonik atomizasyon</h2>
-<p>Ultrasonik cihazlarda esans, yüksek frekansta titreşen bir plakanın (seramik disk) üzerinde ince bir sise dönüşür. Ev tipi aroma difüzörlerinin çoğu bu prensiple suyu ve esansı birlikte buharlaştırmadan sise çevirir. Katalogdaki ultrasonik duvar modelleri (<a href="urun-ck628.html">CK-628</a>, <a href="urun-ck638.html">CK-638</a>, <a href="urun-ck648.html">CK-648</a>) üretici verisine göre 8 dBA'nın altında ses seviyesiyle çalışır ve değiştirilebilir bir ultrasonik plakaya sahiptir.</p>
+<p>Ultrasonik cihazlarda esans, yüksek frekansta titreşen bir plakanın (seramik disk) üzerinde ince bir sise dönüşür. Ev tipi aroma difüzörlerinin çoğu bu prensiple suyu ve esansı birlikte buharlaştırmadan sise çevirir. Katalogdaki ultrasonik duvar modelleri (CK-628, CK-638, CK-648) üretici verisine göre 8 dBA'nın altında ses seviyesiyle çalışır ve değiştirilebilir bir ultrasonik plakaya sahiptir.</p>
 <p><strong>Güçlü yanları:</strong> çok sessiz çalışma, düşük güç tüketimi, kompakt gövde. <strong>Sınırları:</strong> kapsama alanı daha küçüktür; katalogdaki ultrasonik duvar modelleri 300 m³ kapsar. Plaka zamanla aşınabilir ve değiştirilmesi gerekir.</p>
 
 <h2>Çift akışkanlı (basınçlı hava) atomizasyon</h2>
@@ -198,10 +198,10 @@ export const POSTS = [
 <h2>Katalogdaki klima bağlantılı modeller</h2>
 <p>Üretici verisine göre şu modeller klima ya da taze hava sistemine bağlanabilir:</p>
 <ul>
-  <li><a href="urun-ck631.html">CK-631</a> hava pompalı klima bağlantılı difüzör: 3.500 m³, kızılötesi yağ seviyesi algılama.</li>
+  <li>CK-631 hava pompalı klima bağlantılı difüzör: 3.500 m³, kızılötesi yağ seviyesi algılama.</li>
   <li><a href="urun-ck620.html">ADS-620B / 640B / 670B</a> serisi: 2.000-5.000, 4.000-8.000 ve 7.000-12.000 m³.</li>
-  <li><a href="urun-ck621.html">CK-621 / 622 / 623</a> serisi: 8.000 m³, 1000 / 3000 / 5000 ml hazne seçenekleri.</li>
-  <li><a href="urun-ck611.html">CK-611 / 612 / 613</a> çift başlıklı seri: 5.000 ile 15.000 m³, 2 x 5000 ml'ye kadar hazne.</li>
+  <li>CK-621 / 622 / 623 serisi: 8.000 m³, 1000 / 3000 / 5000 ml hazne seçenekleri.</li>
+  <li>CK-611 / 612 / 613 çift başlıklı seri: 5.000 ile 15.000 m³, 2 x 5000 ml'ye kadar hazne.</li>
   <li><a href="urun-ck686.html">ADS-687</a> kolon difüzör: taze hava sistemi bağlantısı.</li>
 </ul>
 
@@ -305,7 +305,7 @@ export const POSTS = [
 </ol>
 
 <h2>Katalogdaki esanslar hakkında</h2>
-<p>Üretici, esanslarının IFRA standartlarına uygunluğunun SGS tarafından test edildiğini belirtmektedir. Bu bir üretici beyanıdır; test ve uygunluk belgelerini teklif sürecinde talep edebilirsiniz. Koku seçenekleri için <a href="esanslar.html">koku koleksiyonuna</a> bakabilirsiniz.</p>
+<p>Üretici, esanslarının IFRA standartlarına uygunluğunun SGS tarafından test edildiğini belirtmektedir. Bu bir üretici beyanıdır; test ve uygunluk belgelerini teklif sürecinde talep edebilirsiniz. Esans koleksiyonumuz hazırlanıyor; koku seçenekleri kesinleştiğinde sitede yer alacak.</p>
 <!-- [DOĞRULANACAK] IFRA / SGS ifadesi üretici beyanıdır; belge görülmeden kesin ifade kullanılmamalı. -->
 `,
     sources: [
@@ -338,8 +338,8 @@ export const POSTS = [
   <caption>Alan, koku ailesi ve cihaz tipi</caption>
   <thead><tr><th scope="col">Alan</th><th scope="col">Koku ailesi</th><th scope="col">Cihaz tipi</th></tr></thead>
   <tbody>
-    <tr><td>Lobi ve resepsiyon</td><td>Ferah çay, beyaz çiçekler, hafif odunsu</td><td>Kolon ya da klima bağlantılı (<a href="urun-ck686.html">ADS-687 kolon</a>, <a href="urun-ck631.html">CK-631</a>)</td></tr>
-    <tr><td>Koridor ve asansör</td><td>Lobi kokusunun düşük yoğunluklu devamı</td><td>Duvar tipi ultrasonik (<a href="urun-ck638.html">CK-638</a>)</td></tr>
+    <tr><td>Lobi ve resepsiyon</td><td>Ferah çay, beyaz çiçekler, hafif odunsu</td><td>Kolon ya da klima bağlantılı (<a href="urun-ck686.html">ADS-687 kolon</a>, CK-631)</td></tr>
+    <tr><td>Koridor ve asansör</td><td>Lobi kokusunun düşük yoğunluklu devamı</td><td>Duvar tipi ultrasonik (CK-638)</td></tr>
     <tr><td>Oda</td><td>Sakin, pudralı ya da lavantalı</td><td>Masaüstü ya da çubuklu koku</td></tr>
     <tr><td>Spa</td><td>Lavanta, adaçayı, odunsu</td><td>Duvar tipi, düşük ses</td></tr>
     <tr><td>Restoran</td><td>Çok hafif ya da kokusuz</td><td>Gerekirse yalnızca giriş alanında</td></tr>
@@ -347,13 +347,13 @@ export const POSTS = [
 </table>
 </div>
 
-<h2>Koleksiyondan örnek eşleşmeler</h2>
+<h2>Koku ailesi seçerken</h2>
 <ul>
-  <li><strong>Lobi:</strong> Encountering White Tea (yeşil çay, beyaz çay, beyaz amber) ya da Gardenya Beyaz Çay. Ferah ve tanıdık; geniş kitleler tarafından rahatsız edici bulunma ihtimali düşük.</li>
-  <li><strong>Akşam saatleri ve bar:</strong> Bergamot &amp; Sandal Ağacı ya da Gül &amp; Sedir gibi odunsu dipli kokular.</li>
-  <li><strong>Spa ve oda:</strong> Fougère No. 2 (lavanta, papatya, beyaz misk) ya da Misket Limonu &amp; Adaçayı.</li>
+  <li><strong>Lobi:</strong> Yeşil çay, beyaz çay ve beyaz amber gibi ferah ve tanıdık notalar; geniş kitleler tarafından rahatsız edici bulunma ihtimali düşüktür.</li>
+  <li><strong>Akşam saatleri ve bar:</strong> Bergamot, sandal ağacı ya da sedir gibi odunsu dipli kokular.</li>
+  <li><strong>Spa ve oda:</strong> Lavanta, papatya, beyaz misk ya da adaçayı gibi sakin notalar.</li>
 </ul>
-<p>Tüm kokuların üst, kalp ve dip notalarını <a href="esanslar.html">koku koleksiyonu</a> sayfasında bulabilirsiniz.</p>
+<p>Esans koleksiyonumuz hazırlanıyor; koku seçenekleri kesinleştiğinde sitede yer alacak.</p>
 
 <h2>Uygulama ipuçları</h2>
 <ol>

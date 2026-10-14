@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Meira Blog</title>
+    <link>https://www.meira.com.tr/en/blog.html</link>
+    <description>Sourced guides on scenting spaces, choosing a device and fragrance safety.</description>
+    <language>en</language>
+    <lastBuildDate>Wed, 14 Oct 2026 06:00:00 GMT</lastBuildDate>
+    <atom:link href="https://www.meira.com.tr/en/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>What is scent marketing? What research says about ambient scent</title>
+      <link>https://www.meira.com.tr/en/blog-koku-pazarlamasi-nedir.html</link>
+      <guid isPermaLink="true">https://www.meira.com.tr/en/blog-koku-pazarlamasi-nedir.html</guid>
+      <pubDate>Tue, 06 Oct 2026 06:00:00 GMT</pubDate>
+      <description>Three key studies on how ambient scent affects customer perception, and how to apply the findings well in hotels, shops and offices.</description>
+    </item>
+    <item>
+      <title>Choosing a scent diffuser by room volume: the m³ calculation step by step</title>
+      <link>https://www.meira.com.tr/en/blog-mekan-hacmine-gore-difuzor-secimi.html</link>
+      <guid isPermaLink="true">https://www.meira.com.tr/en/blog-mekan-hacmine-gore-difuzor-secimi.html</guid>
+      <pubDate>Tue, 06 Oct 2026 06:00:00 GMT</pubDate>
+      <description>Why diffuser coverage is given in m³ rather than m², how to calculate volume and when you need more than one device.</description>
+    </item>
+    <item>
+      <title>Ultrasonic versus dual-fluid (nano) diffusers: what is the difference?</title>
+      <link>https://www.meira.com.tr/en/blog-ultrasonik-ve-cift-akiskanli-difuzor-farki.html</link>
+      <guid isPermaLink="true">https://www.meira.com.tr/en/blog-ultrasonik-ve-cift-akiskanli-difuzor-farki.html</guid>
+      <pubDate>Tue, 06 Oct 2026 06:00:00 GMT</pubDate>
+      <description>How the two common atomisation methods work and which suits which space. A comparison of noise, maintenance, fragrance use and coverage.</description>
+    </item>
+    <item>
+      <title>Connecting a scent diffuser to the HVAC system: a guide</title>
+      <link>https://www.meira.com.tr/en/blog-klima-sistemine-koku-difuzoru-baglama.html</link>
+      <guid isPermaLink="true">https://www.meira.com.tr/en/blog-klima-sistemine-koku-difuzoru-baglama.html</guid>
+      <pubDate>Tue, 06 Oct 2026 06:00:00 GMT</pubDate>
+      <description>Spreading scent through the ventilation ducts in large spaces: connection points, device position, maintenance and what to gather before a project.</description>
+    </item>
+    <item>
+      <title>Scent fatigue: how to set the intensity of a space&#39;s scent</title>
+      <link>https://www.meira.com.tr/en/blog-koku-yorgunlugu-ve-dogru-yogunluk.html</link>
+      <guid isPermaLink="true">https://www.meira.com.tr/en/blog-koku-yorgunlugu-ve-dogru-yogunluk.html</guid>
+      <pubDate>Tue, 06 Oct 2026 06:00:00 GMT</pubDate>
+      <description>Why people get used to a scent they are constantly exposed to, how this affects the intensity setting and what to watch for indoor air quality.</description>
+    </item>
+    <item>
+      <title>What are IFRA standards? Which documents to ask your fragrance supplier for</title>
+      <link>https://www.meira.com.tr/en/blog-ifra-standartlari-nedir.html</link>
+      <guid isPermaLink="true">https://www.meira.com.tr/en/blog-ifra-standartlari-nedir.html</guid>
+      <pubDate>Tue, 06 Oct 2026 06:00:00 GMT</pubDate>
+      <description>What the International Fragrance Association (IFRA) standards regulate, how a fragrance&#39;s compliance is documented and which documents to request in business purchasing.</description>
+    </item>
+    <item>
+      <title>Choosing scent for a hotel: scent families for the lobby, corridors and rooms</title>
+      <link>https://www.meira.com.tr/en/blog-otel-icin-koku-secimi.html</link>
+      <guid isPermaLink="true">https://www.meira.com.tr/en/blog-otel-icin-koku-secimi.html</guid>
+      <pubDate>Tue, 06 Oct 2026 06:00:00 GMT</pubDate>
+      <description>Choosing scent families and devices for different areas of a hotel: practical advice for the lobby, corridors, rooms, spa and restaurant.</description>
+    </item>
+  </channel>
+</rss>

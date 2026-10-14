@@ -5,6 +5,7 @@
 export const SUSTAINABILITY = {
   title: 'Sürdürülebilir Mekân Kokulandırma | Meira',
   h1: 'Sürdürülebilir mekân kokulandırma',
+  crumb: 'Sürdürülebilirlik',
   description: 'Daha az esans, daha uzun cihaz ömrü, doğru dolum ve atık yönetimi: mekân kokulandırmanın çevresel etkisini azaltmak için ürün özellikleri ve pratik öneriler.',
   lead: 'Kokulandırmanın çevresel etkisi büyük ölçüde üç şeye bağlıdır: ne kadar esans tüketildiği, ambalajların ve cihazların ne kadar uzun kullanıldığı ve ömrünü tamamlayan pil ve cihazların nasıl toplandığı. Bu sayfada ürünlerin bu konulardaki özelliklerini ve uygulamada dikkat edilmesi gerekenleri bir araya getirdik.',
   sections: [
@@ -24,7 +25,7 @@ export const SUSTAINABILITY = {
       id: 'dolum',
       title: 'Dolum ve ambalaj',
       html: `<p>Difüzör esansları 500 ml şişe ve 5 L bidon olarak, ultrasonik modeller için ise 168 ml kartuş olarak sunulur. Büyük alanlarda ve çok sayıda cihaz kullanılan işletmelerde büyük hacimli dolum, aynı miktar esans için genellikle daha az ambalaj demektir. Cihazlar yeniden doldurulabilir; hazne ile birlikte atılan tek kullanımlık bir kartuş sistemi değildir.</p>
-<p>Dolum ürünlerinin listesi <a href="esanslar.html#oils" class="text-link">esanslar sayfasında</a>.</p>`
+<p>Dolum esanslarının listesi, esans koleksiyonu kesinleştiğinde sitede yer alacak.</p>`
     },
     {
       id: 'omur',
@@ -88,7 +89,7 @@ export const FAQ = {
       items: [
         ['Sitede online satış var mı?', 'Hayır. Ürünler kurumsal teklif ile satılır; sitede fiyat, ödeme ya da hesap yoktur. İlgilendiğiniz ürünleri teklif listesine ekleyip tek formla teklif isteyebilirsiniz.'],
         ['Teklif nasıl istenir?', 'Katalogda ürünlerin yanındaki "Listeye ekle" butonuyla teklif listenizi oluşturun. Sağ üstteki "Teklif listesi" düğmesinden listeyi açıp "Teklif formuna aktar" deyin; ürünler ve adetler mesaja otomatik eklenir. Mekânın ölçülerini ve kullanım amacını da yazarsanız teklif buna göre hazırlanır.'],
-        ['Numune alabilir miyim?', 'Koleksiyondaki kokular için teklif formunda konu olarak "Fiyat ve numune teklifi" seçip istediğiniz kokuları yazabilirsiniz. Numune koşulları teklifle birlikte bildirilir.'],
+        ['Numune alabilir miyim?', 'Esans koleksiyonumuz hazırlanıyor. Koku numunesi için teklif formunda konu olarak "Fiyat ve numune teklifi" seçip mekânınızı ve aradığınız koku karakterini yazabilirsiniz; numune koşulları teklifle birlikte bildirilir.'],
         ['Kendi markamın logosuyla ürün yaptırabilir miyim?', 'Üretici, özel markalı üretim (OEM) ve ortak ürün geliştirme (ODM) desteği sunduğunu belirtmektedir: cihaz gövdesine logo baskısı, renk seçimi, özel ambalaj ve markaya özel koku formülü. Talebinizi üreticiye iletir, süreci sizin adınıza takip ederiz. Asgari sipariş ve süre koşulları talebe göre bildirilir.']
       ]
     },
@@ -114,7 +115,7 @@ export const FAQ = {
     {
       title: 'Şirket',
       items: [
-        ['Ürünleri kim üretiyor?', 'Ürünler JVCK markasıyla Dongguan Zhiliangzhi Fragrance Technology Co., Ltd. (Dongguan, Çin) tarafından geliştirilir ve üretilir. Meira, JVCK ürünlerinin Türkiye distribütörüdür ve Türkiye\'deki projeler için ürün seçimi, teklif ve tedarik süreçlerini yürütür.'],
+        ['Ürünleri kim üretiyor?', 'Ürünler Dongguan Andusic Technology Co., Ltd. (Dongguan, Çin) tarafından geliştirilir ve üretilir. Meira, Dongguan Andusic Technology Co., Ltd. ürünlerinin Türkiye distribütörüdür ve Türkiye\'deki projeler için ürün seçimi, teklif ve tedarik süreçlerini yürütür.'],
         ['Teknik veriler nereden alınıyor?', 'Ürün sayfalarındaki teknik veriler üreticinin 2025 ürün kataloğundan alınmıştır. Değerler modele ve varyanta göre değişebilir; kesin bilgi teklif aşamasında teyit edilir.']
       ]
     }
@@ -128,8 +129,9 @@ export const FAQ = {
 export const PRIVACY = {
   title: 'Gizlilik ve KVKK Aydınlatma Metni | Meira',
   h1: 'Gizlilik ve KVKK aydınlatma metni',
+  crumb: 'Gizlilik ve KVKK',
   description: 'Teklif ve iletişim formu aracılığıyla toplanan kişisel verilerin hangi amaçla işlendiği, kimlere aktarılabileceği, saklama süresi ve KVKK kapsamındaki haklarınız.',
-  updated: '2026-10-07',
+  updated: '2026-10-14',
   lead: 'Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında, web sitemizdeki teklif ve iletişim formu aracılığıyla paylaştığınız kişisel verilerin nasıl işlendiğini açıklar.',
   sections: [
     {
@@ -208,9 +210,10 @@ export const PRIVACY = {
     {
       id: 'cerezler',
       title: 'Çerezler ve tarayıcı depolama',
-      html: `<p>Bu site çerez kullanmaz ve ziyaretçi takibi ya da reklam amaçlı analiz aracı içermez. Sitenin çalışması için tarayıcınızın yerel depolama alanı şu iki amaçla kullanılır:</p>
+      html: `<p>Bu site çerez kullanmaz ve ziyaretçi takibi ya da reklam amaçlı analiz aracı içermez. Sitenin çalışması için tarayıcınızın yerel depolama alanı şu amaçlarla kullanılır:</p>
 <ul>
   <li><strong>Teklif listesi:</strong> listeye eklediğiniz ürünler ve adetleri (<code>localStorage</code>). Bu bilgi yalnızca tarayıcınızda tutulur; teklif formunu gönderdiğinizde mesajın bir parçası olarak iletilir.</li>
+  <li><strong>Tema tercihi:</strong> koyu temayı seçtiyseniz bu tercih (<code>localStorage</code>); sonraki ziyaretlerde site seçtiğiniz temayla açılır.</li>
   <li><strong>Açılış efekti:</strong> ana sayfa açılış animasyonunun oturum başına bir kez gösterilmesi için bir işaret (<code>sessionStorage</code>); tarayıcı sekmesi kapanınca silinir.</li>
 </ul>
 <p>Bu bilgileri tarayıcınızın site verilerini temizleyerek istediğiniz zaman silebilirsiniz.</p>
