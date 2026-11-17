@@ -1117,6 +1117,14 @@
       }
 
       const isJson = (response.headers.get('content-type') || '').includes('application/json');
+      // Simülasyon yalnızca geliştiricinin kendi makinesinde: canlıda JSON olmayan yanıt (PHP hatası, güvenlik duvarı) bir hatadır
+      const isLocal = /^(localhost|127\.0\.0\.1|\[::1\]|)$/.test(location.hostname);
+
+      if (!isJson && !isLocal) {
+        restoreButton();
+        showFormError(tt(`Talebiniz şu anda gönderilemedi. Lütfen birkaç dakika sonra tekrar deneyin ya da ${SITE_CFG.email} adresine yazın.`, `Your request could not be sent right now. Please try again in a few minutes or write to ${SITE_CFG.email}.`));
+        return;
+      }
 
       if (!isJson) {
         // PHP çalıştırmayan yerel statik sunucu (ör. python3 -m http.server): önizleme amaçlı simülasyon

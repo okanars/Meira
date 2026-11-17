@@ -28,6 +28,13 @@ $LOG_FILE    = __DIR__ . '/submissions.log';
 $RATE_LIMIT  = 5;     // aynı IP'den en fazla bu kadar talep
 $RATE_WINDOW = 600;   // ... bu kadar saniye içinde (10 dakika)
 
+// İsteğe bağlı SMTP: sunucuda PHP mail() kapalıysa ya da çalışmıyorsa, web kökünün DIŞINDA
+// /home/<kullanıcı>/meira-mail-config.php dosyası açılır (git'e girmez, web'den erişilemez):
+//   <?php return ['host' => 'localhost', 'port' => 465, 'user' => 'info@meiraairscent.com', 'pass' => '...'];
+// Dosya varsa e-posta bu hesapla SMTP üzerinden gönderilir; yoksa mail() kullanılır.
+$SMTP_CONFIG_FILE = dirname(__DIR__, 2) . '/meira-mail-config.php';
+$SMTP = is_readable($SMTP_CONFIG_FILE) ? (require $SMTP_CONFIG_FILE) : null;
+
 // Formdaki konu seçenekleriyle aynı olmalı (iletisim.html, #contactSubject)
 $ALLOWED_SUBJECTS = [
     'Fiyat ve Numune Teklifi',
@@ -94,6 +101,79 @@ function respond(bool $ok, int $status, array $payload): void
        . 'main{max-width:36rem;padding:2rem}h1{font:400 2rem/1.2 Georgia,serif;margin:0 0 1rem}a{color:#141C27}</style></head>'
        . '<body><main><h1>' . h($title) . '</h1><p>' . $body . '</p><p><a href="../iletisim.html">İletişim sayfasına dön</a></p></main></body></html>';
     exit;
+}
+
+// Beklenmeyen bir hata (ör. sunucuda kapatılmış bir fonksiyon) boş bir 500 sayfası yerine anlamlı yanıt döndürsün
+set_exception_handler(function (Throwable $e) use ($TO_EMAIL): void {
+    error_log('meira send-quote: ' . get_class($e) . ': ' . $e->getMessage());
+    respond(false, 500, ['error' => 'Talebiniz şu anda gönderilemedi. Lütfen doğrudan ' . $TO_EMAIL . ' adresine yazın.']);
+});
+
+/**
+ * Kimlik doğrulamalı SMTP ile tek bir ileti gönderir (465: SSL, 587: STARTTLS).
+ * Başarıda true, hatada sunucunun yanıtını içeren metin döner.
+ */
+function smtpSend(array $cfg, string $to, string $subject, string $headers, string $body)
+{
+    $host = (string) ($cfg['host'] ?? 'localhost');
+    $port = (int) ($cfg['port'] ?? 465);
+    $user = (string) ($cfg['user'] ?? '');
+    $local = in_array($host, ['localhost', '127.0.0.1'], true);
+    $ctx = stream_context_create(['ssl' => [
+        'verify_peer' => !$local, 'verify_peer_name' => !$local, 'allow_self_signed' => $local,
+    ]]);
+    $fp = @stream_socket_client(($port === 465 ? 'ssl://' : 'tcp://') . $host . ':' . $port, $errno, $errstr, 15, STREAM_CLIENT_CONNECT, $ctx);
+    if (!$fp) {
+        return "bağlantı kurulamadı ($errno $errstr)";
+    }
+    stream_set_timeout($fp, 20);
+    $cmd = function (?string $line, array $okCodes) use ($fp): void {
+        if ($line !== null) {
+            fwrite($fp, $line . "\r\n");
+        }
+        $reply = '';
+        while (($l = fgets($fp, 1024)) !== false) {
+            $reply .= $l;
+            if (strlen($l) < 4 || $l[3] === ' ') {
+                break;
+            }
+        }
+        if (!in_array((int) substr($reply, 0, 3), $okCodes, true)) {
+            throw new RuntimeException(trim($reply) ?: 'yanıt yok');
+        }
+    };
+    $ehlo = 'EHLO ' . preg_replace('/[^a-z0-9.-]/i', '', $_SERVER['SERVER_NAME'] ?? 'localhost');
+    try {
+        $cmd(null, [220]);
+        $cmd($ehlo, [250]);
+        if ($port !== 465) {
+            $cmd('STARTTLS', [220]);
+            if (!stream_socket_enable_crypto($fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
+                throw new RuntimeException('STARTTLS başarısız');
+            }
+            $cmd($ehlo, [250]);
+        }
+        $cmd('AUTH LOGIN', [334]);
+        $cmd(base64_encode($user), [334]);
+        $cmd(base64_encode((string) ($cfg['pass'] ?? '')), [235]);
+        $cmd('MAIL FROM:<' . $user . '>', [250]);
+        $cmd('RCPT TO:<' . $to . '>', [250, 251]);
+        $cmd('DATA', [354]);
+        $domain = substr(strrchr($user, '@') ?: '@localhost', 1);
+        $msg = 'To: <' . $to . ">\r\n"
+            . 'Subject: ' . $subject . "\r\n"
+            . 'Date: ' . date('r') . "\r\n"
+            . 'Message-ID: <' . bin2hex(random_bytes(12)) . '@' . $domain . ">\r\n"
+            . $headers . "\r\n\r\n" . $body;
+        $msg = preg_replace('/^\./m', '..', str_replace(["\r\n", "\n"], ["\n", "\r\n"], $msg));
+        $cmd($msg . "\r\n.", [250]);
+        $cmd('QUIT', [221]);
+    } catch (RuntimeException $e) {
+        fclose($fp);
+        return $e->getMessage();
+    }
+    fclose($fp);
+    return true;
 }
 
 /** Başlık ve log satırları için: satır sonlarını ve kontrol karakterlerini kaldırır. */
@@ -278,15 +358,31 @@ $htmlContent = '<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"></hea
     . '</div></body></html>';
 
 $mailSent = true;
+$mailError = '';
 if (!$DEMO_MODE) {
-    $headers = [
+    $headers = implode("\r\n", [
         'MIME-Version: 1.0',
         'Content-Type: text/html; charset=UTF-8',
-        'Content-Transfer-Encoding: 8bit',
+        // base64: HTML tek uzun satır; SMTP'nin 998 karakter satır sınırına takılmaz
+        'Content-Transfer-Encoding: base64',
         'From: ' . encodeHeader($BRAND_NAME) . ' <' . $FROM_EMAIL . '>',
         'Reply-To: ' . encodeHeader($name) . ' <' . $email . '>',
-    ];
-    $mailSent = @mail($TO_EMAIL, encodeHeader($mailSubject), $htmlContent, implode("\r\n", $headers), '-f' . $FROM_EMAIL);
+    ]);
+    $body = chunk_split(base64_encode($htmlContent));
+    if (is_array($SMTP)) {
+        $result = smtpSend($SMTP, $TO_EMAIL, encodeHeader($mailSubject), $headers, $body);
+        $mailSent = $result === true;
+        $mailError = $mailSent ? '' : 'smtp: ' . $result;
+    } elseif (function_exists('mail')) {
+        $mailSent = @mail($TO_EMAIL, encodeHeader($mailSubject), $body, $headers, '-f' . $FROM_EMAIL);
+        $mailError = $mailSent ? '' : 'mail(): ' . (error_get_last()['message'] ?? 'false döndü');
+    } else {
+        $mailSent = false;
+        $mailError = 'mail() sunucuda kapalı; meira-mail-config.php ile SMTP ayarlayın';
+    }
+    if (!$mailSent) {
+        error_log('meira send-quote: ' . $mailError);
+    }
 }
 
 // ==========================================
@@ -300,7 +396,7 @@ $logEntry = '[' . date('Y-m-d H:i:s') . '] REF: ' . $refNo
     . ' | MEKÂN: ' . ($space ?: '-')
     . ' | HACİM: ' . ($volume !== null ? $volume . ' m3' : '-')
     . ' | AYDINLATMA: okundu'
-    . ' | GÖNDERİM: ' . ($DEMO_MODE ? 'demo' : ($mailSent ? 'ok' : 'hata')) . "\n";
+    . ' | GÖNDERİM: ' . ($DEMO_MODE ? 'demo' : ($mailSent ? 'ok' : 'hata (' . oneLine($mailError, 200) . ')')) . "\n";
 @file_put_contents($LOG_FILE, $logEntry, FILE_APPEND | LOCK_EX);
 
 if ($mailSent) {
