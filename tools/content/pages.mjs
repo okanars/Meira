@@ -87,7 +87,7 @@ export const FAQ = {
     {
       title: 'Teklif ve satın alma',
       items: [
-        ['Sitede online satış var mı?', 'Henüz yok. Ürün sayfalarında liste fiyatlarını görebilirsiniz (fiyatlara KDV eklenir); sipariş, adet ve koşullara göre hazırlanan teklif üzerinden verilir. İlgilendiğiniz ürünleri teklif listesine ekleyip tek formla teklif isteyebilirsiniz.'],
+        ['Sitede online satış var mı?', 'Henüz yok. Ürün sayfalarında liste fiyatlarını görebilirsiniz (fiyatlara KDV dahildir); sipariş, adet ve koşullara göre hazırlanan teklif üzerinden verilir. İlgilendiğiniz ürünleri teklif listesine ekleyip tek formla teklif isteyebilirsiniz.'],
         ['Teklif nasıl istenir?', 'Katalogdaki “Listeye ekle” düğmeleriyle teklif listenizi oluşturun. Ardından sağ üstteki “Teklif listesi” düğmesiyle listeyi açın ve “Teklif formuna aktar”a tıklayın; ürünler ve adetler mesaja otomatik olarak eklenir. Mekânın ölçülerini ve kullanım amacını da yazarsanız teklif buna göre hazırlanır.'],
         ['Numune alabilir miyim?', 'Evet. Koku numunesi için teklif formunda “Fiyat ve numune” konusunu seçin, mekânınızı ve aradığınız koku karakterini yazın; numune koşulları teklifle birlikte bildirilir.'],
         ['Kendi markamın logosuyla ürün yaptırabilir miyim?', 'Üretici, özel markalı üretim (OEM) ve ortak ürün geliştirme (ODM) desteği sunduğunu belirtmektedir: cihaz gövdesine logo baskısı, renk seçimi, özel ambalaj ve markaya özel koku formülü. Talebinizi üreticiye iletir, süreci sizin adınıza takip ederiz. Asgari sipariş ve süre koşulları talebe göre bildirilir.']

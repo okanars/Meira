@@ -31,7 +31,7 @@
   <link rel="alternate" type="application/rss+xml" title="Meira Blog" href="feed.xml">
   <link rel="preload" href="fonts/newsreader-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/style.css?v=3f13cc38f3">
+  <link rel="stylesheet" href="css/style.css?v=20fd0cb4ee">
   <script>(function(d){d.classList.add('js');try{if(localStorage.getItem('meira-theme')==='dark')d.dataset.theme='dark'}catch(e){}})(document.documentElement);</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Ana sayfa","item":"https://www.meiraairscent.com/index.html"},{"@type":"ListItem","position":2,"name":"Çözümler"}]}</script>
 </head>
@@ -117,8 +117,8 @@
             <p>Lobide ilk izlenimi büyük ölçüde koku belirler. Lobi ve restoran gibi geniş alanlarda klima sistemine bağlanabilen ya da kolon tipi cihazlar; resepsiyon, koridor ve odalarda ise sessiz masaüstü modeller tercih edilir.</p>
           </div>
           <dl class="mt-6 spec-pairs">
-            <div class="span-2"><dt>Önerilen modeller</dt><dd>ADS-687 kolon, ADS-620B / 640B / 670B, ADS-685</dd></div>
-            <div><dt>Kapsama (bu modeller)</dt><dd>400-12.000 m³</dd></div>
+            <div class="span-2"><dt>Önerilen modeller</dt><dd>ADS-687 kolon, ADS-620B / 640B / 670B, CK-683</dd></div>
+            <div><dt>Kapsama (bu modeller)</dt><dd>300-12.000 m³</dd></div>
           </dl>
           <div class="mt-6 btn-row">
             <a href="urunler.html?cat=pro" class="link-arrow">Profesyonel modeller <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg?v=2fcf615f80#i-arrow-right"></use></svg></a>
@@ -165,10 +165,10 @@
               <p class="sector-row__range">Önerilen modeller: 300-800 m³</p>
             </div>
             <div class="sector-row__text">
-              <p>Toplantı odalarında ve çalışma alanlarında cihazın sessiz çalışması önemlidir. Üretici verisine göre ADS-687 ve ADS-689, 35 dB’i aşmayan bir ses seviyesinde çalışır; çalışma saatleri Bluetooth uygulama üzerinden ayarlanır.</p>
+              <p>Toplantı odalarında ve çalışma alanlarında cihazın sessiz çalışması önemlidir. Üretici verisine göre ADS-686 ve ADS-689, 35 dB’i aşmayan bir ses seviyesinde çalışır; çalışma saatleri Bluetooth uygulama üzerinden ayarlanır.</p>
             </div>
             <div class="sector-row__aside">
-              <p class="sector-row__models"><b>ADS-687, ADS-689</b></p>
+              <p class="sector-row__models"><b>ADS-686, ADS-689</b></p>
               <a href="urunler.html?cat=home" class="link-arrow">Masaüstü modeller <svg class="icon" aria-hidden="true" focusable="false"><use href="images/icons.svg?v=2fcf615f80#i-arrow-right"></use></svg></a>
             </div>
           </article>
@@ -247,8 +247,8 @@
   </footer>
 
   <script src="js/site-config.js?v=16cd6d28fc"></script>
-  <script src="js/products.js?v=c9acdaf5e6"></script>
-  <script src="js/components.js?v=91bfde7bad"></script>
+  <script src="js/products.js?v=25b7cb3cc7"></script>
+  <script src="js/components.js?v=dc232320ea"></script>
   <script src="js/site.js?v=874e48069a"></script>
   <script>
     (function () {
@@ -311,16 +311,18 @@
           <div class="calc-results__list">
             ${suitable.map(p => {
               const area = p.specs.find(s => /kapsama/i.test(s[0]))?.[1] || '';
+              const opt = MeiraApp.optionForVolume(p, vol);
+              const code = opt ? opt.code : p.model;
               return `
               <div class="calc-row">
                 ${MeiraApp.productThumb(p, '', ` style="object-position:${esc(p.pos || 'center')}"`)}
                 <div>
-                  <span class="calc-row__code">${esc(p.model)}</span>
+                  <span class="calc-row__code">${esc(code)}</span>
                   <div class="calc-row__title">${esc(p.title)}</div>
-                  <div class="calc-row__meta">Kapsama: ${esc(area)}</div>
+                  <div class="calc-row__meta">Kapsama: ${esc(opt ? MeiraApp.optCov(opt) : area)}</div>
                   <div class="calc-row__actions">
                     <a href="urun-${encodeURIComponent(p.id)}.html" class="link-arrow">İncele ${icon('arrow-right')}</a>
-                    <button type="button" class="btn-add" data-add="${esc(p.id)}" aria-label="${esc(p.model)} ürününü teklif listesine ekle">${icon('plus')}<span>Listeye ekle</span></button>
+                    <button type="button" class="btn-add" data-add="${esc(p.id)}"${opt ? ` data-opt="${esc(opt.code)}"` : ''} aria-label="${esc(code)} ürününü teklif listesine ekle">${icon('plus')}<span>Listeye ekle</span></button>
                   </div>
                 </div>
               </div>`;
@@ -333,7 +335,7 @@
 
       resultsContainer.addEventListener('click', (e) => {
         const btn = e.target.closest('[data-add]');
-        if (btn) MeiraApp.addToCart(btn.dataset.add, 1);
+        if (btn) MeiraApp.addToCart(btn.dataset.add, 1, btn.dataset.opt);
       });
 
       areaInput.addEventListener('input', calculate);

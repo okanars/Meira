@@ -47,6 +47,24 @@
     return row ? row[1] : '';
   }
 
+  // Seri ürünlerde seçilebilen modeller (products.js options: { code, price, cov: [min, max] }).
+  // Teklif listesinde her satır { id, opt, qty }; aynı ürünün farklı modelleri ayrı satırdır.
+  const fmtNum = n => Math.round(n).toLocaleString(EN ? 'en-GB' : 'tr-TR');
+  const optOf = (p, code) => (p && p.options || []).find(o => o.code === code) || null;
+  const optCov = o => `${fmtNum(o.cov[0])}-${fmtNum(o.cov[1])} m³`;
+  const lineKey = item => item.opt ? `${item.id}|${item.opt}` : item.id;
+  // Hacme yeten en küçük model (yoksa en büyüğü)
+  function optionForVolume(p, vol) {
+    if (!p || !p.options) return null;
+    return p.options.find(o => o.cov[1] >= vol) || p.options[p.options.length - 1];
+  }
+  // Satırın gösterilen model kodu, fiyatı ve kapsaması (seçenek varsa seçeneğinki)
+  function lineInfo(item) {
+    const p = findProduct(item.id);
+    const o = optOf(p, item.opt);
+    return { p, o, model: o ? o.code : p.model, price: o ? o.price : p.price, cov: o ? optCov(o) : specValue(p, RE_COV) };
+  }
+
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const EASE_OUT = 'cubic-bezier(0.23, 1, 0.32, 1)';
 
@@ -94,6 +112,11 @@
     // Katalogda olmayan ve satışta olmayan (soon) kayıtları yok say (eski sürümden kalan kimlikler)
     if (typeof PRODUCTS !== 'undefined') {
       cart = cart.filter(item => { const p = item && findProduct(item.id); return p && !p.soon; });
+      cart.forEach(item => {
+        const p = findProduct(item.id);
+        if (p.options && !optOf(p, item.opt)) item.opt = p.options[0].code;
+        else if (!p.options) delete item.opt;
+      });
     }
     return cart;
   }
@@ -107,7 +130,7 @@
     window.dispatchEvent(new CustomEvent('dc:cart-updated', { detail: { cart } }));
   }
 
-  function addToCart(productId, qty = 1) {
+  function addToCart(productId, qty = 1, opt) {
     const product = findProduct(productId);
     if (typeof PRODUCTS !== 'undefined' && !product) {
       toast.show({ message: tt('Bu ürün katalogda bulunamadı.', 'This product is not in the catalogue.'), type: 'error' });
@@ -117,38 +140,42 @@
       toast.show({ message: tt('Bu ürün henüz satışta değil.', 'This product is not on sale yet.'), type: 'error' });
       return;
     }
+    if (product && product.options) opt = (optOf(product, opt) || product.options[0]).code;
+    else opt = undefined;
+    const line = opt ? { id: productId, opt } : { id: productId };
     const cart = getCart();
-    const existing = cart.find(item => item.id === productId);
+    const existing = cart.find(item => lineKey(item) === lineKey(line));
     if (existing) {
       existing.qty += qty;
     } else {
-      cart.push({ id: productId, qty: Math.max(1, qty) });
+      cart.push({ ...line, qty: Math.max(1, qty) });
     }
     saveCart(cart);
 
-    const name = product ? `${product.model} ${product.title}` : tt('Ürün', 'Product');
+    const name = product ? `${opt || product.model} ${product.title}` : tt('Ürün', 'Product');
     toast.show({
       message: tt(`<strong>${esc(name)}</strong> teklif listesine eklendi.`, `<strong>${esc(name)}</strong> added to the quote list.`),
       type: 'accent'
     });
   }
 
-  function updateCartQty(productId, delta) {
+  // key: lineKey (ürün kimliği ya da "kimlik|model kodu")
+  function updateCartQty(key, delta) {
     let cart = getCart();
-    const item = cart.find(i => i.id === productId);
+    const item = cart.find(i => lineKey(i) === key);
     if (!item) return;
 
     item.qty += delta;
     if (item.qty <= 0) {
-      cart = cart.filter(i => i.id !== productId);
+      cart = cart.filter(i => lineKey(i) !== key);
       toast.show({ message: tt('Ürün teklif listesinden kaldırıldı.', 'Product removed from the quote list.'), type: 'info' });
     }
     saveCart(cart);
   }
 
-  function removeFromCart(productId) {
+  function removeFromCart(key) {
     let cart = getCart();
-    cart = cart.filter(i => i.id !== productId);
+    cart = cart.filter(i => lineKey(i) !== key);
     saveCart(cart);
     toast.show({ message: tt('Ürün teklif listesinden çıkarıldı.', 'Product removed from the quote list.'), type: 'info' });
   }
@@ -173,16 +200,16 @@
 
     let line = 0;
     cart.forEach(item => {
-      const p = findProduct(item.id);
+      const { p, model, price, cov } = lineInfo(item);
       if (!p) return;
       line += 1;
 
       const cap = specValue(p, RE_CAP) || '-';
-      const area = specValue(p, RE_COV) || '-';
+      const area = cov || '-';
 
-      text += `${line}. [${p.model}] ${p.title}\n`;
+      text += `${line}. [${model}] ${p.title}\n`;
       text += tt(`   - Talep adedi: ${item.qty} adet\n`, `   - Quantity: ${item.qty}\n`);
-      if (p.price != null && !p.soon) text += tt(`   - Liste fiyatı (birim): ${priceRange(p)} + KDV\n`, `   - List price (unit): ${priceRange(p)} + VAT\n`);
+      if (price != null && !p.soon) text += tt(`   - Liste fiyatı (birim): ${priceRange({ price })} (KDV dahil)\n`, `   - List price (unit): ${priceRange({ price })} (incl. VAT)\n`);
       // Birden fazla rengi olan üründe renk tercihi istenir (her rengin kendi model numarası vardır)
       if (p.colors && p.colors.length > 1) {
         const opts = p.colors.map(c => c.code ? `${c.name} (${c.code})` : c.name).join(' / ');
@@ -315,17 +342,17 @@
     }
 
     itemsContainer.innerHTML = cart.map(item => {
-      const p = findProduct(item.id);
+      const { p, model } = lineInfo(item);
       if (!p) return '';
       return `
-        <div class="drawer-item" data-id="${esc(p.id)}">
+        <div class="drawer-item" data-id="${esc(lineKey(item))}">
           ${productThumb(p, 'drawer-item-img')}
           <div class="drawer-item-info">
-            <span class="drawer-item-model">${esc(p.model)}</span>
+            <span class="drawer-item-model">${esc(model)}</span>
             <div class="drawer-item-title">${esc(p.title)}</div>
           </div>
-          <button type="button" class="icon-btn drawer-item-remove" data-act="remove" aria-label="${esc(tt(`${p.model} ürününü listeden kaldır`, `Remove ${p.model} from the list`))}">${icon('trash')}</button>
-          <div class="qty-controls" role="group" aria-label="${esc(tt(`${p.model} adedi`, `${p.model} quantity`))}">
+          <button type="button" class="icon-btn drawer-item-remove" data-act="remove" aria-label="${esc(tt(`${model} ürününü listeden kaldır`, `Remove ${model} from the list`))}">${icon('trash')}</button>
+          <div class="qty-controls" role="group" aria-label="${esc(tt(`${model} adedi`, `${model} quantity`))}">
             <button type="button" class="qty-btn" data-act="minus" aria-label="${tt('Adedi azalt', 'Decrease quantity')}">${icon('minus')}</button>
             <span class="qty-val">${item.qty}</span>
             <button type="button" class="qty-btn" data-act="plus" aria-label="${tt('Adedi artır', 'Increase quantity')}">${icon('plus')}</button>
@@ -450,11 +477,13 @@
   function initProductActions() {
     document.addEventListener('click', (e) => {
       const add = e.target.closest('[data-add-to-list]');
-      if (add) { addToCart(add.dataset.addToList, 1); return; }
+      if (add) { addToCart(add.dataset.addToList, 1, add.dataset.opt); return; }
       const quote = e.target.closest('[data-quote-now]');
       if (quote) {
         const id = quote.dataset.quoteNow;
-        if (!getCart().some(i => i.id === id)) addToCart(id, 1);
+        const p = findProduct(id);
+        const key = lineKey(p && p.options ? { id, opt: (optOf(p, quote.dataset.opt) || p.options[0]).code } : { id });
+        if (!getCart().some(i => lineKey(i) === key)) addToCart(id, 1, quote.dataset.opt);
         window.location.href = 'iletisim.html?teklif=1';
       }
     });
@@ -594,12 +623,65 @@
     });
   }
 
-  // Liste fiyatı; "+ KDV" ile gösterilir (KDV hesaplanmaz). "Pek yakında" ürünlerde gösterilmez (tools/build.mjs priceHtml ile aynı)
+  // Liste fiyatı; "KDV dahil" ile gösterilir. "Pek yakında" ürünlerde gösterilmez (tools/build.mjs priceHtml ile aynı)
   const fmtPriceNum = n => Math.round(n).toLocaleString(EN ? 'en-GB' : 'tr-TR');
   const priceRange = p => `${[].concat(p.price).map(fmtPriceNum).join(' - ')} TL`;
   function priceHtml(p, cls = 'product-card__price') {
     if (p.price == null || p.soon) return '';
-    return `<p class="${cls}"><span class="${cls}-value">${priceRange(p)}</span> <span class="${cls}-vat">${tt('+ KDV', '+ VAT')}</span></p>`;
+    const o = p.options && p.options[0];
+    return `<p class="${cls}"><span class="${cls}-value"${o ? ' data-opt-price' : ''}>${priceRange(o || p)}</span> <span class="${cls}-vat">${tt('KDV dahil', 'incl. VAT')}</span></p>`;
+  }
+
+  // Seri ürünlerde model seçici (tools/build.mjs optionRow ile aynı işaretleme). İlk model seçili gelir.
+  function optionRow(p, cls = '') {
+    if (!p.options || p.soon) return '';
+    return `<div class="opt-row${cls}" role="radiogroup" aria-label="${esc(tt(`${p.family || p.model}: model seçimi`, `${p.family || p.model}: choose a model`))}" data-opt-group="${esc(p.id)}">${p.options.map((o, i) => `<button type="button" class="opt-chip" role="radio" aria-checked="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-opt="${esc(o.code)}">${esc(o.code)}</button>`).join('')}</div>`;
+  }
+
+  // Seçim: aynı kart ya da ürün sayfası içindeki fiyat, kapsama ve "listeye ekle" düğmeleri güncellenir.
+  // Kart bağlantısı tüm kartı kapladığı için seçici ve düğmeler onun üstündedir (CSS z-index).
+  function initOptionPickers() {
+    function select(chip, focus) {
+      const group = chip.closest('[data-opt-group]');
+      const o = optOf(findProduct(group.dataset.optGroup), chip.dataset.opt);
+      if (!o) return;
+      group.querySelectorAll('[data-opt]').forEach(b => {
+        const on = b === chip;
+        b.setAttribute('aria-checked', String(on));
+        b.tabIndex = on ? 0 : -1;
+      });
+      if (focus) chip.focus();
+      const scope = group.closest('.product-card, .pd__info') || group.parentElement;
+      scope.querySelectorAll('[data-opt-price]').forEach(el => { el.textContent = priceRange(o); });
+      scope.querySelectorAll('[data-opt-cov]').forEach(el => { el.textContent = optCov(o); });
+      scope.querySelectorAll('[data-add-to-list], [data-quote-now], [data-act="add-quote"]').forEach(b => { b.dataset.opt = o.code; });
+    }
+    document.addEventListener('click', (e) => {
+      const chip = e.target.closest('[data-opt-group] [data-opt]');
+      if (!chip) return;
+      e.preventDefault();
+      select(chip, false);
+    });
+    // Radyo grubu: ok tuşlarıyla model değiştirme
+    document.addEventListener('keydown', (e) => {
+      const chip = e.target.closest && e.target.closest('[data-opt-group] [data-opt]');
+      if (!chip) return;
+      const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+      if (!step) return;
+      e.preventDefault();
+      const chips = Array.from(chip.parentElement.querySelectorAll('[data-opt]'));
+      select(chips[(chips.indexOf(chip) + step + chips.length) % chips.length], true);
+    });
+  }
+
+  // Ürün kartlarındaki "Listeye ekle" (katalog, blog ve ürün sayfalarındaki ilgili ürünler).
+  // Yakalama aşaması: katalog kartı stopPropagation kullanabilir.
+  function initCardAdd() {
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.product-card [data-act="add-quote"]');
+      if (!btn) return;
+      addToCart(btn.closest('.product-card').dataset.id, 1, btn.dataset.opt);
+    }, true);
   }
 
   // Renk seçenekleri satırı (tools/build.mjs colorRow ile aynı işaretleme): renk noktası, adı ve o rengin model numarası
@@ -861,17 +943,17 @@
         return;
       }
       itemList.innerHTML = cart.map(item => {
-        const p = findProduct(item.id);
+        const { p, model } = lineInfo(item);
         if (!p) return '';
-        return `<li class="item-row" data-id="${esc(p.id)}">
+        return `<li class="item-row" data-id="${esc(lineKey(item))}">
           ${productThumb(p, 'item-row__img')}
-          <span class="item-row__info"><span class="item-row__model">${esc(p.model)}</span><span class="item-row__name">${esc(p.title)}</span></span>
-          <span class="qty-controls" role="group" aria-label="${esc(tt(`${p.model} adedi`, `${p.model} quantity`))}">
+          <span class="item-row__info"><span class="item-row__model">${esc(model)}</span><span class="item-row__name">${esc(p.title)}</span></span>
+          <span class="qty-controls" role="group" aria-label="${esc(tt(`${model} adedi`, `${model} quantity`))}">
             <button type="button" class="qty-btn" data-item-act="minus" aria-label="${tt('Adedi azalt', 'Decrease quantity')}">${icon('minus')}</button>
             <span class="qty-val">${item.qty}</span>
             <button type="button" class="qty-btn" data-item-act="plus" aria-label="${tt('Adedi artır', 'Increase quantity')}">${icon('plus')}</button>
           </span>
-          <button type="button" class="icon-btn item-row__remove" data-item-act="remove" aria-label="${esc(tt(`${p.model} ürününü kaldır`, `Remove ${p.model}`))}">${icon('trash')}</button>
+          <button type="button" class="icon-btn item-row__remove" data-item-act="remove" aria-label="${esc(tt(`${model} ürününü kaldır`, `Remove ${model}`))}">${icon('trash')}</button>
         </li>`;
       }).join('');
     }
@@ -971,17 +1053,18 @@
         .map(p => ({ p, cov: maxCoverage(p) }))
         .filter(x => x.cov >= vol)
         .sort((x, y) => x.cov - y.cov)[0];
-      const inCart = best && getCart().some(i => i.id === best.p.id);
+      const bestOpt = best && optionForVolume(best.p, vol);
+      const inCart = best && getCart().some(i => i.id === best.p.id && (!bestOpt || i.opt === bestOpt.code));
       volumeOut.innerHTML = `<span>${tt('Yaklaşık hava hacmi', 'Approximate air volume')}: <strong>${fmtNum(vol)} m³</strong></span>`
         + (best
-          ? `<span class="form-volume__suggest">${tt('Önerilen model', 'Suggested model')}: <a href="urun-${encodeURIComponent(best.p.id)}.html">${esc(best.p.model)}</a> · ${esc(specValue(best.p, RE_COV))}
-              ${inCart ? `<span class="form-volume__in">${icon('check')}${tt('Eklendi', 'Added')}</span>` : `<button type="button" class="inline-action" data-add-product="${esc(best.p.id)}">${tt('Ürünlere ekle', 'Add to products')}</button>`}</span>`
+          ? `<span class="form-volume__suggest">${tt('Önerilen model', 'Suggested model')}: <a href="urun-${encodeURIComponent(best.p.id)}.html">${esc(bestOpt ? bestOpt.code : best.p.model)}</a> · ${esc(bestOpt ? optCov(bestOpt) : specValue(best.p, RE_COV))}
+              ${inCart ? `<span class="form-volume__in">${icon('check')}${tt('Eklendi', 'Added')}</span>` : `<button type="button" class="inline-action" data-add-product="${esc(best.p.id)}"${bestOpt ? ` data-opt="${esc(bestOpt.code)}"` : ''}>${tt('Ürünlere ekle', 'Add to products')}</button>`}</span>`
           : `<span class="form-volume__suggest">${tt('Bu hacim için birden fazla cihaz ya da klima (HVAC) bağlantılı bir kurulum gerekir.', 'This volume needs several devices or an HVAC-connected installation.')}</span>`);
       volumeOut.hidden = false;
     }
     volumeOut?.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-add-product]');
-      if (btn) addToCart(btn.dataset.addProduct, 1);
+      if (btn) addToCart(btn.dataset.addProduct, 1, btn.dataset.opt);
     });
     const AREA_LABEL = tt('Taban alanı', 'Floor area');
     const HEIGHT_LABEL = tt('Tavan yüksekliği', 'Ceiling height');
@@ -1201,9 +1284,9 @@
     residence: {
       title: tt('Rezidans ve özel yaşam alanları', 'Residences and private spaces'),
       desc: tt('Salon ve giriş holü gibi yaşam alanları için masa ya da konsol üzerinde duran, alüminyum gövdeli ve sessiz çalışan bir difüzör.', 'A quiet, aluminium-bodied diffuser that sits on a table or console, for living spaces such as lounges and entrance halls.'),
-      productId: 'ads685',
-      image: 'images/products/ads685.jpg',
-      alt: tt('Beyaz ve siyah alüminyum gövdeli ADS-685 masaüstü difüzör', 'ADS-685 tabletop diffuser with a white and a black aluminium body')
+      productId: 'ck683',
+      image: 'images/products/ck683.jpg',
+      alt: tt('Bronz, yeşil, kahverengi ve siyah alüminyum gövdeli CK-683 difüzörler', 'CK-683 diffusers with bronze, green, brown and black aluminium bodies')
     }
   };
 
@@ -1301,7 +1384,7 @@
 
     box.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-add-product]');
-      if (btn) addToCart(btn.dataset.addProduct, 1);
+      if (btn) addToCart(btn.dataset.addProduct, 1, btn.dataset.opt);
     });
 
     select(tabs.find(t => t.classList.contains('active')) || tabs[0], false, false);
@@ -1380,6 +1463,8 @@
     updateBadge();
     initAddFeedback();
     initProductActions();
+    initOptionPickers();
+    initCardAdd();
     initGallery();
     initCardGalleries();
     initContactPage();
@@ -1417,7 +1502,10 @@
     productThumb,
     essenceCard,
     colorRow,
-    priceHtml
+    priceHtml,
+    optionRow,
+    optCov,
+    optionForVolume
   };
 
 })(window);

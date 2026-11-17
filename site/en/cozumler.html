@@ -31,7 +31,7 @@
   <link rel="alternate" type="application/rss+xml" title="Meira Blog" href="feed.xml">
   <link rel="preload" href="../fonts/newsreader-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../css/style.css?v=3f13cc38f3">
+  <link rel="stylesheet" href="../css/style.css?v=20fd0cb4ee">
   <script>(function(d){d.classList.add('js');try{if(localStorage.getItem('meira-theme')==='dark')d.dataset.theme='dark'}catch(e){}})(document.documentElement);</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.meiraairscent.com/en/index.html"},{"@type":"ListItem","position":2,"name":"Solutions"}]}</script>
 </head>
@@ -117,8 +117,8 @@
             <p>In the lobby, scent shapes the first impression. Large areas such as lobbies and restaurants use HVAC-connected or column devices, while receptions, corridors and rooms use quiet tabletop models.</p>
           </div>
           <dl class="mt-6 spec-pairs">
-            <div class="span-2"><dt>Recommended models</dt><dd>ADS-687 column, ADS-620B / 640B / 670B, ADS-685</dd></div>
-            <div><dt>Coverage (these models)</dt><dd>400-12,000 m³</dd></div>
+            <div class="span-2"><dt>Recommended models</dt><dd>ADS-687 column, ADS-620B / 640B / 670B, CK-683</dd></div>
+            <div><dt>Coverage (these models)</dt><dd>300-12,000 m³</dd></div>
           </dl>
           <div class="mt-6 btn-row">
             <a href="urunler.html?cat=pro" class="link-arrow">Professional models <svg class="icon" aria-hidden="true" focusable="false"><use href="../images/icons.svg?v=2fcf615f80#i-arrow-right"></use></svg></a>
@@ -165,10 +165,10 @@
               <p class="sector-row__range">Recommended models: 300-800 m³</p>
             </div>
             <div class="sector-row__text">
-              <p>In meeting rooms and workspaces the noise of the device matters. According to the manufacturer, ADS-687 and ADS-689 run at 35 dB or below; their operating hours are set from a Bluetooth app.</p>
+              <p>In meeting rooms and workspaces the noise of the device matters. According to the manufacturer, ADS-686 and ADS-689 run at 35 dB or below; their operating hours are set from a Bluetooth app.</p>
             </div>
             <div class="sector-row__aside">
-              <p class="sector-row__models"><b>ADS-687, ADS-689</b></p>
+              <p class="sector-row__models"><b>ADS-686, ADS-689</b></p>
               <a href="urunler.html?cat=home" class="link-arrow">Tabletop models <svg class="icon" aria-hidden="true" focusable="false"><use href="../images/icons.svg?v=2fcf615f80#i-arrow-right"></use></svg></a>
             </div>
           </article>
@@ -247,9 +247,9 @@
   </footer>
 
   <script src="../js/site-config.js?v=16cd6d28fc"></script>
-  <script src="../js/products.js?v=c9acdaf5e6"></script>
-  <script src="../js/products.en.js?v=2ccc33a98a"></script>
-  <script src="../js/components.js?v=91bfde7bad"></script>
+  <script src="../js/products.js?v=25b7cb3cc7"></script>
+  <script src="../js/products.en.js?v=5a45f89936"></script>
+  <script src="../js/components.js?v=dc232320ea"></script>
   <script src="../js/site.js?v=874e48069a"></script>
   <script>
     (function () {
@@ -311,16 +311,18 @@
           <div class="calc-results__list">
             ${suitable.map(p => {
               const area = p.specs.find(s => /coverage/i.test(s[0]))?.[1] || '';
+              const opt = MeiraApp.optionForVolume(p, vol);
+              const code = opt ? opt.code : p.model;
               return `
               <div class="calc-row">
                 ${MeiraApp.productThumb(p, '', ` style="object-position:${esc(p.pos || 'center')}"`)}
                 <div>
-                  <span class="calc-row__code">${esc(p.model)}</span>
+                  <span class="calc-row__code">${esc(code)}</span>
                   <div class="calc-row__title">${esc(p.title)}</div>
-                  <div class="calc-row__meta">Coverage: ${esc(area)}</div>
+                  <div class="calc-row__meta">Coverage: ${esc(opt ? MeiraApp.optCov(opt) : area)}</div>
                   <div class="calc-row__actions">
                     <a href="urun-${encodeURIComponent(p.id)}.html" class="link-arrow">View ${icon('arrow-right')}</a>
-                    <button type="button" class="btn-add" data-add="${esc(p.id)}" aria-label="Add ${esc(p.model)} to the quote list">${icon('plus')}<span>Add to list</span></button>
+                    <button type="button" class="btn-add" data-add="${esc(p.id)}"${opt ? ` data-opt="${esc(opt.code)}"` : ''} aria-label="Add ${esc(code)} to the quote list">${icon('plus')}<span>Add to list</span></button>
                   </div>
                 </div>
               </div>`;
@@ -333,7 +335,7 @@
 
       resultsContainer.addEventListener('click', (e) => {
         const btn = e.target.closest('[data-add]');
-        if (btn) MeiraApp.addToCart(btn.dataset.add, 1);
+        if (btn) MeiraApp.addToCart(btn.dataset.add, 1, btn.dataset.opt);
       });
 
       areaInput.addEventListener('input', calculate);

@@ -78,7 +78,7 @@
       desc: 'Dual-fluid atomisation for fast, even scent distribution. Easy to use with a Bluetooth mobile app and a renewed display panel. Food-grade, heat-resistant PP body; compliant with international standards including FDA, according to the manufacturer.',
       videos: [{ title: 'From set-up to a weekly schedule', teaser: 'Watch step by step how the unit is prepared and how to set a weekly schedule in the app.', summary: 'The batteries and the fragrance bottle are fitted. The display buttons and how to create a weekly schedule in the phone app are explained step by step. The last part shows the unit plugged in on a table.' }],
       features: ['Dual-fluid atomisation', 'Bluetooth app control', 'Renewed display panel', 'Low noise (≤35 dB)', 'Timed spraying'],
-      variants: ['ADS-687A (White)', 'ADS-687B (Black)'],
+      variants: ['ADS-686A (White)', 'ADS-686B (Black)'],
       specs: [['Size', '148 × 67 × 185 mm'], ['Colour', 'White / Black'], ['Material', 'PP'], ['Voltage / Power', 'DC 6V / 2W'], ['Noise level', '≤ 35 dB'], ['Fragrance capacity', '150 ml'], ['Coverage', '300-600 m³'], ['Control', 'Bluetooth app, renewed display panel'], ['Installation', 'Tabletop'], ['Net weight', '512 g'], ['Carton', '30 pcs · 465×385×490 mm · 19 kg gross']],
       use: USE_COMMERCIAL
     },
@@ -98,7 +98,7 @@
       short: '1000 ml capacity, 2,000-12,000 m³ coverage; floor-standing metal body that connects to the HVAC system.',
       desc: 'High mist-volume technology that works within seconds. Stands on the floor and can be connected to the central air-conditioning (HVAC) system. Very quiet operation (≤35 dB); plug-in atomiser head and magnetic lock for easy maintenance.',
       features: ['Super atomisation', 'Low noise (≤35 dB)', 'Floor standing', '1000 ml reservoir', 'HVAC connection', 'Metal body'],
-      variants: ['ADS-620B · 328×128×372 mm · 12W · 2,000-5,000 m³ · 12,000 TL + VAT', 'ADS-640B · 428×128×372 mm · 15W · 4,000-8,000 m³ · 14,000 TL + VAT', 'ADS-670B · 428×128×372 mm · 18W · 7,000-12,000 m³ · 22,000 TL + VAT'],
+      variants: ['ADS-620B · 328×128×372 mm · 12W · 2,000-5,000 m³ · 25,000 TL (incl. VAT)', 'ADS-640B · 428×128×372 mm · 15W · 4,000-8,000 m³ · 30,000 TL (incl. VAT)', 'ADS-670B · 428×128×372 mm · 18W · 7,000-12,000 m³ · 50,000 TL (incl. VAT)'],
       specs: [['Size', '328 / 428 / 428 × 128 × 372 mm'], ['Colour', 'Black'], ['Material', 'Metal'], ['Voltage', 'DC 12V'], ['Power', '12W / 15W / 18W'], ['Noise level', '≤ 35 dB'], ['Fragrance capacity', '1000 ml'], ['Coverage', '2,000-5,000 / 4,000-8,000 / 7,000-12,000 m³'], ['Installation', 'Floor; connects to the HVAC system'], ['Carton', '1 pc']],
       use: USE_COMMERCIAL
     },
@@ -133,19 +133,9 @@
       ],
       videos: [{ title: 'Unplugged, anywhere', teaser: 'See the cordless use, the fragrance change in seconds and the tilt sensor up close.', summary: 'The unit, which runs without a cable thanks to its built-in battery, is taken out of the box. Changing the fragrance bottle in a few seconds, the safety sensor that stops it when tipped over, and the settings made with the remote and the phone app are shown.' }],
       features: ['Dual-fluid atomisation', 'Bluetooth app control', 'Low noise', 'Built-in battery', 'Type-C port', 'Waterproof touch control'],
-      variants: ['CK-683A (Silver)', 'CK-683B (Black)'],
-      specs: [['Size', 'Ø92 × 305 mm'], ['Colour', 'Silver / Black'], ['Material', 'Aluminium alloy'], ['Voltage / Power', 'DC5V-2A (Type-C) / 8W'], ['Battery', '5000 mAh'], ['Noise level', '≤ 38 dB'], ['Fragrance capacity', '110 ml'], ['Coverage', '300 m³'], ['Net weight', '0.82 kg']],
+      variants: ['Bronze', 'Black', 'Brown', 'Green'],
+      specs: [['Size', 'Ø92 × 305 mm'], ['Colour', 'Bronze / Black / Brown / Green'], ['Material', 'Aluminium alloy'], ['Voltage / Power', 'DC5V-2A (Type-C) / 8W'], ['Battery', '5000 mAh'], ['Noise level', '≤ 38 dB'], ['Fragrance capacity', '110 ml'], ['Coverage', '300 m³'], ['Net weight', '0.82 kg']],
       use: USE_COMMERCIAL + ', sales floors'
-    },
-    ads685: {
-      badge: 'Commercial',
-      title: 'Tabletop Commercial Scent Diffuser',
-      short: 'Aluminium column body, 200 ml capacity and 400-1,200 m³ coverage; for tabletop use.',
-      desc: 'An aluminium-bodied tabletop diffuser designed for commercial spaces. Draws 12 W at DC 12V, runs at ≤35 dB and scents 400-1,200 m³ from its 200 ml reservoir. Available in white and black.',
-      features: ['Commercial use', 'Aluminium body', 'Low noise (≤35 dB)', 'Tabletop placement'],
-      variants: ['ADS-685C (White)', 'ADS-685B (Black)'],
-      specs: [['Size', '324 × 81 × 114 mm'], ['Colour', 'White / Black'], ['Material', 'Aluminium alloy'], ['Voltage / Power', 'DC 12V / 12W'], ['Noise level', '≤ 35 dB'], ['Fragrance capacity', '200 ml'], ['Coverage', '400-1,200 m³'], ['Installation', 'Tabletop']],
-      use: USE_COMMERCIAL
     },
     ck644: {
       badge: 'Plug-in',
@@ -237,7 +227,7 @@
   ESSENCES.forEach(e => Object.assign(e, ESSENCES_EN[e.id] || {}));
 
   // Renk adları ve İngilizce aile adı (kodlar ve renk tonları products.js'te kalır)
-  const COLOURS_EN = { Beyaz: 'White', Siyah: 'Black', 'Gümüş': 'Silver', Bej: 'Beige', 'Rose Gold': 'Rose gold' };
+  const COLOURS_EN = { Beyaz: 'White', Siyah: 'Black', 'Gümüş': 'Silver', Bej: 'Beige', 'Rose Gold': 'Rose gold', Bronz: 'Bronze', Kahverengi: 'Brown', 'Yeşil': 'Green' };
   const FAMILY_EN = { ck686: 'ADS-687 column' };
   PRODUCTS.forEach(p => {
     (p.colors || []).forEach(c => { c.name = COLOURS_EN[c.name] || c.name; });

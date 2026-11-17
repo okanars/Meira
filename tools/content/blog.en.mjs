@@ -156,7 +156,7 @@ export const POSTS = [
 <h2>Coverage ranges in the catalogue</h2>
 <p>According to the manufacturer, the devices in the catalogue cover a wide range, from small tabletop models to metal-bodied series connected to the HVAC system. A few examples:</p>
 <ul>
-  <li><a href="urun-ck687.html">ADS-687</a> tabletop diffuser: 300-600 m³ (meeting rooms, receptions, offices).</li>
+  <li><a href="urun-ck687.html">ADS-686</a> tabletop diffuser: 300-600 m³ (meeting rooms, receptions, offices).</li>
   <li><a href="urun-ck689.html">ADS-689</a> slim dual-fluid diffuser: 600-800 m³ (shops, showrooms).</li>
   <li><a href="urun-ck686.html">ADS-687</a> column diffuser: 4,000 m³ (lobbies, restaurants).</li>
   <li><a href="urun-ck620.html">ADS-620B / 640B / 670B</a> series: 2,000-5,000, 4,000-8,000 and 7,000-12,000 m³ (large spaces, HVAC connection).</li>

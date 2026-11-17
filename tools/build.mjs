@@ -506,14 +506,23 @@ function productVideoSection(p) {
 // Ürün kartı (katalog ızgarası, ilgili ürünler). urunler.html (ve en/urunler.html) içindeki şablonla aynı tutulmalı.
 // Satışta olmayan (soon) ürünün kartı bağlantısızdır ve listeye eklenemez.
 // ---------------------------------------------------------------------------
-// Liste fiyatı; KDV eklenecek tutar olarak "+ KDV" ile gösterilir (KDV hesaplanmaz). "Pek yakında" ürünlerde
+// Liste fiyatı; KDV dahil tutar olarak "KDV dahil" ile gösterilir. "Pek yakında" ürünlerde
 // gösterilmez. components.js priceHtml ile aynı.
 const fmtNum = n => Math.round(n).toLocaleString(L === 'en' ? 'en-GB' : 'tr-TR');
 const priceRange = p => `${[].concat(p.price).map(fmtNum).join(' - ')} TL`;
 const hasPrice = p => p.price != null && !p.soon;
 function priceHtml(p, cls = 'product-card__price') {
   if (!hasPrice(p)) return '';
-  return `<p class="${cls}"><span class="${cls}-value">${priceRange(p)}</span> <span class="${cls}-vat">${tt('+ KDV', '+ VAT')}</span></p>`;
+  const o = p.options && p.options[0];
+  return `<p class="${cls}"><span class="${cls}-value"${o ? ' data-opt-price' : ''}>${priceRange(o || p)}</span> <span class="${cls}-vat">${tt('KDV dahil', 'incl. VAT')}</span></p>`;
+}
+
+// Seri ürünlerde model seçici (products.js options). components.js optionRow ile aynı işaretleme; ilk model seçili.
+// Seçim fiyatı (data-opt-price), kapsamayı (data-opt-cov) ve "listeye ekle" düğmelerinin modelini değiştirir.
+const optCov = o => `${fmtNum(o.cov[0])}-${fmtNum(o.cov[1])} m³`;
+function optionRow(p, cls = '') {
+  if (!p.options || p.soon) return '';
+  return `<div class="opt-row${cls}" role="radiogroup" aria-label="${esc(tt(`${p.family || p.model}: model seçimi`, `${p.family || p.model}: choose a model`))}" data-opt-group="${esc(p.id)}">${p.options.map((o, i) => `<button type="button" class="opt-chip" role="radio" aria-checked="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-opt="${esc(o.code)}">${esc(o.code)}</button>`).join('')}</div>`;
 }
 
 // Renk seçenekleri: kartta başlığın altında, ürün sayfasında kısa açıklamanın altında. Her rengin yanında o rengin
@@ -524,7 +533,8 @@ function colorRow(p, cls = '') {
 }
 
 function productCard(p, headingTag = 'h2') {
-  const area = spec(p, RE.cov);
+  const opt0 = p.options && !p.soon ? p.options[0] : null;
+  const area = opt0 ? optCov(opt0) : spec(p, RE.cov);
   const cap = spec(p, RE.cap);
   const cls = `product-card${p.premium ? ' product-card--premium' : ''}${p.soon ? ' product-card--soon' : ''}`;
   return `<article class="${cls}" data-id="${esc(p.id)}">
@@ -537,8 +547,9 @@ function productCard(p, headingTag = 'h2') {
               </div>
               <${headingTag} class="product-card__title">${p.soon ? esc(p.title) : `<a href="${productUrl(p)}" class="product-card__link">${esc(p.title)}</a>`}</${headingTag}>
               ${colorRow(p)}
+              ${optionRow(p)}
               <p class="product-card__desc">${esc(p.short)}</p>
-              <p class="product-card__meta">${[area, cap].filter(Boolean).map(x => `<span>${esc(x)}</span>`).join('')}</p>
+              <p class="product-card__meta">${area ? `<span${opt0 ? ' data-opt-cov' : ''}>${esc(area)}</span>` : ''}${cap ? `<span>${esc(cap)}</span>` : ''}</p>
               ${priceHtml(p)}
               ${p.soon
                 ? `<p class="product-card__status">${tt('Henüz satışta değil', 'Not yet on sale')}</p>`
@@ -603,8 +614,8 @@ function productFaq(p) {
     [`${fam(p)} ne zaman satışa çıkacak?`, 'Bu model henüz satışta değil. Satışa çıktığında bu sayfadan teklif listesine eklenebilecek. Bilgi almak için teklif formundan bize yazabilirsiniz.'],
     [`When will ${fam(p)} be available?`, 'This model is not on sale yet. Once it is, you will be able to add it to your quote list from this page. You can write to us through the quote form for details.']));
   else items.push(tt(
-    [`${fam(p)} için nasıl teklif alabilirim?`, 'Bu sayfadaki “Listeye ekle” düğmesiyle ürünü teklif listenize ekleyin, ardından listeyi teklif formuna aktarın. Online satış henüz yoktur; sayfadaki liste fiyatına KDV eklenir, teklif adede ve koşullara göre hazırlanır.'],
-    [`How can I get a quote for ${fam(p)}?`, 'Add the product to your quote list with the "Add to list" button on this page, then transfer the list to the quote form. There is no online sale yet; VAT is added to the list price on this page, and the quote is prepared for your quantities and terms.']));
+    [`${fam(p)} için nasıl teklif alabilirim?`, 'Bu sayfadaki “Listeye ekle” düğmesiyle ürünü teklif listenize ekleyin, ardından listeyi teklif formuna aktarın. Online satış henüz yoktur; sayfadaki liste fiyatına KDV dahildir, teklif adede ve koşullara göre hazırlanır.'],
+    [`How can I get a quote for ${fam(p)}?`, 'Add the product to your quote list with the "Add to list" button on this page, then transfer the list to the quote form. There is no online sale yet; the list price on this page includes VAT, and the quote is prepared for your quantities and terms.']));
   return items;
 }
 
@@ -747,10 +758,10 @@ function productPage(p) {
           <p>${tt('Bu model henüz satışta değil. Satışa çıktığında bu sayfadan teklif listesine eklenebilecek.', 'This model is not on sale yet. Once it is, you will be able to add it to your quote list here.')}</p>
         </div>`
     : `<div class="btn-row pd__actions">
-          <button type="button" class="btn btn--primary btn--lg" data-add-to-list="${esc(p.id)}">${icon('plus', 'icon--sm')}<span>${tt('Listeye ekle', 'Add to list')}</span></button>
-          <button type="button" class="btn btn--quiet btn--lg" data-quote-now="${esc(p.id)}">${tt('Teklif iste', 'Request a quote')}</button>
+          <button type="button" class="btn btn--primary btn--lg" data-add-to-list="${esc(p.id)}"${p.options ? ` data-opt="${esc(p.options[0].code)}"` : ''}>${icon('plus', 'icon--sm')}<span>${tt('Listeye ekle', 'Add to list')}</span></button>
+          <button type="button" class="btn btn--quiet btn--lg" data-quote-now="${esc(p.id)}"${p.options ? ` data-opt="${esc(p.options[0].code)}"` : ''}>${tt('Teklif iste', 'Request a quote')}</button>
         </div>
-        <p class="note">${tt('Fiyatlara KDV eklenir. Online satış henüz yoktur; adet, stok ve teslim süresi teklifle bildirilir.', 'VAT is added to the prices. There is no online sale yet; quantities, availability and delivery time are given in the quote.')}</p>`;
+        <p class="note">${tt('Fiyatlara KDV dahildir. Online satış henüz yoktur; adet, stok ve teslim süresi teklifle bildirilir.', 'Prices include VAT. There is no online sale yet; quantities, availability and delivery time are given in the quote.')}</p>`;
 
   const main = `
     <div class="wrap">
@@ -777,7 +788,9 @@ function productPage(p) {
           ${facts.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('\n          ')}
         </dl>` : ''}
         ${hasPrice(p) ? `<div class="pd-price">
-          <p class="pd-price__label">${[].concat(p.price).length > 1 ? tt('Liste fiyatı (seriye göre)', 'List price (by model)') : tt('Liste fiyatı', 'List price')}</p>
+          <p class="pd-price__label">${p.options ? tt('Model seçin', 'Choose a model') : [].concat(p.price).length > 1 ? tt('Liste fiyatı (seriye göre)', 'List price (by model)') : tt('Liste fiyatı', 'List price')}</p>
+          ${optionRow(p, ' opt-row--lg')}
+          ${p.options ? `<p class="pd-price__cov">${tt('Kapsama', 'Coverage')}: <span data-opt-cov>${esc(optCov(p.options[0]))}</span></p>` : ''}
           ${priceHtml(p, 'pd-price__row')}
         </div>` : ''}
         ${actions}

@@ -83,7 +83,7 @@ export const FAQ = {
     {
       title: 'Quotes and purchasing',
       items: [
-        ['Can I buy online?', 'Not yet. Product pages show list prices (VAT is added); orders are placed through a quote prepared for your quantities and terms. Add the products you are interested in to the quote list and request a quote with a single form.'],
+        ['Can I buy online?', 'Not yet. Product pages show list prices (prices include VAT); orders are placed through a quote prepared for your quantities and terms. Add the products you are interested in to the quote list and request a quote with a single form.'],
         ['How do I request a quote?', 'Build your quote list with the "Add to list" button next to products in the catalogue. Open the list with the "Quote list" button at the top right and choose "Transfer to quote form"; products and quantities are added to the message automatically. If you also describe the size and use of the space, the quote is prepared accordingly.'],
         ['Can I get samples?', 'Yes. For a scent sample, choose "Price and samples" in the quote form and describe your space and the character of scent you are looking for; sample terms are given with the quote.'],
         ['Can I have products made with my own brand\'s logo?', 'The manufacturer states that it offers private-label production (OEM) and joint product development (ODM): logo printing on the device body, colour choice, custom packaging and a fragrance formula made for your brand. We pass your request to the manufacturer and follow the process on your behalf. Minimum order and lead times are given per request.']

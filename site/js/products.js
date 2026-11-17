@@ -7,24 +7,27 @@
  * MEIRA Kozmetik Difüzör Fiyat Listesi 2026'da (son sürüm, Kasım 2026) yer alan ürünlerde (ADS-687, ADS-689, CK-629,
  * CK-644, zemin tipi ADS-687, ADS-685, ADS-620B/640B/670B) model kodu, ölçü, güç, hazne, kapsama ve fiyat bu listeden
  * alınmıştır; katalogla çelişen değerlerde liste esas alınır. Kapsama m³ olarak verilir.
- * price: liste fiyatı (TL, KDV hariç). Sitede "+ KDV" ile gösterilir; KDV tutarı hesaplanmaz. Seride en düşük ve en
- * yüksek fiyat [min, max]; seri fiyatları variants içinde. Sitede online satış yoktur; teklif adet ve koşullara göre
- * hazırlanır. "Pek yakında" ürünlerde fiyat gösterilmez (veride durur).
- * Listeye göre zemin tipi kolon (ck686, katalogda CK-686) da ADS-687A/B kodunu taşır; 150 ml
- * ADS-687'den başlığı ve kategorisiyle ayrılır.
+ * price: liste fiyatı (TL, KDV DAHİL; Meira'nın 2026-11-17 tarihli fiyat güncellemesi). Sitede "KDV dahil" ile
+ * gösterilir. Seride en düşük ve en yüksek fiyat [min, max]; seri fiyatları variants içinde. Sitede online satış yoktur;
+ * teklif adet ve koşullara göre hazırlanır. "Pek yakında" ürünlerde fiyat gösterilmez (veride durur).
+ * CK-629'un fiyatı (3.000) eski listeden ve KDV hariçtir; ürün satışa açılırsa güncellenmelidir.
+ * Model kodları (2026-11-17): 150 ml kompakt masaüstü model (ck687) ADS-686A/B; zemin tipi kolon (ck686, katalogda
+ * CK-686) ADS-687A/B. Sayfa adresleri (urun-ck687 / urun-ck686) arama motorlarında kayıtlı olduğu için değiştirilmedi.
  * CK-628 ön yüz ölçüsü (66 × 212) Meira'nın ilettiği ölçü çiziminden; derinlik 56 mm.
  * pin: katalog sıralamasında en başa alınan ürün (ADS-689).
  * model: fiyat listesindeki tam model numaraları (renk ya da sürüm başına bir kod; teklif listesine ve e-postaya bu yazılır).
- * family: düzyazıda kullanılan kısa aile adı (ör. soru-cevaplarda "ADS-687 ne kadar ses çıkarır?").
+ * family: düzyazıda kullanılan kısa aile adı (ör. soru-cevaplarda "ADS-686 ne kadar ses çıkarır?").
  * colors: kartta ve ürün sayfasında gösterilen renk seçenekleri { code, name, hex }; code, o rengin model numarasıdır.
- * Listede ADS-687A/B kodları hem 150 ml masaüstü modelde hem zemin tipi kolon modelde geçer (listedeki gibi bırakıldı).
- * Kategori ve özellikler fiyat listesine göre: "Kurulum: Masaüstü" olanlar (ADS-687 150 ml, ADS-689, CK-629, ADS-685)
- * Masaüstü kategorisinde; listede kontrol yöntemi "-" olanlarda (ADS-687 kolon, ADS-685, ADS-620B serisi) uygulama ya
- * da kumanda iddiası yoktur. Görsel ve videolardan özellik çıkarılmaz.
+ * options: seri ürünlerde seçilebilen modeller { code, price, cov: [min, max] } (ör. ADS-620B / 640B / 670B).
+ * Kategori ve özellikler fiyat listesine göre: "Kurulum: Masaüstü" olanlar (ADS-686, ADS-689, CK-629) ve ADS-685'in
+ * yerini alan CK-683 Masaüstü kategorisinde; listede kontrol yöntemi "-" olanlarda (ADS-687 kolon, ADS-620B serisi)
+ * uygulama ya da kumanda iddiası yoktur. Görsel ve videolardan özellik çıkarılmaz.
+ * ADS-685 2026-11-17'de katalogdan çıkarıldı; yerini CK-683 aldı (ana görsel: dört renkli CK-683 fotoğrafı, eski
+ * ads685-g1). urun-ads685.html adresi .htaccess ile urun-ck683.html'e yönlendirilir.
  * premium: metal (alüminyum) gövdeli modeller; katalogda "Premium" filtresiyle ve öne çıkarılarak gösterilir.
  * soon: model kodu CK ile başlayan ürünler ile ADS-622 ve ADS-611 henüz satışta değil; "Pek yakında" etiketiyle
  * gösterilir, kartları tıklanmaz ve teklif listesine eklenmez (CK için dosyanın sonunda atanır; tek bir ürün için
- * soon: false yazılabilir).
+ * soon: false yazılabilir). Satışta olan CK modelleri: CK-683, CK-644.
  * CK-611/612/613 ve CK-621/622/623 serileri katalogdan çıkarıldı (2026-11).
  * Esanslar: sitede ESSENCES gösterilir (dosyanın sonu). SCENTS ve OILS eski taslak veridir, sitede kullanılmaz. */
 const CATEGORIES = [
@@ -99,7 +102,7 @@ const PRODUCTS = [
     use: COMMON_USE_COMMERCIAL
   },
   {
-    id: 'ck689', model: 'ADS-689B / ADS-689-YK', family: 'ADS-689', price: 3750, cat: 'home', pin: true,
+    id: 'ck689', model: 'ADS-689B / ADS-689-YK', family: 'ADS-689', price: 20000, cat: 'home', pin: true,
     title: 'Çift Akışkanlı Ultra İnce Difüzör',
     short: 'Bluetooth uygulama ya da kablosuz kumandayla yönetilen ince gövdeli difüzör; 500 ml hazne, 600-800 m³ kapsama ve 35 dB’i aşmayan sessiz çalışma.',
     desc: 'Çift akışkanlı atomizasyon, esansı hızlı ve homojen biçimde yayar. İki sürümü vardır: Bluetooth uygulamayla yönetilen ADS-689B ve kablosuz kumandalı ADS-689-YK. ABS ve PP gövde yüksek sıcaklığa dayanıklıdır; üretici beyanına göre malzeme koku yapmaz, toksik değildir ve FDA standartlarına uygundur. 500 ml esans haznesiyle 600-800 m³’lük alanlar için uygundur.',
@@ -111,15 +114,15 @@ const PRODUCTS = [
     use: COMMON_USE_COMMERCIAL
   },
   {
-    id: 'ck687', model: 'ADS-687A / ADS-687B', family: 'ADS-687', price: 3500, cat: 'home',
+    id: 'ck687', model: 'ADS-686A / ADS-686B', family: 'ADS-686', price: 15000, cat: 'home',
     title: 'Kompakt Çift Akışkanlı Difüzör',
     short: 'Yenilenmiş ekran paneline ve Bluetooth uygulama kontrolüne sahip, 150 ml hazneli kompakt difüzör; 300-600 m³ kapsama.',
     desc: 'Çift akışkanlı atomizasyon, esansı hızlı ve eşit biçimde dağıtır. Bluetooth mobil uygulama ve yenilenmiş ekran paneli sayesinde kullanımı kolaydır. Gövde, yüksek sıcaklığa dayanıklı PP malzemeden üretilmiştir; üretici beyanına göre bu malzeme gıda sınıfındadır ve FDA dahil uluslararası standartlara uygundur.',
     img: 'ck687', pos: '40% 50%', gallery: 22,
     videos: [{ file: 'ck687-kurulum', duration: 65, title: 'Kurulumdan çalışma programına', teaser: 'Cihazın hazırlanmasını ve uygulamadan haftalık çalışma programı kurmayı adım adım izleyin.', summary: 'Pillerin ve esans şişesinin takılması gösteriliyor. Ardından ekrandaki ayar tuşları ve telefon uygulamasında haftalık çalışma programının nasıl oluşturulduğu adım adım anlatılıyor. Son bölümde cihaz masa üzerinde, prize bağlı olarak kullanılıyor.' }],
     features: ['Çift akışkanlı atomizasyon', 'Bluetooth uygulama kontrolü', 'Yenilenmiş ekran paneli', 'Sessiz çalışma (≤35 dB)', 'Zamanlı püskürtme'],
-    variants: ['ADS-687A (Beyaz)', 'ADS-687B (Siyah)'],
-    colors: [{ code: 'ADS-687A', name: 'Beyaz', hex: '#F3F2EE' }, { code: 'ADS-687B', name: 'Siyah', hex: '#1C1C1E' }],
+    variants: ['ADS-686A (Beyaz)', 'ADS-686B (Siyah)'],
+    colors: [{ code: 'ADS-686A', name: 'Beyaz', hex: '#F3F2EE' }, { code: 'ADS-686B', name: 'Siyah', hex: '#1C1C1E' }],
     specs: [['Boyut', '148 × 67 × 185 mm'], ['Renk', 'Beyaz / Siyah'], ['Malzeme', 'PP'], ['Gerilim / Güç', 'DC 6V / 2W'], ['Ses seviyesi', '≤ 35 dB'], ['Esans kapasitesi', '150 ml'], ['Kapsama alanı', '300-600 m³'], ['Kontrol', 'Bluetooth uygulama, yenilenmiş ekran paneli'], ['Kurulum', 'Masaüstü'], ['Net ağırlık', '512 g'], ['Koli', '30 adet · 465×385×490 mm · 19 kg brüt']],
     use: COMMON_USE_COMMERCIAL
   },
@@ -136,20 +139,27 @@ const PRODUCTS = [
     use: COMMON_USE_COMMERCIAL
   },
   {
-    id: 'ck620', model: 'ADS-620B / ADS-640B / ADS-670B', family: 'ADS-620B / 640B / 670B', price: [12000, 22000], cat: 'pro', badge: 'Seri',
+    id: 'ck620', model: 'ADS-620B / ADS-640B / ADS-670B', family: 'ADS-620B / 640B / 670B', price: [25000, 50000], cat: 'pro', badge: 'Seri',
     title: 'Yüksek Hacimli Sis Difüzör Serisi',
     short: 'Zemine yerleştirilen ve klima (HVAC) sistemine bağlanabilen metal gövdeli seri; 1000 ml hazne, 2.000-12.000 m³ kapsama.',
     desc: 'Yüksek sis hacmi sayesinde koku, cihaz çalışmaya başladıktan kısa süre sonra mekâna yayılır. Zemine yerleştirilir ve merkezi klima (HVAC) sistemine bağlanabilir. 35 dB’i aşmayan sessiz çalışmasının yanı sıra tak-çıkar atomizer başlığı ve manyetik kilidi sayesinde bakımı da kolaydır. Üç kapasite seçeneğiyle 2.000 m³’ten 12.000 m³’e kadar alanlar için uygun model seçilebilir.',
     img: 'ck620', pos: '50% 50%', gallery: 11, premium: true,
+    // Seri içinde seçilebilen modeller: kartta ve ürün sayfasında seçici; fiyat ve kapsama seçime göre değişir,
+    // teklif listesine seçilen kod yazılır. price (yukarıda) en düşük-en yüksek aralığı olarak kalır.
+    options: [
+      { code: 'ADS-620B', price: 25000, cov: [2000, 5000] },
+      { code: 'ADS-640B', price: 30000, cov: [4000, 8000] },
+      { code: 'ADS-670B', price: 50000, cov: [7000, 12000] }
+    ],
     features: ['Yüksek sis hacmi', 'Sessiz çalışma (≤35 dB)', 'Zemine yerleştirme', '1000 ml hazne', 'Klima (HVAC) bağlantısı', 'Metal gövde'],
     // [DOĞRULANACAK] Listede ADS-640B ve ADS-670B için aynı ölçü (428×128×372 mm) verilmiş.
-    variants: ['ADS-620B · 328×128×372 mm · 12W · 2.000-5.000 m³ · 12.000 TL + KDV', 'ADS-640B · 428×128×372 mm · 15W · 4.000-8.000 m³ · 14.000 TL + KDV', 'ADS-670B · 428×128×372 mm · 18W · 7.000-12.000 m³ · 22.000 TL + KDV'],
+    variants: ['ADS-620B · 328×128×372 mm · 12W · 2.000-5.000 m³ · 25.000 TL (KDV dahil)', 'ADS-640B · 428×128×372 mm · 15W · 4.000-8.000 m³ · 30.000 TL (KDV dahil)', 'ADS-670B · 428×128×372 mm · 18W · 7.000-12.000 m³ · 50.000 TL (KDV dahil)'],
     colors: [{ name: 'Siyah', hex: '#1C1C1E' }],
     specs: [['Boyut', '328 / 428 / 428 × 128 × 372 mm'], ['Renk', 'Siyah'], ['Malzeme', 'Metal'], ['Gerilim', 'DC 12V'], ['Güç', '12W / 15W / 18W'], ['Ses seviyesi', '≤ 35 dB'], ['Esans kapasitesi', '1000 ml'], ['Kapsama alanı', '2.000-5.000 / 4.000-8.000 / 7.000-12.000 m³'], ['Kurulum', 'Zemin; klima (HVAC) sistemine bağlanabilir'], ['Koli', '1 adet']],
     use: COMMON_USE_COMMERCIAL
   },
   {
-    id: 'ck686', model: 'ADS-687A / ADS-687B', family: 'ADS-687 kolon', price: 18000, cat: 'pro', badge: 'Kolon',
+    id: 'ck686', model: 'ADS-687A / ADS-687B', family: 'ADS-687 kolon', price: 50000, cat: 'pro', badge: 'Kolon',
     title: 'Nano Atomizasyonlu Kolon Difüzör',
     short: 'Zeminde ayakta duran alüminyum kolon difüzör; 1000 ml hazne ve 4.000 m³ kapsama.',
     desc: 'Zeminde ayakta duran, taş dokulu atomizer başlığıyla dikkat çeken kolon tipi ticari difüzör. Tak-çıkar atomizer sayesinde esans değişimi kolaydır; manyetik kilit mekanizması başlığı güvenle sabitler. 1000 ml esans haznesi ve nano sis teknolojisiyle 4.000 m³’lük alanları kokulandırır; taze hava sistemine de bağlanabilir.',
@@ -163,11 +173,12 @@ const PRODUCTS = [
     use: COMMON_USE_COMMERCIAL + ', satış salonu'
   },
   {
-    id: 'ck683', model: 'CK-683', cat: 'pro', badge: 'Pilli',
+    id: 'ck683', model: 'CK-683', family: 'CK-683', price: 25000, cat: 'home', badge: 'Pilli', soon: false,
     title: 'Kompakt Alüminyum Çift Akışkanlı Difüzör',
     short: '5000 mAh dahili pili, Bluetooth kontrolü ve 300 m³ kapsamasıyla kablosuz kullanılabilen alüminyum difüzör.',
     desc: 'Kompakt gövdesi sayesinde az yer kaplar ve kolayca taşınır. 5000 mAh dahili pili, cihazın prize bağlı kalmadan uzun süre çalışmasını sağlar; 300 m³’lük alanları kokulandırır. Ayarlar Bluetooth bağlantısıyla kolayca yönetilir; Type-C şarj girişi ve su geçirmez dokunmatik kontrol paneli bulunur.',
-    img: 'ck683', pos: '50% 40%', gallery: 18, premium: true,
+    img: 'ck683', pos: '50% 50%', gallery: 19, premium: true,
+    // Ana görsel (ck683.jpg) dört renkli fotoğraf (eski ads685-g1); eski ana görsel ck683-g1, eski g1-g18 ise g2-g19 oldu.
     // Üreticinin İngilizce tanıtım görselleri (images/products/ck683-b<n>.jpg / .webp / -960.webp).
     // [DOĞRULANACAK] Görsellerdeki değerler (Ø94×318 mm, 120 ml, 4000 sq ft) katalogla çelişiyor; teknik veriler katalogdan.
     banners: [
@@ -185,25 +196,13 @@ const PRODUCTS = [
     ],
     videos: [{ file: 'ck683-tanitim', duration: 76, title: 'Prize bağlı kalmadan, her yerde', teaser: 'Kablosuz kullanımı, saniyeler süren esans değişimini ve güvenlik sensörünü yakından görün.', summary: 'Dahili pili sayesinde kablosuz çalışan cihaz kutusundan çıkarılıyor. Esans şişesinin birkaç saniyede değiştirilmesi, cihaz devrildiğinde çalışmayı durduran güvenlik sensörü ve hem uzaktan kumandayla hem de telefon uygulamasıyla yapılan ayarlar gösteriliyor.' }],
     features: ['Çift akışkanlı atomizasyon', 'Bluetooth uygulama kontrolü', 'Sessiz çalışma (≤38 dB)', 'Dahili pil (5000 mAh)', 'Type-C şarj girişi', 'Su geçirmez dokunmatik kontrol'],
-    variants: ['CK-683A (Gümüş)', 'CK-683B (Siyah)'],
-    colors: [{ code: 'CK-683A', name: 'Gümüş', hex: '#C9CDD2' }, { code: 'CK-683B', name: 'Siyah', hex: '#1C1C1E' }],
-    specs: [['Boyut', 'Ø92 × 305 mm'], ['Renk', 'Gümüş / Siyah'], ['Malzeme', 'Alüminyum alaşım'], ['Gerilim / Güç', 'DC5V-2A (Type-C) / 8W'], ['Pil', '5000 mAh'], ['Ses seviyesi', '≤ 38 dB'], ['Esans kapasitesi', '110 ml'], ['Kapsama alanı', '300 m³'], ['Net ağırlık', '0,82 kg']],
+    variants: ['Bronz', 'Siyah', 'Kahverengi', 'Yeşil'],
+    colors: [{ name: 'Bronz', hex: '#9C8468' }, { name: 'Siyah', hex: '#1C1C1E' }, { name: 'Kahverengi', hex: '#A8603A' }, { name: 'Yeşil', hex: '#6B7556' }],
+    specs: [['Boyut', 'Ø92 × 305 mm'], ['Renk', 'Bronz / Siyah / Kahverengi / Yeşil'], ['Malzeme', 'Alüminyum alaşım'], ['Gerilim / Güç', 'DC5V-2A (Type-C) / 8W'], ['Pil', '5000 mAh'], ['Ses seviyesi', '≤ 38 dB'], ['Esans kapasitesi', '110 ml'], ['Kapsama alanı', '300 m³'], ['Net ağırlık', '0,82 kg']],
     use: COMMON_USE_COMMERCIAL + ', satış salonu'
   },
   {
-    id: 'ads685', model: 'ADS-685C / ADS-685B', family: 'ADS-685', price: 9000, cat: 'home', badge: 'Ticari',
-    title: 'Masaüstü Ticari Koku Difüzörü',
-    short: 'Alüminyum kolon gövdeli masaüstü difüzör; 200 ml hazne ve 400-1.200 m³ kapsama.',
-    desc: 'Ticari alanlar için tasarlanmış, alüminyum gövdeli bir masaüstü difüzör. DC 12V ile 12 W güç çeker, 35 dB’i aşmayan bir ses seviyesinde çalışır ve 200 ml esans haznesiyle 400-1.200 m³’lük bir alanı kokulandırır. Resepsiyon bankosu, konsol ya da toplantı masası gibi yüzeylerde kullanılır. Beyaz ve siyah renk seçenekleri vardır.',
-    img: 'ads685', pos: '50% 50%', gallery: 1, premium: true,
-    features: ['Ticari kullanım', 'Alüminyum gövde', 'Sessiz çalışma (≤35 dB)', 'Masaüstü yerleşim'],
-    variants: ['ADS-685C (Beyaz)', 'ADS-685B (Siyah)'],
-    colors: [{ code: 'ADS-685C', name: 'Beyaz', hex: '#F3F2EE' }, { code: 'ADS-685B', name: 'Siyah', hex: '#1C1C1E' }],
-    specs: [['Boyut', '324 × 81 × 114 mm'], ['Renk', 'Beyaz / Siyah'], ['Malzeme', 'Alüminyum alaşım'], ['Gerilim / Güç', 'DC 12V / 12W'], ['Ses seviyesi', '≤ 35 dB'], ['Esans kapasitesi', '200 ml'], ['Kapsama alanı', '400-1.200 m³'], ['Kurulum', 'Masaüstü']],
-    use: COMMON_USE_COMMERCIAL
-  },
-  {
-    id: 'ck644', model: 'CK-644A / CK-644B', family: 'CK-644', price: 3000, cat: 'plug', badge: 'Prize Takılan',
+    id: 'ck644', model: 'CK-644A / CK-644B', family: 'CK-644', price: 15000, cat: 'plug', badge: 'Prize Takılan', soon: false,
     title: 'Akıllı Bluetooth Prize Difüzörü',
     short: 'Prize takılarak duvarda çalışan, Bluetooth kontrollü difüzör; 100 ml hazne ve 100-300 m³ kapsama.',
     desc: 'Hafif PP gövdesi ve tak-çalıştır tasarımı sayesinde prize takıldığı anda kullanıma hazırdır. Duvarı delmeye gerek kalmadan doğrudan prize takılır; farklı priz tiplerine uygun üç fiş seçeneği sunar. Çalışma ayarları Bluetooth mobil uygulama üzerinden yönetilir.',

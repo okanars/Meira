@@ -3807,6 +3807,49 @@ html:not(.js) .essence-picker { display: none; }
 .product-card .color-row__dot { width: 12px; height: 12px; }
 .product-card .color-row__code::before { margin-right: 4px; }
 
+/* 34b. Seri model seçici ------------------------------------------------------ */
+/* Seri ürünlerde (products.js options) model seçimi: radyo grubu gibi davranır, seçilen modelin fiyatı ve kapsaması
+   gösterilir, teklif listesine o model eklenir. Kart bağlantısının üstünde kalır (tıklanabilir). */
+.opt-row {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+}
+.opt-chip {
+  min-height: 32px;
+  padding: 4px 12px;
+  border: 1px solid var(--c-line-strong);
+  border-radius: var(--r-round);
+  background: var(--c-surface);
+  color: var(--c-ink-2);
+  font: inherit;
+  font-size: var(--fs-label);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: color var(--t-fast) ease, background-color var(--t-fast) ease, border-color var(--t-fast) ease, transform var(--t-press) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .opt-chip:hover { border-color: var(--c-ink); color: var(--c-ink); }
+}
+.opt-chip:active { transform: scale(0.97); }
+.opt-chip[aria-checked="true"] {
+  border-color: var(--c-ink);
+  background: var(--c-ink);
+  color: var(--c-surface);
+}
+.opt-row--lg { gap: var(--s-2); margin-bottom: var(--s-3); }
+.opt-row--lg .opt-chip { min-height: 44px; padding: 6px 18px; font-size: var(--fs-small); }
+.pd-price__cov { margin: 0 0 var(--s-2); font-size: var(--fs-small); color: var(--c-ink-2); font-variant-numeric: tabular-nums; }
+@media (prefers-reduced-motion: reduce) {
+  .opt-chip { transition: none; }
+  .opt-chip:active { transform: none; }
+}
+
 /* 35. Liste fiyatı ---------------------------------------------------------- */
 /* Liste fiyatı ve yanında "+ KDV" ibaresi (KDV tutarı gösterilmez). */
 .product-card__price {
