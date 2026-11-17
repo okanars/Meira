@@ -36,9 +36,9 @@ import * as PAGES_EN from './content/pages.en.mjs';
 import { CERTS, CERT_INFO } from './content/certs.mjs';
 
 // Alan adı değişirse yalnızca bu değeri değiştirip betiği çalıştırın (README "Marka ve alan adı").
-const SITE_URL = 'https://www.meirascent.com';
+const SITE_URL = 'https://www.meiraairscent.com';
 const BRAND = 'Meira';
-const EMAIL = 'info@meirascent.com';
+const EMAIL = 'info@meiraairscent.com';
 const TODAY = '2026-11-15';
 const DEFAULT_OG = 'images/brand/og-meira.jpg';
 // Üretici (ürünlerin geliştirildiği ve üretildiği şirket). Sitede bu adla anılır.

@@ -134,7 +134,7 @@ export const PRIVACY = {
 <dl class="legal-facts">
   <div><dt>Trade name</dt><dd>Meira Kozmetik İthalat İhracat Sanayi ve Ticaret Limited Şirketi</dd></div>
   <div><dt>Address</dt><dd>Karakuyu Mah. 92008 Sk. No: 42/7 İç Kapı No: 8, Seyhan / Adana, Türkiye</dd></div>
-  <div><dt>Email</dt><dd><a href="mailto:info@meirascent.com" data-site-href="email"><span data-site="email">info@meirascent.com</span></a></dd></div>
+  <div><dt>Email</dt><dd><a href="mailto:info@meiraairscent.com" data-site-href="email"><span data-site="email">info@meiraairscent.com</span></a></dd></div>
   <div><dt>Phone</dt><dd><a href="tel:+905527771974" data-site-href="phone"><span data-site="phone">+90&nbsp;552&nbsp;777&nbsp;19&nbsp;74</span></a></dd></div>
 </dl>
 <p>The name <strong>Meira</strong>, used on our website and in correspondence, belongs to this company.</p>`
@@ -204,7 +204,7 @@ export const PRIVACY = {
     {
       id: 'basvuru',
       title: 'How to apply',
-      html: `<p>You can send requests about your rights by email to <a href="mailto:info@meirascent.com" data-site-href="email"><span data-site="email">info@meirascent.com</span></a> or in writing, together with information that verifies your identity, in line with the Communiqué on the Procedures and Principles of Application to the Data Controller. Applications are concluded within 30 days at the latest.</p>`
+      html: `<p>You can send requests about your rights by email to <a href="mailto:info@meiraairscent.com" data-site-href="email"><span data-site="email">info@meiraairscent.com</span></a> or in writing, together with information that verifies your identity, in line with the Communiqué on the Procedures and Principles of Application to the Data Controller. Applications are concluded within 30 days at the latest.</p>`
     },
     {
       id: 'cerezler',

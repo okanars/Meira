@@ -21,8 +21,8 @@ date_default_timezone_set('Europe/Istanbul');
 // 1. AYARLAR
 // ==========================================
 $DEMO_MODE   = false;
-$TO_EMAIL    = 'info@meirascent.com';
-$FROM_EMAIL  = 'noreply@meirascent.com';
+$TO_EMAIL    = 'info@meiraairscent.com';
+$FROM_EMAIL  = 'noreply@meiraairscent.com';
 $BRAND_NAME  = 'Meira Türkiye';
 $LOG_FILE    = __DIR__ . '/submissions.log';
 $RATE_LIMIT  = 5;     // aynı IP'den en fazla bu kadar talep

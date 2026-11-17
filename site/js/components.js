@@ -8,7 +8,7 @@
  */
 
 (function (root) {
-  const SITE_CFG = root.SITE || { brand: 'Meira', email: 'info@meirascent.com' };
+  const SITE_CFG = root.SITE || { brand: 'Meira', email: 'info@meiraairscent.com' };
   const EN = document.documentElement.lang === 'en';
   const tt = (tr, en) => (EN ? en : tr);
   const LOCALE = EN ? 'en-GB' : 'tr-TR';

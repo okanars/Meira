@@ -8,7 +8,7 @@ DirectoryIndex index.html
 ErrorDocument 404 /404.html
 
 # -----------------------------------------------------------------------------
-# HTTPS ve www yönlendirmesi: http:// ve www'siz adresler https://www.meirascent.com'a gider
+# HTTPS ve www yönlendirmesi: http:// ve www'siz adresler https://www.meiraairscent.com'a gider
 # (kanonik adresler, tools/build.mjs SITE_URL). SSL sertifikası (hosting panelinde ücretsiz SSL) etkin olmalı;
 # sertifika henüz yoksa site tarayıcıda güvenlik uyarısı verir.
 # -----------------------------------------------------------------------------

@@ -141,7 +141,7 @@ export const PRIVACY = {
 <dl class="legal-facts">
   <div><dt>Ticaret unvanı</dt><dd>Meira Kozmetik İthalat İhracat Sanayi ve Ticaret Limited Şirketi</dd></div>
   <div><dt>Adres</dt><dd>Karakuyu Mah. 92008 Sk. No: 42/7 İç Kapı No: 8, Seyhan / Adana</dd></div>
-  <div><dt>E-posta</dt><dd><a href="mailto:info@meirascent.com" data-site-href="email"><span data-site="email">info@meirascent.com</span></a></dd></div>
+  <div><dt>E-posta</dt><dd><a href="mailto:info@meiraairscent.com" data-site-href="email"><span data-site="email">info@meiraairscent.com</span></a></dd></div>
   <div><dt>Telefon</dt><dd><a href="tel:+905527771974" data-site-href="phone"><span data-site="phone">+90&nbsp;552&nbsp;777&nbsp;19&nbsp;74</span></a></dd></div>
 </dl>
 <p>Web sitemizde ve iletişimde kullandığımız <strong>Meira</strong> adı bu şirkete aittir.</p>`
@@ -214,7 +214,7 @@ export const PRIVACY = {
     {
       id: 'basvuru',
       title: 'Başvuru',
-      html: `<p>Haklarınıza ilişkin taleplerinizi, Veri Sorumlusuna Başvuru Usul ve Esasları Hakkında Tebliğ'e uygun olarak, kimliğinizi doğrulayan bilgilerle birlikte <a href="mailto:info@meirascent.com" data-site-href="email"><span data-site="email">info@meirascent.com</span></a> adresine e-posta ile ya da yazılı olarak iletebilirsiniz. Başvurular en geç 30 gün içinde sonuçlandırılır.</p>`
+      html: `<p>Haklarınıza ilişkin taleplerinizi, Veri Sorumlusuna Başvuru Usul ve Esasları Hakkında Tebliğ'e uygun olarak, kimliğinizi doğrulayan bilgilerle birlikte <a href="mailto:info@meiraairscent.com" data-site-href="email"><span data-site="email">info@meiraairscent.com</span></a> adresine e-posta ile ya da yazılı olarak iletebilirsiniz. Başvurular en geç 30 gün içinde sonuçlandırılır.</p>`
     },
     {
       id: 'cerezler',
