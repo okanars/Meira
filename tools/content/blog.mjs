@@ -7,7 +7,7 @@ export const POSTS = [
     slug: 'uretici-andusic',
     title: 'Üreticimizi tanıyın: Andusic ve Dongguan\'daki üretim tesisi',
     navTitle: 'Üreticimiz Andusic',
-    description: 'Distribütörü olduğumuz Andusic\'in üretim tesisi, ürün grupları, kalite süreçleri ve OEM / ODM iş birlikleri: siparişten sevkiyata nasıl çalıştıkları.',
+    description: 'Distribütörü olduğumuz Andusic\'in üretim tesisi, ürün grupları, kalite süreçleri ve OEM / ODM iş birlikleri: siparişten sevkiyata uzanan süreç.',
     date: '2026-10-14',
     minutes: 5,
     image: 'images/general/andusic-showroom.jpg',
@@ -31,7 +31,7 @@ export const POSTS = [
   <li><strong>10.000'den fazla</strong> kurumsal müşteri</li>
   <li><strong>100'den fazla</strong> patent ve buluş</li>
 </ul>
-<!-- [DOĞRULANACAK] Rakamlar ve iş ortağı adları üreticinin tanıtım sunumundaki beyanlardır. -->
+<!-- Rakamlar üreticinin tanıtım sunumundaki beyanlardır. İş ortağı marka adları doğrulanmadığı için kullanılmaz. -->
 
 <figure>
   <img src="images/general/andusic-production.jpg" alt="Andusic tesisinden kareler: üretim hattı, ofis, sergi salonu, mamul deposu, üretim atölyesi ve CNC tezgâhları" width="1432" height="746" loading="lazy" decoding="async">
@@ -42,7 +42,7 @@ export const POSTS = [
 <p>Andusic, ticari tesislerin ihtiyaç duyduğu ürünleri tek tedarikçiden sunmayı hedefler:</p>
 <ul>
   <li><strong>Koku serisi:</strong> esans ve aroma difüzörleri ile uyumlu esanslar. Meira'nın Türkiye'de sunduğu ürünler bu seridendir; duvar tipi, klima bağlantılı ve masaüstü modelleri <a href="urunler.html">ürün kataloğunda</a> inceleyebilirsiniz.</li>
-  <li><strong>Hijyen serisi:</strong> sabun dispenserleri, el kurutma makineleri ve havlu dispenserleri. Bu ürünler için talep halinde teklif hazırlıyoruz.</li>
+  <li><strong>Hijyen serisi:</strong> sabun dispenserleri, el kurutma makineleri ve havlu dispenserleri. Bu ürünler için talep hâlinde teklif hazırlıyoruz.</li>
 </ul>
 
 <h2>Siparişten sevkiyata dört adım</h2>
@@ -62,7 +62,7 @@ export const POSTS = [
 </figure>
 
 <h2>OEM / ODM iş birlikleri</h2>
-<p>Üretici, sunumunda BYD, TCL, Skyworth, ICBC, Alibaba Group, OCT, JLL ve COCO Park gibi kurumların yanı sıra hastaneler, üniversiteler ve mülk yönetim şirketleriyle ortak markalı (OEM / ODM) ürünler geliştirdiğini belirtmektedir. Kendi markanız için logo baskısı, renk, ambalaj ya da özel koku talebinizi <a href="iletisim.html?konu=oem">OEM / ODM formu</a> üzerinden iletebilirsiniz; talebinizi üreticiye iletir ve süreci sizin adınıza takip ederiz.</p>
+<p>Üretici, sunumunda üretim, finans, gayrimenkul, perakende ve kamu sektörlerinden kurumların yanı sıra hastaneler, üniversiteler ve mülk yönetim şirketleriyle ortak markalı (OEM / ODM) ürünler geliştirdiğini belirtmektedir. Kendi markanız için logo baskısı, renk, ambalaj ya da özel koku talebinizi <a href="iletisim.html?konu=oem">OEM / ODM formu</a> üzerinden iletebilirsiniz; talebinizi üreticiye iletir ve süreci sizin adınıza takip ederiz.</p>
 
 <h2>Meira'nın rolü</h2>
 <p>Meira, Andusic'in koku ürünlerinin Türkiye distribütörü olarak ürün seçimi, teklif ve tedarik süreçlerini yürütür. Mekânınıza uygun cihazı belirlemek için <a href="cozumler.html#hesaplayici">hacim hesaplayıcıyı</a> kullanabilir ya da <a href="iletisim.html">teklif formundan</a> bize ulaşabilirsiniz.</p>
@@ -74,7 +74,7 @@ export const POSTS = [
 
   {
     slug: 'koku-pazarlamasi-nedir',
-    title: 'Koku pazarlaması nedir? Araştırmalar mekân kokusu hakkında ne söylüyor',
+    title: 'Koku pazarlaması nedir? Araştırmalar mekân kokusu hakkında ne söylüyor?',
     navTitle: 'Koku pazarlaması nedir?',
     description: 'Ortam kokusunun müşteri algısına etkisini inceleyen üç temel çalışma ve bu bulguların otel, mağaza ve ofislerde nasıl doğru kullanılacağı.',
     date: '2026-10-06',
@@ -90,10 +90,10 @@ export const POSTS = [
 <h2>Üç temel çalışma</h2>
 
 <h3>1. Mağaza değerlendirmesi ve zaman algısı (1996)</h3>
-<p>Spangenberg, Crowley ve Henderson'ın <em>Journal of Marketing</em>'de yayımlanan çalışması, ortam kokusunun perakende ortamındaki etkisini inceleyen ilk kapsamlı deneylerden biridir. Hoş bulunan bir ortam kokusu bulunan koşulda katılımcılar mağazayı ve mağazadaki ürünleri daha olumlu değerlendirdi, mağazayı tekrar ziyaret etme niyetleri arttı. Çalışmanın sık alıntılanan bir bulgusu da zaman algısıyla ilgilidir: kokulu ortamda katılımcılar mağazada geçirdikleri süreyi gerçekte olduğundan daha kısa algıladı.</p>
+<p>Spangenberg, Crowley ve Henderson'ın <em>Journal of Marketing</em>'de yayımlanan çalışması, ortam kokusunun perakende ortamındaki etkisini inceleyen ilk kapsamlı deneylerden biridir. Hoş bir ortam kokusunun bulunduğu koşulda katılımcılar mağazayı ve ürünleri daha olumlu değerlendirdi; mağazayı yeniden ziyaret etme niyetleri de arttı. Çalışmanın sık alıntılanan bir bulgusu da zaman algısıyla ilgilidir: kokulu ortamda katılımcılar mağazada geçirdikleri süreyi gerçekte olduğundan daha kısa algıladı.</p>
 
 <h3>2. Marka hatırlama (2003)</h3>
-<p>Morrin ve Ratneshwar'ın <em>Journal of Marketing Research</em>'teki iki deneyli çalışmasında ortam kokusu, hem tanınan hem de tanınmayan markaların hatırlanmasını ve tanınmasını artırdı. Dikkat çekici iki ayrıntı var: etki, kokunun ürün kategorisiyle uyumlu olup olmamasından bağımsız çıktı ve katılımcıların kendi bildirdikleri ruh hali değişmedi. Araştırmacılara göre en olası açıklama dikkat: kokulu ortamda katılımcılar ürünleri daha uzun süre inceledi.</p>
+<p>Morrin ve Ratneshwar'ın <em>Journal of Marketing Research</em>'teki iki deneyli çalışmasında ortam kokusu, hem tanınan hem de tanınmayan markaların hatırlanmasını ve tanınmasını artırdı. Dikkat çekici iki ayrıntı var: etki, kokunun ürün kategorisiyle uyumlu olup olmamasından bağımsız çıktı ve katılımcıların kendi bildirdikleri ruh hali değişmedi. Araştırmacılara göre en olası açıklama dikkattir: kokulu ortamda katılımcılar ürünleri daha uzun süre inceledi.</p>
 
 <h3>3. Otuz yılın meta-analizi (2017)</h3>
 <p>Roschk, Loureiro ve Breitsohl, <em>Journal of Retailing</em>'de müzik, koku ve rengin etkilerini inceleyen 66 çalışmayı (135 etki, 15.621 katılımcı) bir araya getirdi. Koku bulunan ortamlarda haz, memnuniyet ve davranışsal niyet puanları kokusuz ortamlara göre daha yüksekti. Ancak etkinin büyüklüğü <strong>küçük ile orta arasında</strong>ydı. Veriler, kokunun etkisinin hizmet ortamlarında (otel, restoran gibi) perakendeye göre daha güçlü olma eğilimi gösterdiğine de işaret ediyor.</p>
@@ -101,20 +101,20 @@ export const POSTS = [
 <h2>Bulguları doğru okumak</h2>
 <p>Bu çalışmalar birlikte değerlendirildiğinde tablo nettir: iyi seçilmiş bir ortam kokusu, mekânın algısını ölçülebilir biçimde iyileştirebilir. Ama üç noktayı akılda tutmak gerekir:</p>
 <ul>
-  <li><strong>Etki büyük değil, tutarlıdır.</strong> Meta-analiz küçük ile orta arası bir etki buluyor. "Satışları yüzde şu kadar artırır" türünden kesin vaatlere şüpheyle yaklaşın; böyle bir sonuç mekâna, ürüne ve ölçüm yöntemine göre çok değişir.</li>
+  <li><strong>Etki büyük değildir ama tutarlıdır.</strong> Meta-analiz küçük ile orta arası bir etki buluyor. "Satışları yüzde şu kadar artırır" türünden kesin vaatlere şüpheyle yaklaşın; böyle bir sonuç mekâna, ürüne ve ölçüm yöntemine göre çok değişir.</li>
   <li><strong>Koku hoş bulunmalı.</strong> Olumlu sonuçlar, katılımcıların hoş bulduğu kokularla elde edildi. Rahatsız eden ya da fazla yoğun bir koku tersi etki yaratabilir.</li>
   <li><strong>Yoğunluk belirleyicidir.</strong> İnsanlar sürekli maruz kaldıkları kokuya hızla alışır. Doğru yoğunluk ve zamanlama, kokunun fark edilir ama rahatsız edici olmayan seviyede kalmasını sağlar. Ayrıntılar için <a href="blog-koku-yorgunlugu-ve-dogru-yogunluk.html">koku yorgunluğu yazımıza</a> bakabilirsiniz.</li>
 </ul>
 
 <h2>Uygulamada dört adım</h2>
 <ol>
-  <li><strong>Mekânın kimliğiyle başlayın.</strong> Lüks bir otel lobisi, bir spor salonu ve bir hukuk bürosu aynı kokuyu taşımamalı. Kokunun ailesi (ferah, çiçeksi, odunsu) mekânın tonuna uymalı.</li>
-  <li><strong>Hacme göre cihaz seçin.</strong> Cihazın kapsama değeri mekânın hava hacmini karşılamalı. <a href="cozumler.html#hesaplayici">Hacim hesaplayıcı</a> ile başlayabilirsiniz.</li>
+  <li><strong>Mekânın kimliğiyle başlayın.</strong> Lüks bir otel lobisi, bir spor salonu ve bir hukuk bürosu aynı kokuyu taşımamalıdır. Kokunun ailesi (ferah, çiçeksi, odunsu) mekânın tonuna uymalıdır.</li>
+  <li><strong>Hacme göre cihaz seçin.</strong> Cihazın kapsama değeri mekânın hava hacmini karşılamalıdır. <a href="cozumler.html#hesaplayici">Hacim hesaplayıcı</a> ile başlayabilirsiniz.</li>
   <li><strong>Tutarlı olun.</strong> Birden fazla şubesi olan işletmelerde aynı kokunun her yerde aynı yoğunlukta kullanılması, kokunun markayla ilişkilendirilmesini kolaylaştırır.</li>
   <li><strong>Geri bildirim toplayın.</strong> İlk haftalarda çalışanlardan ve misafirlerden yoğunluk hakkında görüş alın; cihazın püskürtme ve bekleme sürelerini buna göre ayarlayın.</li>
 </ol>
 
-<p>Cihaz seçimi için <a href="urunler.html">ürün kataloğuna</a> göz atabilirsiniz. Esans koleksiyonumuz hazırlanıyor; kesinleştiğinde sitede yer alacak.</p>
+<p>Cihaz seçimi için <a href="urunler.html">ürün kataloğuna</a> göz atabilirsiniz. Koku seçenekleri ve numune için <a href="iletisim.html?konu=numune">bize yazabilirsiniz</a>.</p>
 `,
     sources: [
       { label: 'Spangenberg, E. R., Crowley, A. E. ve Henderson, P. W. (1996). Improving the store environment: Do olfactory cues affect evaluations and behaviors? Journal of Marketing, 60(2), 67-80.' },
@@ -134,7 +134,7 @@ export const POSTS = [
     imagePos: '38% 58%',
     imageAlt: 'Modern bir salonda zemine yerleştirilmiş ADS-687 kolon difüzör',
     tags: ['Rehber', 'Cihaz seçimi'],
-    related: ['ck628', 'ck688', 'ck686', 'ck621'],
+    related: ['ck689', 'ck686', 'ck620'],
     body: `
 <p class="lead">Bir koku difüzörü seçerken ilk bakılması gereken değer kapsama alanıdır. Üreticiler bu değeri çoğunlukla metreküp (m³) olarak verir, çünkü koku bir zemini değil, bir hava hacmini doldurur. Aynı taban alanına sahip iki mekândan tavanı yüksek olan, daha güçlü bir cihaz gerektirir.</p>
 
@@ -155,18 +155,18 @@ export const POSTS = [
 <p>Bu hesabı <a href="cozumler.html#hesaplayici">hacim hesaplayıcı</a> sizin için yapar ve kapsaması bu hacmi karşılayan modelleri, kapsama değeri en yakın olandan başlayarak listeler.</p>
 
 <h2>Katalogdaki kapsama aralıkları</h2>
-<p>Üretici verisine göre katalogdaki cihazlar prize takılan küçük modellerden klima sistemine bağlanan çift başlıklı serilere kadar geniş bir aralığı kapsar. Birkaç örnek:</p>
+<p>Üretici verisine göre katalogdaki cihazlar masaüstü küçük modellerden klima sistemine bağlanan metal gövdeli serilere kadar geniş bir aralığı kapsar. Birkaç örnek:</p>
 <ul>
-  <li>CK-628 ultrasonik duvar difüzörü: 300 m³ (toplantı odası, otel odası, ofis).</li>
-  <li>CK-688 çift akışkanlı duvar difüzörü: 800 m³ (mağaza, showroom).</li>
-  <li><a href="urun-ck686.html">ADS-687</a> kolon difüzör: 1.500-2.000 m³ (lobi, restoran).</li>
-  <li>CK-621 / 622 / 623 serisi: 8.000 m³, 1000 / 3000 / 5000 ml hazne seçenekleri (büyük alanlar, klima bağlantısı).</li>
+  <li><a href="urun-ck687.html">ADS-687</a> masaüstü difüzör: 300-600 m³ (toplantı odası, resepsiyon, ofis).</li>
+  <li><a href="urun-ck689.html">ADS-689</a> çift akışkanlı ince difüzör: 600-800 m³ (mağaza, showroom).</li>
+  <li><a href="urun-ck686.html">ADS-687</a> kolon difüzör: 4.000 m³ (lobi, restoran).</li>
+  <li><a href="urun-ck620.html">ADS-620B / 640B / 670B</a> serisi: 2.000-5.000, 4.000-8.000 ve 7.000-12.000 m³ (büyük alanlar, klima bağlantısı).</li>
 </ul>
 
 <h2>Hesabın yetmediği durumlar</h2>
 <p>Kapsama değeri, açık ve tek parça bir hacim için verilen bir üst sınırdır. Gerçek mekânlarda şu durumlar daha fazla kapasite ya da birden fazla cihaz gerektirebilir:</p>
 <ul>
-  <li><strong>Bölmeli alanlar.</strong> Duvarlar ve kapılar hava akışını keser. Koridorlara açılan odalar, ara kat ve galeriler ayrı hacimler gibi düşünülmeli.</li>
+  <li><strong>Bölmeli alanlar.</strong> Duvarlar ve kapılar hava akışını keser. Koridorlara açılan odalar, ara kat ve galeriler ayrı hacimler gibi düşünülmelidir.</li>
   <li><strong>Güçlü havalandırma.</strong> Sık hava değişimi olan mekânlarda (restoran mutfağına yakın alanlar, sık açılan giriş kapıları) koku daha hızlı dağılır.</li>
   <li><strong>Yoğun ziyaretçi trafiği.</strong> Kalabalık, kokunun algılanan yoğunluğunu düşürebilir.</li>
   <li><strong>Çok yüksek tavanlar.</strong> Sıcak hava yukarıda toplandığı için cihazın konumu (yükseklik, hava akışına yakınlık) önem kazanır.</li>
@@ -206,8 +206,8 @@ export const POSTS = [
 <p><strong>Güçlü yanları:</strong> çok sessiz çalışma, düşük güç tüketimi, kompakt gövde. <strong>Sınırları:</strong> kapsama alanı daha küçüktür; katalogdaki ultrasonik duvar modelleri 300 m³ kapsar. Plaka zamanla aşınabilir ve değiştirilmesi gerekir.</p>
 
 <h2>Çift akışkanlı (basınçlı hava) atomizasyon</h2>
-<p>Bu cihazlarda küçük bir hava pompası esansın üzerinden yüksek hızla hava geçirir; esans çok ince parçacıklar halinde koparılarak havaya karışır. Su kullanılmaz, esans seyreltilmeden dağıtılır. Sektörde "nebulizer" ya da "kuru sis" olarak da anılır. Üreticinin açıklamasına göre katalogdaki çift akışkanlı sistemlerde parçacıklar iyonize bir hızlandırıcıyla nano ölçeğe indirilir; çok ince parçacıklar yüzeye çarptığında kırılmadan geri sektiği için ıslak kalıntı bırakmaz.</p>
-<p><strong>Güçlü yanları:</strong> daha büyük kapsama (katalogda 300 m³'lük prize takılan modellerden 15.000 m³'lük çift başlıklı serilere), yoğun ve homojen dağılım, klima sistemine bağlanabilme. <strong>Sınırları:</strong> pompa nedeniyle ultrasonik modellere göre daha duyulur çalışır; esans seyreltilmediği için yoğunluk ayarı daha önemlidir.</p>
+<p>Bu cihazlarda küçük bir hava pompası esansın üzerinden yüksek hızla hava geçirir; esans çok ince parçacıklar hâlinde koparılarak havaya karışır. Su kullanılmaz, esans seyreltilmeden dağıtılır. Sektörde "nebulizer" ya da "kuru sis" olarak da anılır. Üreticinin açıklamasına göre katalogdaki çift akışkanlı sistemlerde parçacıklar iyonize bir hızlandırıcıyla nano ölçeğe indirilir; çok ince parçacıklar yüzeye çarptıklarında dağılmadan geri sektikleri için ıslak kalıntı bırakmaz.</p>
+<p><strong>Güçlü yanları:</strong> daha büyük kapsama (katalogda 300-600 m³’lük kompakt modellerden 12.000 m³’e kadar kapsayan metal gövdeli seriye), yoğun ve homojen dağılım, klima sistemine bağlanabilme. <strong>Sınırları:</strong> pompa nedeniyle ultrasonik modellere göre daha duyulur çalışır; esans seyreltilmediği için yoğunluk ayarı daha önemlidir.</p>
 
 <h2>Karşılaştırma</h2>
 <div class="table-wrap">
@@ -218,14 +218,14 @@ export const POSTS = [
     <tr><th scope="row">Çalışma prensibi</th><td>Titreşen plaka</td><td>Basınçlı hava</td></tr>
     <tr><th scope="row">Isı</th><td>Kullanılmaz</td><td>Kullanılmaz</td></tr>
     <tr><th scope="row">Ses</th><td>Çok düşük</td><td>Düşük ile orta</td></tr>
-    <tr><th scope="row">Kapsama (bu katalogda)</th><td>100 ile 300 m³</td><td>300 ile 15.000 m³</td></tr>
+    <tr><th scope="row">Kapsama (bu katalogda)</th><td>100 ile 300 m³</td><td>100 ile 12.000 m³</td></tr>
     <tr><th scope="row">Klima bağlantısı</th><td>Yok</td><td>Bazı modellerde var</td></tr>
     <tr><th scope="row">Bakım</th><td>Plaka değişimi</td><td>Nozül temizliği, esans dolumu</td></tr>
   </tbody>
 </table>
 </div>
 
-<h2>Hangisini seçmeli?</h2>
+<h2>Hangisini seçmelisiniz?</h2>
 <ul>
   <li><strong>Toplantı odası, otel odası, muayenehane, küçük ofis:</strong> ses seviyesi öncelikliyse ultrasonik modeller.</li>
   <li><strong>Mağaza, showroom, restoran, lobi:</strong> kapsama ve yoğunluk öncelikliyse çift akışkanlı modeller.</li>
@@ -245,11 +245,11 @@ export const POSTS = [
     description: 'Büyük mekânlarda kokuyu havalandırma kanalıyla dağıtmak: bağlantı noktaları, cihazın konumu, bakım ve proje öncesi toplanması gereken bilgiler.',
     date: '2026-10-06',
     minutes: 6,
-    image: 'images/products/ck611.jpg',
-    imagePos: '50% 62%',
-    imageAlt: 'AVM atriyumunda iki alüminyum hazneli, klima bağlantılı CK-611 difüzör',
+    image: 'images/products/ck620-g1.jpg',
+    imagePos: '40% 62%',
+    imageAlt: 'Bir mekânda zemine yerleştirilmiş, klima sistemine bağlanabilen siyah ADS-620B difüzör',
     tags: ['HVAC', 'Büyük alanlar'],
-    related: ['ck611', 'ck621', 'ck631', 'ck620'],
+    related: ['ck620', 'ck686', 'ck631'],
     body: `
 <p class="lead">Otel lobileri, AVM'ler, havalimanları ve kongre merkezleri gibi büyük ya da bölmeli mekânlarda kokuyu tek tek cihazlarla dağıtmak zordur. Bu yapılarda en dengeli yöntem, kokuyu binanın zaten var olan hava akışına, yani klima (HVAC) sistemine vermektir.</p>
 
@@ -268,9 +268,7 @@ export const POSTS = [
 <p>Üretici verisine göre şu modeller klima ya da taze hava sistemine bağlanabilir:</p>
 <ul>
   <li>CK-631 hava pompalı klima bağlantılı difüzör: 3.500 m³, kızılötesi yağ seviyesi algılama.</li>
-  <li><a href="urun-ck620.html">ADS-620B / 640B / 670B</a> serisi: 2.000-5.000, 4.000-8.000 ve 7.000-12.000 m³.</li>
-  <li>CK-621 / 622 / 623 serisi: 8.000 m³, 1000 / 3000 / 5000 ml hazne seçenekleri.</li>
-  <li>CK-611 / 612 / 613 çift başlıklı seri: 5.000 ile 15.000 m³, 2 x 5000 ml'ye kadar hazne.</li>
+  <li><a href="urun-ck620.html">ADS-620B / 640B / 670B</a> serisi: 2.000-5.000, 4.000-8.000 ve 7.000-12.000 m³; 1000 ml hazne.</li>
   <li><a href="urun-ck686.html">ADS-687</a> kolon difüzör: taze hava sistemi bağlantısı.</li>
 </ul>
 
@@ -285,9 +283,9 @@ export const POSTS = [
 
 <h2>Bakım ve işletme</h2>
 <ul>
-  <li><strong>Zamanlama:</strong> Cihazın çalışma saatleri santralin çalışma saatleriyle eşleşmeli; sistem kapalıyken koku kanalda dağılmaz.</li>
+  <li><strong>Zamanlama:</strong> Cihazın çalışma saatleri santralin çalışma saatleriyle eşleşmelidir; sistem kapalıyken koku kanalda dağılmaz.</li>
   <li><strong>Dolum:</strong> Büyük hazneli modeller dolum sıklığını azaltır. Esans tüketimi, yoğunluk ayarına ve çalışma süresine bağlıdır.</li>
-  <li><strong>Kontrol:</strong> İlk haftalarda menfezlerden farklı noktalarda koku yoğunluğu kontrol edilip ayar yapılmalı.</li>
+  <li><strong>Kontrol:</strong> İlk haftalarda menfezlerden farklı noktalarda koku yoğunluğu kontrol edilmeli ve gerekli ayarlar yapılmalıdır.</li>
 </ul>
 <p>Klima bağlantılı bir proje için teklif formunda <a href="iletisim.html?konu=hvac">"Klima (HVAC) projesi"</a> konusunu seçebilirsiniz.</p>
 `,
@@ -320,14 +318,14 @@ export const POSTS = [
   <li><strong>Az başlayın.</strong> İlk ayarı düşük tutun, birkaç gün içinde gerekirse kademeli artırın.</li>
   <li><strong>Aralıklı çalıştırın.</strong> Profesyonel difüzörlerde püskürtme ve bekleme süreleri ayrı ayrı ayarlanır. Sürekli püskürtme yerine kısa çalışma, uzun bekleme döngüleri hem alışmayı hem esans tüketimini azaltır.</li>
   <li><strong>Saatlere göre programlayın.</strong> Uygulama ya da zamanlayıcı destekli modellerde cihaz yalnızca açık saatlerde çalışır; kalabalık saatlerde yoğunluk artırılabilir.</li>
-  <li><strong>"Taze burun" testi yapın.</strong> Yoğunluğu, mekânda uzun süre bulunmamış birine sorun: girişte fark ediliyor ama rahatsız etmiyorsa doğru seviyedesiniz.</li>
+  <li><strong>“Taze burun” testi yapın.</strong> Yoğunluk hakkında, mekânda uzun süre bulunmamış birinin görüşünü alın: girişte fark ediliyor ama rahatsız etmiyorsa doğru seviyedesiniz.</li>
 </ul>
 
 <h2>İç hava kalitesi</h2>
 <p>Koku ürünleri, oda sıcaklığında kolayca buharlaşan uçucu organik bileşikler (VOC) içerir. ABD Çevre Koruma Ajansı (EPA), oda kokularını iç mekândaki VOC kaynakları arasında sayar ve birçok VOC'nin iç mekânda dış ortama göre sürekli olarak daha yüksek (on kata kadar) konsantrasyonda bulunduğunu belirtir. EPA'nın önerileri basittir: ürünün kullanım talimatına uyun ve VOC yayan ürünler kullanılırken havalandırmayı artırın.</p>
 <p>Mekân kokulandırmada bu, şu anlama gelir:</p>
 <ul>
-  <li>Kokuyu gerektiğinden yoğun kullanmayın; amaç havayı doldurmak değil, fark edilir bir iz bırakmaktır.</li>
+  <li>Kokuyu gereğinden yoğun kullanmayın; amaç havayı doldurmak değil, fark edilir bir iz bırakmaktır.</li>
   <li>Mekânın havalandırmasının çalıştığından emin olun.</li>
   <li>Küçük, kapalı ve havasız odalarda düşük yoğunluk seçin.</li>
   <li>Esansın güvenlik bilgi formunu (SDS) ve uygunluk belgelerini tedarikçinizden isteyin. Bu konuda <a href="blog-ifra-standartlari-nedir.html">IFRA yazımıza</a> bakabilirsiniz.</li>
@@ -341,9 +339,9 @@ export const POSTS = [
 
   {
     slug: 'ifra-standartlari-nedir',
-    title: 'IFRA standartları nedir? Esans tedarikçisinden hangi belgeleri istemelisiniz',
+    title: 'IFRA standartları nedir? Esans tedarikçisinden hangi belgeleri istemelisiniz?',
     navTitle: 'IFRA standartları nedir?',
-    description: 'Uluslararası Koku Birliği (IFRA) standartları neyi düzenler, bir esansın uygunluğu nasıl belgelenir ve kurumsal alımlarda hangi belgeler istenmeli?',
+    description: 'Uluslararası Koku Birliği (IFRA) standartları neyi düzenler, bir esansın uygunluğu nasıl belgelenir ve kurumsal alımlarda hangi belgeler istenmelidir?',
     date: '2026-10-06',
     minutes: 4,
     image: 'images/general/perfumer.jpg',
@@ -374,8 +372,8 @@ export const POSTS = [
 </ol>
 
 <h2>Katalogdaki esanslar hakkında</h2>
-<p>Üretici, esanslarının IFRA standartlarına uygunluğunun SGS tarafından test edildiğini belirtmektedir. Bu bir üretici beyanıdır; test ve uygunluk belgelerini teklif sürecinde talep edebilirsiniz. Esans koleksiyonumuz hazırlanıyor; koku seçenekleri kesinleştiğinde sitede yer alacak.</p>
-<!-- [DOĞRULANACAK] IFRA / SGS ifadesi üretici beyanıdır; belge görülmeden kesin ifade kullanılmamalı. -->
+<p>Üretici, esanslarının IFRA standartlarına uygunluğunun SGS tarafından test edildiğini belirtmektedir. Bu bir üretici beyanıdır; test ve uygunluk belgelerini teklif sürecinde talep edebilirsiniz. Koku seçenekleri ve belgeler için <a href="iletisim.html?konu=numune">teklif formundan</a> bize yazabilirsiniz.</p>
+<!-- IFRA / SGS ifadesi üretici beyanıdır; belge görülmeden kesin ifade kullanılmamalı. -->
 `,
     sources: [
       { label: 'IFRA. IFRA Code of Practice.', url: 'https://ifrafragrance.org/safe-use/code-of-practice-new' },
@@ -409,7 +407,7 @@ export const POSTS = [
   <tbody>
     <tr><td>Lobi ve resepsiyon</td><td>Ferah çay, beyaz çiçekler, hafif odunsu</td><td>Kolon ya da klima bağlantılı (<a href="urun-ck686.html">ADS-687 kolon</a>, CK-631)</td></tr>
     <tr><td>Koridor ve asansör</td><td>Lobi kokusunun düşük yoğunluklu devamı</td><td>Duvar tipi ultrasonik (CK-638)</td></tr>
-    <tr><td>Oda</td><td>Sakin, pudralı ya da lavantalı</td><td>Masaüstü ya da çubuklu koku</td></tr>
+    <tr><td>Oda</td><td>Sakin, pudralı ya da lavantalı</td><td>Masaüstü difüzör</td></tr>
     <tr><td>Spa</td><td>Lavanta, adaçayı, odunsu</td><td>Duvar tipi, düşük ses</td></tr>
     <tr><td>Restoran</td><td>Çok hafif ya da kokusuz</td><td>Gerekirse yalnızca giriş alanında</td></tr>
   </tbody>
@@ -422,13 +420,13 @@ export const POSTS = [
   <li><strong>Akşam saatleri ve bar:</strong> Bergamot, sandal ağacı ya da sedir gibi odunsu dipli kokular.</li>
   <li><strong>Spa ve oda:</strong> Lavanta, papatya, beyaz misk ya da adaçayı gibi sakin notalar.</li>
 </ul>
-<p>Esans koleksiyonumuz hazırlanıyor; koku seçenekleri kesinleştiğinde sitede yer alacak.</p>
+<p>Koku ailesi seçimi ve numune için <a href="iletisim.html?konu=numune">bize yazabilirsiniz</a>.</p>
 
 <h2>Uygulama ipuçları</h2>
 <ol>
   <li><strong>Önce numune deneyin.</strong> Kokuyu kâğıt şeritte değil, gerçek alanda ve cihazla deneyin; aynı koku farklı hacimlerde farklı algılanır.</li>
   <li><strong>Personelin görüşünü alın.</strong> Gün boyu aynı ortamda çalışan ekip, yoğunluk konusunda değerli geri bildirim verir.</li>
-  <li><strong>Cihazı göz hizasının üstüne yerleştirin.</strong> Duvar tipi cihazlar hava akışına yakın ve erişilebilir bir yüksekliğe konmalı.</li>
+  <li><strong>Cihazı göz hizasının üstüne yerleştirin.</strong> Duvar tipi cihazlar hava akışına yakın ve erişilebilir bir yüksekliğe yerleştirilmelidir.</li>
   <li><strong>Saatlere göre ayarlayın.</strong> Giriş ve çıkış yoğun saatlerinde yoğunluk artırılabilir, gece azaltılabilir.</li>
 </ol>
 <p>Otelinizin alanları için birlikte bir koku planı hazırlamak isterseniz <a href="iletisim.html?konu=numune">numune talebinde</a> bulunabilirsiniz.</p>

@@ -24,7 +24,7 @@ export const SUSTAINABILITY = {
       id: 'dolum',
       title: 'Refills and packaging',
       html: `<p>Refill fragrances are supplied in bottles and larger containers, and as cartridges for the ultrasonic models. In large spaces and businesses with many devices, larger refill volumes usually mean less packaging for the same amount of fragrance. The devices are refillable; they are not a single-use cartridge system thrown away with the reservoir.</p>
-<p>The list of refill fragrances will appear on the site once the fragrance collection is confirmed.</p>`
+<p>For scent options and samples, <a href="iletisim.html?konu=numune" class="text-link">write to us</a>.</p>`
     },
     {
       id: 'omur',
@@ -58,7 +58,7 @@ export const SUSTAINABILITY = {
     {
       id: 'esans',
       title: 'Fragrance content',
-      html: `<p>According to the manufacturer, its fragrances are made from natural plant extracts free of allergens, toxins and carcinogens; raw materials are sourced from the USA and France and compliance with IFRA standards has been tested by SGS. These are manufacturer statements; you can request the safety data sheet (SDS) and compliance documents during the quote process. We explain what IFRA is in <a href="blog-ifra-standartlari-nedir.html" class="text-link">this article</a>.</p>`
+      html: `<p>According to the manufacturer, its fragrances use plant extracts; raw materials are sourced from the USA and France and compliance with IFRA standards has been tested by SGS. These are manufacturer statements; you can request the safety data sheet (SDS) and compliance documents during the quote process. We explain what IFRA is in <a href="blog-ifra-standartlari-nedir.html" class="text-link">this article</a>.</p>`
     },
     {
       id: 'olculmeyen',
@@ -83,9 +83,9 @@ export const FAQ = {
     {
       title: 'Quotes and purchasing',
       items: [
-        ['Can I buy online?', 'No. Products are sold through business quotes; there are no prices, payments or accounts on the site. Add the products you are interested in to the quote list and request a quote with a single form.'],
+        ['Can I buy online?', 'Not yet. Product pages show list prices (VAT is added); orders are placed through a quote prepared for your quantities and terms. Add the products you are interested in to the quote list and request a quote with a single form.'],
         ['How do I request a quote?', 'Build your quote list with the "Add to list" button next to products in the catalogue. Open the list with the "Quote list" button at the top right and choose "Transfer to quote form"; products and quantities are added to the message automatically. If you also describe the size and use of the space, the quote is prepared accordingly.'],
-        ['Can I get samples?', 'Our fragrance collection is being prepared. For a scent sample, choose "Price and samples" in the quote form and describe your space and the character of scent you are looking for; sample terms are given with the quote.'],
+        ['Can I get samples?', 'Yes. For a scent sample, choose "Price and samples" in the quote form and describe your space and the character of scent you are looking for; sample terms are given with the quote.'],
         ['Can I have products made with my own brand\'s logo?', 'The manufacturer states that it offers private-label production (OEM) and joint product development (ODM): logo printing on the device body, colour choice, custom packaging and a fragrance formula made for your brand. We pass your request to the manufacturer and follow the process on your behalf. Minimum order and lead times are given per request.']
       ]
     },
@@ -96,7 +96,7 @@ export const FAQ = {
         ['Why is coverage given in m³ rather than m²?', 'Scent fills a volume of air, not a floor. Of two spaces with the same floor area, the one with the higher ceiling has a larger volume and needs a stronger device. For a few tabletop models the manufacturer gives coverage in m²; this is stated on their product pages.'],
         ['What is the difference between ultrasonic and dual-fluid devices?', 'Ultrasonic devices turn fragrance into mist with a vibrating plate; they are very quiet and suit small spaces. Dual-fluid (compressed air) devices break the fragrance into very fine particles with an air stream; they cover larger spaces and some models connect to the HVAC system.'],
         ['How loud are the devices?', 'According to the manufacturer, the ultrasonic wall models (CK-628, CK-638, CK-648) run below 8 dBA. Dual-fluid and professional models range from about 35 to 42 dB depending on the model. Each model\'s value is on its own product page.'],
-        ['Which models can be connected to the HVAC system?', 'According to the manufacturer, CK-631, ADS-620B / 640B / 670B, CK-611 / 612 / 613 and CK-621 / 622 / 623 support HVAC connection, and the ADS-687 column diffuser supports connection to fresh-air systems. The connection point depends on the building\'s mechanical installation.']
+        ['Which models can be connected to the HVAC system?', 'According to the manufacturer, ADS-620B / 640B / 670B and CK-631 support HVAC connection, and the ADS-687 column diffuser supports connection to fresh-air systems. The connection point depends on the building\'s mechanical installation.']
       ]
     },
     {
@@ -124,7 +124,7 @@ export const PRIVACY = {
   h1: 'Privacy notice',
   crumb: 'Privacy',
   description: 'How data from the quote and contact form is processed, who it may be shared with, how long it is kept and your rights under Turkish law (KVKK).',
-  updated: '2026-10-15',
+  updated: '2026-10-26',
   lead: 'This notice explains how the personal data you share through the quote and contact form on our website is processed under Turkish Personal Data Protection Law No. 6698 (KVKK), and what the site stores in your browser. The Turkish version of this notice is the governing text.',
   sections: [
     {
@@ -132,12 +132,12 @@ export const PRIVACY = {
       title: 'Data controller',
       html: `<p>Your personal data is processed by the company below as data controller.</p>
 <dl class="legal-facts">
-  <div><dt>Trade name</dt><dd>To be added before launch</dd></div>
-  <div><dt>MERSIS number</dt><dd>To be added before launch</dd></div>
-  <div><dt>Address</dt><dd><span data-site="city">Istanbul, Türkiye</span> (full address to be added before launch)</dd></div>
+  <div><dt>Trade name</dt><dd>Meira Kozmetik İthalat İhracat Sanayi ve Ticaret Limited Şirketi</dd></div>
+  <div><dt>Address</dt><dd>Karakuyu Mah. 92008 Sk. No: 42/7 İç Kapı No: 8, Seyhan / Adana, Türkiye</dd></div>
   <div><dt>Email</dt><dd><a href="mailto:info@meirascent.com" data-site-href="email"><span data-site="email">info@meirascent.com</span></a></dd></div>
-  <div><dt>Registered electronic mail (KEP)</dt><dd>To be added before launch</dd></div>
-</dl>`
+  <div><dt>Phone</dt><dd><a href="tel:+905527771974" data-site-href="phone"><span data-site="phone">+90&nbsp;552&nbsp;777&nbsp;19&nbsp;74</span></a></dd></div>
+</dl>
+<p>The name <strong>Meira</strong>, used on our website and in correspondence, belongs to this company.</p>`
     },
     {
       id: 'islenen-veriler',
@@ -170,7 +170,7 @@ export const PRIVACY = {
       title: 'Transfers',
       html: `<p>Your personal data may be shared only for the purposes above and only as far as necessary:</p>
 <ul>
-  <li><strong>Service providers:</strong> companies that provide the website's hosting and email services (so that your request reaches us and is stored).</li>
+  <li><strong>Service provider:</strong> the hosting company that provides the website and email services on its servers in Türkiye (so that your request reaches us and is stored).</li>
   <li><strong>Manufacturer:</strong> for private-label (OEM / ODM) or product-specific technical requests, as a rule only the technical details of the request are shared with the manufacturer. If your personal data needs to be passed to the manufacturer abroad (China), the transfer is made occasionally and only as far as it is necessary to take pre-contractual steps at your request, under Article 9(6)(b) of KVKK.</li>
   <li><strong>Authorities:</strong> competent public institutions where there is a legal obligation.</li>
 </ul>

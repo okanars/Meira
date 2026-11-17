@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://www.meira.com.tr/sitemap.xml
+Sitemap: https://www.meirascent.com/sitemap.xml

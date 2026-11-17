@@ -54,3 +54,6 @@ logs/
 # Dependency directories (if added in the future)
 node_modules/
 vendor/
+
+# Yayın paketi (tools/paketle.sh)
+yayin/

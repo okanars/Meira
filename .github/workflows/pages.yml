@@ -31,7 +31,7 @@ jobs:
           # Önizleme arama motorlarına kapalı (asıl site için depodaki robots.txt değişmez)
           printf 'User-agent: *\nDisallow: /\n' > site/robots.txt
           # Pages'te işe yaramayan sunucu dosyaları yayına alınmaz
-          rm -f site/.htaccess
+          rm -f site/.htaccess site/en/.htaccess
           rm -rf site/api
 
       - uses: actions/configure-pages@v5

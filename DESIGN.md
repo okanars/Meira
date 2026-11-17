@@ -303,6 +303,15 @@ kayarak gelir.
 çakışmaz. Sitede onay gerektiren çerez olmadığı için yalnızca "Tamam" düğmesi; kapatılınca bir daha çıkmaz.
 Ana sayfada açılış perdesi bittikten sonra gelir.
 
+**Esans sayfası:** Seçilen esansın renk tonu (`--e-h`) sayfa zeminini, sekme çizgisini, etiketleri ve birincil düğmeyi
+boyar; renkler 640 ms'de geçer (ortam değişimi). Arka planda ekrana yapışık bir canvas, koku ailesine göre sakin ve sürekli
+bir hareket çizer: çiçeksi = süzülen yapraklar, ferah = dalgalar ve yükselen damlacıklar, odunsu = rüzgâr çizgileri ve
+sürüklenen yapraklar. Parçacıklar düşük opaklıkta, metnin okunmasını engellemez. "Hareketi durdur" düğmesi (WCAG 2.2.2);
+sekme gizliyken ve sahne ekran dışındayken döngü durur. Azaltılmış harekette tek bir durağan kare.
+
+**Kart fotoğrafları:** Ürün kartının görselinde önceki / sonraki düğmeleri ve "2 / 12" sayacı. Masaüstünde kartın üzerine
+gelince, dokunmatikte her zaman görünür; görünen daire 36 px, dokunma alanı 48 px.
+
 **Aydınlatma metni onayı:** Teklif formunda gönder çubuğunun üstünde zorunlu onay kutusu ("Aydınlatma Metni'ni
 okudum, anladım."). Bağlantı kısa metni kutunun altında açar; kutuyu işaretlemez.
 
@@ -408,6 +417,8 @@ sık tekrarlanan işlem animasyonsuz, nadir ve ilk kez görülen an biraz keyif 
 | Mobil menü | Panel 200 ms belirir; bağlantılar 40 ms arayla 8 px yükselir |
 | Bildirim | Kenardan 8 px kayarak; giriş 240 ms, çıkış 160 ms; geçiş (keyframe değil) |
 | Çerez bilgilendirmesi | 12 px yükselerek; giriş 280 ms, çıkış 160 ms; azaltılmış harekette yalnızca opaklık |
+| Esans sahnesi | Renk 640 ms `ease`; hareket değişiminde canvas 220 ms söner, yenisi 220 ms belirir; panel 240 ms 8 px yükselerek (yalnızca fareyle seçimde). Azaltılmış harekette canvas durağan, renk geçişi 200 ms |
+| Kart fotoğrafı | Yalnızca 160 ms opaklık (0,55 → 1); konum değişimi yok (sık yapılan işlem) |
 | Galeri | Tıklanan noktadan 2x yakınlaşma (280 ms); küçük görsel değişiminde 200 ms opaklık + bulanıklık |
 
 **Kurallar**

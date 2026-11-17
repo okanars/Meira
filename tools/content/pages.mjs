@@ -12,7 +12,7 @@ export const SUSTAINABILITY = {
     {
       id: 'dogru-boyut',
       title: 'Doğru boyut, daha az esans',
-      html: `<p>Mekânın hacmine göre fazla güçlü bir cihaz, gereğinden çok esans tüketir; fazla zayıf bir cihaz ise en yüksek ayarda çalıştırılarak aynı sonuca götürür. Sürdürülebilir kokulandırmanın ilk adımı, kapsama değeri mekânın hava hacmine uygun bir cihaz seçmektir.</p>
+      html: `<p>Mekânın hacmine göre fazla güçlü bir cihaz, gereğinden çok esans tüketir; fazla zayıf bir cihaz ise sürekli en yüksek ayarda çalıştırıldığı için aynı sonucu doğurur. Sürdürülebilir kokulandırmanın ilk adımı, kapsama değeri mekânın hava hacmine uygun bir cihaz seçmektir.</p>
 <p><a href="cozumler.html#hesaplayici" class="text-link">Hacim hesaplayıcı</a>, taban alanı ve tavan yüksekliğinden hacmi hesaplar ve bu hacmi karşılayan modelleri, kapsama değeri en yakın olandan başlayarak listeler.</p>`
     },
     {
@@ -24,19 +24,19 @@ export const SUSTAINABILITY = {
     {
       id: 'dolum',
       title: 'Dolum ve ambalaj',
-      html: `<p>Difüzör esansları 500 ml şişe ve 5 L bidon olarak, ultrasonik modeller için ise 168 ml kartuş olarak sunulur. Büyük alanlarda ve çok sayıda cihaz kullanılan işletmelerde büyük hacimli dolum, aynı miktar esans için genellikle daha az ambalaj demektir. Cihazlar yeniden doldurulabilir; hazne ile birlikte atılan tek kullanımlık bir kartuş sistemi değildir.</p>
-<p>Dolum esanslarının listesi, esans koleksiyonu kesinleştiğinde sitede yer alacak.</p>`
+      html: `<p>Difüzör esansları 500 ml’lik şişelerde ve 5 litrelik bidonlarda, ultrasonik modeller için ise 168 ml’lik kartuşlarda sunulur. Büyük alanlarda ve çok sayıda cihaz kullanılan işletmelerde büyük hacimli dolum, aynı miktar esans için genellikle daha az ambalaj demektir. Cihazlar yeniden doldurulabilir; hazneyle birlikte atılan tek kullanımlık bir kartuş sistemi kullanılmaz.</p>
+<p>Koku seçenekleri ve numune için <a href="iletisim.html?konu=numune" class="text-link">bize yazabilirsiniz</a>.</p>`
     },
     {
       id: 'omur',
       title: 'Uzun cihaz ömrü ve bakım',
-      html: `<p>Bir cihazın en sürdürülebilir hali, uzun süre kullanılan halidir. Ultrasonik duvar modellerinde (CK-628, CK-638) atomizasyon plakası değiştirilebilir; plaka aşındığında cihazın tamamı yerine yalnızca bu parça yenilenir. Düzenli temizlik ve doğru esans kullanımı, nozül ve plakaların ömrünü uzatır.</p>
+      html: `<p>En sürdürülebilir cihaz, uzun süre kullanılan cihazdır. Ultrasonik duvar modellerinde (CK-628, CK-638) atomizasyon plakası değiştirilebilir; plaka aşındığında cihazın tamamı yerine yalnızca bu parça yenilenir. Düzenli temizlik ve doğru esans kullanımı, nozül ve plakaların ömrünü uzatır.</p>
 <ul>
   <li>Cihazı üreticinin önerdiği esans tipiyle kullanın.</li>
   <li>Uzun süre kullanılmayacaksa hazneyi boşaltın.</li>
   <li>Arıza durumunda cihazı atmadan önce teknik destek isteyin: <a href="iletisim.html?konu=destek" class="text-link">teknik destek talebi</a>.</li>
 </ul>
-<!-- [DOĞRULANACAK] Yedek parça bulunabilirliği ve servis kapsamı distribütör tarafından teyit edilmeli. -->`
+<!-- Yedek parça ve servis kapsamı Meira'nın sunduğu hizmetle uyumlu tutulmalı. -->`
     },
     {
       id: 'enerji',
@@ -60,14 +60,14 @@ export const SUSTAINABILITY = {
     {
       id: 'esans',
       title: 'Esans içeriği',
-      html: `<p>Üretici beyanına göre esanslar alerjen, toksin ve kanserojen içermeyen doğal bitkisel özlerden üretilir; ham maddeler ABD ve Fransa'dan tedarik edilir ve IFRA standartlarına uygunluğu SGS tarafından test edilmiştir. Bunlar üretici beyanlarıdır; güvenlik bilgi formu (SDS) ve uygunluk belgelerini teklif sürecinde talep edebilirsiniz. IFRA'nın ne olduğunu <a href="blog-ifra-standartlari-nedir.html" class="text-link">bu yazıda</a> anlattık.</p>
-<!-- [DOĞRULANACAK] Alerjen/toksin, ham madde kaynağı ve IFRA/SGS ifadeleri üretici beyanıdır. -->`
+      html: `<p>Üretici beyanına göre esanslarda bitkisel özler kullanılır; ham maddeler ABD ve Fransa'dan tedarik edilir ve IFRA standartlarına uygunluğu SGS tarafından test edilmiştir. Bunlar üretici beyanlarıdır; güvenlik bilgi formu (SDS) ve uygunluk belgelerini teklif sürecinde talep edebilirsiniz. IFRA'nın ne olduğunu <a href="blog-ifra-standartlari-nedir.html" class="text-link">bu yazıda</a> anlattık.</p>
+<!-- Ham madde kaynağı ve IFRA/SGS ifadeleri üretici beyanıdır. "Alerjen içermez" gibi sağlık iddiaları belge görülmeden kullanılmaz: koku karışımlarında bildirimi zorunlu alerjenler bulunabilir. -->`
     },
     {
       id: 'olculmeyen',
       title: 'Bu sayfada olmayanlar',
       html: `<p>Bu sayfada ürünlerin karbon ayak izine, geri dönüştürülmüş malzeme oranına ya da ambalajların geri dönüştürülebilirliğine ilişkin bir değer verilmemiştir. Bu bilgiler üreticiden doğrulanmış veri olarak alındığında sayfaya eklenecektir.</p>
-<!-- [DOĞRULANACAK] Karbon ayak izi, geri dönüştürülmüş içerik ve ambalaj malzemesi verisi üreticiden istenmeli. -->`
+<!-- Karbon ayak izi, geri dönüştürülmüş içerik ve ambalaj verisi üreticiden alınırsa eklenebilir. -->`
     }
   ],
   sources: [
@@ -87,51 +87,51 @@ export const FAQ = {
     {
       title: 'Teklif ve satın alma',
       items: [
-        ['Sitede online satış var mı?', 'Hayır. Ürünler kurumsal teklif ile satılır; sitede fiyat, ödeme ya da hesap yoktur. İlgilendiğiniz ürünleri teklif listesine ekleyip tek formla teklif isteyebilirsiniz.'],
-        ['Teklif nasıl istenir?', 'Katalogda ürünlerin yanındaki "Listeye ekle" butonuyla teklif listenizi oluşturun. Sağ üstteki "Teklif listesi" düğmesinden listeyi açıp "Teklif formuna aktar" deyin; ürünler ve adetler mesaja otomatik eklenir. Mekânın ölçülerini ve kullanım amacını da yazarsanız teklif buna göre hazırlanır.'],
-        ['Numune alabilir miyim?', 'Esans koleksiyonumuz hazırlanıyor. Koku numunesi için teklif formunda "Fiyat ve numune" konusunu seçip mekânınızı ve aradığınız koku karakterini yazabilirsiniz; numune koşulları teklifle birlikte bildirilir.'],
+        ['Sitede online satış var mı?', 'Henüz yok. Ürün sayfalarında liste fiyatlarını görebilirsiniz (fiyatlara KDV eklenir); sipariş, adet ve koşullara göre hazırlanan teklif üzerinden verilir. İlgilendiğiniz ürünleri teklif listesine ekleyip tek formla teklif isteyebilirsiniz.'],
+        ['Teklif nasıl istenir?', 'Katalogdaki “Listeye ekle” düğmeleriyle teklif listenizi oluşturun. Ardından sağ üstteki “Teklif listesi” düğmesiyle listeyi açın ve “Teklif formuna aktar”a tıklayın; ürünler ve adetler mesaja otomatik olarak eklenir. Mekânın ölçülerini ve kullanım amacını da yazarsanız teklif buna göre hazırlanır.'],
+        ['Numune alabilir miyim?', 'Evet. Koku numunesi için teklif formunda “Fiyat ve numune” konusunu seçin, mekânınızı ve aradığınız koku karakterini yazın; numune koşulları teklifle birlikte bildirilir.'],
         ['Kendi markamın logosuyla ürün yaptırabilir miyim?', 'Üretici, özel markalı üretim (OEM) ve ortak ürün geliştirme (ODM) desteği sunduğunu belirtmektedir: cihaz gövdesine logo baskısı, renk seçimi, özel ambalaj ve markaya özel koku formülü. Talebinizi üreticiye iletir, süreci sizin adınıza takip ederiz. Asgari sipariş ve süre koşulları talebe göre bildirilir.']
       ]
     },
     {
       title: 'Cihaz seçimi',
       items: [
-        ['Mekânım için hangi cihaz uygun?', 'İlk ölçüt hacimdir: taban alanı x tavan yüksekliği. Kapsama değeri bu hacmi karşılayan bir model seçilir. Hacim hesaplayıcı (Çözümler sayfası) bu hesabı yapıp uygun modelleri listeler. Bölmeli alanlar, güçlü havalandırma ve yoğun ziyaretçi trafiği birden fazla cihaz gerektirebilir.'],
-        ['Kapsama değeri neden m² değil m³?', 'Koku bir zemini değil, bir hava hacmini doldurur. Aynı taban alanına sahip iki mekândan tavanı yüksek olanın hacmi daha büyüktür ve daha güçlü bir cihaz gerektirir. Masaüstü birkaç modelde üretici kapsamayı m² olarak vermiştir; bu değerler ürün sayfalarında belirtilir.'],
+        ['Mekânım için hangi cihaz uygun?', 'İlk ölçüt hacimdir: taban alanı × tavan yüksekliği. Ardından kapsama değeri bu hacmi karşılayan bir model seçilir. Çözümler sayfasındaki hacim hesaplayıcı bu hesabı yapar ve uygun modelleri listeler. Bölmeli alanlar, güçlü havalandırma ve yoğun ziyaretçi trafiği birden fazla cihaz gerektirebilir.'],
+        ['Kapsama değeri neden m² değil m³?', 'Koku bir zemini değil, bir hava hacmini doldurur. Aynı taban alanına sahip iki mekândan tavanı yüksek olanın hacmi daha büyüktür ve daha güçlü bir cihaz gerektirir. Birkaç masaüstü modelde üretici, kapsamayı m² olarak vermiştir; bu değerler ürün sayfalarında belirtilir.'],
         ['Ultrasonik ve çift akışkanlı cihaz arasındaki fark nedir?', 'Ultrasonik cihazlar esansı titreşen bir plakayla sise dönüştürür; çok sessizdir ve küçük alanlara uygundur. Çift akışkanlı (basınçlı hava) cihazlar esansı hava akımıyla çok ince parçacıklara ayırır; daha büyük alanları kapsar ve bazı modeller klima sistemine bağlanabilir.'],
-        ['Cihazlar ne kadar ses çıkarır?', 'Üretici verisine göre ultrasonik duvar modellerinin (CK-628, CK-638, CK-648) ses seviyesi 8 dBA\'nın altındadır. Çift akışkanlı ve profesyonel modellerde değerler modele göre yaklaşık 35 ile 42 dB arasındadır. Her modelin değeri kendi ürün sayfasında yazar.'],
-        ['Klima sistemine bağlanabilen modeller hangileri?', 'Üretici verisine göre CK-631, ADS-620B / 640B / 670B, CK-611 / 612 / 613 ve CK-621 / 622 / 623 klima bağlantısını, ADS-687 kolon difüzör taze hava sistemi bağlantısını destekler. Bağlantı noktası binanın mekanik tesisatına göre belirlenir.']
+        ['Cihazlar ne kadar ses çıkarır?', 'Üretici verisine göre ultrasonik duvar modellerinin (CK-628, CK-638, CK-648) ses seviyesi 8 dBA\'nın altındadır. Çift akışkanlı ve profesyonel modellerde değerler modele göre yaklaşık 35 ile 42 dB arasındadır. Her modelin değeri kendi ürün sayfasında belirtilmiştir.'],
+        ['Klima sistemine bağlanabilen modeller hangileri?', 'Üretici verisine göre ADS-620B / 640B / 670B ve CK-631 klima bağlantısını, ADS-687 kolon difüzör taze hava sistemi bağlantısını destekler. Bağlantı noktası binanın mekanik tesisatına göre belirlenir.']
       ]
     },
     {
       title: 'Kullanım ve esanslar',
       items: [
         ['Esansı ne sıklıkla doldurmam gerekir?', 'Dolum sıklığı; hazne kapasitesine, çalışma saatlerine, püskürtme ve bekleme sürelerine ve seçilen yoğunluğa bağlıdır. Büyük hazneli modeller ve zamanlı çalışma dolum sıklığını azaltır. Kullanım planınıza göre tahmini tüketimi teklif aşamasında birlikte hesaplayabiliriz.'],
-        ['Koku gün içinde neden azalmış gibi geliyor?', 'İnsanlar sürekli maruz kaldıkları kokuya hızla alışır. Mekânda uzun süre bulunan kişiler kokuyu daha az algılar; yeni gelen biri ise belirgin biçimde fark eder. Yoğunluğu artırmadan önce mekâna yeni girmiş birine sorun.'],
-        ['Esanslar güvenli mi?', 'Üretici beyanına göre esanslar IFRA standartlarına uygunluk açısından SGS tarafından test edilmiştir. Güvenlik bilgi formu (SDS) ve uygunluk belgelerini teklif sürecinde talep edebilirsiniz. Koku yoğunluğunu gereğinden yüksek tutmamanızı ve mekânın havalandırmasının çalışmasını öneririz.'],
-        ['Duvar tipi cihazlar nasıl monte edilir?', 'Üretici verisine göre CK-628, CK-638 ve CK-688 duvar modelleri yapışkanla, duvarı delmeden yaklaşık 3 saniyede monte edilir. Prize takılan CK-644 ve CK-645 delme gerektirmez. Diğer modellerin montaj şekli teklif aşamasında teyit edilir.']
+        ['Koku gün içinde neden azalmış gibi geliyor?', 'İnsanlar sürekli maruz kaldıkları kokuya hızla alışır. Mekânda uzun süre bulunan kişiler kokuyu daha az algılar; yeni gelen biri ise belirgin biçimde fark eder. Yoğunluğu artırmadan önce mekâna yeni gelen birinin görüşünü alın.'],
+        ['Esanslar güvenli mi?', 'Üretici beyanına göre esanslar IFRA standartlarına uygunluk açısından SGS tarafından test edilmiştir. Güvenlik bilgi formu (SDS) ve uygunluk belgelerini teklif sürecinde talep edebilirsiniz. Koku yoğunluğunu gereğinden yüksek tutmamanızı ve mekânın havalandırmasının çalıştığından emin olmanızı öneririz.'],
+        ['Duvar tipi cihazlar nasıl monte edilir?', 'Üretici verisine göre CK-628, CK-638 ve CK-688 duvar modelleri yapışkan bantla, duvarı delmeden yaklaşık üç saniyede monte edilir. Prize takılan CK-644 ve CK-645 delme gerektirmez. Diğer modellerin montaj şekli teklif aşamasında teyit edilir.']
       ]
     },
     {
       title: 'Şirket',
       items: [
         ['Ürünleri kim üretiyor?', 'Ürünler, 2018\'de Dongguan\'da (Çin) kurulan Andusic (Dongguan Andusic Technology Co. Ltd.) tarafından geliştirilir ve üretilir. Meira, Dongguan Andusic Technology Co. Ltd. ürünlerinin Türkiye distribütörüdür ve Türkiye\'deki projeler için ürün seçimi, teklif ve tedarik süreçlerini yürütür.'],
-        ['Teknik veriler nereden alınıyor?', 'Ürün sayfalarındaki teknik veriler üreticinin 2025 ürün kataloğundan alınmıştır. Değerler modele ve varyanta göre değişebilir; kesin bilgi teklif aşamasında teyit edilir.']
+        ['Teknik veriler nereden alınıyor?', 'Ürün sayfalarındaki teknik veriler, Meira’nın 2026 fiyat listesinden ve üreticinin 2025 ürün kataloğundan alınmıştır. Değerler modele ve varyanta göre değişebilir; kesin bilgi teklif aşamasında teyit edilir.']
       ]
     }
   ]
 };
 
-// Gizlilik ve KVKK aydınlatma metni (taslak).
-// [DOĞRULANACAK] Bu metin 6698 sayılı KVKK m.10 bilgilendirme başlıklarına göre hazırlanmış bir taslaktır;
-// yayından önce hukuk danışmanınızca gözden geçirilmelidir. Şirket kimliği alanları (ticaret unvanı, MERSİS,
-// adres, KEP) ve saklama süreleri doldurulmalıdır. Hukuki niteleme ve sürelerde kesin ifade kullanılmamıştır.
+// Gizlilik ve KVKK aydınlatma metni (6698 sayılı KVKK m.10 başlıklarına göre).
+// Şirket kimliği ISO sertifikalarındaki unvan ve adresten alınmıştır; ticaret sicilindeki adres değişirse güncelleyin.
+// Formdaki kısa metin (iletisim.html, en/iletisim.html) bu metnin özetidir; ikisi birlikte güncellenmeli.
+// Hukuk danışmanınızca gözden geçirilmesi önerilir.
 export const PRIVACY = {
   title: 'Gizlilik ve KVKK Aydınlatma Metni | Meira',
   h1: 'Gizlilik ve KVKK aydınlatma metni',
   crumb: 'Gizlilik ve KVKK',
   description: 'Teklif ve iletişim formu aracılığıyla toplanan kişisel verilerin hangi amaçla işlendiği, kimlere aktarılabileceği, saklama süresi ve KVKK kapsamındaki haklarınız.',
-  updated: '2026-10-15',
+  updated: '2026-10-26',
   lead: 'Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında, web sitemizdeki teklif ve iletişim formu aracılığıyla paylaştığınız kişisel verilerin nasıl işlendiğini ve sitemizin tarayıcınızda hangi bilgileri sakladığını açıklar.',
   sections: [
     {
@@ -139,13 +139,12 @@ export const PRIVACY = {
       title: 'Veri sorumlusu',
       html: `<p>Kişisel verileriniz, veri sorumlusu sıfatıyla aşağıda bilgileri yer alan şirket tarafından işlenir.</p>
 <dl class="legal-facts">
-  <div><dt>Ticaret unvanı</dt><dd>Yayından önce eklenecek</dd></div>
-  <div><dt>MERSİS numarası</dt><dd>Yayından önce eklenecek</dd></div>
-  <div><dt>Adres</dt><dd><span data-site="city">İstanbul, Türkiye</span> (açık adres yayından önce eklenecek)</dd></div>
+  <div><dt>Ticaret unvanı</dt><dd>Meira Kozmetik İthalat İhracat Sanayi ve Ticaret Limited Şirketi</dd></div>
+  <div><dt>Adres</dt><dd>Karakuyu Mah. 92008 Sk. No: 42/7 İç Kapı No: 8, Seyhan / Adana</dd></div>
   <div><dt>E-posta</dt><dd><a href="mailto:info@meirascent.com" data-site-href="email"><span data-site="email">info@meirascent.com</span></a></dd></div>
-  <div><dt>KEP adresi</dt><dd>Yayından önce eklenecek</dd></div>
+  <div><dt>Telefon</dt><dd><a href="tel:+905527771974" data-site-href="phone"><span data-site="phone">+90&nbsp;552&nbsp;777&nbsp;19&nbsp;74</span></a></dd></div>
 </dl>
-<!-- [DOĞRULANACAK] Ticaret unvanı, MERSİS, açık adres, KEP ve gerçek e-posta (6563 sayılı Kanun kapsamında hizmet sağlayıcı bilgileri de bu bölümde yer alabilir). -->`
+<p>Web sitemizde ve iletişimde kullandığımız <strong>Meira</strong> adı bu şirkete aittir.</p>`
     },
     {
       id: 'islenen-veriler',
@@ -154,7 +153,7 @@ export const PRIVACY = {
 <ul>
   <li><strong>Kimlik:</strong> ad soyad.</li>
   <li><strong>İletişim:</strong> e-posta adresi, telefon numarası (isteğe bağlı).</li>
-  <li><strong>Müşteri işlem:</strong> kurum veya firma adı, talep konusu, mesaj içeriği, teklif listenizdeki ürünler ile adetleri ve paylaşmanız halinde proje bilgileri (mekân tipi, taban alanı, tavan yüksekliği, ek istekler).</li>
+  <li><strong>Müşteri işlem:</strong> kurum veya firma adı, talep konusu, mesaj içeriği, teklif listenizdeki ürünler ile adetleri ve paylaşmanız hâlinde proje bilgileri (mekân tipi, taban alanı, tavan yüksekliği, ek istekler).</li>
   <li><strong>İşlem güvenliği:</strong> talebin gönderildiği IP adresi ve zaman bilgisi (kötüye kullanımın önlenmesi için).</li>
 </ul>
 <p>Formda özel nitelikli kişisel veri (sağlık, inanç vb.) istenmez; lütfen mesaj alanında bu tür bilgileri paylaşmayın.</p>
@@ -171,20 +170,19 @@ export const PRIVACY = {
 </ul>
 <p>Kişisel verileriniz, teklif ve iletişim formunu doldurmanız yoluyla elektronik ortamda toplanır. Bu işleme, KVKK'nın 5. maddesinin 2. fıkrası kapsamında, (c) bendindeki bir sözleşmenin kurulmasıyla doğrudan ilgili olması (teklif süreci) ve (f) bendindeki veri sorumlusunun meşru menfaati (bilgi güvenliği) hukuki sebeplerine dayanır.</p>
 <p>Formdaki “Aydınlatma Metni’ni okudum, anladım.” kutusu yalnızca bu metni okuduğunuzu teyit eder; açık rıza beyanı değildir. Verileriniz açık rızaya dayanılarak işlenmez.</p>
-<p>İletişim bilgileriniz yalnızca talebinizle ilgili yazışmalarda kullanılır. Onayınız olmadan size reklam veya kampanya içerikli ticari elektronik ileti gönderilmez (6563 sayılı Kanun).</p>
-<!-- [DOĞRULANACAK] Hukuki sebeplerin nitelendirmesi hukuk danışmanınca teyit edilmeli. -->`
+<p>İletişim bilgileriniz yalnızca talebinizle ilgili yazışmalarda kullanılır. Onayınız olmadan size reklam veya kampanya içerikli ticari elektronik ileti gönderilmez (6563 sayılı Kanun).</p>`
     },
     {
       id: 'aktarim',
       title: 'Aktarım',
       html: `<p>Kişisel verileriniz yalnızca yukarıdaki amaçlar için ve gerektiği ölçüde aktarılabilir:</p>
 <ul>
-  <li><strong>Hizmet sağlayıcılar:</strong> web sitesinin barındırma ve e-posta hizmetini sağlayan şirketler (talebinizin bize iletilmesi ve saklanması için).</li>
+  <li><strong>Hizmet sağlayıcı:</strong> web sitesi ve e-posta hizmetini Türkiye'deki sunucularında sağlayan barındırma şirketi (talebinizin bize iletilmesi ve saklanması için).</li>
   <li><strong>Üretici:</strong> özel markalı üretim (OEM / ODM) veya ürüne özgü teknik taleplerinizde üreticiyle kural olarak yalnızca talebin teknik ayrıntıları paylaşılır. Kişisel verilerinizin yurt dışındaki üreticiye (Çin) iletilmesi gerekirse bu aktarım, KVKK'nın 9. maddesinin 6. fıkrasının (b) bendi uyarınca, talebiniz üzerine alınan sözleşme öncesi tedbirlerin uygulanması için zorunlu olduğu ölçüde ve arızi olarak yapılır.</li>
-  <li><strong>Yetkili kurumlar:</strong> kanuni bir yükümlülük olması halinde yetkili kamu kurum ve kuruluşları.</li>
+  <li><strong>Yetkili kurumlar:</strong> kanuni bir yükümlülük olması hâlinde yetkili kamu kurum ve kuruluşları.</li>
 </ul>
 <p>Kişisel verileriniz satılmaz ve pazarlama amacıyla üçüncü kişilerle paylaşılmaz.</p>
-<!-- [DOĞRULANACAK] Barındırma ve e-posta sağlayıcısının konumu (yurt içi / yurt dışı) ve üreticiye aktarımın KVKK m.9 kapsamındaki dayanağı (açık rıza, standart sözleşme vb.) netleştirilmeli. -->`
+<!-- Barındırma ve e-posta Veridyen'de (Türkiye). E-posta yurt dışındaki bir sağlayıcıya (Google, Microsoft vb.) taşınırsa bu madde ve KVKK m.9 dayanağı güncellenmeli. -->`
     },
     {
       id: 'saklama',
@@ -197,7 +195,7 @@ export const PRIVACY = {
   <li><strong>Hız sınırı kaydı:</strong> kısa sürede çok sayıda gönderimi önlemek için IP adresinizin kendisi değil, geri döndürülemez bir özeti 10 dakika tutulur.</li>
 </ul>
 <p>Bu sürelerin sonunda verileriniz silinir, yok edilir veya anonim hale getirilir.</p>
-<!-- [DOĞRULANACAK] Süreler uygulamayla uyumlu olmalı: gelen kutusu ve api/submissions.log en az yılda bir temizlenmeli. -->`
+<!-- Süreler uygulamayla uyumlu olmalı: gelen kutusu ve api/submissions.log en az yılda bir temizlenmeli. -->`
     },
     {
       id: 'haklar',
@@ -209,7 +207,7 @@ export const PRIVACY = {
   <li>Yurt içinde veya yurt dışında aktarıldığı üçüncü kişileri bilme,</li>
   <li>Eksik veya yanlış işlenmişse düzeltilmesini, KVKK'nın 7. maddesindeki şartlar çerçevesinde silinmesini veya yok edilmesini isteme ve bu işlemlerin aktarıldığı üçüncü kişilere bildirilmesini isteme,</li>
   <li>Münhasıran otomatik sistemlerle analiz edilmesi sonucu aleyhinize bir sonucun ortaya çıkmasına itiraz etme,</li>
-  <li>Kanuna aykırı işleme nedeniyle zarara uğramanız halinde zararın giderilmesini talep etme</li>
+  <li>Kanuna aykırı işleme nedeniyle zarara uğramanız hâlinde zararın giderilmesini talep etme</li>
 </ul>
 <p>haklarına sahipsiniz.</p>`
     },
@@ -230,7 +228,7 @@ export const PRIVACY = {
   <li><strong><code>meira-visited</code></strong> (<code>sessionStorage</code>): ana sayfa açılış animasyonunun bu oturumda gösterildiği; tarayıcı sekmesi kapanınca silinir.</li>
 </ul>
 <p>Bu bilgiler sizi tanımlamak veya izlemek için kullanılmaz; yalnızca kullandığınız bir işlevin (teklif listesi, tema seçimi) çalışması için zorunludur ve bu nedenle onayınızı gerektirmez. Tarayıcınızın site verilerini temizleyerek istediğiniz zaman silebilirsiniz.</p>
-<!-- [DOĞRULANACAK] Sonradan analiz veya reklam aracı eklenirse bu bölüm ve çerez onayı mekanizması güncellenmeli. -->`
+<!-- Sonradan analiz veya reklam aracı (Google Analytics, Meta Pixel vb.) eklenirse bu bölüm güncellenmeli ve çerez şeridine onay seçeneği eklenmeli. -->`
     }
   ]
 };

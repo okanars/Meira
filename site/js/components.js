@@ -182,6 +182,12 @@
 
       text += `${line}. [${p.model}] ${p.title}\n`;
       text += tt(`   - Talep adedi: ${item.qty} adet\n`, `   - Quantity: ${item.qty}\n`);
+      if (p.price != null && !p.soon) text += tt(`   - Liste fiyatı (birim): ${priceRange(p)} + KDV\n`, `   - List price (unit): ${priceRange(p)} + VAT\n`);
+      // Birden fazla rengi olan üründe renk tercihi istenir (her rengin kendi model numarası vardır)
+      if (p.colors && p.colors.length > 1) {
+        const opts = p.colors.map(c => c.code ? `${c.name} (${c.code})` : c.name).join(' / ');
+        text += tt(`   - Renk: ${opts} [tercihinizi belirtin]\n`, `   - Colour: ${opts} [please specify]\n`);
+      }
       text += tt(`   - Kapsama: ${area} | Kapasite: ${cap}\n\n`, `   - Coverage: ${area} | Capacity: ${cap}\n\n`);
     });
 
@@ -535,6 +541,99 @@
   }
 
   // =========================================================================
+  // 4b. KART FOTOĞRAFLARI VE ESANS KARTI
+  // =========================================================================
+  // Ürün kartının küçük resminde önceki / sonraki fotoğraf. Düğmeler kart basıldıktan sonra eklenir (ilerlemeli
+  // geliştirme): kart şablonları (tools/build.mjs productCard, urunler.html) değişmez. Fotoğraflar ürün sayfasındaki
+  // galeriyle aynıdır (<img>.jpg, <img>-g<n>.jpg ve 640 px WebP kopyaları); birden fazla fotoğrafı olan her üründe çıkar.
+  function initCardGalleries() {
+    const photoPath = (p, i, webp) => `${BASE}images/products/${webp ? 'w640/' : ''}${p.img}${i ? `-g${i}` : ''}.${webp ? 'webp' : 'jpg'}`;
+
+    function enhance(card) {
+      if (card.querySelector('.card-gallery')) return;
+      const p = findProduct(card.dataset.id);
+      const media = card.querySelector('.media');
+      if (!p || !media || p.external || !(p.gallery > 0)) return;
+      media.insertAdjacentHTML('beforeend', `
+        <div class="card-gallery" data-index="0">
+          <button type="button" class="card-gallery__btn card-gallery__btn--prev" data-card-photo="-1" aria-label="${esc(tt(`${p.model}: önceki fotoğraf`, `${p.model}: previous photo`))}">${icon('arrow-right')}</button>
+          <span class="card-gallery__count" aria-hidden="true">1 / ${p.gallery + 1}</span>
+          <button type="button" class="card-gallery__btn card-gallery__btn--next" data-card-photo="1" aria-label="${esc(tt(`${p.model}: sonraki fotoğraf`, `${p.model}: next photo`))}">${icon('arrow-right')}</button>
+        </div>`);
+    }
+    const scan = scope => scope.querySelectorAll('.product-card[data-id]').forEach(enhance);
+    scan(document);
+    // Katalog ızgarası filtre ve aramada yeniden basılır
+    const grid = document.getElementById('catalogGrid');
+    if (grid && 'MutationObserver' in window) new MutationObserver(() => scan(grid)).observe(grid, { childList: true });
+
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-card-photo]');
+      if (!btn) return;
+      e.preventDefault();
+      const card = btn.closest('.product-card');
+      const box = btn.closest('.card-gallery');
+      const p = card && findProduct(card.dataset.id);
+      const img = card && card.querySelector('.media img');
+      if (!p || !img) return;
+      const total = p.gallery + 1;
+      const i = (Number(box.dataset.index) + Number(btn.dataset.cardPhoto) + total) % total;
+      box.dataset.index = String(i);
+      const source = card.querySelector('.media source');
+      if (source) source.srcset = `${photoPath(p, i, true)} 640w`;
+      img.removeAttribute('width');
+      img.removeAttribute('height');
+      img.src = photoPath(p, i, false);
+      img.style.objectPosition = i ? 'center' : (p.pos || 'center');
+      img.alt = `${p.model} ${p.title}${i ? `, ${tt('fotoğraf', 'photo')} ${i + 1}` : ''}`;
+      box.querySelector('.card-gallery__count').textContent = `${i + 1} / ${total}`;
+      // Sık yapılan bir işlem: yalnızca çok kısa bir belirme, konum değişimi yok
+      if (!reduceMotion.matches && img.animate) img.animate([{ opacity: 0.55 }, { opacity: 1 }], { duration: 160, easing: EASE_OUT });
+      // Aynı yöndeki sıradaki fotoğraf önceden indirilir
+      new Image().src = photoPath(p, (i + Number(btn.dataset.cardPhoto) + total) % total, true);
+    });
+  }
+
+  // Liste fiyatı; "+ KDV" ile gösterilir (KDV hesaplanmaz). "Pek yakında" ürünlerde gösterilmez (tools/build.mjs priceHtml ile aynı)
+  const fmtPriceNum = n => Math.round(n).toLocaleString(EN ? 'en-GB' : 'tr-TR');
+  const priceRange = p => `${[].concat(p.price).map(fmtPriceNum).join(' - ')} TL`;
+  function priceHtml(p, cls = 'product-card__price') {
+    if (p.price == null || p.soon) return '';
+    return `<p class="${cls}"><span class="${cls}-value">${priceRange(p)}</span> <span class="${cls}-vat">${tt('+ KDV', '+ VAT')}</span></p>`;
+  }
+
+  // Renk seçenekleri satırı (tools/build.mjs colorRow ile aynı işaretleme): renk noktası, adı ve o rengin model numarası
+  function colorRow(p, cls = '') {
+    if (!p.colors || !p.colors.length) return '';
+    return `<ul class="color-row${cls}" aria-label="${tt('Renk seçenekleri', 'Colour options')}">${p.colors.map(c => `<li><span class="color-row__dot" style="--dot:${esc(c.hex)}" aria-hidden="true"></span><span class="color-row__name">${esc(c.name)}</span>${c.code ? `<span class="color-row__code">${esc(c.code)}</span>` : ''}</li>`).join('')}</ul>`;
+  }
+
+  // Katalogdaki esans kartı: esans sayfasına giden tek kart (tools/build.mjs essenceCard ile aynı tutulmalı)
+  function essenceCard() {
+    if (typeof ESSENCES === 'undefined' || !ESSENCES.length) return '';
+    const e = ESSENCES[0];
+    const labels = ESSENCE_TONES.map(t => t.label);
+    const lower = labels.map(l => l.toLocaleLowerCase(EN ? 'en' : 'tr'));
+    const list = lower.length > 1 ? `${lower.slice(0, -1).join(', ')}${tt(' ve ', ' and ')}${lower[lower.length - 1]}` : lower[0];
+    return `
+          <article class="product-card product-card--essence" data-essence-card>
+            <div class="media"><picture><img src="${BASE}images/general/${esc(e.img)}.jpg" alt="${tt('Esans koleksiyonu', 'Fragrance collection')}" loading="lazy" decoding="async" style="object-position:${esc(e.pos || 'center')}"></picture></div>
+            <div class="product-card__body">
+              <div class="product-card__top">
+                <span class="product-card__code">${tt('Esanslar', 'Essences')}</span>
+                <span>${ESSENCES.length} ${tt('koku', 'scents')}</span>
+              </div>
+              <h2 class="product-card__title"><a href="esanslar.html" class="product-card__link">${tt('Esans koleksiyonu', 'Fragrance collection')}</a></h2>
+              <p class="product-card__desc">${esc(list.charAt(0).toLocaleUpperCase(EN ? 'en' : 'tr') + list.slice(1))} ${tt('koku aileleri. Kokuları inceleyin, numune isteyin.', 'scent families. Browse the scents and ask for a sample.')}</p>
+              <p class="product-card__meta">${labels.map(l => `<span>${esc(l)}</span>`).join('')}</p>
+              <div class="product-card__actions">
+                <span class="link-arrow" aria-hidden="true">${tt('Koleksiyonu incele', 'View the collection')} ${icon('arrow-right')}</span>
+              </div>
+            </div>
+          </article>`;
+  }
+
+  // =========================================================================
   // 5. BAŞLIK, MENÜ, AKTİF SAYFA
   // =========================================================================
   function closeMobileMenu() {
@@ -644,13 +743,13 @@
       text: tt('Seçtiğiniz ürünler için birim fiyat, stok durumu ve teslim süresi içeren bir teklif hazırlarız.', 'We prepare a quote with unit prices, availability and delivery times for the products you choose.'),
       items: tt('Teklif istenen ürünler', 'Products to quote'),
       placeholder: tt('Teslim tarihi, adet ya da sormak istediğiniz diğer konular', 'Delivery date, quantities or anything else you would like to ask'),
-      intro: tt('Aşağıda listelediğim ürünler için birim fiyat, stok durumu ve teslimat süresi içeren bir teklif rica ediyorum:', 'I would like a quote with unit prices, availability and delivery times for the products listed below:'),
+      intro: tt('Aşağıda listelediğim ürünler için birim fiyat, stok durumu ve teslim süresi içeren bir teklif rica ediyorum:', 'I would like a quote with unit prices, availability and delivery times for the products listed below:'),
       submit: tt('Teklif iste', 'Request a quote')
     },
     bayilik: {
       value: 'Toptan Satış & Bayilik', project: false,
       title: tt('Toptan satış ve bayilik', 'Wholesale and dealership'),
-      text: tt('Bölgenizi, satış kanallarınızı ve tahmini yıllık adedi paylaşmanız halinde toptan fiyatları ve bayilik koşullarını iletiriz.', 'Share your region, sales channels and estimated yearly volume, and we will send our wholesale prices and dealership terms.'),
+      text: tt('Bölgenizi, satış kanallarınızı ve tahmini yıllık adedi paylaşırsanız toptan fiyatları ve bayilik koşullarını size iletiriz.', 'Share your region, sales channels and estimated yearly volume, and we will send our wholesale prices and dealership terms.'),
       items: tt('İlgilendiğiniz ürünler', 'Products you are interested in'),
       placeholder: tt('Firmanız, bölgeniz, satış kanallarınız ve tahmini adetler', 'Your company, region, sales channels and estimated quantities'),
       intro: tt('Bayilik koşulları ve aşağıdaki ürünler için toptan fiyat bilgisi rica ediyorum:', 'I would like your dealership terms and wholesale prices for the products below:'),
@@ -668,7 +767,7 @@
     hvac: {
       value: 'Merkezi Klima (HVAC) Projelendirme', project: true, open: true, extra: 'Klima (HVAC) bağlantısı',
       title: tt('Klima (HVAC) projesi', 'HVAC project'),
-      text: tt('Alanın ölçülerini ve klima santrali bilgisini paylaşmanız halinde binanın havalandırmasına bağlanan bir kurulum öneririz.', 'Share the size of the space and details of the air handling units, and we will suggest an installation connected to the building\'s ventilation.'),
+      text: tt('Alanın ölçülerini ve klima santrali bilgilerini paylaşırsanız binanın havalandırma sistemine bağlanan bir kurulum önerebiliriz.', 'Share the size of the space and details of the air handling units, and we will suggest an installation connected to the building\'s ventilation.'),
       items: tt('Proje için düşündüğünüz ürünler', 'Products you are considering for the project'),
       placeholder: tt('Kat planı, santral sayısı ve konumu, çalışma saatleri', 'Floor plan, number and location of air handling units, operating hours'),
       intro: tt('Klima sistemine bağlanacak bir proje için aşağıdaki ürünlerle ilgili teklif rica ediyorum:', 'I would like a quote for the products below for a project connected to the HVAC system:'),
@@ -677,7 +776,7 @@
     destek: {
       value: 'Teknik Destek ve Servis', project: false,
       title: tt('Teknik destek', 'Technical support'),
-      text: tt('Cihazınızın modelini ve yaşadığınız sorunu kısaca yazmanız halinde en kısa sürede dönüş yaparız.', 'Briefly describe your device and the problem, and we will get back to you as soon as possible.'),
+      text: tt('Cihazınızın modelini ve yaşadığınız sorunu kısaca yazın; size en kısa sürede dönüş yapalım.', 'Briefly describe your device and the problem, and we will get back to you as soon as possible.'),
       items: tt('Destek istediğiniz cihaz', 'Device you need help with'),
       placeholder: tt('Cihaz modeli, satın alma tarihi ve sorunun kısa tanımı', 'Device model, purchase date and a short description of the problem'),
       intro: tt('Aşağıdaki cihazlar için teknik destek rica ediyorum:', 'I would like technical support for the devices below:'),
@@ -687,14 +786,14 @@
 
   // Mekân tipine göre kısa yönlendirme (değerler arka uçtaki Türkçe listeyle aynı)
   const SPACE_HINTS = {
-    'Otel ve konaklama': tt('Lobi, koridor ve odaları ayrı ayrı belirtmeniz halinde her alan için uygun cihazı öneririz.', 'If you list the lobby, corridors and rooms separately, we will suggest a device for each.'),
+    'Otel ve konaklama': tt('Lobi, koridor ve odaları ayrı ayrı belirtirseniz her alan için uygun cihazı önerebiliriz.', 'If you list the lobby, corridors and rooms separately, we will suggest a device for each.'),
     'Mağaza ve showroom': tt('Lütfen satış alanının ölçüsünü ve giriş kapısının sık açılıp açılmadığını belirtin.', 'Please give the size of the sales floor and whether the entrance door opens often.'),
-    'Ofis ve plaza': tt('Toplantı odalarını ve açık ofisi ayrı belirtmeniz halinde sessiz çalışan modelleri öneririz.', 'If you list meeting rooms and the open-plan office separately, we will suggest quiet models.'),
-    'Restoran ve kafe': tt('Yemek kokusuyla yarışmaması için genellikle yalnızca giriş ve bekleme alanı için öneri yaparız.', 'So that it does not compete with the food, we usually suggest scenting only the entrance and waiting area.'),
-    'Spa ve güzellik salonu': tt('Kabin ve oda sayısını belirtmeniz halinde cihaz adedini birlikte hesaplarız.', 'If you give the number of cabins and rooms, we will work out the number of devices together.'),
+    'Ofis ve plaza': tt('Toplantı odalarını ve açık ofisi ayrı ayrı belirtirseniz sessiz çalışan modeller önerebiliriz.', 'If you list meeting rooms and the open-plan office separately, we will suggest quiet models.'),
+    'Restoran ve kafe': tt('Kokunun yemek kokusuyla yarışmaması için genellikle yalnızca giriş ve bekleme alanlarına yönelik öneride bulunuruz.', 'So that it does not compete with the food, we usually suggest scenting only the entrance and waiting area.'),
+    'Spa ve güzellik salonu': tt('Kabin ve oda sayısını belirtirseniz gereken cihaz adedini birlikte hesaplayabiliriz.', 'If you give the number of cabins and rooms, we will work out the number of devices together.'),
     'AVM ve ortak alan': tt('Büyük ve bölmeli alanlarda klima (HVAC) bağlantısı genellikle daha dengeli sonuç verir.', 'In large, partitioned spaces an HVAC connection usually gives a more even result.'),
     'Sağlık ve klinik': tt('Bekleme alanları için düşük yoğunlukta, hafif kokular öneririz.', 'For waiting areas we recommend light scents at low intensity.'),
-    'Konut': tt('Oda sayısını belirtmeniz halinde masaüstü ve duvar tipi modeller arasından öneri yaparız.', 'If you give the number of rooms, we will suggest tabletop or wall models.'),
+    'Konut': tt('Oda sayısını belirtirseniz masaüstü ve duvar tipi modeller arasından öneride bulunabiliriz.', 'If you give the number of rooms, we will suggest tabletop or wall models.'),
     'Diğer': tt('Lütfen mekânınızı kısaca tanımlayın.', 'Please briefly describe your space.')
   };
 
@@ -1079,24 +1178,24 @@
     },
     office: {
       title: tt('Ofis ve toplantı alanları', 'Offices and meeting rooms'),
-      desc: tt('Çalışma alanları ve toplantı odaları için sessiz çalışan, uygulama ya da kablosuz kumandayla zamanlanabilen ince bir duvar cihazı.', 'A quiet, slim wall unit for workspaces and meeting rooms that can be scheduled from an app or wireless remote.'),
+      desc: tt('Çalışma alanları ve toplantı odaları için sessiz çalışan, uygulama ya da kablosuz kumandayla zamanlanabilen ince bir masaüstü cihaz.', 'A quiet, slim tabletop unit for workspaces and meeting rooms that can be scheduled from an app or wireless remote.'),
       productId: 'ck689',
       image: 'images/products/ck689.jpg',
-      alt: tt('Bir lobide duvara monte ADS-689 difüzör ve telefon uygulaması', 'ADS-689 diffuser mounted on the wall in a lobby, with the phone app')
+      alt: tt('Bir lobide ADS-689 difüzör ve telefon uygulaması', 'ADS-689 diffuser in a lobby, with the phone app')
     },
     retail: {
       title: tt('Mağaza ve showroom', 'Shops and showrooms'),
       desc: tt('Satış alanının büyüklüğüne göre üç kapasitede seçilebilen, zemine yerleştirilen ve klima sistemine bağlanabilen metal gövdeli seri.', 'A metal-bodied, floor-standing series in three capacities to suit the size of the sales floor; connects to the HVAC system.'),
       productId: 'ck620',
-      image: 'images/products/ck620.jpg',
+      image: 'images/products/ck620-g1.jpg',
       alt: tt('Butik bir iç mekânda zemine yerleştirilmiş siyah ADS-620B difüzör', 'Black ADS-620B diffuser standing on the floor in a boutique interior')
     },
     residence: {
       title: tt('Rezidans ve özel yaşam alanları', 'Residences and private spaces'),
-      desc: tt('Yatak odası ve salon gibi küçük alanlar için cam gövdeli, masif ahşap tabanlı ve şarjlı bir aroma difüzörü.', 'A rechargeable aroma diffuser with a glass body and solid wood base, for small rooms such as bedrooms and living rooms.'),
-      productId: 'ads622',
-      image: 'images/products/ads622.jpg',
-      alt: tt('Sehpa üzerinde masif ahşap tabanlı ADS-622 aroma difüzörü', 'ADS-622 aroma diffuser with a solid wood base on a coffee table')
+      desc: tt('Salon ve giriş holü gibi yaşam alanları için masa ya da konsol üzerinde duran, alüminyum gövdeli ve sessiz çalışan bir difüzör.', 'A quiet, aluminium-bodied diffuser that sits on a table or console, for living spaces such as lounges and entrance halls.'),
+      productId: 'ads685',
+      image: 'images/products/ads685.jpg',
+      alt: tt('Beyaz ve siyah alüminyum gövdeli ADS-685 masaüstü difüzör', 'ADS-685 tabletop diffuser with a white and a black aluminium body')
     }
   };
 
@@ -1219,14 +1318,14 @@
     const SIM_DATA = {
       nano: {
         status: tt('Çift akışkanlı (basınçlı hava) atomizasyon', 'Dual-fluid (compressed air) atomisation'),
-        desc: tt('Basınçlı hava esansı mikro parçacıklara ayırır; üreticinin açıklamasına göre iyonize, yüksek hızlı bir hızlandırıcı bu parçacıkları nano ölçeğe indirir. Çok ince parçacıklar yüzeye çarptığında kırılmadan geri seker.', 'Compressed air breaks the fragrance into micro particles; according to the manufacturer, an ionised high-speed accelerator reduces them to nano scale. Very fine particles bounce off surfaces without breaking.'),
+        desc: tt('Basınçlı hava esansı mikro parçacıklara ayırır; üreticinin açıklamasına göre iyonize, yüksek hızlı bir hızlandırıcı bu parçacıkları nano ölçeğe indirir. Çok ince parçacıklar yüzeye çarptığında dağılmadan geri seker.', 'Compressed air breaks the fragrance into micro particles; according to the manufacturer, an ionised high-speed accelerator reduces them to nano scale. Very fine particles bounce off surfaces without breaking.'),
         size: tt('Nano ölçekli parçacık', 'Nano-scale particles'),
         contact: tt('Yüzeyden seker, yapışmaz', 'Bounces off, does not stick'),
         residue: tt('Islak kalıntı bırakmaz', 'Leaves no wet residue')
       },
       aerosol: {
         status: tt('Büyük damlacıklı püskürtme', 'Large-droplet spray'),
-        desc: tt('Büyük yağ damlacıkları yüzeye çarptığında kırılır. Temas ettiği mobilya, cam ve tekstil yüzeylerinde ıslak kalıntı bırakabilir.', 'Large oil droplets break when they hit a surface. They can leave a wet residue on furniture, glass and textiles they touch.'),
+        desc: tt('Büyük yağ damlacıkları yüzeye çarptığında dağılır; temas ettikleri mobilya, cam ve tekstil yüzeylerinde ıslak kalıntı bırakabilir.', 'Large oil droplets break when they hit a surface. They can leave a wet residue on furniture, glass and textiles they touch.'),
         size: tt('Büyük yağ damlacığı', 'Large oil droplets'),
         contact: tt('Çarpınca kırılır', 'Breaks on impact'),
         residue: tt('Islak kalıntı bırakabilir', 'May leave a wet residue')
@@ -1274,6 +1373,7 @@
     initAddFeedback();
     initProductActions();
     initGallery();
+    initCardGalleries();
     initContactPage();
     initAtmosphereSelector();
     initParticleSimulator();
@@ -1306,7 +1406,10 @@
     icon,
     esc,
     tt,
-    productThumb
+    productThumb,
+    essenceCard,
+    colorRow,
+    priceHtml
   };
 
 })(window);

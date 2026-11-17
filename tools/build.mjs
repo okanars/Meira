@@ -10,7 +10,9 @@
  *   - Blog dizini ve yazıları (tools/content/blog*.mjs), Sürdürülebilirlik, SSS ve Gizlilik (tools/content/pages*.mjs)
  *   - urunler.html katalog ızgarasının önceden basılmış HTML'i
  *   - index.html ürün videoları ve sertifika şeridi, kurumsal.html sertifikalar bölümü (işaretli bölgeler)
- *   - esanslar.html (esanslar kesinleşene kadar "hazırlanıyor" sayfası), sitemap.xml, robots.txt, 404.html
+ *   - esanslar.html (products.js ESSENCES_LIVE true ise ESSENCES verisinden esans sayfası; false ise "hazırlanıyor"
+ *     sayfası), sitemap.xml,
+ *     robots.txt, 404.html
  *
  * İki dil: Türkçe sayfalar site/ kökünde, İngilizceleri site/en/ altında aynı dosya adlarıyla durur.
  * İngilizce elle yazılmış sayfalar (site/en/*.html) Türkçeleriyle aynı yapıdadır; ürün metinleri
@@ -33,11 +35,11 @@ import * as PAGES_TR from './content/pages.mjs';
 import * as PAGES_EN from './content/pages.en.mjs';
 import { CERTS, CERT_INFO } from './content/certs.mjs';
 
-// [DOĞRULANACAK] Alan adı yer tutucudur. Kesinleşince yalnızca bu değeri değiştirip betiği çalıştırın.
-const SITE_URL = 'https://www.meira.com.tr';
+// Alan adı değişirse yalnızca bu değeri değiştirip betiği çalıştırın (README "Marka ve alan adı").
+const SITE_URL = 'https://www.meirascent.com';
 const BRAND = 'Meira';
 const EMAIL = 'info@meirascent.com';
-const TODAY = '2026-10-14';
+const TODAY = '2026-11-15';
 const DEFAULT_OG = 'images/brand/og-meira.jpg';
 // Üretici (ürünlerin geliştirildiği ve üretildiği şirket). Sitede bu adla anılır.
 const MANUFACTURER = 'Dongguan Andusic Technology Co. Ltd.';
@@ -59,7 +61,7 @@ function loadData(files) {
   const ctx = {};
   vm.createContext(ctx);
   const src = files.map(f => fs.readFileSync(path.join(SITE, f), 'utf8')).join('\n;\n');
-  vm.runInContext(src + ';globalThis.__D={PRODUCTS,CATEGORIES,SCENTS,OILS,catalogOrder};', ctx);
+  vm.runInContext(src + ';globalThis.__D={PRODUCTS,CATEGORIES,ESSENCES,ESSENCE_TONES,ESSENCES_LIVE,catalogOrder};', ctx);
   return ctx.__D;
 }
 const DATA = { tr: loadData(['js/products.js']), en: loadData(['js/products.js', 'js/products.en.js']) };
@@ -68,14 +70,14 @@ const CONTENT = {
   en: { posts: POSTS_EN, ...PAGES_EN }
 };
 const CAT_SHORT_ALL = {
-  tr: { wall: 'Duvar tipi', pro: 'Profesyonel ve klima', plug: 'Prize takılan ve pasif', home: 'Ev, araç ve masaüstü', reed: 'Çubuklu kokular' },
-  en: { wall: 'Wall-mounted', pro: 'Professional and HVAC', plug: 'Plug-in and passive', home: 'Home, car and tabletop', reed: 'Reed diffusers' }
+  tr: { wall: 'Duvar tipi', pro: 'Profesyonel ve klima', plug: 'Prize takılan ve pasif', home: 'Masaüstü ve taşınabilir' },
+  en: { wall: 'Wall-mounted', pro: 'Professional and HVAC', plug: 'Plug-in and passive', home: 'Tabletop and portable' }
 };
 
-let PRODUCTS, CATEGORIES, catalogOrder, CAT_LABEL, CAT_SHORT, POSTS, C;
+let PRODUCTS, CATEGORIES, ESSENCES, ESSENCE_TONES, ESSENCES_LIVE, catalogOrder, CAT_LABEL, CAT_SHORT, POSTS, C;
 function setLang(lang) {
   L = lang;
-  ({ PRODUCTS, CATEGORIES, catalogOrder } = DATA[lang]);
+  ({ PRODUCTS, CATEGORIES, ESSENCES, ESSENCE_TONES, ESSENCES_LIVE, catalogOrder } = DATA[lang]);
   CAT_LABEL = Object.fromEntries(CATEGORIES.map(c => [c.id, c.label]));
   CAT_SHORT = CAT_SHORT_ALL[lang];
   C = CONTENT[lang];
@@ -102,6 +104,8 @@ const RE = {
 };
 const spec = (p, re) => (p.specs.find(s => re.test(s[0])) || [])[1] || '';
 const productUrl = p => `urun-${p.id}.html`;
+// Düzyazıdaki kısa ürün adı (model alanında renk başına kodlar olabilir: "ADS-687A / ADS-687B")
+const fam = p => p.family || p.model;
 const postUrl = post => `blog-${post.slug}.html`;
 const MONTHS = {
   tr: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
@@ -116,11 +120,22 @@ const soonLabel = () => tt('Pek yakında', 'Coming soon');
 // İngilizce çıktıda kök klasördeki dosyalara giden göreli adresler bir üst klasöre çıkar
 const localize = html => html.replace(/(\s(?:src|href|srcset|poster|data-src|data-poster|data-webp|action)=")(?=(?:images|css|js|fonts|api)\/|favicon\.svg"|site\.webmanifest")/g, '$1../');
 
+// 404 sayfası, sunucu tarafından bulunamayan herhangi bir adreste (ör. /en/a/b) sunulur; göreli adresler
+// orada çözülemez. Bu yüzden 404'te bağlantı ve kaynaklar kökten başlar, JS'in görsel tabanı da köktür.
+function rootRelative(out) {
+  const prefix = L === 'en' ? '/en/' : '/';
+  return out
+    .replace(/(\s)(href|src)="(?![a-z]+:|\/|#)/g, `$1$2="${prefix}`)
+    .replace(/="\/en\/\.\.\//g, '="/')
+    .replace(/<html lang="(\w+)"(?: data-base="[^"]*")?>/, '<html lang="$1" data-base="/">');
+}
+
 function write(file, html) {
   let out = html
     .replace(/<div class="table-wrap">/g, `<div class="table-wrap" tabindex="0" role="region" aria-label="${tt('Tablo (yatay kaydırılabilir)', 'Table (scrolls horizontally)')}">`)
     .replace(/images\/icons\.svg(?:\?v=\w+)?#/g, `images/icons.svg?v=${VER.icons}#`);
   if (L === 'en' && /\.html$/.test(file)) out = localize(out);
+  if (file === '404.html') out = rootRelative(out);
   const dest = path.join(SITE, OUT(file));
   fs.mkdirSync(path.dirname(dest), { recursive: true });
   fs.writeFileSync(dest, out);
@@ -156,7 +171,8 @@ const VER = {
   css: hashOf('css/style.css'),
   logo: hashOf('images/brand/logo-sprite.svg'),
   icons: hashOf('images/icons.svg'),
-  ...Object.fromEntries(JS_FILES.en.map(n => [n, hashOf(`js/${n}.js`)]))
+  ...Object.fromEntries(JS_FILES.en.map(n => [n, hashOf(`js/${n}.js`)])),
+  essences: hashOf('js/essences.js')
 };
 
 // Meira logosu (images/brand/logo-sprite.svg). word: yazı ve duman (2,33:1), full: "AIR SCENT" sloganıyla (1,88:1)
@@ -272,12 +288,12 @@ ${published ? `  <meta property="article:published_time" content="${published}">
 ${intro ? `  ${INTRO_SCRIPT}\n` : ''}${jsonld.map(ld).join('')}`;
 }
 
-// Esanslar kesinleşene kadar menüde görünür ama tıklanmaz (soon)
+// Üçüncü öğe 'soon' ise bağlantı menüde görünür ama tıklanmaz
 const NAV = () => [
   ['urunler.html', tt('Ürünler', 'Products')],
   ['cozumler.html', tt('Çözümler', 'Solutions')],
   ['teknoloji.html', tt('Teknoloji', 'Technology')],
-  ['esanslar.html', tt('Esanslar', 'Essences'), 'soon'],
+  ['esanslar.html', tt('Esanslar', 'Essences'), ESSENCES_LIVE ? '' : 'soon'],
   ['kurumsal.html', tt('Kurumsal &amp; OEM', 'Company &amp; OEM')],
   ['blog.html', 'Blog'],
   ['iletisim.html', tt('İletişim', 'Contact')]
@@ -329,7 +345,6 @@ function footer() {
       <div class="footer-grid">
         <div class="footer-brand">
           <a href="index.html" class="brand">${logo('word', 'brand__logo')}<span class="visually-hidden" lang="en" data-site="brand">${BRAND}</span></a>
-          <!-- [DOĞRULANACAK] Distribütörlüğün kapsamı (resmi / tek yetkili) belgelenmeden bu ifadeler kullanılmamalı. -->
           <p>${tt(`${MANUFACTURER} koku difüzörleri ve esanslarının Türkiye distribütörü. Oteller, ofisler, mağazalar ve yaşam alanları için ürün seçimi ve teklif.`, `Turkish distributor of ${MANUFACTURER} scent diffusers and fragrances. Product selection and quotes for hotels, offices, shops and homes.`)}</p>
           <p class="footer-certs"><a href="kurumsal.html#sertifikalar">${CERTS.map(c => esc(c.short)).join(' · ')} ${tt('sertifikalı', 'certified')}</a></p>
         </div>
@@ -345,7 +360,7 @@ function footer() {
           <ul>
             <li><a href="cozumler.html">${tt('Çözümler', 'Solutions')}</a></li>
             <li><a href="teknoloji.html">${tt('Teknoloji', 'Technology')}</a></li>
-            <li><span class="footer-soon" aria-disabled="true">${tt('Esanslar', 'Essences')} <span class="nav-soon">${tt('Yakında', 'Soon')}</span></span></li>
+            <li>${ESSENCES_LIVE ? `<a href="esanslar.html">${tt('Esanslar', 'Essences')}</a>` : `<span class="footer-soon" aria-disabled="true">${tt('Esanslar', 'Essences')} <span class="nav-soon">${tt('Yakında', 'Soon')}</span></span>`}</li>
             <li><a href="kurumsal.html">${tt('Kurumsal &amp; OEM', 'Company &amp; OEM')}</a></li>
             <li><a href="surdurulebilirlik.html">${tt('Sürdürülebilirlik', 'Sustainability')}</a></li>
           </ul>
@@ -362,7 +377,6 @@ function footer() {
         </div>
         <div class="footer-col footer-col--d">
           <h2>${tt('İletişim', 'Contact')}</h2>
-          <!-- [DOĞRULANACAK] E-posta, telefon ve adres yer tutucudur (js/site-config.js). -->
           <ul>
             <li><a href="mailto:${EMAIL}" data-site-href="email"><span data-site="email">${EMAIL}</span></a></li>
             <li><a href="tel:+905527771974" data-site-href="phone"><span data-site="phone">+90&nbsp;552&nbsp;777&nbsp;19&nbsp;74</span></a></li>
@@ -373,7 +387,7 @@ function footer() {
       <div class="footer-wordmark" aria-hidden="true">${logo('full', 'footer-wordmark__logo')}</div>
       <div class="footer-bottom">
         <span>© <span data-year>2026</span> <span data-site="brand">${BRAND}</span>. ${tt('Tüm hakları saklıdır.', 'All rights reserved.')}</span>
-        <span>${tt('Teknik veriler üreticinin 2025 ürün kataloğundan alınmıştır.', 'Technical data from the manufacturer\'s 2025 product catalogue.')} <a href="gizlilik.html">${tt('Gizlilik ve KVKK', 'Privacy notice')}</a></span>
+        <span>${tt('Teknik veriler üretici kataloğuna ve Meira fiyat listesine dayanır.', 'Technical data are based on the manufacturer\'s catalogue and the Meira price list.')} <a href="gizlilik.html">${tt('Gizlilik ve KVKK', 'Privacy notice')}</a></span>
       </div>
     </div>
   </footer>`;
@@ -418,7 +432,7 @@ const videoMeta = v => `${tt('Video süresi', 'Video length')} ${durationText(v.
 const videoLd = (p, v) => ({
   '@context': 'https://schema.org',
   '@type': 'VideoObject',
-  name: `${v.title} (${p.model}${v.label ? ` ${v.label.toLocaleLowerCase(L)}` : ''})`,
+  name: `${v.title} (${fam(p)}${v.label ? ` ${v.label.toLocaleLowerCase(L)}` : ''})`,
   description: v.summary,
   thumbnailUrl: [abs(videoPoster(v))],
   uploadDate: VIDEO_UPLOAD,
@@ -491,6 +505,23 @@ function productVideoSection(p) {
 // Ürün kartı (katalog ızgarası, ilgili ürünler). urunler.html (ve en/urunler.html) içindeki şablonla aynı tutulmalı.
 // Satışta olmayan (soon) ürünün kartı bağlantısızdır ve listeye eklenemez.
 // ---------------------------------------------------------------------------
+// Liste fiyatı; KDV eklenecek tutar olarak "+ KDV" ile gösterilir (KDV hesaplanmaz). "Pek yakında" ürünlerde
+// gösterilmez. components.js priceHtml ile aynı.
+const fmtNum = n => Math.round(n).toLocaleString(L === 'en' ? 'en-GB' : 'tr-TR');
+const priceRange = p => `${[].concat(p.price).map(fmtNum).join(' - ')} TL`;
+const hasPrice = p => p.price != null && !p.soon;
+function priceHtml(p, cls = 'product-card__price') {
+  if (!hasPrice(p)) return '';
+  return `<p class="${cls}"><span class="${cls}-value">${priceRange(p)}</span> <span class="${cls}-vat">${tt('+ KDV', '+ VAT')}</span></p>`;
+}
+
+// Renk seçenekleri: kartta başlığın altında, ürün sayfasında kısa açıklamanın altında. Her rengin yanında o rengin
+// model numarası (products.js colors). components.js colorRow ile aynı işaretleme.
+function colorRow(p, cls = '') {
+  if (!p.colors || !p.colors.length) return '';
+  return `<ul class="color-row${cls}" aria-label="${tt('Renk seçenekleri', 'Colour options')}">${p.colors.map(c => `<li><span class="color-row__dot" style="--dot:${esc(c.hex)}" aria-hidden="true"></span><span class="color-row__name">${esc(c.name)}</span>${c.code ? `<span class="color-row__code">${esc(c.code)}</span>` : ''}</li>`).join('')}</ul>`;
+}
+
 function productCard(p, headingTag = 'h2') {
   const area = spec(p, RE.cov);
   const cap = spec(p, RE.cap);
@@ -504,8 +535,10 @@ function productCard(p, headingTag = 'h2') {
                 ${p.badge ? `<span>${esc(p.badge)}</span>` : ''}
               </div>
               <${headingTag} class="product-card__title">${p.soon ? esc(p.title) : `<a href="${productUrl(p)}" class="product-card__link">${esc(p.title)}</a>`}</${headingTag}>
+              ${colorRow(p)}
               <p class="product-card__desc">${esc(p.short)}</p>
               <p class="product-card__meta">${[area, cap].filter(Boolean).map(x => `<span>${esc(x)}</span>`).join('')}</p>
+              ${priceHtml(p)}
               ${p.soon
                 ? `<p class="product-card__status">${tt('Henüz satışta değil', 'Not yet on sale')}</p>`
                 : `<div class="product-card__actions">
@@ -537,40 +570,40 @@ function productFaq(p) {
         ` With a 3 m ceiling this corresponds to a floor area of about ${vals.map(r => floorArea(r, 3) + ' m²').join(' / ')}.`)
       : '';
     items.push(tt(
-      [`${p.model} ne kadar alanı kokulandırır?`, `Üretici verisine göre kapsama alanı ${cov}.${tail} Bölmeli alanlar, güçlü havalandırma ya da yoğun ziyaretçi trafiği birden fazla cihaz gerektirebilir.`],
-      [`How large an area does ${p.model} scent?`, `According to the manufacturer, its coverage is ${cov}.${tail} Partitioned spaces, strong ventilation or heavy visitor traffic may need more than one unit.`]));
+      [`${fam(p)} ne kadar büyük bir alanı kokulandırır?`, `Üretici verisine göre kapsama alanı: ${cov}.${tail} Bölmeli alanlar, güçlü havalandırma ya da yoğun ziyaretçi trafiği birden fazla cihaz gerektirebilir.`],
+      [`How large an area does ${fam(p)} scent?`, `According to the manufacturer, its coverage is ${cov}.${tail} Partitioned spaces, strong ventilation or heavy visitor traffic may need more than one unit.`]));
   }
   const tech = techOf(p);
   if (tech === 'ultrasonic') items.push(tt(
-    [`${p.model} hangi yöntemle çalışır?`, 'Ultrasonik atomizasyonla çalışır: esans, yüksek frekansta titreşen bir plakayla ince bir sise dönüştürülür. Isı kullanılmaz.'],
-    [`How does ${p.model} work?`, 'It uses ultrasonic atomisation: a plate vibrating at high frequency turns the fragrance into a fine mist. No heat is used.']));
+    [`${fam(p)} hangi yöntemle çalışır?`, 'Ultrasonik atomizasyonla çalışır: esans, yüksek frekansta titreşen bir plakayla ince bir sise dönüştürülür. Isı kullanılmaz.'],
+    [`How does ${fam(p)} work?`, 'It uses ultrasonic atomisation: a plate vibrating at high frequency turns the fragrance into a fine mist. No heat is used.']));
   else if (tech === 'dual') items.push(tt(
-    [`${p.model} hangi yöntemle çalışır?`, 'Çift akışkanlı (basınçlı hava) atomizasyonla çalışır: hava akımı esansı çok ince parçacıklara ayırır. Su ve ısı kullanılmaz.'],
-    [`How does ${p.model} work?`, 'It uses dual-fluid (compressed air) atomisation: an air stream breaks the fragrance into very fine particles. No water or heat is used.']));
+    [`${fam(p)} hangi yöntemle çalışır?`, 'Çift akışkanlı (basınçlı hava) atomizasyonla çalışır: hava akımı esansı çok ince parçacıklara ayırır. Su ve ısı kullanılmaz.'],
+    [`How does ${fam(p)} work?`, 'It uses dual-fluid (compressed air) atomisation: an air stream breaks the fragrance into very fine particles. No water or heat is used.']));
   else if (tech === 'nano') items.push(tt(
-    [`${p.model} hangi yöntemle çalışır?`, 'Üretici, bu modelde nano atomizasyon kullanıldığını belirtmektedir: esans çok ince parçacıklar halinde havaya verilir.'],
-    [`How does ${p.model} work?`, 'The manufacturer states that this model uses nano atomisation: the fragrance is released into the air as very fine particles.']));
+    [`${fam(p)} hangi yöntemle çalışır?`, 'Üretici, bu modelde nano atomizasyon kullanıldığını belirtmektedir: esans çok ince parçacıklar hâlinde havaya verilir.'],
+    [`How does ${fam(p)} work?`, 'The manufacturer states that this model uses nano atomisation: the fragrance is released into the air as very fine particles.']));
   const power = spec(p, RE.psu) || spec(p, /gerilim|güç|voltage|power/i);
   if (power) items.push(tt(
-    [`${p.model} nasıl çalıştırılır, güç kaynağı nedir?`, `Üretici verisine göre güç kaynağı: ${power}.`],
-    [`How is ${p.model} powered?`, `According to the manufacturer, the power supply is: ${power}.`]));
+    [`${fam(p)} hangi güç kaynağıyla çalışır?`, `Üretici verisine göre güç kaynağı: ${power}.`],
+    [`How is ${fam(p)} powered?`, `According to the manufacturer, the power supply is: ${power}.`]));
   const noise = spec(p, RE.noise);
   if (noise) items.push(tt(
-    [`${p.model} ne kadar ses çıkarır?`, `Üretici verisine göre ses seviyesi ${noise}.`],
-    [`How loud is ${p.model}?`, `According to the manufacturer, the noise level is ${noise}.`]));
+    [`${fam(p)} ne kadar ses çıkarır?`, `Üretici verisine göre ses seviyesi: ${noise}.`],
+    [`How loud is ${fam(p)}?`, `According to the manufacturer, the noise level is ${noise}.`]));
   const cap = spec(p, RE.cap);
   if (cap) items.push(tt(
-    ['Esans kapasitesi ne kadar?', `${p.model} için esans kapasitesi ${cap}. Dolum sıklığı çalışma saatlerine, püskürtme ve bekleme sürelerine ve yoğunluk ayarına bağlıdır.`],
-    ['What is the fragrance capacity?', `The fragrance capacity of ${p.model} is ${cap}. How often it needs refilling depends on operating hours, spray and pause times and the intensity setting.`]));
+    ['Esans kapasitesi ne kadar?', `${fam(p)} modelinin esans kapasitesi: ${cap}. Dolum sıklığı çalışma saatlerine, püskürtme ve bekleme sürelerine ve yoğunluk ayarına bağlıdır.`],
+    ['What is the fragrance capacity?', `The fragrance capacity of ${fam(p)} is ${cap}. How often it needs refilling depends on operating hours, spray and pause times and the intensity setting.`]));
   if (/klima|taze hava|hvac|fresh-air/i.test(p.features.join(' '))) items.push(tt(
-    [`${p.model} klima sistemine bağlanabilir mi?`, 'Üretici verisine göre evet. Bağlantı noktası (dönüş havası kanalı ya da santral çıkışı) binanın mekanik tesisatına göre belirlenir.'],
-    [`Can ${p.model} be connected to the HVAC system?`, 'According to the manufacturer, yes. The connection point (return air duct or air handling unit outlet) depends on the building\'s mechanical installation.']));
+    [`${fam(p)} klima sistemine bağlanabilir mi?`, 'Üretici verisine göre evet. Bağlantı noktası (dönüş havası kanalı ya da santral çıkışı) binanın mekanik tesisatına göre belirlenir.'],
+    [`Can ${fam(p)} be connected to the HVAC system?`, 'According to the manufacturer, yes. The connection point (return air duct or air handling unit outlet) depends on the building\'s mechanical installation.']));
   if (p.soon) items.push(tt(
-    [`${p.model} ne zaman satışa çıkacak?`, 'Bu model henüz satışta değil. Satışa çıktığında bu sayfadan teklif listesine eklenebilecek. Bilgi almak için teklif formundan bize yazabilirsiniz.'],
-    [`When will ${p.model} be available?`, 'This model is not on sale yet. Once it is, you will be able to add it to your quote list from this page. You can write to us through the quote form for details.']));
+    [`${fam(p)} ne zaman satışa çıkacak?`, 'Bu model henüz satışta değil. Satışa çıktığında bu sayfadan teklif listesine eklenebilecek. Bilgi almak için teklif formundan bize yazabilirsiniz.'],
+    [`When will ${fam(p)} be available?`, 'This model is not on sale yet. Once it is, you will be able to add it to your quote list from this page. You can write to us through the quote form for details.']));
   else items.push(tt(
-    [`${p.model} için nasıl teklif alabilirim?`, 'Bu sayfadaki "Listeye ekle" butonuyla ürünü teklif listenize ekleyin, ardından teklif formuna aktarın. Online satış yoktur; fiyat, stok durumu ve teslim süresi teklifle bildirilir.'],
-    [`How can I get a quote for ${p.model}?`, 'Add the product to your quote list with the "Add to list" button on this page, then transfer the list to the quote form. There is no online sale; price, availability and delivery time are given in the quote.']));
+    [`${fam(p)} için nasıl teklif alabilirim?`, 'Bu sayfadaki “Listeye ekle” düğmesiyle ürünü teklif listenize ekleyin, ardından listeyi teklif formuna aktarın. Online satış henüz yoktur; sayfadaki liste fiyatına KDV eklenir, teklif adede ve koşullara göre hazırlanır.'],
+    [`How can I get a quote for ${fam(p)}?`, 'Add the product to your quote list with the "Add to list" button on this page, then transfer the list to the quote form. There is no online sale yet; VAT is added to the list price on this page, and the quote is prepared for your quantities and terms.']));
   return items;
 }
 
@@ -582,25 +615,74 @@ function relatedOf(p) {
     .slice(0, 3);
 }
 
-// Esanslar kesinleşene kadar ürün sayfasındaki esans bölümü kilitlidir (bağlantı yok)
-function essenceLockedHtml(p) {
+// Esanslar yayında değilken ürün sayfasındaki esans bölümü kilitlidir (bağlantı yok)
+function essenceLockedHtml() {
   return `<section class="section section--deep" aria-labelledby="refill-title">
       <div class="wrap split split--top">
         <div class="split__a">
-          <h2 id="refill-title">${p.cat === 'reed' ? tt('Koku ve kullanım', 'Scent and use') : tt('Esans ve dolum', 'Fragrance and refills')}</h2>
-          <p class="mt-4 text-2">${p.cat === 'reed'
-            ? tt('Çubuklu oda kokuları elektrik gerektirmez; koku, çubuklar aracılığıyla şişeden yavaşça yayılır.', 'Reed diffusers need no electricity; the scent spreads slowly from the bottle through the reeds.')
-            : tt('Cihazlar yeniden doldurulabilir.', 'The devices are refillable.')} ${tt('Esans koleksiyonumuz hazırlanıyor; bu modele uygun esans ve dolum seçenekleri kesinleştiğinde burada yer alacak.', 'Our fragrance collection is being prepared; the fragrances and refills suited to this model will appear here once they are confirmed.')}</p>
+          <h2 id="refill-title">${tt('Esans ve dolum', 'Fragrance and refills')}</h2>
+          <p class="mt-4 text-2">${tt('Cihazlar yeniden doldurulabilir. Esans koleksiyonumuz hazırlanıyor; bu modele uygun esans ve dolum seçenekleri kısa süre içinde burada yer alacak. Koku numunesi için teklif formundan bize yazabilirsiniz.', 'The devices are refillable. Our fragrance collection is being prepared; the fragrances and refills suited to this model will appear here shortly. For a scent sample, write to us through the quote form.')}</p>
         </div>
         <div class="split__b">
           <div class="locked-card">
             <span class="locked-card__icon">${icon('lock')}</span>
             <p class="locked-card__title">${tt('Esanslar yakında', 'Fragrances coming soon')}</p>
-            <p>${tt('Koku seçenekleri henüz kesinleşmedi.', 'The scent range has not been finalised yet.')}</p>
+            <p>${tt('Koku seçenekleri kısa süre içinde sitede yer alacak.', 'The scent range will be on the site shortly.')}</p>
           </div>
         </div>
       </div>
     </section>`;
+}
+
+// Ürün sayfasındaki esans bölümü: esans koleksiyonuna bağlantı (esanslar.html)
+function essenceLinkHtml() {
+  const e = ESSENCES[0];
+  return `<section class="section section--deep" aria-labelledby="refill-title">
+      <div class="wrap split split--top">
+        <div class="split__a">
+          <h2 id="refill-title">${tt('Esans ve dolum', 'Fragrance and refills')}</h2>
+          <p class="mt-4 text-2">${tt('Cihazlar yeniden doldurulabilir. Koku seçimi mekânın karakterine göre yapılır; koleksiyondaki koku ailelerini inceleyip numune isteyebilirsiniz.', 'The devices are refillable. The scent is chosen to suit the character of the space; you can browse the scent families in the collection and ask for a sample.')}</p>
+        </div>
+        <div class="split__b">
+          <a href="esanslar.html" class="essence-teaser">
+            <span class="media">${pictureFor(`images/general/${e.img}.jpg`, { small: false, sizes: '96px', attrs: ` loading="lazy" decoding="async" style="object-position:${esc(e.pos || 'center')}"` })}</span>
+            <span class="essence-teaser__body">
+              <span class="essence-teaser__title">${tt('Esans koleksiyonu', 'Fragrance collection')}</span>
+              <span>${ESSENCE_TONES.map(t => esc(t.label)).join(' · ')}</span>
+              <span class="link-arrow" aria-hidden="true">${tt('Kokuları inceleyin', 'Browse the scents')} ${icon('arrow-right')}</span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>`;
+}
+
+// Koku ailelerinin cümle içi listesi: "Çiçeksi, ferah ve odunsu" / "Floral, fresh and woody"
+function toneList() {
+  const a = ESSENCE_TONES.map(t => t.label.toLocaleLowerCase(L));
+  const s = a.length > 1 ? `${a.slice(0, -1).join(', ')}${tt(' ve ', ' and ')}${a[a.length - 1]}` : a[0];
+  return s[0].toLocaleUpperCase(L) + s.slice(1);
+}
+
+// Katalogdaki esans kartı: tek kart, esans sayfasına gider (components.js MeiraApp.essenceCard ile aynı tutulmalı)
+function essenceCard() {
+  const e = ESSENCES[0];
+  const src = `images/general/${e.img}.jpg`;
+  return `<article class="product-card product-card--essence" data-essence-card>
+            <div class="media"><picture><img src="${src}" alt="${esc(tt('Esans koleksiyonu', 'Fragrance collection'))}"${dims(src)} loading="lazy" decoding="async" style="object-position:${esc(e.pos || 'center')}"></picture></div>
+            <div class="product-card__body">
+              <div class="product-card__top">
+                <span class="product-card__code">${tt('Esanslar', 'Essences')}</span>
+                <span>${ESSENCES.length} ${tt('koku', 'scents')}</span>
+              </div>
+              <h2 class="product-card__title"><a href="esanslar.html" class="product-card__link">${tt('Esans koleksiyonu', 'Fragrance collection')}</a></h2>
+              <p class="product-card__desc">${esc(toneList())} ${tt('koku aileleri. Kokuları inceleyin, numune isteyin.', 'scent families. Browse the scents and ask for a sample.')}</p>
+              <p class="product-card__meta">${ESSENCE_TONES.map(t => `<span>${esc(t.label)}</span>`).join('')}</p>
+              <div class="product-card__actions">
+                <span class="link-arrow" aria-hidden="true">${tt('Koleksiyonu incele', 'View the collection')} ${icon('arrow-right')}</span>
+              </div>
+            </div>
+          </article>`;
 }
 
 function productPage(p) {
@@ -618,7 +700,7 @@ function productPage(p) {
   if (vals.length) {
     const rows = vals.map(r => `<tr><td>${volRange(r)} m³</td><td>${floorArea(r, 3)} m²</td><td>${floorArea(r, 4)} m²</td><td>${floorArea(r, 6)} m²</td></tr>`).join('');
     fit = `<h2>${tt('Mekâna uygunluk', 'Suitability for your space')}</h2>
-            <p>${tt(`Üretici verisine göre kapsama alanı ${esc(covText)}. Aşağıdaki tablo bu hacmin farklı tavan yüksekliklerinde yaklaşık hangi taban alanına karşılık geldiğini gösterir (açık ve tek parça bir alan için).`, `According to the manufacturer, coverage is ${esc(covText)}. The table below shows the approximate floor area this volume corresponds to at different ceiling heights (for an open, undivided space).`)}</p>
+            <p>${tt(`Üretici verisine göre kapsama alanı: ${esc(covText)}. Aşağıdaki tablo bu hacmin farklı tavan yüksekliklerinde yaklaşık hangi taban alanına karşılık geldiğini gösterir (açık ve tek parça bir alan için).`, `According to the manufacturer, coverage is ${esc(covText)}. The table below shows the approximate floor area this volume corresponds to at different ceiling heights (for an open, undivided space).`)}</p>
             <div class="table-wrap">
               <table>
                 <caption>${tt('Kapsama hacminin taban alanı karşılığı', 'Coverage volume as floor area')}</caption>
@@ -667,7 +749,7 @@ function productPage(p) {
           <button type="button" class="btn btn--primary btn--lg" data-add-to-list="${esc(p.id)}">${icon('plus', 'icon--sm')}<span>${tt('Listeye ekle', 'Add to list')}</span></button>
           <button type="button" class="btn btn--quiet btn--lg" data-quote-now="${esc(p.id)}">${tt('Teklif iste', 'Request a quote')}</button>
         </div>
-        <p class="note">${tt('Online satış yoktur; fiyat, stok ve teslim süresi teklifle bildirilir.', 'There is no online sale; price, availability and delivery time are given in the quote.')}</p>`;
+        <p class="note">${tt('Fiyatlara KDV eklenir. Online satış henüz yoktur; adet, stok ve teslim süresi teklifle bildirilir.', 'VAT is added to the prices. There is no online sale yet; quantities, availability and delivery time are given in the quote.')}</p>`;
 
   const main = `
     <div class="wrap">
@@ -686,9 +768,17 @@ function productPage(p) {
         <p class="pd__code"><span>${esc(p.model)}</span>${p.premium ? '<span class="pd__badge pd__badge--premium" lang="en">Premium</span>' : ''}${p.badge ? `<span class="pd__badge">${esc(p.badge)}</span>` : ''}</p>
         <h1 id="pd-title">${esc(p.title)}</h1>
         <p class="lead">${esc(p.short)}</p>
+        ${p.colors && p.colors.length ? `<div class="pd-colors">
+          <p class="pd-colors__label">${p.colors.length > 1 ? tt(`${p.colors.length} renk seçeneği`, `${p.colors.length} colour options`) : tt('Renk', 'Colour')}</p>
+          ${colorRow(p, ' color-row--lg')}
+        </div>` : ''}
         ${facts.length ? `<dl class="pd-facts">
           ${facts.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('\n          ')}
         </dl>` : ''}
+        ${hasPrice(p) ? `<div class="pd-price">
+          <p class="pd-price__label">${[].concat(p.price).length > 1 ? tt('Liste fiyatı (seriye göre)', 'List price (by model)') : tt('Liste fiyatı', 'List price')}</p>
+          ${priceHtml(p, 'pd-price__row')}
+        </div>` : ''}
         ${actions}
         <ul class="pd-links">
           <li><a href="urunler.html?cat=${p.cat}" class="link-arrow">${tt(`Tüm ${esc(CAT_SHORT[p.cat].toLocaleLowerCase('tr'))} modeller`, `All ${esc(CAT_SHORT[p.cat].toLowerCase())} models`)} ${icon('arrow-right')}</a></li>
@@ -721,16 +811,16 @@ ${productVideoSection(p)}
           <dl class="spec-table">
             ${p.specs.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('\n            ')}
           </dl>
-          <p class="note mt-3">${tt('Üretici katalog verisidir; değerler varyanta göre değişebilir.', 'Manufacturer\'s catalogue data; values may vary by variant.')}</p>
+          <p class="note mt-3">${tt('Teknik veriler üreticiye aittir; değerler varyanta göre değişebilir.', 'Manufacturer\'s catalogue data; values may vary by variant.')}</p>
         </div>
       </div>
     </section>
 ${productBannersSection(p)}
-    ${essenceLockedHtml(p)}
+    ${ESSENCES_LIVE ? essenceLinkHtml() : essenceLockedHtml()}
 
     <section class="section" aria-labelledby="faq-title">
       <div class="wrap faq-layout">
-        <h2 id="faq-title">${tt(`${esc(p.model)} hakkında sorular`, `Questions about ${esc(p.model)}`)}</h2>
+        <h2 id="faq-title">${tt(`${esc(fam(p))} hakkında sorular`, `Questions about ${esc(fam(p))}`)}</h2>
         <div class="faq">
           ${faq.map(([q, a]) => `<details class="faq__item">
             <summary>${esc(q)}${icon('plus', 'faq__icon')}</summary>
@@ -952,24 +1042,92 @@ function faqPage() {
 }
 
 // Esanslar kesinleşene kadar: menüde tıklanmaz; sayfa adresi açılırsa "hazırlanıyor" bilgisi gösterilir
+// Esans sayfası: üç koku ailesi; seçilen esansın renk tonu (hue) sahnenin zeminini ve vurgusunu, koku ailesi
+// arka plandaki hareketi belirler (js/essences.js, style.css .essence-stage). JS yoksa tüm esanslar alt alta görünür.
 function essencesPage() {
+  const first = ESSENCES[0];
+  const toneOf = id => ESSENCE_TONES.find(t => t.id === id);
+  const main = `
+    <section class="essence-stage" data-essences data-tone="${first.tone}" style="--e-h:${first.hue}" aria-labelledby="page-title">
+      <div class="essence-stage__bg" aria-hidden="true"><canvas></canvas></div>
+      <div class="wrap essence-stage__inner">
+        <div class="essence-head">
+          <h1 id="page-title">${tt('Esans koleksiyonu', 'Fragrance collection')}</h1>
+          <p class="lead">${tt('Üç koku ailesi, her biri kendi havasıyla. Bir aile seçin; sayfa o kokunun rengine ve hareketine bürünsün.', 'Three scent families, each with its own mood. Choose a family and the page takes on the colour and movement of that scent.')}</p>
+        </div>
+
+        <div class="essence-controls">
+          <div class="filter-tabs essence-tones" role="group" aria-label="${tt('Koku ailesi', 'Scent family')}">
+            ${ESSENCE_TONES.map(t => `<button type="button" class="segment-btn${t.id === first.tone ? ' active' : ''}" data-tone-btn="${t.id}" data-text="${esc(t.text)}" aria-pressed="${t.id === first.tone}">${esc(t.label)} <span class="count">${ESSENCES.filter(e => e.tone === t.id).length}</span></button>`).join('\n            ')}
+          </div>
+          <button type="button" class="essence-motion" data-essence-motion aria-pressed="false" hidden>${icon('pause', 'icon-pause')}${icon('play', 'icon-play')}<span>${tt('Hareketi durdur', 'Pause motion')}</span></button>
+        </div>
+        <p class="essence-tone-text" data-tone-text>${esc(toneOf(first.tone).text)}</p>
+
+        <div class="essence-picker" role="group" aria-label="${tt('Esans', 'Fragrance')}">
+          ${ESSENCES.map(e => `<button type="button" class="essence-pick${e.tone === first.tone ? ' is-in-tone' : ''}" data-pick="${e.id}" data-tone="${e.tone}" aria-pressed="${e === first}" style="--h:${e.hue}"><span class="essence-pick__dot" aria-hidden="true"></span>${esc(e.name)}</button>`).join('\n          ')}
+        </div>
+
+        <div class="essence-panels" aria-live="polite">
+          ${ESSENCES.map(e => {
+            const src = `images/general/${e.img}.jpg`;
+            return `<article class="essence${e === first ? ' is-active' : ''}" id="esans-${e.id}" data-essence="${e.id}" data-tone="${e.tone}" data-hue="${e.hue}" data-motion="${toneOf(e.tone).motion}" aria-labelledby="esans-${e.id}-t">
+            <div class="media essence__media"><picture><img src="${src}" alt="${esc(e.name)}"${dims(src)}${e === first ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async" style="object-position:${esc(e.pos || 'center')}"></picture></div>
+            <div class="essence__body">
+              <p class="essence__tone">${esc(toneOf(e.tone).label)}${e.code ? ` · ${esc(e.code)}` : ''}</p>
+              <h2 id="esans-${e.id}-t">${esc(e.name)}</h2>
+              <p class="essence__desc">${esc(e.desc)}</p>
+              <h3 class="essence__label">${tt('Koku notaları', 'Scent notes')}</h3>
+              <ul class="tag-list">
+                ${e.notes.map(n => `<li class="tag">${esc(n)}</li>`).join('\n                ')}
+              </ul>
+              ${e.format ? `<p class="essence__format">${esc(e.format)}</p>` : ''}
+              <div class="btn-row">
+                <a href="iletisim.html?konu=numune" class="btn btn--primary">${tt('Numune ve fiyat isteyin', 'Ask for a sample and price')}</a>
+                <a href="urunler.html" class="link-arrow">${tt('Difüzörleri inceleyin', 'Browse the diffusers')} ${icon('arrow-right')}</a>
+              </div>
+            </div>
+          </article>`;
+          }).join('\n          ')}
+        </div>
+
+        <p class="note essence-note">${tt('Koleksiyon genişliyor; yeni esanslar eklendikçe bu sayfada yer alacak. Bir koku ekranda anlatılamaz: karar vermeden önce numune isteyebilirsiniz.', 'The collection is growing; new fragrances will appear on this page as they are added. A scent cannot be described on a screen: you can ask for a sample before you decide.')}</p>
+      </div>
+    </section>
+`;
+  const crumbs = [home(), { name: tt('Esanslar', 'Essences') }];
+  return page({
+    meta: {
+      title: tt(`Esans Koleksiyonu: Çiçeksi, Ferah ve Odunsu Kokular | ${BRAND}`, `Fragrance Collection: Floral, Fresh and Woody Scents | ${BRAND}`),
+      description: tt('Mekân kokulandırma için esans koleksiyonu: çiçeksi, ferah ve odunsu koku aileleri, koku notaları ve numune talebi.', 'A fragrance collection for scenting spaces: floral, fresh and woody scent families, scent notes and sample requests.'),
+      url: 'esanslar.html', image: `images/general/${first.img}.jpg`, imageAlt: tt('Esans koleksiyonu', 'Fragrance collection'),
+      jsonld: [breadcrumbLd(crumbs)]
+    },
+    section: 'esanslar.html',
+    main,
+    after: `\n  <script src="js/essences.js?v=${VER.essences}"></script>`
+  });
+}
+
+// Esanslar yayında değilken: "hazırlanıyor" sayfası (arama motorlarına kapalı)
+function essencesLockedPage() {
   const main = `
     <section class="page-head" aria-labelledby="page-title">
       <div class="wrap">
         <h1 id="page-title">${tt('Esans koleksiyonu', 'Fragrance collection')}</h1>
-        <p class="lead">${tt('Esans koleksiyonumuz hazırlanıyor. Koku seçenekleri kesinleştiğinde bu sayfada yer alacak.', 'Our fragrance collection is being prepared. The scent range will appear on this page once it is confirmed.')}</p>
+        <p class="lead">${tt('Esans koleksiyonumuz hazırlanıyor. Koku seçenekleri kısa süre içinde bu sayfada yer alacak.', 'Our fragrance collection is being prepared. The scent range will appear on this page shortly.')}</p>
         <div class="locked-card locked-card--inline mt-7">
           <span class="locked-card__icon">${icon('lock')}</span>
           <p class="locked-card__title">${tt('Esanslar yakında', 'Fragrances coming soon')}</p>
         </div>
         <div class="btn-row mt-7">
           <a href="urunler.html" class="btn btn--primary btn--lg">${tt('Ürünleri incele', 'Browse products')}</a>
-          <a href="index.html" class="btn btn--quiet btn--lg">${tt('Ana sayfa', 'Home')}</a>
+          <a href="iletisim.html?konu=numune" class="btn btn--quiet btn--lg">${tt('Numune isteyin', 'Ask for a sample')}</a>
         </div>
       </div>
     </section>
 `;
-  return page({ meta: { title: tt(`Esans koleksiyonu hazırlanıyor | ${BRAND}`, `Fragrance collection in preparation | ${BRAND}`), description: tt('Esans koleksiyonumuz hazırlanıyor.', 'Our fragrance collection is being prepared.'), url: 'esanslar.html', noindex: true }, main });
+  return page({ meta: { title: tt(`Esans koleksiyonu hazırlanıyor | ${BRAND}`, `Fragrance collection in preparation | ${BRAND}`), description: tt('Esans koleksiyonumuz hazırlanıyor; koku seçenekleri kısa süre içinde sitede yer alacak.', 'Our fragrance collection is being prepared; the scent range will be on the site shortly.'), url: 'esanslar.html', noindex: true }, main });
 }
 
 // RSS 2.0 beslemesi (blog)
@@ -1042,7 +1200,7 @@ const HAND_PAGES = () => ({
   },
   'urunler.html': {
     title: tt(`Koku Difüzörü Kataloğu: Duvar Tipi, Klima ve Masaüstü | ${BRAND}`, `Scent Diffuser Catalogue: Wall, HVAC and Tabletop | ${BRAND}`),
-    description: tt(`Duvar tipi, klima bağlantılı, prize takılan, masaüstü difüzörler ve çubuklu oda kokuları. ${PRODUCTS.length} ürünün teknik özellikleri, kapsama alanları ve teklif listesi.`, `Wall-mounted, HVAC-connected, plug-in and tabletop diffusers and reed diffusers. Technical data, coverage and a quote list for ${PRODUCTS.length} products.`),
+    description: tt(`Duvar tipi, klima bağlantılı, prize takılan ve masaüstü koku difüzörleri. ${PRODUCTS.length} ürünün teknik özellikleri, kapsama alanları, liste fiyatları ve teklif listesi.`, `Wall-mounted, HVAC-connected, plug-in and tabletop scent diffusers. Technical data, coverage, list prices and a quote list for ${PRODUCTS.length} products.`),
     image: 'images/products/ck687.jpg', crumbs: tt('Ürünler', 'Products'),
     itemList: true
   },
@@ -1070,7 +1228,14 @@ const HAND_PAGES = () => ({
 
 function catalogGridHtml() {
   return `<!-- katalog:basla (tools/build.mjs) -->
-          ${catalogOrder(PRODUCTS).map(p => productCard(p)).join('\n          ')}
+          ${(() => {
+            // Esans kartı satıştaki ürünlerden sonra, "pek yakında" ürünlerden önce (urunler.html betiğiyle aynı)
+            const cards = catalogOrder(PRODUCTS).map(p => [p, productCard(p)]);
+            const firstSoon = cards.findIndex(([p]) => p.soon);
+            const html = cards.map(([, c]) => c);
+            if (ESSENCES_LIVE) html.splice(firstSoon < 0 ? html.length : firstSoon, 0, essenceCard());
+            return html.join('\n          ');
+          })()}
           <!-- katalog:bitir -->`;
 }
 
@@ -1085,7 +1250,7 @@ function homeVideosHtml() {
               <span class="video-card__time">${mmss(v.duration)}</span>
             </button>
             <div class="video-card__body">
-              <p class="video-card__model">${esc(p.model)}</p>
+              <p class="video-card__model">${esc(fam(p))}</p>
               <h3>${esc(v.title)}</h3>
               <p>${esc(v.teaser)}</p>
               ${p.soon
@@ -1180,6 +1345,8 @@ function processHandPage(file, cfg) {
   html = html.replace(/<body[^>]*>/, `<body data-section="${file}">`);
   html = html.replace(/<header class="site-header"[\s\S]*?<\/header>/, header({ dark: !!cfg.dark, file }));
   html = html.replace(/<footer class="site-footer">[\s\S]*?<\/footer>/, footer());
+  // Yalnızca esanslar yayındayken görünen öğeler (ana sayfa kısayolu, katalogdaki Esanslar sekmesi)
+  html = html.replace(/(data-essence-only)(?: hidden)?/g, ESSENCES_LIVE ? '$1' : '$1 hidden');
   // Betik etiketleri dile göre yeniden yazılır (İngilizcede products.en.js eklenir)
   html = html.replace(/(?:[ \t]*<script src="(?:\.\.\/)?js\/[\w.-]+\.js(?:\?v=\w+)?"><\/script>\n?)+/, `  ${SCRIPTS()}\n`);
   if (file === 'urunler.html') {
@@ -1223,7 +1390,7 @@ for (const lang of ['tr', 'en']) {
   for (const p of PRODUCTS) write(productUrl(p), productPage(p));
   write('blog.html', blogIndex());
   for (const post of POSTS) write(postUrl(post), blogPost(post));
-  write('esanslar.html', essencesPage());
+  write('esanslar.html', ESSENCES_LIVE ? essencesPage() : essencesLockedPage());
   write('surdurulebilirlik.html', sustainabilityPage());
   write('sss.html', faqPage());
   write('404.html', notFoundPage());
@@ -1232,7 +1399,7 @@ for (const lang of ['tr', 'en']) {
 
   urls.push(
     ...[['index.html', '1.0'], ['urunler.html', '0.9'], ['cozumler.html', '0.8'], ['teknoloji.html', '0.7'],
-      ['kurumsal.html', '0.6'], ['iletisim.html', '0.7'], ['blog.html', '0.6'],
+      ['kurumsal.html', '0.6'], ['iletisim.html', '0.7'], ['blog.html', '0.6'], ...(ESSENCES_LIVE ? [['esanslar.html', '0.7']] : []),
       ['surdurulebilirlik.html', '0.5'], ['sss.html', '0.6'], ['gizlilik.html', '0.2']].map(([u, pr]) => [u, lang, pr]),
     // Satışta olmayan ürünlerin sayfaları site haritasına alınmaz (noindex)
     ...PRODUCTS.filter(p => !p.soon).map(p => [productUrl(p), lang, '0.8', [imgPath(p), ...Array.from({ length: p.gallery || 0 }, (_, i) => imgPath(p, `-g${i + 1}`))]]),

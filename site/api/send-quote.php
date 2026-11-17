@@ -7,11 +7,11 @@
  *   hata:   { success: false, error }
  * JavaScript kapalıysa form düz POST olarak gelir; bu durumda sade bir HTML yanıt sayfası döner.
  *
- * Yayına alma:
- *   1. $TO_EMAIL ve $FROM_EMAIL değerlerini gerçek adreslerle değiştirin. $FROM_EMAIL, sitenin alan adında olmalı
- *      (SPF/DKIM için). [DOĞRULANACAK] Şu anki adresler yer tutucudur.
- *   2. $DEMO_MODE = false yapın. Demo modunda e-posta gönderilmez, yalnızca submissions.log'a satır yazılır.
- *   3. api/submissions.log dosyası web'den erişilemez olmalı (.htaccess bunu engeller; nginx için README).
+ * Yayın ayarları (Veridyen paylaşımlı hosting, PHP mail()):
+ *   - $TO_EMAIL: talepleri alan posta kutusu. Hosting panelinde bu adres posta kutusu olarak açılmış olmalı.
+ *   - $FROM_EMAIL: sitenin alan adında olmalı (SPF/DKIM). Posta kutusu olarak açılması gerekmez.
+ *   - $DEMO_MODE = true yapılırsa e-posta gönderilmez, yalnızca submissions.log'a satır yazılır (test için).
+ *   - api/submissions.log web'den erişilemez (.htaccess); gizlilik metnine göre en fazla 2 yıl saklanır.
  */
 
 declare(strict_types=1);
@@ -20,9 +20,9 @@ date_default_timezone_set('Europe/Istanbul');
 // ==========================================
 // 1. AYARLAR
 // ==========================================
-$DEMO_MODE   = true;
+$DEMO_MODE   = false;
 $TO_EMAIL    = 'info@meirascent.com';
-$FROM_EMAIL  = 'noreply@meira.com.tr';
+$FROM_EMAIL  = 'noreply@meirascent.com';
 $BRAND_NAME  = 'Meira Türkiye';
 $LOG_FILE    = __DIR__ . '/submissions.log';
 $RATE_LIMIT  = 5;     // aynı IP'den en fazla bu kadar talep

@@ -189,9 +189,9 @@
   // Ana sayfa görsel duvarı: üç sıra, zıt yönlerde yavaş akış.
   // Durdur/oynat düğmesi (WCAG 2.2.2); ekran dışındayken ve azaltılmış harekette durur.
   const HERO_ROWS = [
-    { dur: 110, items: ['ck628', 'ck631', 'ck620', 'ck686', 'ads622', 'ck611', 'ck638', 'ck683', 'ck687', 'ck644', 'ck620-g4'] },
-    { dur: 140, rev: true, items: ['ck686-g1', 'ck611-g1', 'ck621-g2', 'ck689-g1', 'ads685-g1', 'ck687-g1', 'ck688-g1', 'ck631-g1', 'ck620-g1', 'ck638-g1', 'ck688-g2'] },
-    { dur: 125, items: ['ck686-g2', 'reed2', 'ads611', 'ck687-g18', 'ck683-g1', 'reed4', 'ck621', 'ck628-g2', 'ck645', 'reed3', 'ck689', 'reed1'] }
+    { dur: 110, items: ['ck628', 'ck631', 'ck620', 'ck686', 'ads622', 'ck638', 'ck683', 'ck687', 'ck644', 'ck620-g4'] },
+    { dur: 140, rev: true, items: ['ck686-g1', 'ck689-g1', 'ads685-g1', 'ck687-g1', 'ck688-g1', 'ck631-g1', 'ck620-g1', 'ck638-g1', 'ck688-g2', 'ck645'] },
+    { dur: 125, items: ['ck686-g2', 'reed2', 'ads611', 'ck687-g18', 'ck683-g1', 'reed4', 'ck628-g2', 'reed3', 'ck689', 'reed1'] }
   ];
 
   function initHeroWall() {

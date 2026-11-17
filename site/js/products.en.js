@@ -12,8 +12,7 @@
     wall: 'Wall-mounted diffusers',
     pro: 'Professional & HVAC-connected',
     plug: 'Plug-in & passive',
-    home: 'Home, car & tabletop',
-    reed: 'Reed diffusers'
+    home: 'Tabletop & portable'
   };
 
   const EN = {
@@ -21,7 +20,7 @@
       badge: 'Smart remote',
       title: 'Ultrasonic Smart Wall Diffuser',
       short: 'Ultrasonic diffuser with optional LED light sensor, LCD display and smart remote; 300 m³ coverage.',
-      desc: 'Ultrasonic atomisation spreads the scent quickly and evenly. Runs on 4 AA batteries or Type-C 6V; available with a smart remote, LED light sensing or an LCD display. Made of heat-resistant food-grade PP; odourless and non-toxic and, according to the manufacturer, compliant with international safety standards and FDA. Mounts in 3 seconds with an adhesive pad that leaves no marks.',
+      desc: 'Ultrasonic atomisation spreads the scent quickly and evenly. Runs on 4 AA batteries or Type-C 6V; available with a smart remote, LED light sensing or an LCD display. Made of heat-resistant PP; according to the manufacturer, the material is food-grade, odourless and non-toxic and compliant with international safety standards and FDA. Mounts in 3 seconds with an adhesive pad that leaves no marks.',
       features: ['Ultrasonic atomisation', 'Remote / manual control', 'Low noise (<8 dBA)', 'Battery or Type-C power', 'Tabletop and wall use', 'Timed spraying', 'Replaceable ultrasonic plate'],
       variants: ['CK-628A (White)', 'CK-628B (Black)', 'Smart remote: CK-628-YK', 'LED light sensing: CK-628-LED', 'LCD display: CK-628-LCD'],
       specs: [['Size', '66 × 56 × 212 mm'], ['Colour', 'White / Black'], ['Material', 'PP (food grade)'], ['Voltage / Power', 'DC 6V / 2W'], ['Noise level', '< 8 dBA'], ['Fragrance capacity', '168 ml'], ['Coverage', '300 m³'], ['Power supply', '4 × AA batteries / Type-C 6V'], ['Net weight', '223 g'], ['Carton', '50 pcs · 493×395×380 mm · 14.8 kg gross']],
@@ -48,7 +47,7 @@
     ck648: {
       title: 'Ultrasonic Wall Diffuser - 3 Colours',
       short: 'Compact diffuser in white, black and a third colour; also suited to entertainment venues.',
-      desc: 'Portable design for easy use. Available with a smart remote, LED light sensing or an LCD display. Heat-resistant food-grade PP, odourless and non-toxic; FDA compliant according to the manufacturer.',
+      desc: 'Portable design for easy use. Available with a smart remote, LED light sensing or an LCD display. The body is heat-resistant PP; according to the manufacturer, it is food-grade, odourless, non-toxic and FDA compliant.',
       features: ['Ultrasonic atomisation', 'Remote / manual control', 'Low noise', 'Battery or Type-C power', 'Tabletop and wall use', 'Timed spraying'],
       variants: ['CK-648A', 'CK-648B', 'CK-648C', 'Smart remote: CK-648-YK', 'LED: CK-648-LED', 'LCD: CK-648-LCD'],
       specs: [['Size', '85 × 65 × 180 mm'], ['Colour', 'White / Black / Black (alternative)'], ['Material', 'PP (food grade)'], ['Voltage / Power', 'DC 6V / 2W'], ['Noise level', '< 8 dBA'], ['Fragrance capacity', '168 ml'], ['Coverage', '300 m³'], ['Power supply', '4 × AA batteries / Type-C 6V'], ['Net weight', '255 g'], ['Carton', '50 pcs · 493×395×380 mm · 14.4 kg gross']],
@@ -66,21 +65,21 @@
     },
     ck689: {
       title: 'Dual-Fluid Ultra-Slim Diffuser',
-      short: 'Quiet (≤35 dB) slim diffuser with 500 ml capacity, managed by Bluetooth app or wireless remote.',
-      desc: 'Dual-fluid atomisation spreads scent quickly and evenly. Two versions are available: Bluetooth app (ADS-689B) and wireless remote (ADS-689-YK). The ABS and PP body is heat resistant, odourless and non-toxic, and FDA compliant according to the manufacturer. Suitable for 600-800 m³ spaces.',
+      short: 'Quiet (≤35 dB) slim diffuser with 500 ml capacity and 600-800 m³ coverage, managed by Bluetooth app or wireless remote.',
+      desc: 'Dual-fluid atomisation spreads scent quickly and evenly. Two versions are available: Bluetooth app (ADS-689B) and wireless remote (ADS-689-YK). The ABS and PP body is heat resistant; according to the manufacturer, it is odourless, non-toxic and FDA compliant. Suitable for spaces of 600-800 m³.',
       features: ['Dual-fluid atomisation', 'Bluetooth app or wireless remote', 'Low noise (≤35 dB)', 'Battery or mains power', 'Timed spraying', 'Custom design'],
       variants: ['ADS-689B · Bluetooth app (White / Black)', 'ADS-689-YK · Wireless remote (White / Black)'],
-      specs: [['Size', '168 × 56 × 240 mm'], ['Colour', 'White / Black (optional)'], ['Material', 'ABS + PP'], ['Voltage / Power', 'DC 6V / 2W'], ['Noise level', '≤ 35 dB'], ['Fragrance capacity', '500 ml'], ['Coverage', '600-800 m³'], ['Control', 'Bluetooth app (ADS-689B) / wireless remote (ADS-689-YK)'], ['Installation', 'Tabletop'], ['Power supply', '4 × AA batteries / Type-C 6V'], ['Net weight', '536 g'], ['Carton', '32 pcs · 480×360×600 mm · 21.6 kg gross']],
+      specs: [['Size', '168 × 53.8 × 240 mm'], ['Colour', 'White / Black (optional)'], ['Material', 'ABS + PP'], ['Voltage / Power', 'DC 6V / 2W'], ['Noise level', '≤ 35 dB'], ['Fragrance capacity', '500 ml'], ['Coverage', '600-800 m³'], ['Control', 'Bluetooth app (ADS-689B) / wireless remote (ADS-689-YK)'], ['Installation', 'Tabletop'], ['Power supply', '4 × AA batteries / Type-C 6V'], ['Net weight', '536 g'], ['Carton', '32 pcs · 480×360×600 mm · 21.6 kg gross']],
       use: USE_COMMERCIAL
     },
     ck687: {
       title: 'Compact Dual-Fluid Diffuser',
       short: 'Compact diffuser with 150 ml capacity, renewed display panel and Bluetooth app control; 300-600 m³ coverage.',
       desc: 'Dual-fluid atomisation for fast, even scent distribution. Easy to use with a Bluetooth mobile app and a renewed display panel. Food-grade, heat-resistant PP body; compliant with international standards including FDA, according to the manufacturer.',
-      videos: [{ title: 'From wall mounting to a weekly schedule', teaser: 'Watch step by step how to mount it without drilling and set a weekly schedule in the app.', summary: 'The unit is mounted on the wall with adhesive tape, without drilling; then the batteries and the fragrance bottle are fitted. The display buttons and how to create a weekly schedule in the phone app are explained step by step. The last part shows the unit plugged in on a table.' }],
+      videos: [{ title: 'From set-up to a weekly schedule', teaser: 'Watch step by step how the unit is prepared and how to set a weekly schedule in the app.', summary: 'The batteries and the fragrance bottle are fitted. The display buttons and how to create a weekly schedule in the phone app are explained step by step. The last part shows the unit plugged in on a table.' }],
       features: ['Dual-fluid atomisation', 'Bluetooth app control', 'Renewed display panel', 'Low noise (≤35 dB)', 'Timed spraying'],
       variants: ['ADS-687A (White)', 'ADS-687B (Black)'],
-      specs: [['Size', '148 × 56 × 185 mm'], ['Colour', 'White / Black'], ['Material', 'PP'], ['Voltage / Power', 'DC 6V / 2W'], ['Noise level', '≤ 35 dB'], ['Fragrance capacity', '150 ml'], ['Coverage', '300-600 m³'], ['Control', 'Bluetooth app, renewed display panel'], ['Installation', 'Tabletop'], ['Net weight', '512 g'], ['Carton', '30 pcs · 465×385×490 mm · 19 kg gross']],
+      specs: [['Size', '148 × 67 × 185 mm'], ['Colour', 'White / Black'], ['Material', 'PP'], ['Voltage / Power', 'DC 6V / 2W'], ['Noise level', '≤ 35 dB'], ['Fragrance capacity', '150 ml'], ['Coverage', '300-600 m³'], ['Control', 'Bluetooth app, renewed display panel'], ['Installation', 'Tabletop'], ['Net weight', '512 g'], ['Carton', '30 pcs · 465×385×490 mm · 19 kg gross']],
       use: USE_COMMERCIAL
     },
     ck631: {
@@ -97,40 +96,21 @@
       badge: 'Series',
       title: 'High-Output Mist Diffuser Series',
       short: '1000 ml capacity, 2,000-12,000 m³ coverage; floor-standing metal body that connects to the HVAC system.',
-      desc: 'High mist-volume technology that works within seconds. Stands on the floor and can be connected to the central air-conditioning (HVAC) system. One-touch control from the smart app, CNC display and adjustable scent intensity. Very quiet operation; plug-in atomiser head and magnetic lock for easy maintenance.',
-      features: ['Bluetooth app control', 'Super atomisation', 'Low noise (≤35 dB)', 'Floor standing', 'Timed spraying', 'Extra-large capacity', 'HVAC connection', 'Touch control'],
-      variants: ['ADS-620B · 328×128×372 mm · 12W · 2,000-5,000 m³', 'ADS-640B · 428×128×372 mm · 15W · 4,000-8,000 m³', 'ADS-670B · 428×128×372 mm · 18W · 7,000-12,000 m³'],
+      desc: 'High mist-volume technology that works within seconds. Stands on the floor and can be connected to the central air-conditioning (HVAC) system. Very quiet operation (≤35 dB); plug-in atomiser head and magnetic lock for easy maintenance.',
+      features: ['Super atomisation', 'Low noise (≤35 dB)', 'Floor standing', '1000 ml reservoir', 'HVAC connection', 'Metal body'],
+      variants: ['ADS-620B · 328×128×372 mm · 12W · 2,000-5,000 m³ · 12,000 TL + VAT', 'ADS-640B · 428×128×372 mm · 15W · 4,000-8,000 m³ · 14,000 TL + VAT', 'ADS-670B · 428×128×372 mm · 18W · 7,000-12,000 m³ · 22,000 TL + VAT'],
       specs: [['Size', '328 / 428 / 428 × 128 × 372 mm'], ['Colour', 'Black'], ['Material', 'Metal'], ['Voltage', 'DC 12V'], ['Power', '12W / 15W / 18W'], ['Noise level', '≤ 35 dB'], ['Fragrance capacity', '1000 ml'], ['Coverage', '2,000-5,000 / 4,000-8,000 / 7,000-12,000 m³'], ['Installation', 'Floor; connects to the HVAC system'], ['Carton', '1 pc']],
-      use: USE_COMMERCIAL
-    },
-    ck611: {
-      badge: 'Twin head',
-      title: 'Twin-Head Aviation Aluminium Diffuser',
-      short: 'Options of 2 × 1000 / 3000 / 5000 ml; 5,000-15,000 m³ coverage.',
-      desc: 'Twin atomiser heads with single or double mist outlets chosen to suit the size of the space, for faster scent distribution. Connects to central air-conditioning and fresh-air systems. One-touch smart app control, CNC display and adjustable scent intensity. Ultra-quiet, timed scenting across 5,000-15,000 m³.',
-      features: ['Twin-head atomisation', 'Bluetooth app control', 'Super-strong atomisation', 'Low noise', 'Timed spraying', 'Extra-large capacity', 'HVAC connection'],
-      variants: ['CK-611A · 2 × 1000 ml', 'CK-612A · 2 × 3000 ml', 'CK-613A · 2 × 5000 ml'],
-      specs: [['Material', 'Aviation aluminium profile'], ['Voltage', 'DC 12V - 3A'], ['Power', '28W'], ['Noise level', '≤ 40 dB'], ['Capacity', '2 × 1000 / 3000 / 5000 ml'], ['Coverage', '5,000 - 15,000 m³'], ['Carton', '1 pc']],
-      use: USE_COMMERCIAL
-    },
-    ck621: {
-      title: 'Aviation Aluminium Large Volume Diffuser',
-      short: '1000 / 3000 / 5000 ml capacity and 8,000 m³ wide-area coverage.',
-      desc: 'Super atomiser head, connection to central air-conditioning and fresh-air systems, one-touch smart app control, CNC display and adjustable scent intensity. Wide-area scenting across 8,000 m³ and a timer for continuous aromatic diffusion.',
-      features: ['Super atomisation', 'Bluetooth app control', 'Low noise', 'Timed spraying', 'Extra-large capacity', 'HVAC connection'],
-      variants: ['CK-621A · 1000 ml', 'CK-622A · 3000 ml', 'CK-623A · 5000 ml'],
-      specs: [['Material', 'Aviation aluminium profile'], ['Voltage', 'DC 12V - 3A'], ['Power', '28W'], ['Noise level', '≤ 40 dB'], ['Capacity', '1000 / 3000 / 5000 ml'], ['Coverage', '8,000 m³'], ['Carton', '1 pc']],
       use: USE_COMMERCIAL
     },
     ck686: {
       badge: 'Column',
       title: 'Nano Atomisation Column Diffuser',
-      short: 'Free-standing aluminium column; 500 ml capacity and 1,500-2,000 m³ coverage.',
-      desc: 'A free-standing commercial column diffuser that makes a design statement with its stone-textured atomiser head. Plug-in atomiser for easy oil changes and a magnetic lock. One-touch control from the smart app with LED display. Nano mist technology for 1,500-2,000 m³; timed operation in WiFi and Bluetooth modes, and connects to fresh-air systems.',
-      videos: [{ title: 'Design details and mist output', teaser: 'See the aluminium body, the fragrance change and the dense mist output up close.', summary: 'The details of the aluminium body, the removable atomiser head and changing the fragrance bottle are shown up close. After the settings are made in the phone app, the dense and steady mist output of the unit is shown.' }],
-      features: ['Nano atomisation', 'Bluetooth app control', 'Low noise (≤35 dB)', 'Mains power', 'Connects to fresh-air systems', 'Timed spraying'],
+      short: 'Free-standing aluminium column; 1000 ml capacity and 4,000 m³ coverage.',
+      desc: 'A free-standing commercial column diffuser that makes a design statement with its stone-textured atomiser head. Plug-in atomiser for easy oil changes and a magnetic lock. A 1000 ml reservoir and nano mist technology for 4,000 m³; connects to fresh-air systems.',
+      videos: [{ title: 'Design details and mist output', teaser: 'See the aluminium body, the fragrance change and the dense mist output up close.', summary: 'The details of the aluminium body, the removable atomiser head and changing the fragrance bottle are shown up close. Then the dense and steady mist output of the unit is shown.' }],
+      features: ['Nano atomisation', 'Low noise (≤35 dB)', 'Mains power (DC 12V)', 'Connects to fresh-air systems', '1000 ml reservoir'],
       variants: ['ADS-687A (White)', 'ADS-687B (Black)'],
-      specs: [['Size', '575 × 115 × 160 mm'], ['Colour', 'White / Black'], ['Material', 'Aluminium alloy'], ['Voltage / Power', 'DC 12V / 12W'], ['Noise level', '≤ 35 dB'], ['Capacity', '500 ml'], ['Coverage', '1,500-2,000 m³'], ['Installation', 'Floor (free standing)']],
+      specs: [['Size', '575 × 115 × 160 mm'], ['Colour', 'White / Black'], ['Material', 'Aluminium alloy'], ['Voltage / Power', 'DC 12V / 12W'], ['Noise level', '≤ 35 dB'], ['Fragrance capacity', '1000 ml'], ['Coverage', '4,000 m³'], ['Installation', 'Floor (free standing)']],
       use: USE_COMMERCIAL + ', sales floors'
     },
     ck683: {
@@ -158,10 +138,10 @@
       use: USE_COMMERCIAL + ', sales floors'
     },
     ads685: {
-      badge: 'Tabletop',
+      badge: 'Commercial',
       title: 'Tabletop Commercial Scent Diffuser',
       short: 'Aluminium column body, 200 ml capacity and 400-1,200 m³ coverage; for tabletop use.',
-      desc: 'An aluminium-bodied tabletop diffuser designed for commercial spaces. The light ring in its base gives it a decorative presence. Draws 12 W at DC 12V, runs at ≤35 dB and scents 400-1,200 m³ from its 200 ml reservoir. Available in white and black.',
+      desc: 'An aluminium-bodied tabletop diffuser designed for commercial spaces. Draws 12 W at DC 12V, runs at ≤35 dB and scents 400-1,200 m³ from its 200 ml reservoir. Available in white and black.',
       features: ['Commercial use', 'Aluminium body', 'Low noise (≤35 dB)', 'Tabletop placement'],
       variants: ['ADS-685C (White)', 'ADS-685B (Black)'],
       specs: [['Size', '324 × 81 × 114 mm'], ['Colour', 'White / Black'], ['Material', 'Aluminium alloy'], ['Voltage / Power', 'DC 12V / 12W'], ['Noise level', '≤ 35 dB'], ['Fragrance capacity', '200 ml'], ['Coverage', '400-1,200 m³'], ['Installation', 'Tabletop']],
@@ -178,7 +158,7 @@
       ],
       features: ['Dual-fluid atomisation', 'Bluetooth app control', 'Low noise (≤35 dB)', 'Plug and play', 'Does not mark the wall'],
       variants: ['CK-644A (White)', 'CK-644B (Black)', 'Two-pin / European two round-pin / three-pin plug'],
-      specs: [['Size', '150 × 73 × 235 mm'], ['Colour', 'White / Black'], ['Material', 'PP'], ['Voltage / Power', 'DC 6V / 5W'], ['Noise level', '≤ 35 dB'], ['Capacity', '100 ml'], ['Coverage', '100-300 m³'], ['Control', 'Bluetooth app'], ['Installation', 'Wall (plugs into the socket)']],
+      specs: [['Size', '150 × 73 × 235 mm'], ['Colour', 'White / Black'], ['Material', 'PP'], ['Voltage / Power', 'DC 6V / 5W'], ['Noise level', '≤ 35 dB'], ['Fragrance capacity', '100 ml'], ['Coverage', '100-300 m³'], ['Control', 'Bluetooth app'], ['Installation', 'Wall (plugs into the socket)']],
       use: 'Homes, bathrooms, lifts, corridors'
     },
     ck645: {
@@ -193,7 +173,7 @@
     },
     ck608d: {
       badge: 'Car & home',
-      title: 'Car Air Purifying Diffuser - Rose Gold',
+      title: 'Portable Car and Home Diffuser - Rose Gold',
       short: 'Beige or rose gold diffuser with a 2000 mAh battery and 5-20 ml fragrance capacity.',
       desc: 'Compact and stylish, for use at home and in the car. Its 2000 mAh battery allows long use.',
       features: ['Ultrasonic atomisation', 'One-touch control', 'Low noise'],
@@ -219,43 +199,50 @@
       specs: [['Size', '78 × 78 × 150 mm'], ['Material', 'Solid wood + glass'], ['Light', '7-colour cycle + steady light'], ['Power / Voltage', '5W / DC5V-1A'], ['Battery', '2000 mAh'], ['Weight', '300 g'], ['Coverage', '50 m²']],
       use: 'Bedrooms, studies, living rooms'
     },
-    ck85: {
-      badge: 'Reed',
-      title: 'Spring in the City - Reed Diffuser',
-      short: 'Rose and cherry blossom notes; glass bottle, flameless and smokeless.',
-      desc: 'Glass bottle, lasting scent and an elegant look. For small spaces such as offices, studies, living rooms and bedrooms.',
-      features: ['Flameless & smokeless', 'Lasting scent', 'Glass bottle'],
-      specs: [['Capacity', '120 ml'], ['Scent notes', 'Rose, cherry blossom, floral'], ['Carton', '20 pcs']],
-      use: 'Offices, studies, living rooms, bedrooms'
+  };
+
+  // Esanslar: koku aileleri ve esans metinleri (kimlik, ton, renk ve görsel products.js'te kalır)
+  const TONES_EN = {
+    floral: { label: 'Floral', text: 'Rose, cherry blossom and flower bouquets: soft, bright and inviting.' },
+    fresh: { label: 'Fresh', text: 'Sea breeze and cool floral notes: clean, open and light.' },
+    woody: { label: 'Woody', text: 'Sandalwood and pine: warm, dry and calm, like forest air.' }
+  };
+  const ESSENCES_EN = {
+    'sehirde-bahar': {
+      name: 'Spring in the City',
+      desc: 'The light, powdery scent of freshly opened rose and cherry blossom. A bright, inviting air for reception areas and boutiques.',
+      notes: ['Rose', 'Cherry blossom', 'Floral'],
+      format: 'Reed diffuser · 120 ml'
     },
-    ck013: {
-      badge: 'Reed',
-      title: 'Flower Abundance - Reed Diffuser',
-      short: 'Blue wind chime, summer freshness and Hawaiian beach notes.',
-      desc: 'Decorates the home with its simple, elegant form and reflects good taste. For offices, studies, living rooms and bedrooms.',
-      features: ['Flameless & smokeless', 'Lasting scent', 'Elegant form'],
-      specs: [['Capacity', '100 ml'], ['Scent notes', 'Blue wind chime, summer freshness, Hawaiian beach'], ['Carton', '20 pcs']],
-      use: 'Offices, studies, living rooms, bedrooms'
+    'ciceklerin-dansi': {
+      name: 'Dance of Flowers',
+      desc: 'A rich flower bouquet reminiscent of hotel lobbies. Leaves an elegant, lasting trace in lobbies and waiting areas.',
+      notes: ['Flower bouquet'],
+      format: 'Reed diffuser · 200 ml'
     },
-    ck014: {
-      badge: 'Reed',
-      title: 'Dance of Flowers - Reed Diffuser',
-      short: 'Floral room fragrance in a 200 ml glass bottle.',
-      desc: 'Glass bottle, lasting scent, an elegant and modern life. A floral scent profile reminiscent of hotel lobbies.',
-      features: ['Flameless & smokeless', 'Lasting scent', 'Floral scent'],
-      specs: [['Capacity', '200 ml'], ['Scent notes', 'Floral'], ['Carton', '24 pcs']],
-      use: 'Offices, studies, living rooms, bedrooms'
+    'cicek-bollugu': {
+      name: 'Flower Abundance',
+      desc: 'Fresh notes of bluebell and the seashore. A cool, open feel for spas, gyms and summer venues.',
+      notes: ['Bluebell', 'Summer breeze', 'Tropical beach'],
+      format: 'Reed diffuser · 100 ml'
     },
-    ck015: {
-      badge: 'Reed',
-      title: 'Sandalwood - Reed Diffuser',
-      short: 'Oriental woody notes and pine; an aroma that soothes body and mind.',
-      desc: 'Its pleasant aroma relaxes body and mind and offers a stylish, high-quality look.',
-      features: ['Flameless & smokeless', 'Lasting scent', 'Woody aroma'],
-      specs: [['Capacity', '100 ml'], ['Scent notes', 'Sandalwood, oriental woody, pine'], ['Carton', '24 pcs']],
-      use: 'Offices, studies, living rooms, bedrooms'
+    'sandal-agaci': {
+      name: 'Sandalwood',
+      desc: 'The warm, dry woody scent of sandalwood and pine; the calm of a walk in the forest. For offices, libraries and lounges.',
+      notes: ['Sandalwood', 'Oriental woody notes', 'Pine'],
+      format: 'Reed diffuser · 100 ml'
     }
   };
+  ESSENCE_TONES.forEach(t => Object.assign(t, TONES_EN[t.id] || {}));
+  ESSENCES.forEach(e => Object.assign(e, ESSENCES_EN[e.id] || {}));
+
+  // Renk adları ve İngilizce aile adı (kodlar ve renk tonları products.js'te kalır)
+  const COLOURS_EN = { Beyaz: 'White', Siyah: 'Black', 'Gümüş': 'Silver', Bej: 'Beige', 'Rose Gold': 'Rose gold' };
+  const FAMILY_EN = { ck686: 'ADS-687 column' };
+  PRODUCTS.forEach(p => {
+    (p.colors || []).forEach(c => { c.name = COLOURS_EN[c.name] || c.name; });
+    if (FAMILY_EN[p.id]) p.family = FAMILY_EN[p.id];
+  });
 
   CATEGORIES.forEach(c => { if (CATEGORIES_EN[c.id]) c.label = CATEGORIES_EN[c.id]; });
   PRODUCTS.forEach(p => {

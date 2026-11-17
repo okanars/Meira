@@ -61,7 +61,7 @@ export const POSTS = [
 </figure>
 
 <h2>OEM / ODM partnerships</h2>
-<p>In its presentation, the manufacturer states that it has developed co-branded (OEM / ODM) products with organisations such as BYD, TCL, Skyworth, ICBC, Alibaba Group, OCT, JLL and COCO Park, as well as hospitals, universities and property groups. For logo printing, colours, packaging or a custom scent for your own brand, please use the <a href="iletisim.html?konu=oem">OEM / ODM form</a>; we pass your request to the manufacturer and follow the process on your behalf.</p>
+<p>In its presentation, the manufacturer states that it has developed co-branded (OEM / ODM) products with organisations in manufacturing, finance, real estate, retail and the public sector, as well as hospitals, universities and property groups. For logo printing, colours, packaging or a custom scent for your own brand, please use the <a href="iletisim.html?konu=oem">OEM / ODM form</a>; we pass your request to the manufacturer and follow the process on your behalf.</p>
 
 <h2>Meira's role</h2>
 <p>As the Turkish distributor of Andusic's fragrance products, Meira handles product selection, quotes and supply. To find the right device for your space, try the <a href="cozumler.html#hesaplayici">volume calculator</a> or contact us through the <a href="iletisim.html">quote form</a>.</p>
@@ -113,7 +113,7 @@ export const POSTS = [
   <li><strong>Collect feedback.</strong> In the first weeks, ask staff and guests about the intensity and adjust the device's spray and pause times accordingly.</li>
 </ol>
 
-<p>Browse the <a href="urunler.html">product catalogue</a> to choose a device. Our fragrance collection is being prepared and will appear on the site once it is confirmed.</p>
+<p>Browse the <a href="urunler.html">product catalogue</a> to choose a device. For scent options and samples, <a href="iletisim.html?konu=numune">write to us</a>.</p>
 `,
     sources: [
       { label: 'Spangenberg, E. R., Crowley, A. E. and Henderson, P. W. (1996). Improving the store environment: Do olfactory cues affect evaluations and behaviors? Journal of Marketing, 60(2), 67-80.' },
@@ -133,7 +133,7 @@ export const POSTS = [
     imagePos: '38% 58%',
     imageAlt: 'ADS-687 column diffuser standing on the floor in a modern living room',
     tags: ['Guide', 'Choosing a device'],
-    related: ['ck628', 'ck688', 'ck686', 'ck621'],
+    related: ['ck689', 'ck686', 'ck620'],
     body: `
 <p class="lead">The first figure to check when choosing a scent diffuser is its coverage. Manufacturers usually give it in cubic metres (m³), because scent fills a volume of air, not a floor. Of two spaces with the same floor area, the one with the higher ceiling needs a stronger device.</p>
 
@@ -154,12 +154,12 @@ export const POSTS = [
 <p>The <a href="cozumler.html#hesaplayici">volume calculator</a> does this for you and lists the models that cover the volume, starting with the closest coverage.</p>
 
 <h2>Coverage ranges in the catalogue</h2>
-<p>According to the manufacturer, the devices in the catalogue cover a wide range, from small plug-in models to twin-head series connected to the HVAC system. A few examples:</p>
+<p>According to the manufacturer, the devices in the catalogue cover a wide range, from small tabletop models to metal-bodied series connected to the HVAC system. A few examples:</p>
 <ul>
-  <li>CK-628 ultrasonic wall diffuser: 300 m³ (meeting rooms, hotel rooms, offices).</li>
-  <li>CK-688 dual-fluid wall diffuser: 800 m³ (shops, showrooms).</li>
-  <li><a href="urun-ck686.html">ADS-687</a> column diffuser: 1,500-2,000 m³ (lobbies, restaurants).</li>
-  <li>CK-621 / 622 / 623 series: 8,000 m³, with 1000 / 3000 / 5000 ml reservoir options (large spaces, HVAC connection).</li>
+  <li><a href="urun-ck687.html">ADS-687</a> tabletop diffuser: 300-600 m³ (meeting rooms, receptions, offices).</li>
+  <li><a href="urun-ck689.html">ADS-689</a> slim dual-fluid diffuser: 600-800 m³ (shops, showrooms).</li>
+  <li><a href="urun-ck686.html">ADS-687</a> column diffuser: 4,000 m³ (lobbies, restaurants).</li>
+  <li><a href="urun-ck620.html">ADS-620B / 640B / 670B</a> series: 2,000-5,000, 4,000-8,000 and 7,000-12,000 m³ (large spaces, HVAC connection).</li>
 </ul>
 
 <h2>When the calculation is not enough</h2>
@@ -206,7 +206,7 @@ export const POSTS = [
 
 <h2>Dual-fluid (compressed air) atomisation</h2>
 <p>In these devices a small air pump blows air at high speed across the fragrance, tearing it into very fine particles that mix with the air. No water is used and the fragrance is spread undiluted. The industry also calls this a "nebuliser" or "dry mist". According to the manufacturer, the dual-fluid systems in the catalogue reduce the particles to nano scale with an ionised accelerator; because very fine particles bounce off surfaces without breaking, they leave no wet residue.</p>
-<p><strong>Strengths:</strong> larger coverage (in the catalogue, from 300 m³ plug-in models to 15,000 m³ twin-head series), dense and even distribution, and HVAC connection. <strong>Limits:</strong> because of the pump they are more audible than ultrasonic models; since the fragrance is not diluted, the intensity setting matters more.</p>
+<p><strong>Strengths:</strong> larger coverage (in the catalogue, from 300-600 m³ compact models to the metal-bodied series covering up to 12,000 m³), dense and even distribution, and HVAC connection. <strong>Limits:</strong> because of the pump they are more audible than ultrasonic models; since the fragrance is not diluted, the intensity setting matters more.</p>
 
 <h2>Comparison</h2>
 <div class="table-wrap">
@@ -217,7 +217,7 @@ export const POSTS = [
     <tr><th scope="row">Principle</th><td>Vibrating plate</td><td>Compressed air</td></tr>
     <tr><th scope="row">Heat</th><td>None</td><td>None</td></tr>
     <tr><th scope="row">Noise</th><td>Very low</td><td>Low to medium</td></tr>
-    <tr><th scope="row">Coverage (this catalogue)</th><td>100 to 300 m³</td><td>300 to 15,000 m³</td></tr>
+    <tr><th scope="row">Coverage (this catalogue)</th><td>100 to 300 m³</td><td>100 to 12,000 m³</td></tr>
     <tr><th scope="row">HVAC connection</th><td>No</td><td>On some models</td></tr>
     <tr><th scope="row">Maintenance</th><td>Plate replacement</td><td>Nozzle cleaning, refills</td></tr>
   </tbody>
@@ -244,11 +244,11 @@ export const POSTS = [
     description: 'Spreading scent through the ventilation ducts in large spaces: connection points, device position, maintenance and what to gather before a project.',
     date: '2026-10-06',
     minutes: 6,
-    image: 'images/products/ck611.jpg',
-    imagePos: '50% 62%',
-    imageAlt: 'HVAC-connected CK-611 diffuser with two aluminium reservoirs in a shopping centre atrium',
+    image: 'images/products/ck620-g1.jpg',
+    imagePos: '40% 62%',
+    imageAlt: 'Black ADS-620B diffuser, which can connect to the HVAC system, standing on the floor of a room',
     tags: ['HVAC', 'Large spaces'],
-    related: ['ck611', 'ck621', 'ck631', 'ck620'],
+    related: ['ck620', 'ck686', 'ck631'],
     body: `
 <p class="lead">In large or partitioned spaces such as hotel lobbies, shopping centres, airports and convention centres, spreading scent with individual devices is difficult. The most even method in these buildings is to feed the scent into the airflow the building already has: the HVAC system.</p>
 
@@ -267,9 +267,7 @@ export const POSTS = [
 <p>According to the manufacturer, the following models can be connected to an HVAC or fresh-air system:</p>
 <ul>
   <li>CK-631 air-pump HVAC-connected diffuser: 3,500 m³, infrared oil-level sensing.</li>
-  <li><a href="urun-ck620.html">ADS-620B / 640B / 670B</a> series: 2,000-5,000, 4,000-8,000 and 7,000-12,000 m³.</li>
-  <li>CK-621 / 622 / 623 series: 8,000 m³, with 1000 / 3000 / 5000 ml reservoir options.</li>
-  <li>CK-611 / 612 / 613 twin-head series: 5,000 to 15,000 m³, reservoirs up to 2 x 5000 ml.</li>
+  <li><a href="urun-ck620.html">ADS-620B / 640B / 670B</a> series: 2,000-5,000, 4,000-8,000 and 7,000-12,000 m³; 1000 ml reservoir.</li>
   <li><a href="urun-ck686.html">ADS-687</a> column diffuser: connection to fresh-air systems.</li>
 </ul>
 
@@ -373,7 +371,7 @@ export const POSTS = [
 </ol>
 
 <h2>About the fragrances in our range</h2>
-<p>The manufacturer states that its fragrances have been tested by SGS for compliance with IFRA standards. This is a manufacturer statement; you can request the test and compliance documents during the quote process. Our fragrance collection is being prepared; the scent range will appear on the site once it is confirmed.</p>
+<p>The manufacturer states that its fragrances have been tested by SGS for compliance with IFRA standards. This is a manufacturer statement; you can request the test and compliance documents during the quote process. For scent options and documents, <a href="iletisim.html?konu=numune">write to us through the quote form</a>.</p>
 `,
     sources: [
       { label: 'IFRA. IFRA Code of Practice.', url: 'https://ifrafragrance.org/safe-use/code-of-practice-new' },
@@ -407,7 +405,7 @@ export const POSTS = [
   <tbody>
     <tr><td>Lobby and reception</td><td>Fresh tea, white flowers, light woods</td><td>Column or HVAC-connected (<a href="urun-ck686.html">ADS-687 column</a>, CK-631)</td></tr>
     <tr><td>Corridors and lifts</td><td>A lower-intensity continuation of the lobby scent</td><td>Ultrasonic wall model (CK-638)</td></tr>
-    <tr><td>Rooms</td><td>Calm, powdery or lavender</td><td>Tabletop or reed diffuser</td></tr>
+    <tr><td>Rooms</td><td>Calm, powdery or lavender</td><td>Tabletop diffuser</td></tr>
     <tr><td>Spa</td><td>Lavender, sage, woods</td><td>Wall model, low noise</td></tr>
     <tr><td>Restaurant</td><td>Very light or unscented</td><td>Only at the entrance if needed</td></tr>
   </tbody>
@@ -420,7 +418,7 @@ export const POSTS = [
   <li><strong>Evenings and the bar:</strong> scents with a woody base such as bergamot, sandalwood or cedar.</li>
   <li><strong>Spa and rooms:</strong> calm notes such as lavender, chamomile, white musk or sage.</li>
 </ul>
-<p>Our fragrance collection is being prepared; the scent range will appear on the site once it is confirmed.</p>
+<p>For help choosing a scent family and for samples, <a href="iletisim.html?konu=numune">write to us</a>.</p>
 
 <h2>Tips for putting it into practice</h2>
 <ol>

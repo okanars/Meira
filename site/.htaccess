@@ -8,17 +8,17 @@ DirectoryIndex index.html
 ErrorDocument 404 /404.html
 
 # -----------------------------------------------------------------------------
-# HTTPS ve www yönlendirmesi
-# [DOĞRULANACAK] Alan adı ve SSL sertifikası kesinleşince aşağıdaki satırların başındaki # işaretini kaldırın.
-# Kanonik adresler https://www. ile yazılmıştır (tools/build.mjs SITE_URL).
+# HTTPS ve www yönlendirmesi: http:// ve www'siz adresler https://www.meirascent.com'a gider
+# (kanonik adresler, tools/build.mjs SITE_URL). SSL sertifikası (hosting panelinde ücretsiz SSL) etkin olmalı;
+# sertifika henüz yoksa site tarayıcıda güvenlik uyarısı verir.
 # -----------------------------------------------------------------------------
-# <IfModule mod_rewrite.c>
-#   RewriteEngine On
-#   RewriteCond %{HTTPS} off [OR]
-#   RewriteCond %{HTTP_HOST} !^www\. [NC]
-#   RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]
-#   RewriteRule ^ https://www.%1%{REQUEST_URI} [L,R=301]
-# </IfModule>
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} off [OR]
+  RewriteCond %{HTTP_HOST} !^www\. [NC]
+  RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]
+  RewriteRule ^ https://www.%1%{REQUEST_URI} [L,R=301]
+</IfModule>
 
 # -----------------------------------------------------------------------------
 # İçerik türleri
@@ -85,7 +85,7 @@ ErrorDocument 404 /404.html
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
   Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; form-action 'self'; frame-ancestors 'self'; base-uri 'self'; object-src 'none'"
-  # [DOĞRULANACAK] HTTPS kesinleşip en az birkaç gün sorunsuz çalıştıktan sonra açın:
+  # HTTPS en az birkaç gün sorunsuz çalıştıktan sonra açın (tarayıcılar bir yıl boyunca yalnızca HTTPS dener):
   # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
   Header unset X-Powered-By
 </IfModule>

@@ -3519,3 +3519,342 @@ a.media img,
 [data-theme="dark"] .modal-thumb img,
 [data-theme="dark"] .calc-row img { filter: brightness(0.92); }
 [data-theme="dark"] .product-card--soon .media img { filter: brightness(0.85) grayscale(0.3); }
+
+/* 32. Esans sayfası --------------------------------------------------------- */
+/* Sahne, seçilen esansın renk tonuna bürünür: --e-h (HSL tonu, js/essences.js yazar) zemin, vurgu ve düğme
+   renklerini belirler. Renkler ton değişince yumuşakça geçer (ortam değişimi, arayüz geri bildirimi değil:
+   --t-enter). Arka plandaki canvas ekrana yapışık durur, içerik onun üstünden kayar. */
+.essence-stage {
+  --e-h: 345;
+  --e-bg: hsl(var(--e-h) 42% 93%);
+  --e-accent: hsl(var(--e-h) 40% 32%);
+  --e-on-accent: #FBF9F5;
+  --e-line: hsl(var(--e-h) 30% 80%);
+  position: relative;
+  overflow: clip;
+  min-height: calc(100vh - var(--header-h));
+  background-color: var(--e-bg);
+  transition: background-color var(--t-enter) ease;
+}
+[data-theme="dark"] .essence-stage {
+  --e-bg: hsl(var(--e-h) 30% 8%);
+  --e-accent: hsl(var(--e-h) 46% 76%);
+  --e-on-accent: #0B0B0C;
+  --e-line: hsl(var(--e-h) 22% 22%);
+}
+.essence-stage__bg {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  height: 100vh;
+  margin-bottom: -100vh;
+  pointer-events: none;
+}
+.essence-stage__bg canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 220ms var(--ease-out);
+}
+.essence-stage__bg canvas.is-on { opacity: 1; }
+.essence-stage__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: var(--s-6);
+  padding-top: clamp(3rem, 2rem + 4vw, 6rem);
+  padding-bottom: var(--section-y);
+}
+.essence-head h1 { max-width: 16ch; }
+.essence-head .lead { margin-top: var(--s-5); max-width: 52ch; }
+
+.essence-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2) var(--s-6);
+  margin-top: var(--s-5);
+  border-bottom: 1px solid var(--e-line);
+  transition: border-color var(--t-enter) ease;
+}
+.essence-tones { margin-bottom: -1px; }
+.essence-tones .segment-btn { font-size: 1.0625rem; }
+.essence-tones .segment-btn.active { border-bottom-color: var(--e-accent); }
+.essence-motion {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 44px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--c-ink-2);
+  transition: color var(--t-fast) ease, transform var(--t-press) var(--ease-out);
+}
+.essence-motion[hidden] { display: none; }
+.essence-motion .icon { width: 16px; height: 16px; }
+.essence-motion .icon-play { display: none; }
+.essence-motion[aria-pressed="true"] .icon-pause { display: none; }
+.essence-motion[aria-pressed="true"] .icon-play { display: block; }
+.essence-motion:active { transform: var(--press); }
+@media (hover: hover) and (pointer: fine) { .essence-motion:hover { color: var(--c-ink); } }
+.essence-tone-text { max-width: 60ch; margin-top: calc(var(--s-2) * -1); color: var(--c-ink-2); }
+
+.essence-picker { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+.essence-picker[hidden] { display: none; }
+.essence-pick {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-height: 44px;
+  padding: 0 var(--s-4);
+  background: var(--c-surface);
+  border: 1px solid var(--c-line-strong);
+  border-radius: var(--r);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  color: var(--c-ink);
+  transition: border-color var(--t-fast) ease, background-color var(--t-fast) ease, transform var(--t-press) var(--ease-out);
+}
+.essence-pick:active { transform: var(--press); }
+.essence-pick[aria-pressed="true"] { border-color: var(--c-ink); box-shadow: inset 0 0 0 1px var(--c-ink); }
+.essence-pick__dot { width: 12px; height: 12px; border-radius: var(--r-round); background: hsl(var(--h) 45% 55%); }
+@media (hover: hover) and (pointer: fine) { .essence-pick:hover { border-color: var(--c-ink-2); } }
+
+/* Esans paneli: görsel ve bilgi. JS çalışıyorsa yalnızca seçili esans görünür; çalışmıyorsa hepsi alt alta. */
+.essence-panels { display: grid; gap: var(--s-6); }
+.essence {
+  display: grid;
+  gap: var(--s-6);
+  padding: var(--s-5);
+  background: var(--c-surface);
+  border: 1px solid var(--e-line);
+  border-radius: var(--r);
+  transition: border-color var(--t-enter) ease;
+}
+.js .essence:not(.is-active),
+.js .essence-pick:not(.is-in-tone) { display: none; }
+html:not(.js) .essence-controls,
+html:not(.js) .essence-tone-text,
+html:not(.js) .essence-picker { display: none; }
+.essence__media { aspect-ratio: 4 / 3; }
+.essence__body { display: grid; gap: var(--s-4); align-content: center; }
+.essence__tone {
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--e-accent);
+  transition: color var(--t-enter) ease;
+}
+.essence__body h2 { font-size: var(--fs-h1); line-height: 1.08; }
+.essence__desc { max-width: 52ch; font-size: var(--fs-lead); line-height: 1.55; color: var(--c-ink-2); }
+.essence__label { margin-top: var(--s-2); font-family: var(--font-sans); font-size: var(--fs-small); font-weight: 600; color: var(--c-ink); }
+.essence__format { font-size: var(--fs-small); color: var(--c-ink-3); }
+.essence .btn-row { margin-top: var(--s-3); }
+.essence .tag { background: var(--e-bg); transition: background-color var(--t-enter) ease; }
+/* Birincil düğme sahnenin vurgu rengini alır */
+.essence-stage .btn--primary {
+  background: var(--e-accent);
+  border-color: var(--e-accent);
+  color: var(--e-on-accent);
+  transition: background-color var(--t-enter) ease, border-color var(--t-enter) ease, color var(--t-fast) ease, transform var(--t-press) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .essence-stage .btn--primary:hover { background: var(--e-accent); filter: brightness(1.12); }
+}
+.essence-note { max-width: 70ch; }
+@media (min-width: 900px) {
+  .essence { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--s-8); padding: var(--s-6); }
+  .essence__media { aspect-ratio: 4 / 5; }
+  .essence__body { padding-right: var(--s-6); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .essence-stage, .essence-controls, .essence, .essence__tone, .essence .tag, .essence-stage .btn--primary { transition-duration: 200ms; }
+}
+
+/* Ürün sayfasındaki esans bölümü: koleksiyona giden kart */
+.essence-teaser {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: var(--s-5);
+  align-items: center;
+  padding: var(--s-4);
+  background: var(--c-surface);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r);
+  color: var(--c-ink-2);
+  transition: border-color var(--t-fast) ease, transform var(--t-press) var(--ease-out);
+}
+.essence-teaser .media { aspect-ratio: 1; }
+.essence-teaser__body { display: grid; gap: var(--s-1); font-size: var(--fs-small); }
+.essence-teaser__title { font-family: var(--font-serif); font-size: var(--fs-h3); line-height: 1.25; color: var(--c-ink); }
+.essence-teaser .link-arrow { min-height: 32px; }
+.essence-teaser:active { transform: scale(0.99); }
+@media (hover: hover) and (pointer: fine) {
+  .essence-teaser:hover { border-color: var(--c-ink-2); }
+  .essence-teaser:hover .link-arrow .icon { transform: translateX(3px); }
+}
+
+/* 33. Kart fotoğrafları ----------------------------------------------------- */
+/* Ürün kartının küçük resminde önceki / sonraki fotoğraf (components.js initCardGalleries). Kart bağlantısı tüm
+   kartı kapladığı için düğmeler onun üstündedir. Fareyle kartın üzerine gelince, dokunmatikte her zaman görünür. */
+.card-gallery {
+  position: absolute;
+  inset: auto var(--s-2) var(--s-2) var(--s-2);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+  pointer-events: none;
+}
+.card-gallery__btn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(244, 239, 230, 0.28);
+  border-radius: var(--r-round);
+  background: rgba(20, 28, 39, 0.72);
+  color: var(--c-ivory);
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color var(--t-fast) ease, transform var(--t-press) var(--ease-out);
+}
+/* Görünen daire 36 px; dokunma alanı 48 px */
+.card-gallery__btn::before { content: ""; position: absolute; inset: -6px; }
+.card-gallery__btn .icon { width: 16px; height: 16px; }
+.card-gallery__btn--prev .icon { transform: scaleX(-1); }
+.card-gallery__btn:active { transform: var(--press); }
+.card-gallery__btn:focus-visible { outline: 2px solid var(--c-ivory); outline-offset: 2px; }
+.card-gallery__count {
+  padding: 3px 10px;
+  border-radius: var(--r-round);
+  background: rgba(20, 28, 39, 0.72);
+  color: var(--c-ivory);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+[data-theme="dark"] .card-gallery__btn,
+[data-theme="dark"] .card-gallery__count { background: rgba(0, 0, 0, 0.72); color: #E6E8EB; }
+@media (hover: hover) and (pointer: fine) {
+  .card-gallery { opacity: 0; transition: opacity var(--t-fast) ease; }
+  .product-card:hover .card-gallery,
+  .card-gallery:focus-within { opacity: 1; }
+  .card-gallery__btn:hover { background: rgba(20, 28, 39, 0.92); }
+}
+
+/* 34. Renk seçenekleri ------------------------------------------------------ */
+/* Kartta başlığın altında, ürün sayfasında kısa açıklamanın altında: renk noktası, renk adı ve o rengin model
+   numarası (products.js colors). Kart bağlantısı tüm kartı kapladığı için satır tıklanmaz; yalnızca bilgi verir. */
+.color-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin: calc(var(--s-1) * -1) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.color-row li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 2px 10px 2px 6px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-round);
+  background: var(--c-surface);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--c-ink);
+}
+.color-row__dot {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border-radius: var(--r-round);
+  background: var(--dot);
+  box-shadow: inset 0 0 0 1px rgba(20, 28, 39, 0.28);
+}
+.color-row__code {
+  color: var(--c-ink-3);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+.color-row__code::before { content: "·"; margin-right: 6px; color: var(--c-line-strong); }
+[data-theme="dark"] .color-row__dot { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35); }
+
+/* Ürün sayfası: daha büyük noktalar ve etiket */
+.pd-colors { display: grid; gap: var(--s-3); margin-top: var(--s-5); }
+.pd-colors__label {
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--c-ink-2);
+}
+.color-row--lg { margin: 0; gap: var(--s-3); }
+.color-row--lg li { min-height: 40px; padding: 4px 14px 4px 8px; font-size: var(--fs-small); }
+.color-row--lg .color-row__dot { width: 22px; height: 22px; }
+/* Kartta daha sıkı: iki renk etiketi dar kartta da yan yana sığar */
+.product-card .color-row { gap: 6px; }
+.product-card .color-row li { gap: 5px; padding: 2px 8px 2px 5px; letter-spacing: -0.005em; }
+.product-card .color-row__dot { width: 12px; height: 12px; }
+.product-card .color-row__code::before { margin-right: 4px; }
+
+/* 35. Liste fiyatı ---------------------------------------------------------- */
+/* Liste fiyatı ve yanında "+ KDV" ibaresi (KDV tutarı gösterilmez). */
+.product-card__price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 6px;
+  margin-top: var(--s-1);
+  font-variant-numeric: tabular-nums;
+}
+.product-card__price-value { font-size: 1.0625rem; font-weight: 600; color: var(--c-ink); }
+.product-card__price-vat { font-size: var(--fs-label); color: var(--c-ink-2); }
+
+.pd-price {
+  display: grid;
+  gap: var(--s-1);
+  margin-top: var(--s-5);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--c-line);
+}
+.pd-price__label {
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--c-ink-2);
+}
+.pd-price__row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-variant-numeric: tabular-nums; }
+.pd-price__row-value { font-family: var(--font-serif); font-size: clamp(1.75rem, 1.5rem + 1vw, 2.25rem); line-height: 1.15; color: var(--c-ink); }
+.pd-price__row-vat { font-size: var(--fs-small); color: var(--c-ink-2); }
+.pd-price + .pd__actions, .pd-price + .pd__soon { margin-top: var(--s-5); }
+
+/* 36. Katalog: sıralama ve hazne filtresi ----------------------------------- */
+.catalog-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s-3) var(--s-5);
+  margin-bottom: var(--s-6);
+}
+.catalog-tools .catalog-status { margin: 0; }
+.catalog-sort { display: flex; flex-wrap: wrap; gap: var(--s-3); }
+.catalog-sort__field { display: grid; gap: var(--s-1); font-size: var(--fs-label); color: var(--c-ink-3); }
+.catalog-sort .form-select { min-height: 44px; width: auto; min-width: 12rem; padding: var(--s-2) var(--s-7) var(--s-2) var(--s-3); font-size: var(--fs-small); }
+@media (max-width: 640px) {
+  .catalog-tools { align-items: stretch; }
+  .catalog-tools .catalog-status { order: 2; }
+  .catalog-sort { width: 100%; display: grid; grid-template-columns: 1fr 1fr; }
+  .catalog-sort .form-select { width: 100%; min-width: 0; }
+}
