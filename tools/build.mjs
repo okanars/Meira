@@ -118,7 +118,7 @@ const ld = obj => `  <script type="application/ld+json">${JSON.stringify(obj)}</
 const soonLabel = () => tt('Pek yakında', 'Coming soon');
 
 // İngilizce çıktıda kök klasördeki dosyalara giden göreli adresler bir üst klasöre çıkar
-const localize = html => html.replace(/(\s(?:src|href|srcset|poster|data-src|data-poster|data-webp|action)=")(?=(?:images|css|js|fonts|api)\/|favicon\.svg"|site\.webmanifest")/g, '$1../');
+const localize = html => html.replace(/(\s(?:src|href|srcset|poster|data-src|data-poster|data-webp|action)=")(?=(?:images|css|js|fonts|api)\/|favicon\.(?:svg|ico)"|site\.webmanifest")/g, '$1../');
 
 // 404 sayfası, sunucu tarafından bulunamayan herhangi bir adreste (ör. /en/a/b) sunulur; göreli adresler
 // orada çözülemez. Bu yüzden 404'te bağlantı ve kaynaklar kökten başlar, JS'in görsel tabanı da köktür.
@@ -277,6 +277,7 @@ ${noindex ? '' : `  <link rel="canonical" href="${pageAbs(url)}">\n`}${alts}  <m
   <meta property="og:image" content="${abs(image)}">
 ${og ? `  <meta property="og:image:width" content="${og.w}">\n  <meta property="og:image:height" content="${og.h}">\n` : ''}  <meta property="og:image:alt" content="${esc(imageAlt || DEFAULT_OG_ALT())}">
 ${published ? `  <meta property="article:published_time" content="${published}">\n  <meta property="article:modified_time" content="${published}">\n` : ''}  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="favicon.ico" sizes="48x48">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="images/brand/icon-180.png">
   <link rel="manifest" href="site.webmanifest">
