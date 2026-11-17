@@ -10,6 +10,7 @@
  * Yayın ayarları (Veridyen paylaşımlı hosting, PHP mail()):
  *   - $TO_EMAIL: talepleri alan posta kutusu. Hosting panelinde bu adres posta kutusu olarak açılmış olmalı.
  *   - $FROM_EMAIL: sitenin alan adında olmalı (SPF/DKIM). Posta kutusu olarak açılması gerekmez.
+ *     SMTP ayar dosyası kullanılıyorsa (aşağıda) gönderen, SMTP hesabının kendisi olur.
  *   - $DEMO_MODE = true yapılırsa e-posta gönderilmez, yalnızca submissions.log'a satır yazılır (test için).
  *   - api/submissions.log web'den erişilemez (.htaccess); gizlilik metnine göre en fazla 2 yıl saklanır.
  */
@@ -360,6 +361,10 @@ $htmlContent = '<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"></hea
 $mailSent = true;
 $mailError = '';
 if (!$DEMO_MODE) {
+    // SMTP sunucusu (Veridyen) "From" adresinin oturum açan hesapla aynı olmasını şart koşar
+    if (is_array($SMTP) && !empty($SMTP['user'])) {
+        $FROM_EMAIL = (string) $SMTP['user'];
+    }
     $headers = implode("\r\n", [
         'MIME-Version: 1.0',
         'Content-Type: text/html; charset=UTF-8',
