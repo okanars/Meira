@@ -10,8 +10,8 @@
  *   - Blog dizini ve yazıları (tools/content/blog*.mjs), Sürdürülebilirlik, SSS ve Gizlilik (tools/content/pages*.mjs)
  *   - urunler.html katalog ızgarasının önceden basılmış HTML'i
  *   - index.html ürün videoları ve sertifika şeridi, kurumsal.html sertifikalar bölümü (işaretli bölgeler)
- *   - esanslar.html (products.js ESSENCES_LIVE true ise ESSENCES verisinden esans sayfası; false ise "hazırlanıyor"
- *     sayfası), sitemap.xml,
+ *   - esanslar.html (products.js ESSENCES_LIVE true ise ESSENCES / ESSENCE_FAMILIES verisinden esans sayfası; false ise
+ *     "hazırlanıyor" sayfası), sitemap.xml,
  *     robots.txt, 404.html
  *
  * İki dil: Türkçe sayfalar site/ kökünde, İngilizceleri site/en/ altında aynı dosya adlarıyla durur.
@@ -61,7 +61,7 @@ function loadData(files) {
   const ctx = {};
   vm.createContext(ctx);
   const src = files.map(f => fs.readFileSync(path.join(SITE, f), 'utf8')).join('\n;\n');
-  vm.runInContext(src + ';globalThis.__D={PRODUCTS,CATEGORIES,ESSENCES,ESSENCE_TONES,ESSENCES_LIVE,catalogOrder};', ctx);
+  vm.runInContext(src + ';globalThis.__D={PRODUCTS,CATEGORIES,ESSENCES,ESSENCE_FAMILIES,ESSENCE_COVER,ESSENCES_LIVE,catalogOrder};', ctx);
   return ctx.__D;
 }
 const DATA = { tr: loadData(['js/products.js']), en: loadData(['js/products.js', 'js/products.en.js']) };
@@ -74,10 +74,10 @@ const CAT_SHORT_ALL = {
   en: { wall: 'Wall-mounted', pro: 'Professional and HVAC', plug: 'Plug-in and passive', home: 'Tabletop and portable' }
 };
 
-let PRODUCTS, CATEGORIES, ESSENCES, ESSENCE_TONES, ESSENCES_LIVE, catalogOrder, CAT_LABEL, CAT_SHORT, POSTS, C;
+let PRODUCTS, CATEGORIES, ESSENCES, ESSENCE_FAMILIES, ESSENCE_COVER, ESSENCES_LIVE, catalogOrder, CAT_LABEL, CAT_SHORT, POSTS, C;
 function setLang(lang) {
   L = lang;
-  ({ PRODUCTS, CATEGORIES, ESSENCES, ESSENCE_TONES, ESSENCES_LIVE, catalogOrder } = DATA[lang]);
+  ({ PRODUCTS, CATEGORIES, ESSENCES, ESSENCE_FAMILIES, ESSENCE_COVER, ESSENCES_LIVE, catalogOrder } = DATA[lang]);
   CAT_LABEL = Object.fromEntries(CATEGORIES.map(c => [c.id, c.label]));
   CAT_SHORT = CAT_SHORT_ALL[lang];
   C = CONTENT[lang];
@@ -118,7 +118,10 @@ const ld = obj => `  <script type="application/ld+json">${JSON.stringify(obj)}</
 const soonLabel = () => tt('Pek yakında', 'Coming soon');
 
 // İngilizce çıktıda kök klasördeki dosyalara giden göreli adresler bir üst klasöre çıkar
-const localize = html => html.replace(/(\s(?:src|href|srcset|poster|data-src|data-poster|data-webp|action)=")(?=(?:images|css|js|fonts|api)\/|favicon\.(?:svg|ico)"|site\.webmanifest")/g, '$1../');
+// srcset birden fazla aday içerebilir ("a.webp 640w, b.webp 1200w"): her aday ayrı ayrı yerelleştirilir.
+const localize = html => html
+  .replace(/(\s(?:src|href|poster|data-src|data-poster|data-webp|action)=")(?=(?:images|css|js|fonts|api)\/|favicon\.(?:svg|ico)"|site\.webmanifest")/g, '$1../')
+  .replace(/(\ssrcset=")([^"]*)"/g, (m, a, list) => `${a}${list.split(/,\s*/).map(c => (/^(?:images|css|js|fonts)\//.test(c) ? `../${c}` : c)).join(', ')}"`);
 
 // 404 sayfası, sunucu tarafından bulunamayan herhangi bir adreste (ör. /en/a/b) sunulur; göreli adresler
 // orada çözülemez. Bu yüzden 404'te bağlantı ve kaynaklar kökten başlar, JS'in görsel tabanı da köktür.
@@ -646,50 +649,79 @@ function essenceLockedHtml() {
     </section>`;
 }
 
-// Ürün sayfasındaki esans bölümü: esans koleksiyonuna bağlantı (esanslar.html)
-function essenceLinkHtml() {
-  const e = ESSENCES[0];
+// ---------------------------------------------------------------------------
+// Esanslar: ortak parçalar (products.js ESSENCES, ESSENCE_FAMILIES)
+// ---------------------------------------------------------------------------
+const famOf = id => ESSENCE_FAMILIES.find(f => f.id === id);
+const essencesOf = f => ESSENCES.filter(e => e.fam === f.id);
+// Renk küresi: esansın paletinden (components.js essenceOrb ile aynı değişkenler)
+const essencePal = e => `--c1:${e.palette[0]};--c2:${e.palette[1]};--c3:${e.palette[2]}`;
+const essenceOrb = (e, cls = '') => `<span class="essence-orb${cls ? ' ' + cls : ''}" style="${essencePal(e)}" aria-hidden="true"></span>`;
+// Koku piramidi görseli: 1200 px JPEG + WebP, 640 px WebP (tools/esans-gorselleri.py)
+function essencePicture(e, { alt = '', sizes = '(min-width: 900px) 40vw, 92vw', attrs = '' } = {}) {
+  const jpg = `images/essences/${e.img}.jpg`;
+  const d = imageSize(jpg) || { w: 1200, h: 1200 };
+  const k = Math.min(1, 640 / Math.max(d.w, d.h));
+  const set = k < 1 ? `images/essences/w640/${e.img}.webp ${Math.round(d.w * k)}w, images/essences/${e.img}.webp ${d.w}w` : `images/essences/${e.img}.webp ${d.w}w`;
+  return `<picture><source type="image/webp" srcset="${set}" sizes="${sizes}"><img src="${jpg}" alt="${esc(alt)}"${dims(jpg)}${attrs}></picture>`;
+}
+// Aile adlarının cümle içi listesi: "Non-alerjen, nötralizör, ... ve oryantal"
+function famSentence() {
+  const a = ESSENCE_FAMILIES.map((f, i) => (i ? f.label.toLocaleLowerCase(L) : f.label));
+  return a.length > 1 ? `${a.slice(0, -1).join(', ')}${tt(' ve ', ' and ')}${a[a.length - 1]}` : a[0];
+}
+
+// Ürün sayfasındaki esans bölümü: ürünün kullanıldığı mekânlara göre öne çıkan üç esans ve koleksiyon bağlantısı.
+// Seçim editoryal bir öneridir (uyumluluk iddiası değil): duvar tipi ve prize takılan cihazlar daha çok ıslak
+// hacim ve koridorlarda (nötralizör), profesyonel cihazlar lobi ve mağazada (parfüm, oryantal), masaüstü
+// cihazlar yaşam alanlarında (çiçeksi, non-alerjen) kullanılır.
+const ESSENCE_PICKS = {
+  wall: ['ntr002', 'ntr004', 'non001'],
+  plug: ['ntr003', 'ntr005', 'non016'],
+  pro: ['prf006', 'non027', 'non009'],
+  home: ['cic006', 'non026', 'non008']
+};
+function essenceLinkHtml(p) {
+  const picks = (ESSENCE_PICKS[p.cat] || ESSENCE_PICKS.home).map(id => ESSENCES.find(e => e.id === id)).filter(Boolean);
   return `<section class="section section--deep" aria-labelledby="refill-title">
       <div class="wrap split split--top">
         <div class="split__a">
           <h2 id="refill-title">${tt('Esans ve dolum', 'Fragrance and refills')}</h2>
-          <p class="mt-4 text-2">${tt('Cihazlar yeniden doldurulabilir. Koku seçimi mekânın karakterine göre yapılır; koleksiyondaki koku ailelerini inceleyip numune isteyebilirsiniz.', 'The devices are refillable. The scent is chosen to suit the character of the space; you can browse the scent families in the collection and ask for a sample.')}</p>
+          <p class="mt-4 text-2">${tt(`Cihaz yeniden doldurulabilir. Koleksiyonda ${ESSENCE_FAMILIES.length} koku ailesinde ${ESSENCES.length} esans var: ${esc(famSentence())}. Yanda, bu modelin sık kullanıldığı mekânlar için öne çıkan esanslardan bazılarını görebilirsiniz; koku piramidini inceleyip esansı teklif listenize ekleyebilir ya da numune isteyebilirsiniz.`, `The device is refillable. The collection has ${ESSENCES.length} fragrances in ${ESSENCE_FAMILIES.length} scent families: ${esc(famSentence())}. Alongside are a few fragrances that suit the spaces this model is often used in; view their scent pyramids, add them to your quote list or ask for a sample.`)}</p>
+          <a href="esanslar.html" class="link-arrow mt-5">${tt('Tüm esansları inceleyin', 'Browse all fragrances')} ${icon('arrow-right')}</a>
         </div>
         <div class="split__b">
-          <a href="esanslar.html" class="essence-teaser">
-            <span class="media">${pictureFor(`images/general/${e.img}.jpg`, { small: false, sizes: '96px', attrs: ` loading="lazy" decoding="async" style="object-position:${esc(e.pos || 'center')}"` })}</span>
-            <span class="essence-teaser__body">
-              <span class="essence-teaser__title">${tt('Esans koleksiyonu', 'Fragrance collection')}</span>
-              <span>${ESSENCE_TONES.map(t => esc(t.label)).join(' · ')}</span>
-              <span class="link-arrow" aria-hidden="true">${tt('Kokuları inceleyin', 'Browse the scents')} ${icon('arrow-right')}</span>
-            </span>
-          </a>
+          <ul class="essence-mini-list">
+            ${picks.map(e => `<li><a href="esanslar.html#esans-${e.id}" class="essence-mini">
+              ${essenceOrb(e)}
+              <span class="essence-mini__body">
+                <span class="essence-mini__meta">${esc(famOf(e.fam).label)} · ${esc(e.code)}</span>
+                <span class="essence-mini__name">${esc(e.name)}</span>
+                <span class="essence-mini__notes">${[e.top[0], e.heart[0], e.base[0]].map(esc).join(' · ')}</span>
+              </span>
+              ${icon('arrow-right', 'essence-mini__arrow')}
+            </a></li>`).join('\n            ')}
+          </ul>
         </div>
       </div>
     </section>`;
 }
 
-// Koku ailelerinin cümle içi listesi: "Çiçeksi, ferah ve odunsu" / "Floral, fresh and woody"
-function toneList() {
-  const a = ESSENCE_TONES.map(t => t.label.toLocaleLowerCase(L));
-  const s = a.length > 1 ? `${a.slice(0, -1).join(', ')}${tt(' ve ', ' and ')}${a[a.length - 1]}` : a[0];
-  return s[0].toLocaleUpperCase(L) + s.slice(1);
-}
-
-// Katalogdaki esans kartı: tek kart, esans sayfasına gider (components.js MeiraApp.essenceCard ile aynı tutulmalı)
+// Katalogdaki esans kartı: tek kart, esans sayfasına gider; görsel çubuklu oda kokusu (products.js ESSENCE_COVER).
+// components.js MeiraApp.essenceCard ile aynı tutulmalı.
 function essenceCard() {
-  const e = ESSENCES[0];
-  const src = `images/general/${e.img}.jpg`;
+  const src = `images/general/${ESSENCE_COVER.img}.jpg`;
   return `<article class="product-card product-card--essence" data-essence-card>
-            <div class="media"><picture><img src="${src}" alt="${esc(tt('Esans koleksiyonu', 'Fragrance collection'))}"${dims(src)} loading="lazy" decoding="async" style="object-position:${esc(e.pos || 'center')}"></picture></div>
+            <div class="media"><picture><img src="${src}" alt="${esc(tt('Esans koleksiyonu: çubuklu oda kokusu', 'Fragrance collection: reed diffuser'))}"${dims(src)} loading="lazy" decoding="async" style="object-position:${esc(ESSENCE_COVER.pos || 'center')}"></picture></div>
             <div class="product-card__body">
               <div class="product-card__top">
                 <span class="product-card__code">${tt('Esanslar', 'Essences')}</span>
                 <span>${ESSENCES.length} ${tt('koku', 'scents')}</span>
               </div>
               <h2 class="product-card__title"><a href="esanslar.html" class="product-card__link">${tt('Esans koleksiyonu', 'Fragrance collection')}</a></h2>
-              <p class="product-card__desc">${esc(toneList())} ${tt('koku aileleri. Kokuları inceleyin, numune isteyin.', 'scent families. Browse the scents and ask for a sample.')}</p>
-              <p class="product-card__meta">${ESSENCE_TONES.map(t => `<span>${esc(t.label)}</span>`).join('')}</p>
+              <p class="product-card__desc">${esc(famSentence())} ${tt('koku aileleri. Koku piramitlerini inceleyin, numune isteyin.', 'scent families. View the scent pyramids and ask for a sample.')}</p>
+              <p class="product-card__orbs" aria-hidden="true">${ESSENCES.slice(0, 9).map(e => essenceOrb(e)).join('')}</p>
+              <p class="product-card__meta">${ESSENCE_FAMILIES.map(f => `<span>${esc(f.label)}</span>`).join('')}</p>
               <div class="product-card__actions">
                 <span class="link-arrow" aria-hidden="true">${tt('Koleksiyonu incele', 'View the collection')} ${icon('arrow-right')}</span>
               </div>
@@ -830,7 +862,7 @@ ${productVideoSection(p)}
       </div>
     </section>
 ${productBannersSection(p)}
-    ${ESSENCES_LIVE ? essenceLinkHtml() : essenceLockedHtml()}
+    ${ESSENCES_LIVE ? essenceLinkHtml(p) : essenceLockedHtml()}
 
     <section class="section" aria-labelledby="faq-title">
       <div class="wrap faq-layout">
@@ -1055,67 +1087,177 @@ function faqPage() {
   return page({ meta: { title: F.title, description: F.description, url: 'sss.html', jsonld: [ldFaq, breadcrumbLd(crumbs)] }, main });
 }
 
-// Esanslar kesinleşene kadar: menüde tıklanmaz; sayfa adresi açılırsa "hazırlanıyor" bilgisi gösterilir
-// Esans sayfası: üç koku ailesi; seçilen esansın renk tonu (hue) sahnenin zeminini ve vurgusunu, koku ailesi
-// arka plandaki hareketi belirler (js/essences.js, style.css .essence-stage). JS yoksa tüm esanslar alt alta görünür.
+// Esans sayfası (js/essences.js, style.css 32. bölüm). Üstte "sahne": aile sekmeleri, esans seçici ve seçili esansın
+// paneli (koku piramidi görseli, notalar, his, önerilen mekânlar, teklif ve numune). Seçilen esansın renk tonu (hue)
+// sahnenin zeminini, paleti ve hareketi (motion) arka plandaki canvas animasyonunu belirler. JS yoksa tüm esanslar
+// aileleriyle alt alta görünür. Altta: koku piramidi rehberi, aile kartları, cihazlar ve numune çağrısı.
 function essencesPage() {
-  const first = ESSENCES[0];
-  const toneOf = id => ESSENCE_TONES.find(t => t.id === id);
-  const main = `
-    <section class="essence-stage" data-essences data-tone="${first.tone}" style="--e-h:${first.hue}" aria-labelledby="page-title">
-      <div class="essence-stage__bg" aria-hidden="true"><canvas></canvas></div>
-      <div class="wrap essence-stage__inner">
-        <div class="essence-head">
-          <h1 id="page-title">${tt('Esans koleksiyonu', 'Fragrance collection')}</h1>
-          <p class="lead">${tt('Üç koku ailesi, her biri kendi havasıyla. Bir aile seçin; sayfa o kokunun rengine ve hareketine bürünsün.', 'Three scent families, each with its own mood. Choose a family and the page takes on the colour and movement of that scent.')}</p>
-        </div>
+  const first = ESSENCES.find(e => e.fam === ESSENCE_FAMILIES[0].id) || ESSENCES[0];
+  const firstFam = famOf(first.fam);
+  const notes = list => list.map(esc).join(' · ');
+  // Katman cümlesi: köşeli parantezdeki notalar vurgulanır ("[Bergamot] ve [limon]la ..."); her nota bir kez geçer
+  const story = s => esc(s).replace(/\[([^\]]+)\]/g, '<strong>$1</strong>');
+  const TIERS = [
+    ['top', tt('Üst notalar', 'Top notes'), tt('ilk izlenim', 'first impression')],
+    ['heart', tt('Orta notalar', 'Heart notes'), tt('kokunun karakteri', 'the character')],
+    ['base', tt('Dip notalar', 'Base notes'), tt('kalıcı iz', 'the lasting trace')]
+  ];
+  // Rehberdeki piramit simgesi: tepe (32, 0), taban 2-62 aralığında üç katman; seçili katman dolu
+  const PYRAMID_BANDS = [[0, 14], [17, 31], [34, 48]];
+  const edge = (y, side) => +(32 + side * 30 * (y / 48)).toFixed(2);
+  const famBadge = f => `${f.prefix} · ${essencesOf(f).length} ${tt('esans', essencesOf(f).length === 1 ? 'fragrance' : 'fragrances')}`;
 
-        <div class="essence-controls">
-          <div class="filter-tabs essence-tones" role="group" aria-label="${tt('Koku ailesi', 'Scent family')}">
-            ${ESSENCE_TONES.map(t => `<button type="button" class="segment-btn${t.id === first.tone ? ' active' : ''}" data-tone-btn="${t.id}" data-text="${esc(t.text)}" aria-pressed="${t.id === first.tone}">${esc(t.label)} <span class="count">${ESSENCES.filter(e => e.tone === t.id).length}</span></button>`).join('\n            ')}
-          </div>
-          <button type="button" class="essence-motion" data-essence-motion aria-pressed="false" hidden>${icon('pause', 'icon-pause')}${icon('play', 'icon-play')}<span>${tt('Hareketi durdur', 'Pause motion')}</span></button>
-        </div>
-        <p class="essence-tone-text" data-tone-text>${esc(toneOf(first.tone).text)}</p>
-
-        <div class="essence-picker" role="group" aria-label="${tt('Esans', 'Fragrance')}">
-          ${ESSENCES.map(e => `<button type="button" class="essence-pick${e.tone === first.tone ? ' is-in-tone' : ''}" data-pick="${e.id}" data-tone="${e.tone}" aria-pressed="${e === first}" style="--h:${e.hue}"><span class="essence-pick__dot" aria-hidden="true"></span>${esc(e.name)}</button>`).join('\n          ')}
-        </div>
-
-        <div class="essence-panels" aria-live="polite">
-          ${ESSENCES.map(e => {
-            const src = `images/general/${e.img}.jpg`;
-            return `<article class="essence${e === first ? ' is-active' : ''}" id="esans-${e.id}" data-essence="${e.id}" data-tone="${e.tone}" data-hue="${e.hue}" data-motion="${toneOf(e.tone).motion}" aria-labelledby="esans-${e.id}-t">
-            <div class="media essence__media"><picture><img src="${src}" alt="${esc(e.name)}"${dims(src)}${e === first ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async" style="object-position:${esc(e.pos || 'center')}"></picture></div>
+  const panel = e => {
+    const f = famOf(e.fam);
+    const alt = tt(`${e.name} (${e.code}) koku piramidi. Üst notalar: ${e.top.join(', ')}. Orta notalar: ${e.heart.join(', ')}. Dip notalar: ${e.base.join(', ')}.`,
+      `${e.name} (${e.code}) scent pyramid. Top notes: ${e.top.join(', ')}. Heart notes: ${e.heart.join(', ')}. Base notes: ${e.base.join(', ')}.`);
+    const big = imageSize(`images/essences/${e.img}.jpg`) || { w: 1200, h: 1200 };
+    return `<article class="essence${e === first ? ' is-active' : ''}" id="esans-${e.id}" data-essence="${e.id}" data-fam="${e.fam}" data-hue="${e.hue}" data-motion="${e.motion}" data-palette="${e.palette.join(',')}" data-sprites="${e.sprites.join(',')}" aria-labelledby="esans-${e.id}-t">
+            <div class="essence__visual">
+              <button type="button" class="essence__figure" data-image-open data-src="images/essences/${e.img}.jpg" data-webp="images/essences/${e.img}.webp" data-w="${big.w}" data-h="${big.h}" data-title="${esc(`${e.name} (${e.code}) · ${tt('koku piramidi', 'scent pyramid')}`)}" aria-label="${esc(tt(`${e.name} koku piramidini büyüt`, `Enlarge the ${e.name} scent pyramid`))}">
+                ${essencePicture(e, { alt, attrs: `${e === first ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async"` })}
+                <span class="zoom-chip" aria-hidden="true">${icon('magnifying-glass')}${tt('Büyüt', 'Enlarge')}</span>
+              </button>
+            </div>
             <div class="essence__body">
-              <p class="essence__tone">${esc(toneOf(e.tone).label)}${e.code ? ` · ${esc(e.code)}` : ''}</p>
+              <p class="essence__meta"><span class="essence__fam">${esc(f.label)}</span><span class="essence__code">${esc(e.code)}</span></p>
               <h2 id="esans-${e.id}-t">${esc(e.name)}</h2>
-              <p class="essence__desc">${esc(e.desc)}</p>
-              <h3 class="essence__label">${tt('Koku notaları', 'Scent notes')}</h3>
-              <ul class="tag-list">
-                ${e.notes.map(n => `<li class="tag">${esc(n)}</li>`).join('\n                ')}
+              <ul class="essence__mood" aria-label="${tt('Kokunun hissi', 'How it feels')}">
+                ${e.mood.map(m => `<li>${esc(m)}</li>`).join('')}
               </ul>
-              ${e.format ? `<p class="essence__format">${esc(e.format)}</p>` : ''}
-              <div class="btn-row">
-                <a href="iletisim.html?konu=numune" class="btn btn--primary">${tt('Numune ve fiyat isteyin', 'Ask for a sample and price')}</a>
-                <a href="urunler.html" class="link-arrow">${tt('Difüzörleri inceleyin', 'Browse the diffusers')} ${icon('arrow-right')}</a>
+              <ol class="note-pyramid" aria-label="${tt('Koku piramidi', 'Scent pyramid')}">
+                ${TIERS.map(([k, label, hint], i) => `<li class="np-tier np-tier--${k}" style="--t:${i}"><span class="np-tier__label">${label} <span class="np-tier__hint">· ${hint}</span></span><span class="np-tier__text">${story(e.story[i])}</span></li>`).join('\n                ')}
+              </ol>
+              <div class="btn-row essence__actions">
+                <button type="button" class="btn btn--primary" data-add-to-list="${e.id}">${icon('plus', 'icon--sm')}<span>${tt('Teklif listesine ekle', 'Add to quote list')}</span></button>
+                <button type="button" class="btn btn--quiet" data-quote-now="${e.id}" data-sample>${tt('Numune iste', 'Ask for a sample')}</button>
               </div>
             </div>
           </article>`;
-          }).join('\n          ')}
+  };
+
+  const main = `
+    <section class="essence-stage" id="koleksiyon" data-essences data-fam="${first.fam}" data-motion="${first.motion}" style="--e-h:${first.hue}" aria-labelledby="page-title">
+      <div class="essence-stage__bg" aria-hidden="true"><canvas></canvas></div>
+      <div class="wrap essence-stage__inner">
+        <div class="essence-head">
+          <p class="eyebrow">${tt(`${ESSENCES.length} esans · ${ESSENCE_FAMILIES.length} koku ailesi`, `${ESSENCES.length} fragrances · ${ESSENCE_FAMILIES.length} scent families`)}</p>
+          <h1 id="page-title">${tt('Esans koleksiyonu', 'Fragrance collection')}</h1>
+          <p class="lead">${tt('Bir esans seçin: sayfa onun rengine ve hareketine bürünsün, koku piramidi üst notalardan dibe doğru açılsın.', 'Choose a fragrance: the page takes on its colour and movement, and its scent pyramid unfolds from the top notes down.')}</p>
         </div>
 
-        <p class="note essence-note">${tt('Koleksiyon genişliyor; yeni esanslar eklendikçe bu sayfada yer alacak. Bir koku ekranda anlatılamaz: karar vermeden önce numune isteyebilirsiniz.', 'The collection is growing; new fragrances will appear on this page as they are added. A scent cannot be described on a screen: you can ask for a sample before you decide.')}</p>
+        <div class="essence-controls">
+          <div class="filter-tabs essence-fams" role="group" aria-label="${tt('Koku ailesi', 'Scent family')}">
+            ${ESSENCE_FAMILIES.map(f => `<button type="button" class="segment-btn${f.id === first.fam ? ' active' : ''}" data-fam-btn="${f.id}" data-text="${esc(f.text)}" aria-pressed="${f.id === first.fam}">${esc(f.label)} <span class="count">${essencesOf(f).length}</span></button>`).join('\n            ')}
+          </div>
+          <button type="button" class="essence-motion" data-essence-motion aria-pressed="false" hidden>${icon('pause', 'icon-pause')}${icon('play', 'icon-play')}<span>${tt('Hareketi durdur', 'Pause motion')}</span></button>
+        </div>
+        <p class="essence-fam-text" data-fam-text>${esc(firstFam.text)}</p>
+
+        <div class="essence-picker" role="group" aria-label="${tt('Esans seçin', 'Choose a fragrance')}" data-picker>
+          ${ESSENCES.map(e => `<button type="button" class="essence-pick${e.fam === first.fam ? ' is-in-fam' : ''}" data-pick="${e.id}" data-fam="${e.fam}" aria-pressed="${e === first}" aria-controls="esans-${e.id}">${essenceOrb(e)}<span class="essence-pick__name">${esc(e.name)}</span><span class="essence-pick__code">${esc(e.code)}</span></button>`).join('\n          ')}
+        </div>
+
+        <div class="essence-panels" aria-live="polite">
+          ${ESSENCE_FAMILIES.map(f => `<h2 class="essence-fam-head" id="aile-${f.id}">${esc(f.label)}</h2>
+          ${essencesOf(f).map(panel).join('\n          ')}`).join('\n          ')}
+        </div>
+
+        <div class="essence-step" data-step-nav hidden>
+          <button type="button" class="essence-step__btn" data-step="-1">${icon('arrow-right', 'essence-step__prev')}<span>${tt('Önceki', 'Previous')}</span></button>
+          <span class="essence-step__pos num" data-step-pos></span>
+          <button type="button" class="essence-step__btn" data-step="1"><span>${tt('Sonraki', 'Next')}</span>${icon('arrow-right')}</button>
+        </div>
       </div>
     </section>
+
+    <section class="section" aria-labelledby="pyramid-title">
+      <div class="wrap split split--wide-b">
+        <div class="split__a section-head reveal">
+          <h2 id="pyramid-title">${tt('Koku piramidi nasıl okunur?', 'How to read a scent pyramid')}</h2>
+          <p class="lead">${tt('Her esans birbirini tamamlayan üç nota katmanından oluşur. Piramit, kokuyu ilk fark edilen notalardan kalıcı ize doğru anlatır.', 'Every fragrance is built from three layers of notes that complete one another. The pyramid describes the scent from the first notes you notice to the trace it leaves.')}</p>
+        </div>
+        <div class="split__b">
+          <ol class="pyramid-guide">
+            ${[
+              [tt('Üst notalar', 'Top notes'), tt('İlk izlenim. Odaya girildiğinde ilk fark edilen hafif ve uçucu notalar: turunçgiller, yeşil yapraklar, ferah aromatikler.', 'The first impression. The light, volatile notes you notice as you walk in: citrus, green leaves, fresh aromatics.')],
+              [tt('Orta notalar', 'Heart notes'), tt('Kokunun karakteri. Esansın kimliğini belirleyen çiçekler, meyveler ve baharatlar.', 'The character. The flowers, fruits and spices that give the fragrance its identity.')],
+              [tt('Dip notalar', 'Base notes'), tt('Kalıcı iz. Kokuya derinlik ve süreklilik veren misk, amber, odunsular ve vanilya.', 'The lasting trace. Musk, amber, woods and vanilla that give the scent depth and continuity.')]
+            ].map(([h, p], i) => `<li class="pyramid-guide__item reveal">
+              <svg class="pyramid-guide__icon" viewBox="0 0 64 48" aria-hidden="true" focusable="false">${PYRAMID_BANDS.map(([y1, y2], j) => `<path d="M${edge(y1, -1)} ${y1}L${edge(y1, 1)} ${y1}L${edge(y2, 1)} ${y2}L${edge(y2, -1)} ${y2}Z"${j === i ? ' class="is-on"' : ''}/>`).join('')}</svg>
+              <div><h3>${h}</h3><p>${p}</p></div>
+            </li>`).join('\n            ')}
+          </ol>
+          <p class="note mt-5">${tt('Difüzörlerde esans ısıtılmadan, çok ince parçacıklara ayrılarak havaya verilir; ortamda kokunun bütünü hissedilir. Yoğunluğu cihazın püskürtme ve bekleme süreleriyle ayarlarsınız.', 'Diffusers release the fragrance into the air as very fine particles without heating it, so the whole scent is present in the room. You set the intensity with the device\'s spray and pause times.')}</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--deep" aria-labelledby="families-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2 id="families-title">${tt('Beş koku ailesi, her mekâna bir karakter', 'Five scent families, a character for every space')}</h2>
+          <p class="lead">${tt('Aileler kokunun hangi ihtiyaca cevap verdiğini de anlatır: hassas ortamlar için non-alerjen formüller, kötü kokuya karşı nötralizörler, markanın imzası için parfüm karakterli kokular.', 'The families also tell you what a scent is for: non-allergen formulas for sensitive settings, neutralisers against bad odours, perfume-like scents as a brand signature.')}</p>
+        </div>
+        <ul class="fam-grid">
+          ${ESSENCE_FAMILIES.map(f => {
+            const list = essencesOf(f);
+            return `<li class="fam-card reveal" style="--e-h:${list[0].hue}">
+            <p class="fam-card__code">${esc(famBadge(f))}</p>
+            <h3>${esc(f.label)}</h3>
+            <p>${esc(f.text)}</p>
+            <p class="fam-card__spaces">${notes(f.spaces)}</p>
+            <div class="fam-card__orbs">
+              ${list.slice(0, 8).map(e => `<a href="#esans-${e.id}" class="fam-card__orb" data-pick-link="${e.id}" title="${esc(`${e.name} · ${e.code}`)}">${essenceOrb(e)}<span class="visually-hidden">${esc(`${e.name} (${e.code})`)}</span></a>`).join('')}${list.length > 8 ? `<span class="fam-card__more num">+${list.length - 8}</span>` : ''}
+            </div>
+            <a href="#aile-${f.id}" class="link-arrow" data-fam-link="${f.id}">${tt('Esansları inceleyin', 'View the fragrances')} ${icon('arrow-right')}</a>
+          </li>`;
+          }).join('\n          ')}
+        </ul>
+        <p class="note mt-7">${tt('Non-alerjen ve nötralizör nitelikleri üretici beyanıdır. Esansların güvenlik bilgi formunu (SDS) ve IFRA uygunluk belgelerini teklif sürecinde isteyebilirsiniz; ayrıntılar için <a href="blog-ifra-standartlari-nedir.html" class="text-link">IFRA yazımıza</a> bakabilirsiniz.', 'The non-allergen and neutraliser properties are manufacturer statements. You can ask for the safety data sheet (SDS) and IFRA conformity documents during the quote process; see <a href="blog-ifra-standartlari-nedir.html" class="text-link">our IFRA article</a> for details.')}</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="devices-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2 id="devices-title">${tt('Esansı cihazınızla buluşturun', 'Pair the fragrance with your device')}</h2>
+          <p class="lead">${tt('Esanslar Meira difüzörlerinde kullanılır. Teklif isterken cihaz modelinizi ve mekânınızı belirtin; esansı cihazınıza uygun form ve ambalajda sunalım.', 'The fragrances are used in Meira diffusers. When you request a quote, tell us your device model and space, and we will offer the fragrance in the right form and packaging for your device.')}</p>
+        </div>
+        <div class="product-grid product-grid--3">
+          ${catalogOrder(PRODUCTS).filter(p => !p.soon).slice(0, 3).map(p => productCard(p, 'h3')).join('\n          ')}
+        </div>
+        <p class="mt-6"><a href="urunler.html" class="link-arrow">${tt('Tüm difüzörleri inceleyin', 'Browse all diffusers')} ${icon('arrow-right')}</a></p>
+      </div>
+    </section>
+
+    <section class="section section--deep closing-band" aria-labelledby="closing-title">
+      <div class="wrap closing reveal">
+        <h2 id="closing-title">${tt('Kokuyu ekranda değil, <em>mekânınızda</em> deneyin.', 'Try the scent in your <em>space</em>, not on a screen.')}</h2>
+        <p>${tt('Beğendiğiniz esansları teklif listenize ekleyin, numune isteyin; kararınızı kokuyu mekânınızda deneyerek verin.', 'Add the fragrances you like to your quote list and ask for samples; decide after trying the scent in your own space.')}</p>
+        <div class="btn-row">
+          <a href="iletisim.html?konu=numune&amp;numune=1&amp;teklif=1" class="btn btn--primary btn--lg">${tt('Numune isteyin', 'Ask for samples')} ${icon('arrow-right', 'icon--move')}</a>
+          <a href="cozumler.html" class="link-arrow">${tt('Mekâna göre çözümler', 'Solutions by space')} ${icon('arrow-right')}</a>
+        </div>
+      </div>
+    </section>
+
+    ${imageDialogHtml(tt('Koku piramidi', 'Scent pyramid'))}
 `;
   const crumbs = [home(), { name: tt('Esanslar', 'Essences') }];
+  const itemList = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: tt('Esans koleksiyonu', 'Fragrance collection'),
+    numberOfItems: ESSENCES.length,
+    itemListElement: ESSENCES.map((e, i) => ({ '@type': 'ListItem', position: i + 1, url: `${pageAbs('esanslar.html')}#esans-${e.id}`, name: `${e.name} (${e.code})`, image: abs(`images/essences/${e.img}.jpg`) }))
+  };
   return page({
     meta: {
-      title: tt(`Esans Koleksiyonu: Çiçeksi, Ferah ve Odunsu Kokular | ${BRAND}`, `Fragrance Collection: Floral, Fresh and Woody Scents | ${BRAND}`),
-      description: tt('Mekân kokulandırma için esans koleksiyonu: çiçeksi, ferah ve odunsu koku aileleri, koku notaları ve numune talebi.', 'A fragrance collection for scenting spaces: floral, fresh and woody scent families, scent notes and sample requests.'),
-      url: 'esanslar.html', image: `images/general/${first.img}.jpg`, imageAlt: tt('Esans koleksiyonu', 'Fragrance collection'),
-      jsonld: [breadcrumbLd(crumbs)]
+      title: tt(`Esans Koleksiyonu ve Koku Piramitleri | ${BRAND}`, `Fragrance Collection and Scent Pyramids | ${BRAND}`),
+      description: tt(`${ESSENCES.length} esans, ${ESSENCE_FAMILIES.length} koku ailesi: ${famSentence().toLocaleLowerCase(L)}. Üst, orta ve dip notalarıyla koku piramitleri, önerilen mekânlar, teklif ve numune talebi.`, `${ESSENCES.length} fragrances in ${ESSENCE_FAMILIES.length} scent families: ${famSentence().toLowerCase()}. Scent pyramids with top, heart and base notes, suggested spaces, quotes and samples.`),
+      url: 'esanslar.html', image: 'images/essences/og-esanslar.jpg', imageAlt: tt('Meira esans koleksiyonundan koku piramitleri', 'Scent pyramids from the Meira fragrance collection'),
+      jsonld: [breadcrumbLd(crumbs), itemList]
     },
     section: 'esanslar.html',
     main,
@@ -1413,11 +1555,13 @@ for (const lang of ['tr', 'en']) {
 
   urls.push(
     ...[['index.html', '1.0'], ['urunler.html', '0.9'], ['cozumler.html', '0.8'], ['teknoloji.html', '0.7'],
-      ['kurumsal.html', '0.6'], ['iletisim.html', '0.7'], ['blog.html', '0.6'], ...(ESSENCES_LIVE ? [['esanslar.html', '0.7']] : []),
+      ['kurumsal.html', '0.6'], ['iletisim.html', '0.7'], ['blog.html', '0.6'],
       ['surdurulebilirlik.html', '0.5'], ['sss.html', '0.6'], ['gizlilik.html', '0.2']].map(([u, pr]) => [u, lang, pr]),
     // Satışta olmayan ürünlerin sayfaları site haritasına alınmaz (noindex)
     ...PRODUCTS.filter(p => !p.soon).map(p => [productUrl(p), lang, '0.8', [imgPath(p), ...Array.from({ length: p.gallery || 0 }, (_, i) => imgPath(p, `-g${i + 1}`))]]),
-    ...POSTS.map(p => [postUrl(p), lang, '0.6', [p.image]])
+    ...POSTS.map(p => [postUrl(p), lang, '0.6', [p.image]]),
+    // Esans sayfası ve koku piramidi görselleri (aynı görseli paylaşan esanslar bir kez)
+    ...(ESSENCES_LIVE ? [['esanslar.html', lang, '0.7', [...new Set(ESSENCES.map(e => `images/essences/${e.img}.jpg`))]]] : [])
   );
 }
 setLang('tr');

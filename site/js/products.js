@@ -306,57 +306,426 @@ const OILS = [
 ];
 
 // =============================================================================
-// ESANSLAR (esanslar.html, katalogdaki "Esans koleksiyonu" kartı)
-// Üç koku ailesi (ton). Her esansın bir renk tonu (hue, HSL 0-360) vardır: esans seçilince sayfa zemini ve vurgu
-// rengi bu tondan türetilir (style.css .essence-stage); arka plandaki hareket koku ailesine göre değişir
-// (js/essences.js): petals = süzülen yapraklar, mist = dalga ve damlacıklar, wind = rüzgâr çizgileri.
-// Geçici içerik (2026-11): difüzör esansları gelene kadar eski çubuklu oda kokuları (CK-85, CK-013, CK-014,
-// CK-015) esans olarak gösterilir. Esanslar geldiğinde bu listeyi değiştirmek yeterlidir:
-//   id: adres çapası (esanslar.html#esans-<id>), tone: ESSENCE_TONES kimliği, img: images/general/<img>.jpg,
-//   notes: koku notaları, format: ambalaj bilgisi. İngilizce metinler products.en.js içindedir.
+// ESANSLAR (esanslar.html, katalogdaki "Esans koleksiyonu" kartı, ürün sayfalarındaki esans bölümü, teklif listesi)
+// Kaynak: Meira'nın ilettiği koku piramidi görselleri (2026-11-19, koku_piramitleri/ klasörü, git'e girmez).
+// Notalar görsellerden birebir aktarılmıştır; katman anlatımı (story) ve his (mood) sitenin
+// yazdığı genel anlatımdır. Görseller tools/esans-gorselleri.py ile images/essences/ altına hazırlanır.
+//
+// Aileler müşterinin kod ön eklerinden: NON = non-alerjen, NTR = nötralizör (kötü koku giderici), PRF = parfüm,
+// CİC = çiçeksi, ORY = oryantal. [DOĞRULANACAK] PRF ve ORY ön eklerinin anlamı müşteriden teyit edilmeli
+// (PRF "parfüm su grubu" diye iletildi; ORY oryantal olarak yorumlandı). Non-alerjen ve nötralizör nitelikleri
+// üretici beyanıdır; sitede bu kalıpla verilir.
+// [DOĞRULANACAK] Müşterinin gönderdiği bazı görseller birebir aynı dosya: NON014, NON018, NTR001 ve NTR005 aynı
+// piramidi; NON008 ve NON024 aynı piramidi paylaşıyor (img alanı ortak). NON015'te üst ve dip notalar aynı yazılmış.
+// Doğru görseller gelince dosyayı koku_piramitleri/ klasörüne koyup betiği çalıştırın, notaları burada düzeltin.
+//
+// Alanlar:
+//   id: adres çapası (esanslar.html#esans-<id>) ve teklif listesi kimliği (ürün kimlikleriyle çakışmaz)
+//   code: esans kodu, fam: ESSENCE_FAMILIES kimliği, name: esans adı, img: images/essences/<img>.jpg
+//   hue: sahnenin renk tonu (HSL 0-360), palette: arka plan hareketinin renkleri (görselin baskın renklerinden)
+//   motion: arka plan hareketi (js/essences.js): petals (süzülen yapraklar), mist (dalga ve kabarcık),
+//     wind (rüzgâr ve yaprak), fizz (yükselen ışıltılı kabarcıklar), ember (sıcak kıvılcım ve duman),
+//     powder (yavaş süzülen pudra bulutları), rain (yağmur ve damla halkaları), stars (yıldızlı gece)
+//   top / heart / base: üst, orta ve dip notalar; mood: üç kelimelik his
+//   story: piramidin üç katmanında gösterilen cümleler [üst, orta, dip]. Notalar köşeli parantezle yazılır ve vurgulanır
+//     ("[Bergamot] ve [limon]la ..."); her katmanın cümlesi o katmanın notalarının hepsini, birer kez içermelidir
+//     (sayfada notalar ayrıca listelenmez). Ek varsa parantezin dışına yazılır: "[greyfurt]la".
+//   sprites: arka planda süzülen malzeme çizimleri (js/essences.js SPRITES), koku piramidi görselindeki malzemelerden;
+//     ilk öğe kokunun en belirgin malzemesidir ve daha sık görünür. Kullanılabilen çizimler:
+//     citrus:orange|lemon|lime|grapefruit|bergamot, leaf[:dark|mint], blossom:white|pink|cream, rose:pink|red|white|blue,
+//     violet, lavender, bells (müge), cinnamon, anise, wood[:dark], amber, crystal, vanilla, musk, drop, apple,
+//     fruit:peach|mango|pineapple, berry, coconut, melon, fig, pinecone, saffron
+// İngilizce metinler products.en.js içindedir.
 // =============================================================================
 // Esanslar yayında mı? false iken menüde "Yakında" görünür, esanslar.html "hazırlanıyor" sayfasıdır, katalogda esans
-// kartı ve sekmesi gizlidir, ürün sayfalarındaki esans bölümü kilitlidir. Esanslar eklenince true yapıp
-// node tools/build.mjs çalıştırın (ESSENCES listesini de güncelleyin).
-const ESSENCES_LIVE = false;
+// kartı ve sekmesi gizlidir, ürün sayfalarındaki esans bölümü kilitlidir. Değiştirince node tools/build.mjs çalıştırın.
+const ESSENCES_LIVE = true;
 
-const ESSENCE_TONES = [
-  { id: 'floral', label: 'Çiçeksi', motion: 'petals', text: 'Gül, kiraz çiçeği ve çiçek buketleri: yumuşak, aydınlık ve davetkâr.' },
-  { id: 'fresh', label: 'Ferah', motion: 'mist', text: 'Deniz esintisi ve serin çiçek notaları: temiz, açık ve hafif.' },
-  { id: 'woody', label: 'Odunsu', motion: 'wind', text: 'Sandal ağacı ve çam: sıcak, kuru ve dingin; orman havası.' }
+const ESSENCE_FAMILIES = [
+  {
+    id: 'non', prefix: 'NON', label: 'Non-alerjen',
+    text: 'Üretici beyanına göre alerjen içermeyecek şekilde formüle edilen esanslar. Kalabalık ve hassas kişilerin bulunduğu kapalı alanlarda temiz, yumuşak ve dengeli bir koku bırakır.',
+    spaces: ['Otel odası ve lobi', 'Klinik ve bekleme alanı', 'Ofis', 'Spa']
+  },
+  {
+    id: 'ntr', prefix: 'NTR', label: 'Nötralizör',
+    text: 'Kötü kokuyu yalnızca örtmek yerine nötralize etmeye yönelik esanslar. Kokunun sorun olduğu alanlarda havayı temizlenmiş gibi ferah bırakır.',
+    spaces: ['Tuvalet ve lavabo', 'Otopark ve asansör', 'Mutfak ve atık alanı', 'Sigara alanı']
+  },
+  {
+    id: 'prf', prefix: 'PRF', label: 'Parfüm',
+    text: 'Parfüm karakterinde, katmanlı ve imza niteliğinde kokular. Markanın kendini anlattığı alanlarda akılda kalan bir iz bırakır.',
+    spaces: ['Mağaza ve showroom', 'Otel lobisi', 'Butik']
+  },
+  {
+    id: 'cic', prefix: 'CİC', label: 'Çiçeksi',
+    text: 'Beyaz çiçeklerin ve yeşil yaprakların zarif dünyası: aydınlık, yumuşak ve davetkâr.',
+    spaces: ['Butik mağaza', 'Spa', 'Karşılama alanı']
+  },
+  {
+    id: 'ory', prefix: 'ORY', label: 'Oryantal',
+    text: 'Amber, vanilya ve sıcak odunsu notalarla derin ve sarıcı kokular; akşam saatlerine ve dinlenme alanlarına yakışır.',
+    spaces: ['Lounge ve bar', 'Restoran', 'Otel lobisi']
+  }
 ];
 
 const ESSENCES = [
+  // ---- Non-alerjen ----
   {
-    id: 'sehirde-bahar', code: 'CK-85', tone: 'floral', hue: 345,
-    name: 'Şehirde Bahar',
-    desc: 'Taze açmış gül ve kiraz çiçeğinin hafif, pudralı kokusu. Karşılama alanlarına ve butik mağazalara aydınlık, davetkâr bir hava katar.',
-    notes: ['Gül', 'Kiraz çiçeği', 'Çiçeksi'],
-    format: 'Çubuklu oda kokusu · 120 ml',
-    img: 'reed1', pos: '50% 60%'
+    id: 'non001', code: 'NON001', fam: 'non', name: 'Florina', img: 'non001',
+    hue: 288, palette: ['#7A3E8E', '#E68AA6', '#C9A27E'], motion: 'powder',
+    top: ['Ferah sabunsu', 'Temiz aldehit etkisi', 'Yeşil'],
+    heart: ['Beyaz çiçek', 'Gül', 'Menekşe', 'Hafif meyvemsi'],
+    base: ['Temiz misk', 'Yumuşak amber', 'Sandal ağacı'],
+    mood: ['Temiz', 'Sabunsu', 'Pudralı'],
+    sprites: ['blossom:white', 'rose:pink', 'violet', 'leaf', 'crystal', 'wood', 'musk', 'drop'],
+    story: [
+      "Temiz çamaşırı andıran [ferah sabunsu] bir açılış; [temiz aldehit etkisi] ve [yeşil] bir tazelik.",
+      "[Beyaz çiçek], [gül] ve [menekşe]den yumuşak bir buket; [hafif meyvemsi] bir dokunuş.",
+      "[Temiz misk], [yumuşak amber] ve [sandal ağacı]; pudralı, sakin bir derinlik."
+    ]
   },
   {
-    id: 'ciceklerin-dansi', code: 'CK-014', tone: 'floral', hue: 285,
-    name: 'Çiçeklerin Dansı',
-    desc: 'Otel lobilerini çağrıştıran zengin bir çiçek buketi. Lobi ve bekleme alanlarında zarif, kalıcı bir iz bırakır.',
-    notes: ['Çiçek buketi'],
-    format: 'Çubuklu oda kokusu · 200 ml',
-    img: 'reed2', pos: '50% 60%'
+    id: 'non007', code: 'NON007', fam: 'non', name: 'GreenX', img: 'non007',
+    hue: 78, palette: ['#8DBA3C', '#F2C14E', '#E2574C'], motion: 'fizz',
+    top: ['Yeşil elma', 'Ananas', 'Muz'],
+    heart: ['Şeftali', 'Ahududu', 'Tropikal meyve'],
+    base: ['Vanilya', 'Krema', 'Misk', 'Hindistan cevizi'],
+    mood: ['Meyvemsi', 'Tropikal', 'Neşeli'],
+    sprites: ['apple', 'fruit:peach', 'berry', 'coconut', 'fruit:pineapple', 'blossom:cream', 'vanilla', 'leaf'],
+    story: [
+      "[Yeşil elma], [ananas] ve [muz]la sulu, tropikal bir başlangıç.",
+      "[Şeftali], [ahududu] ve [tropikal meyve] tatlılığı artırır.",
+      "[Vanilya], [krema], [misk] ve [hindistan cevizi] ile sıcak, kremsi bir kapanış."
+    ]
   },
   {
-    id: 'cicek-bollugu', code: 'CK-013', tone: 'fresh', hue: 195,
-    name: 'Çiçek Bolluğu',
-    desc: 'Mavi çan çiçeği ve deniz kıyısını andıran ferah notalar. Spa, spor salonu ve yazlık mekânlarda serin ve ferah bir his bırakır.',
-    notes: ['Mavi çan çiçeği', 'Yaz esintisi', 'Tropik sahil'],
-    format: 'Çubuklu oda kokusu · 100 ml',
-    img: 'reed3', pos: '50% 60%'
+    id: 'non008', code: 'NON008', fam: 'non', name: 'Relax', img: 'non008',
+    hue: 36, palette: ['#F2A23A', '#D9534F', '#C9A27E'], motion: 'powder',
+    top: ['Bergamot', 'Limon', 'Greyfurt'],
+    heart: ['Yasemin', 'Gül', 'Menekşe'],
+    base: ['Pudralı', 'Yeşil', 'Yumuşak'],
+    mood: ['Dingin', 'Aydınlık', 'Yumuşak'],
+    sprites: ['citrus:grapefruit', 'citrus:lemon', 'citrus:bergamot', 'rose:red', 'violet', 'blossom:white', 'leaf', 'wood'],
+    story: [
+      "[Bergamot], [limon] ve [greyfurt]la aydınlık bir başlangıç.",
+      "[Yasemin], [gül] ve [menekşe]den yumuşak bir çiçek dokusu.",
+      "[Pudralı], [yeşil] ve [yumuşak] bir iz; adına yakışır sakin, dengeli bir hava."
+    ]
   },
   {
-    id: 'sandal-agaci', code: 'CK-015', tone: 'woody', hue: 140,
-    name: 'Sandal Ağacı',
-    desc: 'Sandal ağacı ve çamın sıcak, kuru odunsu kokusu; bir orman yürüyüşünün dinginliği. Ofis, kütüphane ve lounge alanları için uygundur.',
-    notes: ['Sandal ağacı', 'Doğu odunsu notalar', 'Çam'],
-    format: 'Çubuklu oda kokusu · 100 ml',
-    img: 'reed4', pos: '50% 60%'
+    id: 'non009', code: 'NON009', fam: 'non', name: 'Amber Kirke', img: 'non009',
+    hue: 182, palette: ['#2A9D9A', '#E39A3B', '#E9F3EE'], motion: 'mist',
+    top: ['Ferah', 'Yeşil', 'Hafif ozonik'],
+    heart: ['Yasemin', 'Beyaz çiçekler', 'Gül'],
+    base: ['Beyaz misk', 'Amber', 'Sandal ağacı'],
+    mood: ['Ferah', 'Ozonik', 'Sıcak'],
+    sprites: ['drop', 'blossom:white', 'bells', 'rose:pink', 'lavender', 'amber', 'musk', 'wood', 'leaf'],
+    story: [
+      "Denizden esen temiz havayı andıran [ferah], [yeşil] ve [hafif ozonik] bir açılış.",
+      "[Yasemin], [beyaz çiçekler] ve [gül] kalbi aydınlatır.",
+      "[Beyaz misk], [amber] ve [sandal ağacı] sıcak, kalıcı bir iz bırakır."
+    ]
+  },
+  {
+    id: 'non013', code: 'NON013', fam: 'non', name: 'RBL IST', img: 'non013',
+    hue: 22, palette: ['#8C3A15', '#D9822B', '#6B7F3A'], motion: 'ember',
+    top: ['Bergamot', 'Greyfurt', 'Aromatik'],
+    heart: ['Aromatik baharat', 'Karanfil', 'Tarçın', 'Baharatlı çiçekler'],
+    base: ['Sedir', 'Sandal', 'Vetiver', 'Paçuli', 'Amber'],
+    mood: ['Baharatlı', 'Odunsu', 'Karakterli'],
+    sprites: ['citrus:grapefruit', 'citrus:bergamot', 'cinnamon', 'anise', 'rose:red', 'pinecone', 'wood', 'amber', 'leaf:dark'],
+    story: [
+      "[Bergamot] ve [greyfurt]la canlı, [aromatik] bir açılış.",
+      "[Aromatik baharat], [karanfil], [tarçın] ve [baharatlı çiçekler]den sıcak bir kalp.",
+      "[Sedir], [sandal], [vetiver], [paçuli] ve [amber]; güçlü, karakterli bir imza."
+    ]
+  },
+  {
+    id: 'non014', code: 'NON014', fam: 'non', name: 'Blue Diamond', img: 'non014',
+    hue: 214, palette: ['#3E6FB0', '#9CC3E6', '#F2B33D'], motion: 'stars',
+    top: ['Ferah', 'Yeşil', 'Narenciyeli', 'Hafif meyvemsi'],
+    heart: ['Zengin', 'Doğal hissiyatlı', 'Beyaz çiçek ağırlıklı'],
+    base: ['Temiz misk', 'Kremsi odunsu'],
+    mood: ['Işıltılı', 'Ferah', 'Zarif'],
+    sprites: ['crystal', 'citrus:lemon', 'blossom:white', 'blossom:pink', 'lavender', 'pinecone', 'wood', 'amber'],
+    story: [
+      "[Ferah], [yeşil], [narenciyeli] ve [hafif meyvemsi] ışıltılı bir açılış.",
+      "[Zengin], [doğal hissiyatlı] ve [beyaz çiçek ağırlıklı] zarif bir kalp.",
+      "[Temiz misk] ve [kremsi odunsu] notalarla yumuşak bir kapanış."
+    ]
+  },
+  {
+    id: 'non015', code: 'NON015', fam: 'non', name: 'Lotus', img: 'non015',
+    hue: 276, palette: ['#6B3FA0', '#E58FA0', '#F1E6D6'], motion: 'petals',
+    top: ['Beyaz misk', 'Sandal', 'Pudramsı odunsuluk'],
+    heart: ['Beyaz çiçekler', 'Meyve', 'Gül'],
+    base: ['Beyaz misk', 'Sandal', 'Pudramsı odunsuluk'],
+    mood: ['Sakin', 'Pudralı', 'Çiçeksi'],
+    sprites: ['blossom:white', 'rose:pink', 'violet', 'lavender', 'wood', 'musk', 'drop'],
+    story: [
+      "[Beyaz misk], [sandal] ve [pudramsı odunsuluk]la kadifemsi bir açılış.",
+      "[Beyaz çiçekler], [meyve] ve [gül]; nilüferin sakin, temiz zarafeti.",
+      "[Beyaz misk], [sandal] ve [pudramsı odunsuluk] kokuyu sonuna kadar yumuşak tutar."
+    ]
+  },
+  {
+    id: 'non016', code: 'NON016', fam: 'non', name: 'Powder', img: 'non016',
+    hue: 42, palette: ['#E5A831', '#F3E2C7', '#B8692A'], motion: 'powder',
+    top: ['Hafif turunçgil', 'Ahududu'],
+    heart: ['Yasemin', 'Gül', 'Kremsi meyve'],
+    base: ['Yoğun vanilya', 'Beyaz misk', 'Amber'],
+    mood: ['Pudralı', 'Vanilyalı', 'Sarıcı'],
+    sprites: ['citrus:lemon', 'berry', 'blossom:white', 'rose:white', 'amber', 'wood', 'musk', 'vanilla'],
+    story: [
+      "[Hafif turunçgil] ve [ahududu]yla tatlı, aydınlık bir açılış.",
+      "[Yasemin], [gül] ve [kremsi meyve] kokuyu yumuşatır.",
+      "[Yoğun vanilya], [beyaz misk] ve [amber]; pudralı, sarıcı bir sıcaklık."
+    ]
+  },
+  {
+    id: 'non018', code: 'NON018', fam: 'non', name: 'Ocean', img: 'non014',
+    hue: 198, palette: ['#2F7FB8', '#7CC6D9', '#F2B33D'], motion: 'mist',
+    top: ['Ferah', 'Yeşil', 'Narenciyeli', 'Hafif meyvemsi'],
+    heart: ['Zengin', 'Doğal hissiyatlı', 'Beyaz çiçek ağırlıklı'],
+    base: ['Temiz misk', 'Kremsi odunsu'],
+    mood: ['Ferah', 'Temiz', 'Açık hava'],
+    sprites: ['drop', 'citrus:lemon', 'blossom:white', 'leaf', 'lavender', 'pinecone', 'wood', 'amber'],
+    story: [
+      "Açık havanın temizliğini taşıyan [ferah], [yeşil], [narenciyeli] ve [hafif meyvemsi] bir açılış.",
+      "[Zengin], [doğal hissiyatlı] ve [beyaz çiçek ağırlıklı] dolgun bir kalp.",
+      "[Temiz misk] ve [kremsi odunsu] dip ferahlığı uzun süre taşır."
+    ]
+  },
+  {
+    id: 'non020', code: 'NON020', fam: 'non', name: 'Woody', img: 'non020',
+    hue: 218, palette: ['#1F3A5F', '#A9773F', '#D9D3C4'], motion: 'wind',
+    top: ['Aromatik', 'Hafif çiçeksi'],
+    heart: ['Beyaz çiçekler', 'Müge', 'Gül'],
+    base: ['Beyaz misk', 'Sandal', 'Paçuli', 'Amber'],
+    mood: ['Odunsu', 'Derin', 'Dengeli'],
+    sprites: ['wood', 'leaf:dark', 'blossom:white', 'citrus:lime', 'bells', 'rose:white', 'amber', 'musk', 'drop'],
+    story: [
+      "[Aromatik] ve [hafif çiçeksi] temiz bir açılış.",
+      "[Beyaz çiçekler], [müge] ve [gül]den aydınlık bir kalp.",
+      "[Beyaz misk], [sandal], [paçuli] ve [amber]; derin, odunsu ve güven veren bir karakter."
+    ]
+  },
+  {
+    id: 'non021', code: 'NON021', fam: 'non', name: 'Jasmine', img: 'non021',
+    hue: 62, palette: ['#E7C53A', '#7FA33A', '#F4F0E2'], motion: 'petals',
+    top: ['Limon', 'Greyfurt', 'Kavun', 'Yeşil elma'],
+    heart: ['Gül', 'Neroli', 'Menekşe'],
+    base: ['Pudralı', 'Yeşil', 'Yumuşak'],
+    mood: ['Aydınlık', 'Sulu', 'Çiçeksi'],
+    sprites: ['citrus:lemon', 'citrus:grapefruit', 'melon', 'apple', 'blossom:white', 'lavender', 'bells', 'leaf', 'vanilla'],
+    story: [
+      "[Limon], [greyfurt], [kavun] ve [yeşil elma]yla sulu, ferah bir açılış.",
+      "[Gül], [neroli] ve [menekşe]; beyaz çiçek bahçesinin aydınlığı.",
+      "[Pudralı], [yeşil] ve [yumuşak] bir iz uzun süre hissedilir."
+    ]
+  },
+  {
+    id: 'non023', code: 'NON023', fam: 'non', name: 'Ocean', img: 'non023',
+    hue: 188, palette: ['#3FA7B5', '#E7B98A', '#F1E4C4'], motion: 'mist',
+    top: ['Yeşil', 'Ferah', 'Meyvemsi'],
+    heart: ['Yasemin', 'Gül', 'Müge'],
+    base: ['Pudralı', 'Odunsu', 'Vanilya'],
+    mood: ['Hafif', 'Ferah', 'Yumuşak'],
+    sprites: ['leaf', 'blossom:white', 'rose:pink', 'vanilla', 'wood', 'drop'],
+    story: [
+      "Deniz kıyısında esen hafif bir rüzgâr gibi [yeşil], [ferah] ve [meyvemsi] bir açılış.",
+      "[Yasemin], [gül] ve [müge]den yumuşak bir çiçek dokusu.",
+      "[Pudralı], [odunsu] ve [vanilya]lı sıcak, rahat bir kapanış."
+    ]
+  },
+  {
+    id: 'non024', code: 'NON024', fam: 'non', name: 'Yağmur Ormanları', img: 'non008',
+    hue: 138, palette: ['#3D7A45', '#8DBF6A', '#C9A27E'], motion: 'rain',
+    top: ['Bergamot', 'Limon', 'Greyfurt'],
+    heart: ['Yasemin', 'Gül', 'Menekşe'],
+    base: ['Pudralı', 'Yeşil', 'Yumuşak'],
+    mood: ['Yeşil', 'Serin', 'Canlandırıcı'],
+    sprites: ['leaf', 'leaf:dark', 'leaf:mint', 'citrus:bergamot', 'citrus:lemon', 'blossom:white', 'violet', 'drop'],
+    story: [
+      "[Bergamot], [limon] ve [greyfurt]; yağmur sonrası taze hava.",
+      "[Yasemin], [gül] ve [menekşe] kalpte çiçekli bir dolgunluk verir.",
+      "[Pudralı], [yeşil] ve [yumuşak]; ormanın serin, dingin havası."
+    ]
+  },
+  {
+    id: 'non025', code: 'NON025', fam: 'non', name: 'Mango', img: 'non025',
+    hue: 32, palette: ['#F08A1C', '#8DBF3C', '#E85D3A'], motion: 'fizz',
+    top: ['Yeşil', 'Limonlu', 'Sulu'],
+    heart: ['Mango', 'Şeftali', 'Kavun'],
+    base: ['Temiz misk', 'Tatlı', 'Yumuşak'],
+    mood: ['Güneşli', 'Meyvemsi', 'Neşeli'],
+    sprites: ['fruit:mango', 'citrus:lime', 'fruit:peach', 'melon', 'blossom:white', 'musk', 'vanilla', 'leaf'],
+    story: [
+      "[Yeşil], [limonlu] ve [sulu] canlı bir açılış.",
+      "[Mango], [şeftali] ve [kavun]la olgun, güneşli bir meyve kalbi.",
+      "[Temiz misk] ile [tatlı] ve [yumuşak] bir kapanış; neşeli ama ağır değil."
+    ]
+  },
+  {
+    id: 'non026', code: 'NON026', fam: 'non', name: 'Japon Kirazı', img: 'non026',
+    hue: 344, palette: ['#E89AB0', '#C98B5A', '#F6E7C8'], motion: 'petals',
+    top: ['Ferah', 'Temiz', 'Hafif turunçgil'],
+    heart: ['Yasemin', 'Müge', 'Pudralı çiçekler'],
+    base: ['Beyaz misk', 'Amber', 'Odunsu'],
+    mood: ['Zarif', 'Pudralı', 'Bahar'],
+    sprites: ['blossom:pink', 'citrus:orange', 'blossom:white', 'leaf', 'amber', 'wood'],
+    story: [
+      "[Ferah], [temiz] ve [hafif turunçgil] bir bahar sabahı.",
+      "[Yasemin], [müge] ve [pudralı çiçekler]; kiraz çiçeği mevsiminin zarafeti.",
+      "[Beyaz misk], [amber] ve [odunsu] notalarla yumuşak bir sıcaklık."
+    ]
+  },
+  {
+    id: 'non027', code: 'NON027', fam: 'non', name: 'Oud Malaki Conc.', img: 'non027',
+    hue: 24, palette: ['#8C3A0E', '#D8801C', '#3E1F0C'], motion: 'ember',
+    top: ['Baharat', 'Turunçgil', 'Aromatik'],
+    heart: ['Reçine', 'Kuru odun', 'Baharat'],
+    base: ['Oud', 'Amber', 'Sedir', 'Sandal', 'Misk'],
+    mood: ['Yoğun', 'Dumanlı', 'Kalıcı'],
+    sprites: ['citrus:orange', 'saffron', 'cinnamon', 'amber', 'wood:dark', 'wood', 'lavender', 'pinecone', 'anise'],
+    story: [
+      "[Baharat], [turunçgil] ve [aromatik] otlarla yoğun bir açılış.",
+      "Kalbinde [reçine], [kuru odun] ve [baharat].",
+      "[Oud], [amber], [sedir], [sandal] ve [misk]; derin, dumanlı ve uzun süre hissedilen bir iz."
+    ]
+  },
+  // ---- Nötralizör ----
+  {
+    id: 'ntr001', code: 'NTR001', fam: 'ntr', name: 'Delicious', img: 'non014',
+    hue: 92, palette: ['#8DBA3C', '#E2574C', '#F2C14E'], motion: 'fizz',
+    top: ['Ferah', 'Yeşil', 'Narenciyeli', 'Hafif meyvemsi'],
+    heart: ['Zengin', 'Doğal hissiyatlı', 'Beyaz çiçek ağırlıklı'],
+    base: ['Temiz misk', 'Kremsi odunsu'],
+    mood: ['Canlı', 'Meyvemsi', 'Temiz'],
+    sprites: ['citrus:lemon', 'citrus:orange', 'blossom:white', 'blossom:pink', 'leaf', 'pinecone', 'wood', 'amber'],
+    story: [
+      "[Ferah], [yeşil], [narenciyeli] ve [hafif meyvemsi]; iştah açıcı, canlı bir başlangıç.",
+      "[Zengin], [doğal hissiyatlı] ve [beyaz çiçek ağırlıklı] bir kalp kokuyu yumuşatır.",
+      "[Temiz misk] ve [kremsi odunsu] notalar rahatsız etmeyen, temiz bir iz bırakır."
+    ]
+  },
+  {
+    id: 'ntr002', code: 'NTR002', fam: 'ntr', name: 'Marine', img: 'ntr002',
+    hue: 160, palette: ['#1E8A5C', '#6CC3B5', '#E9F5EE'], motion: 'mist',
+    top: ['Deniz esintisi', 'Bergamot', 'Limon', 'Nane'],
+    heart: ['Yasemin', 'Müge', 'Gül', 'Sulu çiçekler'],
+    base: ['Sedir', 'Amber', 'Sandal', 'Beyaz misk'],
+    mood: ['Serin', 'Canlandırıcı', 'Temiz'],
+    sprites: ['citrus:bergamot', 'citrus:lime', 'leaf:mint', 'drop', 'blossom:white', 'rose:white', 'pinecone', 'wood', 'amber'],
+    story: [
+      "[Deniz esintisi], [bergamot], [limon] ve [nane]; serin, canlandırıcı bir açılış.",
+      "[Yasemin], [müge], [gül] ve [sulu çiçekler] kalbi aydınlatır.",
+      "[Sedir], [amber], [sandal] ve [beyaz misk] temizlik hissini kalıcı kılar."
+    ]
+  },
+  {
+    id: 'ntr003', code: 'NTR003', fam: 'ntr', name: 'Berga', img: 'ntr003',
+    hue: 174, palette: ['#2F8C82', '#C7D44A', '#E9F3F2'], motion: 'fizz',
+    top: ['Deniz esintisi', 'Bergamot', 'Limon'],
+    heart: ['Yasemin', 'Müge', 'Lavanta benzeri ferahlık'],
+    base: ['Beyaz misk', 'Amber', 'Sedir'],
+    mood: ['Ferah', 'Narenciye', 'Hafif'],
+    sprites: ['citrus:lime', 'citrus:lemon', 'drop', 'blossom:white', 'lavender', 'amber', 'wood', 'musk'],
+    story: [
+      "[Deniz esintisi], [bergamot] ve [limon]la ferah bir açılış.",
+      "[Yasemin], [müge] ve [lavanta benzeri ferahlık]tan temiz bir kalp.",
+      "[Beyaz misk], [amber] ve [sedir]; hafif ama kalıcı bir zemin."
+    ]
+  },
+  {
+    id: 'ntr004', code: 'NTR004', fam: 'ntr', name: 'Citrus', img: 'ntr004',
+    hue: 318, palette: ['#7A2A5C', '#E8B33A', '#8A6BB8'], motion: 'fizz',
+    top: ['Ferah', 'Turunçgil ve yeşil açılış'],
+    heart: ['Yasemin', 'Gül', 'Beyaz çiçek', 'Menekşe'],
+    base: ['Kremsi', 'Misk', 'Odunsu', 'Pudralı'],
+    mood: ['Canlı', 'Çiçeksi', 'Yumuşak'],
+    sprites: ['fig', 'lavender', 'rose:red', 'blossom:white', 'violet', 'vanilla', 'amber', 'leaf'],
+    story: [
+      "[Ferah] bir [turunçgil ve yeşil açılış].",
+      "[Yasemin], [gül], [beyaz çiçek] ve [menekşe]den zengin bir kalp.",
+      "[Kremsi] ve [pudralı] bir dokuyla [misk] ve [odunsu] notalar; temizlik hissine yumuşak bir sıcaklık."
+    ]
+  },
+  {
+    id: 'ntr005', code: 'NTR005', fam: 'ntr', name: 'Fresh', img: 'non014',
+    hue: 150, palette: ['#3BAA8A', '#BFE3D4', '#F2C14E'], motion: 'mist',
+    top: ['Ferah', 'Yeşil', 'Narenciyeli', 'Hafif meyvemsi'],
+    heart: ['Zengin', 'Doğal hissiyatlı', 'Beyaz çiçek ağırlıklı'],
+    base: ['Temiz misk', 'Kremsi odunsu'],
+    mood: ['Ferah', 'Yeşil', 'Temiz'],
+    sprites: ['leaf:mint', 'citrus:lime', 'citrus:lemon', 'blossom:white', 'lavender', 'drop', 'wood', 'amber'],
+    story: [
+      "Havayı açan [ferah], [yeşil], [narenciyeli] ve [hafif meyvemsi] bir açılış.",
+      "[Zengin], [doğal hissiyatlı] ve [beyaz çiçek ağırlıklı] yumuşak bir dolgunluk.",
+      "[Temiz misk] ve [kremsi odunsu] notalar ferahlığı ortamda uzun süre tutar."
+    ]
+  },
+  // ---- Parfüm ----
+  {
+    id: 'prf005', code: 'PRF005', fam: 'prf', name: 'Kenzy', img: 'prf005',
+    hue: 300, palette: ['#8A6BB8', '#9BBF3A', '#E58FA0'], motion: 'petals',
+    top: ['Bergamot', 'Lavanta', 'Turunçgil'],
+    heart: ['Yasemin', 'Gül', 'Beyaz çiçek', 'Menekşe'],
+    base: ['Sedir', 'Sandal', 'Misk'],
+    mood: ['Zarif', 'Aromatik', 'Çiçeksi'],
+    sprites: ['lavender', 'citrus:lime', 'citrus:lemon', 'blossom:white', 'rose:pink', 'violet', 'pinecone', 'wood', 'amber'],
+    story: [
+      "[Bergamot], [lavanta] ve [turunçgil]le ferah, aromatik bir açılış.",
+      "[Yasemin], [gül], [beyaz çiçek] ve [menekşe]; parfüm karakterinde zengin bir kalp.",
+      "[Sedir], [sandal] ve [misk] zarif, kalıcı bir imza bırakır."
+    ]
+  },
+  {
+    id: 'prf006', code: 'PRF006', fam: 'prf', name: 'Million', img: 'prf006',
+    hue: 40, palette: ['#C9A24A', '#E2574C', '#5A2E14'], motion: 'fizz',
+    top: ['Greyfurt', 'Ozon', 'Yeşil aromatik'],
+    heart: ['Yasemin', 'Gül', 'Meyvemsi çiçekler'],
+    base: ['Sedir', 'Deri', 'Amber', 'Misk'],
+    mood: ['Işıltılı', 'İddialı', 'Sıcak'],
+    sprites: ['citrus:grapefruit', 'leaf:mint', 'drop', 'rose:red', 'blossom:white', 'bells', 'wood:dark', 'amber'],
+    story: [
+      "[Greyfurt], [ozon] ve [yeşil aromatik] notalarla enerjik bir açılış.",
+      "[Yasemin], [gül] ve [meyvemsi çiçekler]den parlak bir kalp.",
+      "[Sedir], [deri], [amber] ve [misk]; ışıltılı, iddialı bir derinlik."
+    ]
+  },
+  // ---- Çiçeksi ----
+  {
+    id: 'cic006', code: 'CİC006', fam: 'cic', name: 'Gardenia', img: 'cic006',
+    hue: 142, palette: ['#2E8B57', '#F2EEE3', '#7B5EA7'], motion: 'petals',
+    top: ['Bergamot', 'Portakal', 'Yeşil yaprak'],
+    heart: ['Gardenya', 'Yasemin', 'Nergis', 'Menekşe'],
+    base: ['Beyaz misk', 'Sandal', 'Yosun'],
+    mood: ['Zarif', 'Yeşil', 'Beyaz çiçek'],
+    sprites: ['blossom:white', 'citrus:bergamot', 'citrus:lime', 'violet', 'leaf', 'wood', 'drop'],
+    story: [
+      "[Bergamot], [portakal] ve [yeşil yaprak]la parlak bir açılış.",
+      "[Gardenya] ve [yasemin]in kremsi beyaz çiçekleri; [nergis] ve [menekşe]yle zarif bir derinlik.",
+      "[Beyaz misk], [sandal] ve [yosun]; yağmur sonrası bahçenin serinliği."
+    ]
+  },
+  // ---- Oryantal ----
+  {
+    id: 'ory006', code: 'ORY006', fam: 'ory', name: 'Dark Moon', img: 'ory006',
+    hue: 222, palette: ['#2B4A6B', '#9FB4C7', '#E3B04B'], motion: 'stars',
+    top: ['Ferah', 'Aromatik', 'Çiçeksi'],
+    heart: ['Yasemin', 'Müge', 'Gül', 'Menekşe'],
+    base: ['Sandal', 'Beyaz misk', 'Amber', 'Vanilya'],
+    mood: ['Gizemli', 'Sarıcı', 'Sıcak'],
+    sprites: ['rose:blue', 'lavender', 'citrus:lemon', 'blossom:white', 'violet', 'wood', 'amber', 'vanilla'],
+    story: [
+      "Gecenin serinliğini andıran [ferah], [aromatik] ve [çiçeksi] bir açılış.",
+      "[Yasemin], [müge], [gül] ve [menekşe]den zarif bir buket.",
+      "[Sandal], [beyaz misk], [amber] ve [vanilya]; ay ışığında sıcak, sarıcı bir iz."
+    ]
   }
 ];
+
+// Katalogdaki esans kartının görseli: çubuklu oda kokusu (koleksiyonun girişi)
+const ESSENCE_COVER = { img: 'reed1', pos: '50% 60%' };

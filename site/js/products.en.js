@@ -191,39 +191,45 @@
     },
   };
 
-  // Esanslar: koku aileleri ve esans metinleri (kimlik, ton, renk ve görsel products.js'te kalır)
-  const TONES_EN = {
-    floral: { label: 'Floral', text: 'Rose, cherry blossom and flower bouquets: soft, bright and inviting.' },
-    fresh: { label: 'Fresh', text: 'Sea breeze and cool floral notes: clean, open and light.' },
-    woody: { label: 'Woody', text: 'Sandalwood and pine: warm, dry and calm, like forest air.' }
+  // Esanslar: koku aileleri ve esans metinleri (kimlik, kod, renk, hareket ve görsel products.js'te kalır).
+  // Notalar Türkçe piramit görsellerinden çevrilmiştir; esans adları (çeviri gerekenler dışında) aynı kalır.
+  const FAMILIES_EN = {
+    non: { label: 'Non-allergen', text: 'Fragrances formulated, according to the manufacturer, without allergens. They leave a clean, soft and balanced scent in busy indoor spaces where sensitive people spend time.', spaces: ['Hotel rooms and lobbies', 'Clinics and waiting areas', 'Offices', 'Spas'] },
+    ntr: { label: 'Neutraliser', text: 'Fragrances designed to neutralise bad odours rather than simply mask them. They leave the air feeling freshly cleaned where odour is a problem.', spaces: ['Toilets and washrooms', 'Car parks and lifts', 'Kitchens and waste areas', 'Smoking areas'] },
+    prf: { label: 'Perfume', text: 'Layered, signature scents with the character of a fine perfume. They leave a memorable trace in spaces where a brand tells its story.', spaces: ['Shops and showrooms', 'Hotel lobbies', 'Boutiques'] },
+    cic: { label: 'Floral', text: 'The elegant world of white flowers and green leaves: bright, soft and inviting.', spaces: ['Boutiques', 'Spas', 'Reception areas'] },
+    ory: { label: 'Oriental', text: 'Deep, enveloping scents built on amber, vanilla and warm woods; made for evenings and places to unwind.', spaces: ['Lounges and bars', 'Restaurants', 'Hotel lobbies'] }
   };
+  const SHARED_14 = { top: ['Fresh', 'Green', 'Citrusy', 'Lightly fruity'], heart: ['Rich', 'Natural feel', 'White-floral'], base: ['Clean musk', 'Creamy woods'] };
+  const SHARED_08 = { top: ['Bergamot', 'Lemon', 'Grapefruit'], heart: ['Jasmine', 'Rose', 'Violet'], base: ['Powdery', 'Green', 'Soft'] };
   const ESSENCES_EN = {
-    'sehirde-bahar': {
-      name: 'Spring in the City',
-      desc: 'The light, powdery scent of freshly opened rose and cherry blossom. A bright, inviting air for reception areas and boutiques.',
-      notes: ['Rose', 'Cherry blossom', 'Floral'],
-      format: 'Reed diffuser · 120 ml'
-    },
-    'ciceklerin-dansi': {
-      name: 'Dance of Flowers',
-      desc: 'A rich flower bouquet reminiscent of hotel lobbies. Leaves an elegant, lasting trace in lobbies and waiting areas.',
-      notes: ['Flower bouquet'],
-      format: 'Reed diffuser · 200 ml'
-    },
-    'cicek-bollugu': {
-      name: 'Flower Abundance',
-      desc: 'Fresh notes of bluebell and the seashore. A cool, open feel for spas, gyms and summer venues.',
-      notes: ['Bluebell', 'Summer breeze', 'Tropical beach'],
-      format: 'Reed diffuser · 100 ml'
-    },
-    'sandal-agaci': {
-      name: 'Sandalwood',
-      desc: 'The warm, dry woody scent of sandalwood and pine; the calm of a walk in the forest. For offices, libraries and lounges.',
-      notes: ['Sandalwood', 'Oriental woody notes', 'Pine'],
-      format: 'Reed diffuser · 100 ml'
-    }
+    non001: { top: ['Fresh soapy', 'Clean aldehydic touch', 'Green'], heart: ['White flowers', 'Rose', 'Violet', 'Lightly fruity'], base: ['Clean musk', 'Soft amber', 'Sandalwood'], mood: ['Clean', 'Soapy', 'Powdery'], story: ["A [fresh soapy] opening like clean linen, with a [clean aldehydic touch] and a [green] freshness.", "A soft bouquet of [white flowers], [rose] and [violet], with a [lightly fruity] touch.", "[Clean musk], [soft amber] and [sandalwood]: a calm, powdery depth."] },
+    non007: { top: ['Green apple', 'Pineapple', 'Banana'], heart: ['Peach', 'Raspberry', 'Tropical fruit'], base: ['Vanilla', 'Cream', 'Musk', 'Coconut'], mood: ['Fruity', 'Tropical', 'Cheerful'], story: ["A juicy, tropical start of [green apple], [pineapple] and [banana].", "[Peach], [raspberry] and [tropical fruit] add sweetness.", "[Vanilla], [cream], [musk] and [coconut] close it warm and creamy."] },
+    non008: { ...SHARED_08, mood: ['Calm', 'Bright', 'Soft'], story: ["A bright start of [bergamot], [lemon] and [grapefruit].", "[Jasmine], [rose] and [violet] weave a soft floral heart.", "A [powdery], [green] and [soft] trace: calm and balanced, true to its name."] },
+    non009: { top: ['Fresh', 'Green', 'Lightly ozonic'], heart: ['Jasmine', 'White flowers', 'Rose'], base: ['White musk', 'Amber', 'Sandalwood'], mood: ['Fresh', 'Ozonic', 'Warm'], story: ["A [fresh], [green] and [lightly ozonic] opening, like clean air from the sea.", "[Jasmine], [white flowers] and [rose] brighten the heart.", "[White musk], [amber] and [sandalwood] leave a warm, lasting trace."] },
+    non013: { top: ['Bergamot', 'Grapefruit', 'Aromatic'], heart: ['Aromatic spice', 'Clove', 'Cinnamon', 'Spicy flowers'], base: ['Cedar', 'Sandalwood', 'Vetiver', 'Patchouli', 'Amber'], mood: ['Spicy', 'Woody', 'Characterful'], story: ["A lively, [aromatic] opening of [bergamot] and [grapefruit].", "A warm heart of [aromatic spice], [clove], [cinnamon] and [spicy flowers].", "[Cedar], [sandalwood], [vetiver], [patchouli] and [amber]: a strong, characterful signature."] },
+    non014: { ...SHARED_14, mood: ['Sparkling', 'Fresh', 'Elegant'], story: ["A sparkling opening: [fresh], [green], [citrusy] and [lightly fruity].", "An elegant heart, [rich] and [white-floral], with a [natural feel].", "[Clean musk] and [creamy woods] for a soft finish."] },
+    non015: { top: ['White musk', 'Sandalwood', 'Powdery woods'], heart: ['White flowers', 'Fruit', 'Rose'], base: ['White musk', 'Sandalwood', 'Powdery woods'], mood: ['Calm', 'Powdery', 'Floral'], story: ["A velvety opening of [white musk], [sandalwood] and [powdery woods].", "[White flowers], [fruit] and [rose]: the calm, clean elegance of the lotus.", "[White musk], [sandalwood] and [powdery woods] keep it soft to the end."] },
+    non016: { top: ['Light citrus', 'Raspberry'], heart: ['Jasmine', 'Rose', 'Creamy fruit'], base: ['Rich vanilla', 'White musk', 'Amber'], mood: ['Powdery', 'Vanilla', 'Enveloping'], story: ["A sweet, bright opening of [light citrus] and [raspberry].", "[Jasmine], [rose] and [creamy fruit] soften the scent.", "[Rich vanilla], [white musk] and [amber]: a powdery, enveloping warmth."] },
+    non018: { ...SHARED_14, mood: ['Fresh', 'Clean', 'Open air'], story: ["[Fresh], [green], [citrusy] and [lightly fruity]: the cleanness of open air.", "A full heart, [rich] and [white-floral], with a [natural feel].", "[Clean musk] and [creamy woods] carry the freshness for a long time."] },
+    non020: { top: ['Aromatic', 'Lightly floral'], heart: ['White flowers', 'Lily of the valley', 'Rose'], base: ['White musk', 'Sandalwood', 'Patchouli', 'Amber'], mood: ['Woody', 'Deep', 'Balanced'], story: ["A clean, [aromatic] and [lightly floral] opening.", "A bright heart of [white flowers], [lily of the valley] and [rose].", "[White musk], [sandalwood], [patchouli] and [amber]: deep, woody and reassuring."] },
+    non021: { top: ['Lemon', 'Grapefruit', 'Melon', 'Green apple'], heart: ['Rose', 'Neroli', 'Violet'], base: ['Powdery', 'Green', 'Soft'], mood: ['Bright', 'Juicy', 'Floral'], story: ["A juicy, fresh opening of [lemon], [grapefruit], [melon] and [green apple].", "[Rose], [neroli] and [violet]: the brightness of a white-flower garden.", "A [powdery], [green] and [soft] trace that lingers."] },
+    non023: { top: ['Green', 'Fresh', 'Fruity'], heart: ['Jasmine', 'Rose', 'Lily of the valley'], base: ['Powdery', 'Woody', 'Vanilla'], mood: ['Light', 'Fresh', 'Soft'], story: ["A [green], [fresh] and [fruity] opening, like a light breeze by the sea.", "A soft floral texture of [jasmine], [rose] and [lily of the valley].", "A warm, comfortable close: [powdery], [woody] and [vanilla]."] },
+    non024: { name: 'Rainforest', ...SHARED_08, mood: ['Green', 'Cool', 'Refreshing'], story: ["[Bergamot], [lemon] and [grapefruit]: fresh air after the rain.", "[Jasmine], [rose] and [violet] add a floral fullness.", "[Powdery], [green] and [soft]: the cool, calm air of the forest."] },
+    non025: { top: ['Green', 'Lemony', 'Juicy'], heart: ['Mango', 'Peach', 'Melon'], base: ['Clean musk', 'Sweet', 'Soft'], mood: ['Sunny', 'Fruity', 'Cheerful'], story: ["A lively opening: [green], [lemony] and [juicy].", "A ripe, sunny fruit heart of [mango], [peach] and [melon].", "[Clean musk] with a [sweet], [soft] finish: cheerful but never heavy."] },
+    non026: { name: 'Japanese Cherry', top: ['Fresh', 'Clean', 'Light citrus'], heart: ['Jasmine', 'Lily of the valley', 'Powdery flowers'], base: ['White musk', 'Amber', 'Woody'], mood: ['Elegant', 'Powdery', 'Spring'], story: ["A spring morning: [fresh], [clean], with [light citrus].", "[Jasmine], [lily of the valley] and [powdery flowers]: the elegance of cherry blossom season.", "A soft warmth of [white musk], [amber] and [woody] notes."] },
+    non027: { top: ['Spice', 'Citrus', 'Aromatic'], heart: ['Resin', 'Dry wood', 'Spice'], base: ['Oud', 'Amber', 'Cedar', 'Sandalwood', 'Musk'], mood: ['Intense', 'Smoky', 'Lasting'], story: ["An intense opening of [spice], [citrus] and [aromatic] herbs.", "At its heart, [resin], [dry wood] and [spice].", "[Oud], [amber], [cedar], [sandalwood] and [musk]: a deep, smoky trace that lingers."] },
+    ntr001: { ...SHARED_14, mood: ['Lively', 'Fruity', 'Clean'], story: ["[Fresh], [green], [citrusy] and [lightly fruity]: a lively, appetising start.", "A [rich], [white-floral] heart with a [natural feel] softens it.", "[Clean musk] and [creamy woods] leave a clean trace that never intrudes."] },
+    ntr002: { top: ['Sea breeze', 'Bergamot', 'Lemon', 'Mint'], heart: ['Jasmine', 'Lily of the valley', 'Rose', 'Watery flowers'], base: ['Cedar', 'Amber', 'Sandalwood', 'White musk'], mood: ['Cool', 'Invigorating', 'Clean'], story: ["[Sea breeze], [bergamot], [lemon] and [mint]: a cool, invigorating opening.", "[Jasmine], [lily of the valley], [rose] and [watery flowers] brighten the heart.", "[Cedar], [amber], [sandalwood] and [white musk] make the cleanness last."] },
+    ntr003: { top: ['Sea breeze', 'Bergamot', 'Lemon'], heart: ['Jasmine', 'Lily of the valley', 'Lavender-like freshness'], base: ['White musk', 'Amber', 'Cedar'], mood: ['Fresh', 'Citrus', 'Light'], story: ["A fresh opening of [sea breeze], [bergamot] and [lemon].", "A clean heart of [jasmine], [lily of the valley] and a [lavender-like freshness].", "[White musk], [amber] and [cedar]: a light but lasting base."] },
+    ntr004: { top: ['Fresh', 'Citrus and green opening'], heart: ['Jasmine', 'Rose', 'White flowers', 'Violet'], base: ['Creamy', 'Musk', 'Woody', 'Powdery'], mood: ['Lively', 'Floral', 'Soft'], story: ["A [fresh] [citrus and green opening].", "A rich heart of [jasmine], [rose], [white flowers] and [violet].", "[Musk] and [woody] notes with a [creamy], [powdery] texture round off the clean feeling."] },
+    ntr005: { ...SHARED_14, mood: ['Fresh', 'Green', 'Clean'], story: ["A [fresh], [green], [citrusy], [lightly fruity] opening that clears the air.", "A soft fullness: [rich], [white-floral], with a [natural feel].", "[Clean musk] and [creamy woods] keep the freshness in the room."] },
+    prf005: { top: ['Bergamot', 'Lavender', 'Citrus'], heart: ['Jasmine', 'Rose', 'White flowers', 'Violet'], base: ['Cedar', 'Sandalwood', 'Musk'], mood: ['Elegant', 'Aromatic', 'Floral'], story: ["A fresh, aromatic opening of [bergamot], [lavender] and [citrus].", "[Jasmine], [rose], [white flowers] and [violet]: a rich heart with a perfume character.", "[Cedar], [sandalwood] and [musk] leave an elegant, lasting signature."] },
+    prf006: { top: ['Grapefruit', 'Ozone', 'Green aromatics'], heart: ['Jasmine', 'Rose', 'Fruity flowers'], base: ['Cedar', 'Leather', 'Amber', 'Musk'], mood: ['Radiant', 'Bold', 'Warm'], story: ["An energetic opening of [grapefruit], [ozone] and [green aromatics].", "A bright heart of [jasmine], [rose] and [fruity flowers].", "[Cedar], [leather], [amber] and [musk]: a radiant, bold depth."] },
+    cic006: { top: ['Bergamot', 'Orange', 'Green leaf'], heart: ['Gardenia', 'Jasmine', 'Narcissus', 'Violet'], base: ['White musk', 'Sandalwood', 'Moss'], mood: ['Elegant', 'Green', 'White floral'], story: ["A bright opening of [bergamot], [orange] and [green leaf].", "The creamy white flowers of [gardenia] and [jasmine], deepened by [narcissus] and [violet].", "[White musk], [sandalwood] and [moss]: the coolness of a garden after rain."] },
+    ory006: { top: ['Fresh', 'Aromatic', 'Floral'], heart: ['Jasmine', 'Lily of the valley', 'Rose', 'Violet'], base: ['Sandalwood', 'White musk', 'Amber', 'Vanilla'], mood: ['Mysterious', 'Enveloping', 'Warm'], story: ["A [fresh], [aromatic] and [floral] opening, cool as the night.", "An elegant bouquet of [jasmine], [lily of the valley], [rose] and [violet].", "[Sandalwood], [white musk], [amber] and [vanilla]: a warm, enveloping trace in the moonlight."] }
   };
-  ESSENCE_TONES.forEach(t => Object.assign(t, TONES_EN[t.id] || {}));
+  ESSENCE_FAMILIES.forEach(f => Object.assign(f, FAMILIES_EN[f.id] || {}));
   ESSENCES.forEach(e => Object.assign(e, ESSENCES_EN[e.id] || {}));
 
   // Renk adları ve İngilizce aile adı (kodlar ve renk tonları products.js'te kalır)

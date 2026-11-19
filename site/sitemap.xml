@@ -251,6 +251,34 @@
     <image:image><image:loc>https://www.meiraairscent.com/images/general/video-hotel-poster.jpg</image:loc></image:image>
   </url>
   <url>
+    <loc>https://www.meiraairscent.com/esanslar.html</loc>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://www.meiraairscent.com/esanslar.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.meiraairscent.com/en/esanslar.html"/>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non001.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non007.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non008.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non009.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non013.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non014.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non015.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non016.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non020.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non021.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non023.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non025.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non026.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non027.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/ntr002.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/ntr003.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/ntr004.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/prf005.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/prf006.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/cic006.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/ory006.jpg</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://www.meiraairscent.com/en/index.html</loc>
     <lastmod>2026-11-15</lastmod>
     <priority>1.0</priority>
@@ -499,5 +527,33 @@
     <xhtml:link rel="alternate" hreflang="tr" href="https://www.meiraairscent.com/blog-otel-icin-koku-secimi.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.meiraairscent.com/en/blog-otel-icin-koku-secimi.html"/>
     <image:image><image:loc>https://www.meiraairscent.com/images/general/video-hotel-poster.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://www.meiraairscent.com/en/esanslar.html</loc>
+    <lastmod>2026-11-15</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://www.meiraairscent.com/esanslar.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.meiraairscent.com/en/esanslar.html"/>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non001.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non007.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non008.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non009.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non013.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non014.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non015.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non016.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non020.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non021.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non023.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non025.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non026.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/non027.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/ntr002.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/ntr003.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/ntr004.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/prf005.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/prf006.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/cic006.jpg</image:loc></image:image>
+    <image:image><image:loc>https://www.meiraairscent.com/images/essences/ory006.jpg</image:loc></image:image>
   </url>
 </urlset>

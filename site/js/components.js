@@ -28,9 +28,20 @@
     return String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   }
 
-  function findProduct(id) {
-    return (typeof PRODUCTS !== 'undefined') ? PRODUCTS.find(p => p.id === id) : null;
+  // Esanslar teklif listesine ürün gibi eklenir: kimlik esansın kimliği (ör. non001), model alanı esans kodu.
+  // Görsel yerine esansın renk küresi gösterilir (essenceOrb). Esanslar yayında değilse listede tutulmaz.
+  const ESSENCES_ON = typeof ESSENCES !== 'undefined' && typeof ESSENCES_LIVE !== 'undefined' && ESSENCES_LIVE;
+  const famLabelOf = e => ((typeof ESSENCE_FAMILIES !== 'undefined' ? ESSENCE_FAMILIES : []).find(f => f.id === e.fam) || {}).label || '';
+  function essenceItem(id) {
+    const e = ESSENCES_ON ? ESSENCES.find(x => x.id === id) : null;
+    return e ? { id: e.id, model: e.code, title: tt(`${e.name} esansı`, `${e.name} fragrance`), essence: e, famLabel: famLabelOf(e), specs: [] } : null;
   }
+  function findProduct(id) {
+    const p = (typeof PRODUCTS !== 'undefined') ? PRODUCTS.find(x => x.id === id) : null;
+    return p || essenceItem(id);
+  }
+  // Esansın renk küresi (tools/build.mjs essenceOrb ile aynı işaretleme)
+  const essenceOrb = e => `<span class="essence-orb" style="--c1:${esc(e.palette[0])};--c2:${esc(e.palette[1])};--c3:${esc(e.palette[2])}" aria-hidden="true"></span>`;
 
   function productImage(p) {
     return `${BASE}images/${p.external ? 'general' : 'products'}/${p.img}.jpg`;
@@ -38,6 +49,7 @@
 
   // Küçük ürün görseli: modern tarayıcıya 640 px WebP, diğerlerine özgün JPEG
   function productThumb(p, cls, extra) {
+    if (p.essence) return `<span class="${cls || ''} essence-thumb">${essenceOrb(p.essence)}</span>`;
     const webp = p.external ? '' : `${BASE}images/products/w640/${p.img}.webp`;
     return `<picture>${webp ? `<source type="image/webp" srcset="${webp}">` : ''}<img src="${productImage(p)}" alt="" class="${cls || ''}" loading="lazy" decoding="async"${extra || ''}></picture>`;
   }
@@ -203,6 +215,14 @@
       const { p, model, price, cov } = lineInfo(item);
       if (!p) return;
       line += 1;
+
+      // Esans: koku ailesi ve ambalaj tercihi (hacim ve ambalaj teklifte netleşir)
+      if (p.essence) {
+        text += `${line}. [${model}] ${p.title}${p.famLabel ? ` (${p.famLabel})` : ''}\n`;
+        text += tt(`   - Talep adedi: ${item.qty} adet\n`, `   - Quantity: ${item.qty}\n`);
+        text += tt('   - Hacim / ambalaj: [tercihinizi belirtin]\n\n', '   - Volume / packaging: [please specify]\n\n');
+        return;
+      }
 
       const cap = specValue(p, RE_CAP) || '-';
       const area = cov || '-';
@@ -473,7 +493,8 @@
       if (use && btn.dataset.icon) use.setAttribute('href', btn.dataset.icon);
     }, 1600);
   }
-  // Ürün sayfası düğmeleri: [data-add-to-list] listeye ekler, [data-quote-now] ekleyip forma gider
+  // Ürün sayfası ve esans düğmeleri: [data-add-to-list] listeye ekler, [data-quote-now] ekleyip forma gider.
+  // [data-sample] olan düğme (esans sayfasındaki "Numune iste") formu numune talebiyle açar.
   function initProductActions() {
     document.addEventListener('click', (e) => {
       const add = e.target.closest('[data-add-to-list]');
@@ -484,7 +505,7 @@
         const p = findProduct(id);
         const key = lineKey(p && p.options ? { id, opt: (optOf(p, quote.dataset.opt) || p.options[0]).code } : { id });
         if (!getCart().some(i => lineKey(i) === key)) addToCart(id, 1, quote.dataset.opt);
-        window.location.href = 'iletisim.html?teklif=1';
+        window.location.href = quote.hasAttribute('data-sample') ? 'iletisim.html?teklif=1&konu=numune&numune=1' : 'iletisim.html?teklif=1';
       }
     });
   }
@@ -690,24 +711,26 @@
     return `<ul class="color-row${cls}" aria-label="${tt('Renk seçenekleri', 'Colour options')}">${p.colors.map(c => `<li><span class="color-row__dot" style="--dot:${esc(c.hex)}" aria-hidden="true"></span><span class="color-row__name">${esc(c.name)}</span>${c.code ? `<span class="color-row__code">${esc(c.code)}</span>` : ''}</li>`).join('')}</ul>`;
   }
 
-  // Katalogdaki esans kartı: esans sayfasına giden tek kart (tools/build.mjs essenceCard ile aynı tutulmalı)
+  // Katalogdaki esans kartı: esans sayfasına giden tek kart; görsel çubuklu oda kokusu (products.js ESSENCE_COVER).
+  // tools/build.mjs essenceCard ile aynı tutulmalı.
   function essenceCard() {
-    if (typeof ESSENCES === 'undefined' || !ESSENCES.length) return '';
-    const e = ESSENCES[0];
-    const labels = ESSENCE_TONES.map(t => t.label);
-    const lower = labels.map(l => l.toLocaleLowerCase(EN ? 'en' : 'tr'));
-    const list = lower.length > 1 ? `${lower.slice(0, -1).join(', ')}${tt(' ve ', ' and ')}${lower[lower.length - 1]}` : lower[0];
+    if (!ESSENCES_ON || !ESSENCES.length) return '';
+    const fams = typeof ESSENCE_FAMILIES !== 'undefined' ? ESSENCE_FAMILIES : [];
+    const labels = fams.map((f, i) => (i ? f.label.toLocaleLowerCase(EN ? 'en' : 'tr') : f.label));
+    const list = labels.length > 1 ? `${labels.slice(0, -1).join(', ')}${tt(' ve ', ' and ')}${labels[labels.length - 1]}` : (labels[0] || '');
+    const cover = typeof ESSENCE_COVER !== 'undefined' ? ESSENCE_COVER : { img: 'reed1', pos: 'center' };
     return `
           <article class="product-card product-card--essence" data-essence-card>
-            <div class="media"><picture><img src="${BASE}images/general/${esc(e.img)}.jpg" alt="${tt('Esans koleksiyonu', 'Fragrance collection')}" loading="lazy" decoding="async" style="object-position:${esc(e.pos || 'center')}"></picture></div>
+            <div class="media"><picture><img src="${BASE}images/general/${esc(cover.img)}.jpg" alt="${tt('Esans koleksiyonu: çubuklu oda kokusu', 'Fragrance collection: reed diffuser')}" loading="lazy" decoding="async" style="object-position:${esc(cover.pos || 'center')}"></picture></div>
             <div class="product-card__body">
               <div class="product-card__top">
                 <span class="product-card__code">${tt('Esanslar', 'Essences')}</span>
                 <span>${ESSENCES.length} ${tt('koku', 'scents')}</span>
               </div>
               <h2 class="product-card__title"><a href="esanslar.html" class="product-card__link">${tt('Esans koleksiyonu', 'Fragrance collection')}</a></h2>
-              <p class="product-card__desc">${esc(list.charAt(0).toLocaleUpperCase(EN ? 'en' : 'tr') + list.slice(1))} ${tt('koku aileleri. Kokuları inceleyin, numune isteyin.', 'scent families. Browse the scents and ask for a sample.')}</p>
-              <p class="product-card__meta">${labels.map(l => `<span>${esc(l)}</span>`).join('')}</p>
+              <p class="product-card__desc">${esc(list)} ${tt('koku aileleri. Koku piramitlerini inceleyin, numune isteyin.', 'scent families. View the scent pyramids and ask for a sample.')}</p>
+              <p class="product-card__orbs" aria-hidden="true">${ESSENCES.slice(0, 9).map(essenceOrb).join('')}</p>
+              <p class="product-card__meta">${fams.map(f => `<span>${esc(f.label)}</span>`).join('')}</p>
               <div class="product-card__actions">
                 <span class="link-arrow" aria-hidden="true">${tt('Koleksiyonu incele', 'View the collection')} ${icon('arrow-right')}</span>
               </div>
@@ -922,7 +945,12 @@
     // Ürün ekleme listesi: yalnızca satıştaki ürünler (products.js catalogOrder sırasıyla)
     if (itemSelect && typeof PRODUCTS !== 'undefined') {
       const available = (typeof catalogOrder === 'function' ? catalogOrder(PRODUCTS) : PRODUCTS).filter(p => !p.soon);
-      itemSelect.insertAdjacentHTML('beforeend', available.map(p => `<option value="${esc(p.id)}">${esc(p.model)} · ${esc(p.title)}</option>`).join(''));
+      const devices = available.map(p => `<option value="${esc(p.id)}">${esc(p.model)} · ${esc(p.title)}</option>`).join('');
+      // Esanslar ayrı grupta: kod · ad (aile)
+      const essences = ESSENCES_ON ? ESSENCES.map(e => `<option value="${esc(e.id)}">${esc(e.code)} · ${esc(e.name)} (${esc(famLabelOf(e))})</option>`).join('') : '';
+      itemSelect.insertAdjacentHTML('beforeend', essences
+        ? `<optgroup label="${tt('Cihazlar', 'Devices')}">${devices}</optgroup><optgroup label="${tt('Esanslar', 'Fragrances')}">${essences}</optgroup>`
+        : devices);
     }
     itemAddBtn?.addEventListener('click', () => {
       if (!itemSelect.value) {
@@ -1081,6 +1109,14 @@
     if (heightInput && tavanParam > 0) heightInput.value = String(tavanParam);
     if (projectDetails && (alanParam > 0 || tavanParam > 0 || TOPICS[currentTopic()].open)) projectDetails.open = true;
     if (konu) applyTopicExtra();
+    // Esans sayfasındaki "Numune iste" (?numune=1): "Koku numunesi" işaretli, proje bölümü açık gelir
+    if (urlParams.get('numune') === '1') {
+      const sample = form.querySelector('[name="extras[]"][value="Koku numunesi"]');
+      if (sample) {
+        sample.checked = true;
+        if (projectDetails && TOPICS[currentTopic()].project) projectDetails.open = true;
+      }
+    }
 
     syncSpace();
     renderTexts();
@@ -1257,13 +1293,14 @@
   // =========================================================================
   // 7. CİHAZ KÜRATÖRÜ (Ana sayfa)
   // Cihazlar PRODUCTS'tan okunur; burada uydurma veri yok. Yalnızca satıştaki ürünler önerilir.
-  // Esanslar kesinleşmediği için koku önerisi gösterilmez.
+  // Önerilen esans (essenceId) editoryal bir öneridir; esanslar yayında değilse gösterilmez.
   // =========================================================================
   const ATMOSPHERES = {
     hotel: {
       title: tt('Otel lobisi ve karşılama alanları', 'Hotel lobbies and reception areas'),
       desc: tt('Yüksek tavanlı, sürekli kullanılan alanlar için zeminde duran, taze hava sistemine bağlanabilen alüminyum gövdeli bir kolon difüzör.', 'A free-standing aluminium column diffuser that connects to the fresh-air system, for busy spaces with high ceilings.'),
       productId: 'ck686',
+      essenceId: 'non009',
       image: 'images/products/ck686.jpg',
       alt: tt('Modern bir salonda zemine yerleştirilmiş ADS-687 kolon difüzör', 'ADS-687 column diffuser standing on the floor in a modern living room')
     },
@@ -1271,6 +1308,7 @@
       title: tt('Ofis ve toplantı alanları', 'Offices and meeting rooms'),
       desc: tt('Çalışma alanları ve toplantı odaları için sessiz çalışan, uygulama ya da kablosuz kumandayla zamanlanabilen ince bir masaüstü cihaz.', 'A quiet, slim tabletop unit for workspaces and meeting rooms that can be scheduled from an app or wireless remote.'),
       productId: 'ck689',
+      essenceId: 'non020',
       image: 'images/products/ck689.jpg',
       alt: tt('Bir lobide ADS-689 difüzör ve telefon uygulaması', 'ADS-689 diffuser in a lobby, with the phone app')
     },
@@ -1278,6 +1316,7 @@
       title: tt('Mağaza ve showroom', 'Shops and showrooms'),
       desc: tt('Satış alanının büyüklüğüne göre üç kapasitede seçilebilen, zemine yerleştirilen ve klima sistemine bağlanabilen metal gövdeli seri.', 'A metal-bodied, floor-standing series in three capacities to suit the size of the sales floor; connects to the HVAC system.'),
       productId: 'ck620',
+      essenceId: 'prf006',
       image: 'images/products/ck620-g1.jpg',
       alt: tt('Butik bir iç mekânda zemine yerleştirilmiş siyah ADS-620B difüzör', 'Black ADS-620B diffuser standing on the floor in a boutique interior')
     },
@@ -1285,6 +1324,7 @@
       title: tt('Rezidans ve özel yaşam alanları', 'Residences and private spaces'),
       desc: tt('Salon ve giriş holü gibi yaşam alanları için masa ya da konsol üzerinde duran, alüminyum gövdeli ve sessiz çalışan bir difüzör.', 'A quiet, aluminium-bodied diffuser that sits on a table or console, for living spaces such as lounges and entrance halls.'),
       productId: 'ck683',
+      essenceId: 'non026',
       image: 'images/products/ck683.jpg',
       alt: tt('Bronz, yeşil, kahverengi ve siyah alüminyum gövdeli CK-683 difüzörler', 'CK-683 diffusers with bronze, green, brown and black aluminium bodies')
     }
@@ -1297,6 +1337,7 @@
 
     const coverage = specValue(p, RE_COV);
     const noise = specValue(p, RE_NOISE);
+    const scent = data.essenceId ? essenceItem(data.essenceId) : null;
 
     return `
       <div class="curator__panel">
@@ -1308,6 +1349,7 @@
             <div class="span-2"><dt>${tt('Önerilen cihaz', 'Recommended device')}</dt><dd>${esc(p.model)}, ${esc(p.title)}</dd></div>
             ${coverage ? `<div><dt>${tt('Kapsama alanı', 'Coverage')}</dt><dd>${esc(coverage)}</dd></div>` : ''}
             ${noise ? `<div><dt>${tt('Ses seviyesi (üretici verisi)', 'Noise level (manufacturer data)')}</dt><dd>${esc(noise)}</dd></div>` : ''}
+            ${scent ? `<div class="span-2"><dt>${tt('Önerilen esans', 'Suggested fragrance')}</dt><dd class="curator__scent">${essenceOrb(scent.essence)}<a href="esanslar.html#esans-${esc(scent.id)}" class="text-link">${esc(scent.essence.name)}</a><span>${esc(scent.famLabel)} · ${esc(scent.model)}</span></dd></div>` : ''}
           </dl>
           <div class="btn-row">
             <button type="button" class="btn btn--primary" data-add-product="${esc(p.id)}">${icon('plus', 'icon--sm')}<span>${tt('Listeye ekle', 'Add to list')}</span></button>
@@ -1501,6 +1543,7 @@
     tt,
     productThumb,
     essenceCard,
+    essenceOrb,
     colorRow,
     priceHtml,
     optionRow,
