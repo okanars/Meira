@@ -937,7 +937,14 @@
   }
   const lastInFam = {}; // her ailede en son bakılan esans (sekmeye dönünce o açılır)
   const panelOf = id => panels.find(p => p.dataset.essence === id);
-  const famPanels = fam => panels.filter(p => p.dataset.fam === fam);
+  // Bir esans birden fazla ailede listelenebilir (data-fams: asıl aile + products.js also). Ailedeki sıra:
+  // önce asıl üyeler, sonra ayrıca listelenenler.
+  const famsOf = el => (el.dataset.fams || el.dataset.fam || '').split(' ').filter(Boolean);
+  const famPanels = fam => [
+    ...panels.filter(p => p.dataset.fam === fam),
+    ...panels.filter(p => p.dataset.fam !== fam && famsOf(p).includes(fam))
+  ];
+  let currentFam = '';
 
   // Görsel henüz inmediyse giriş animasyonu iner inmez başlar (en fazla 700 ms beklenir)
   function enter(panel) {
@@ -969,11 +976,14 @@
     pre.src = img.getAttribute('src');
   }
 
-  function select(id, { animate = false, instant = false, updateUrl = true } = {}) {
+  // fam: hangi aile sekmesinde gösterileceği. Verilmezse açık sekme (esans o ailedeyse), yoksa esansın asıl ailesi.
+  function select(id, { animate = false, instant = false, updateUrl = true, fam: want } = {}) {
     const panel = panelOf(id);
     if (!panel) return false;
-    const fam = panel.dataset.fam;
+    const fams = famsOf(panel);
+    const fam = fams.includes(want) ? want : fams.includes(currentFam) ? currentFam : panel.dataset.fam;
     current = panel;
+    currentFam = fam;
     lastInFam[fam] = id;
 
     famButtons.forEach(b => {
@@ -982,8 +992,10 @@
       b.setAttribute('aria-pressed', String(on));
       if (on && famText) famText.textContent = b.dataset.text || '';
     });
+    const order = famPanels(fam).map(p => p.dataset.essence);
     picks.forEach(b => {
-      b.classList.toggle('is-in-fam', b.dataset.fam === fam);
+      b.classList.toggle('is-in-fam', famsOf(b).includes(fam));
+      b.style.order = String(Math.max(0, order.indexOf(b.dataset.pick)));
       b.setAttribute('aria-pressed', String(b.dataset.pick === id));
     });
     panels.forEach(p => p.classList.toggle('is-active', p === panel));
@@ -1018,14 +1030,14 @@
   function selectFam(fam, opts) {
     const list = famPanels(fam);
     const id = lastInFam[fam] || (list[0] && list[0].dataset.essence);
-    return id ? select(id, opts) : false;
+    return id ? select(id, { ...opts, fam }) : false;
   }
 
   function step(dir, opts) {
     if (!current) return;
-    const list = famPanels(current.dataset.fam);
+    const list = famPanels(currentFam);
     const next = list[(list.indexOf(current) + dir + list.length) % list.length];
-    select(next.dataset.essence, opts);
+    select(next.dataset.essence, { ...opts, fam: currentFam });
   }
 
   // Aile sekmelerine kaydırır (aile kartlarından ve sayfa içi bağlantılardan gelindiğinde; sabit başlık payı CSS'te)
@@ -1067,7 +1079,7 @@
       selectFam(famLink.dataset.famLink, { animate: true, updateUrl: false });
       if (history.replaceState) history.replaceState(null, '', `#aile-${famLink.dataset.famLink}`);
     } else {
-      select(pickLink.dataset.pickLink, { animate: true });
+      select(pickLink.dataset.pickLink, { animate: true, fam: pickLink.dataset.famCtx });
     }
     toStage();
   });
@@ -1137,5 +1149,5 @@
     const active = panels.find(p => p.classList.contains('is-active')) || panels[0];
     if (active) select(active.dataset.essence, { animate: true, instant: true, updateUrl: false });
   }
-  if (stepNav) stepNav.hidden = !current || famPanels(current.dataset.fam).length < 2;
+  if (stepNav) stepNav.hidden = !current || famPanels(currentFam).length < 2;
 })();

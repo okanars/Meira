@@ -31,10 +31,18 @@
   // Esanslar teklif listesine ürün gibi eklenir: kimlik esansın kimliği (ör. non001), model alanı esans kodu.
   // Görsel yerine esansın renk küresi gösterilir (essenceOrb). Esanslar yayında değilse listede tutulmaz.
   const ESSENCES_ON = typeof ESSENCES !== 'undefined' && typeof ESSENCES_LIVE !== 'undefined' && ESSENCES_LIVE;
-  const famLabelOf = e => ((typeof ESSENCE_FAMILIES !== 'undefined' ? ESSENCE_FAMILIES : []).find(f => f.id === e.fam) || {}).label || '';
+  // Aile adları: asıl aile ve esansın ayrıca listelendiği aileler (products.js also)
+  const famLabelOf = e => [e.fam, ...(e.also || [])]
+    .map(id => ((typeof ESSENCE_FAMILIES !== 'undefined' ? ESSENCE_FAMILIES : []).find(f => f.id === id) || {}).label)
+    .filter(Boolean).join(', ');
+  // Liste fiyatı (KDV dahil) ve ambalaj: esansın kendi değeri yoksa koleksiyonunki (products.js ESSENCE_PRICE)
+  const ESS_PRICE = typeof ESSENCE_PRICE !== 'undefined' ? ESSENCE_PRICE : null;
   function essenceItem(id) {
     const e = ESSENCES_ON ? ESSENCES.find(x => x.id === id) : null;
-    return e ? { id: e.id, model: e.code, title: tt(`${e.name} esansı`, `${e.name} fragrance`), essence: e, famLabel: famLabelOf(e), specs: [] } : null;
+    if (!e) return null;
+    const price = e.price ?? (ESS_PRICE ? ESS_PRICE.price : null);
+    const size = e.size || (ESS_PRICE ? ESS_PRICE.size : '');
+    return { id: e.id, model: e.code, title: tt(`${e.name} esansı`, `${e.name} fragrance`), essence: e, famLabel: famLabelOf(e), price, size, specs: [] };
   }
   function findProduct(id) {
     const p = (typeof PRODUCTS !== 'undefined') ? PRODUCTS.find(x => x.id === id) : null;
@@ -219,8 +227,11 @@
       // Esans: koku ailesi ve ambalaj tercihi (hacim ve ambalaj teklifte netleşir)
       if (p.essence) {
         text += `${line}. [${model}] ${p.title}${p.famLabel ? ` (${p.famLabel})` : ''}\n`;
-        text += tt(`   - Talep adedi: ${item.qty} adet\n`, `   - Quantity: ${item.qty}\n`);
-        text += tt('   - Hacim / ambalaj: [tercihinizi belirtin]\n\n', '   - Volume / packaging: [please specify]\n\n');
+        text += p.size
+          ? tt(`   - Talep adedi: ${item.qty} × ${p.size}\n`, `   - Quantity: ${item.qty} × ${p.size}\n`)
+          : tt(`   - Talep adedi: ${item.qty} adet\n`, `   - Quantity: ${item.qty}\n`);
+        if (price != null) text += tt(`   - Liste fiyatı (birim): ${priceRange({ price })}${p.size ? ` / ${p.size}` : ''} (KDV dahil)\n\n`, `   - List price (unit): ${priceRange({ price })}${p.size ? ` / ${p.size}` : ''} (incl. VAT)\n\n`);
+        else text += '\n';
         return;
       }
 
@@ -368,7 +379,7 @@
         <div class="drawer-item" data-id="${esc(lineKey(item))}">
           ${productThumb(p, 'drawer-item-img')}
           <div class="drawer-item-info">
-            <span class="drawer-item-model">${esc(model)}</span>
+            <span class="drawer-item-model">${esc(model)}${p.size ? ` · ${esc(p.size)}` : ''}</span>
             <div class="drawer-item-title">${esc(p.title)}</div>
           </div>
           <button type="button" class="icon-btn drawer-item-remove" data-act="remove" aria-label="${esc(tt(`${model} ürününü listeden kaldır`, `Remove ${model} from the list`))}">${icon('trash')}</button>
@@ -731,6 +742,7 @@
               <p class="product-card__desc">${esc(list)} ${tt('koku aileleri. Koku piramitlerini inceleyin, numune isteyin.', 'scent families. View the scent pyramids and ask for a sample.')}</p>
               <p class="product-card__orbs" aria-hidden="true">${ESSENCES.slice(0, 9).map(essenceOrb).join('')}</p>
               <p class="product-card__meta">${fams.map(f => `<span>${esc(f.label)}</span>`).join('')}</p>
+              ${ESS_PRICE ? `<p class="product-card__price"><span class="product-card__price-value">${fmtPriceNum(ESS_PRICE.price)} TL</span> <span class="product-card__price-vat">${esc(ESS_PRICE.size)} · ${tt('KDV dahil', 'incl. VAT')}</span></p>` : ''}
               <div class="product-card__actions">
                 <span class="link-arrow" aria-hidden="true">${tt('Koleksiyonu incele', 'View the collection')} ${icon('arrow-right')}</span>
               </div>
@@ -975,7 +987,7 @@
         if (!p) return '';
         return `<li class="item-row" data-id="${esc(lineKey(item))}">
           ${productThumb(p, 'item-row__img')}
-          <span class="item-row__info"><span class="item-row__model">${esc(model)}</span><span class="item-row__name">${esc(p.title)}</span></span>
+          <span class="item-row__info"><span class="item-row__model">${esc(model)}${p.size ? ` · ${esc(p.size)}` : ''}</span><span class="item-row__name">${esc(p.title)}</span></span>
           <span class="qty-controls" role="group" aria-label="${esc(tt(`${model} adedi`, `${model} quantity`))}">
             <button type="button" class="qty-btn" data-item-act="minus" aria-label="${tt('Adedi azalt', 'Decrease quantity')}">${icon('minus')}</button>
             <span class="qty-val">${item.qty}</span>

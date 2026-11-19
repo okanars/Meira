@@ -322,7 +322,9 @@ const OILS = [
 //
 // Alanlar:
 //   id: adres çapası (esanslar.html#esans-<id>) ve teklif listesi kimliği (ürün kimlikleriyle çakışmaz)
-//   code: esans kodu, fam: ESSENCE_FAMILIES kimliği, name: esans adı, img: images/essences/<img>.jpg
+//   code: esans kodu, fam: asıl aile (kodun ön eki), also: esansın ayrıca listelendiği aileler (ör. ['prf']),
+//   name: esans adı, img: images/essences/<img>.jpg
+//   price / size: yalnızca o esansın fiyatı farklıysa; yoksa ESSENCE_PRICE kullanılır
 //   hue: sahnenin renk tonu (HSL 0-360), palette: arka plan hareketinin renkleri (görselin baskın renklerinden)
 //   motion: arka plan hareketi (js/essences.js): petals (süzülen yapraklar), mist (dalga ve kabarcık),
 //     wind (rüzgâr ve yaprak), fizz (yükselen ışıltılı kabarcıklar), ember (sıcak kıvılcım ve duman),
@@ -341,6 +343,10 @@ const OILS = [
 // Esanslar yayında mı? false iken menüde "Yakında" görünür, esanslar.html "hazırlanıyor" sayfasıdır, katalogda esans
 // kartı ve sekmesi gizlidir, ürün sayfalarındaki esans bölümü kilitlidir. Değiştirince node tools/build.mjs çalıştırın.
 const ESSENCES_LIVE = true;
+
+// Esans liste fiyatı (TL, KDV dahil; 2026-11-19): tüm esanslar 1 kg, 15.000 TL. Sitede esans panelinde, katalogdaki
+// esans kartında ve teklif e-postasında gösterilir.
+const ESSENCE_PRICE = { size: '1 kg', price: 15000 };
 
 const ESSENCE_FAMILIES = [
   {
@@ -368,7 +374,7 @@ const ESSENCE_FAMILIES = [
 const ESSENCES = [
   // ---- Non-alerjen ----
   {
-    id: 'non001', code: 'NON001', fam: 'non', name: 'Florina', img: 'non001',
+    id: 'non001', code: 'NON001', fam: 'non', also: ['cic'], name: 'Florina', img: 'non001',
     hue: 288, palette: ['#7A3E8E', '#E68AA6', '#C9A27E'], motion: 'powder',
     top: ['Ferah sabunsu', 'Temiz aldehit etkisi', 'Yeşil'],
     heart: ['Beyaz çiçek', 'Gül', 'Menekşe', 'Hafif meyvemsi'],
@@ -410,7 +416,7 @@ const ESSENCES = [
     ]
   },
   {
-    id: 'non009', code: 'NON009', fam: 'non', name: 'Amber Kirke', img: 'non009',
+    id: 'non009', code: 'NON009', fam: 'non', also: ['prf'], name: 'Amber Kirke', img: 'non009',
     hue: 182, palette: ['#2A9D9A', '#E39A3B', '#E9F3EE'], motion: 'mist',
     top: ['Ferah', 'Yeşil', 'Hafif ozonik'],
     heart: ['Yasemin', 'Beyaz çiçekler', 'Gül'],
@@ -452,7 +458,7 @@ const ESSENCES = [
     ]
   },
   {
-    id: 'non015', code: 'NON015', fam: 'non', name: 'Lotus', img: 'non015',
+    id: 'non015', code: 'NON015', fam: 'non', also: ['cic'], name: 'Lotus', img: 'non015',
     hue: 276, palette: ['#6B3FA0', '#E58FA0', '#F1E6D6'], motion: 'petals',
     top: ['Beyaz misk', 'Sandal', 'Pudramsı odunsuluk'],
     heart: ['Beyaz çiçekler', 'Meyve', 'Gül'],
@@ -508,7 +514,7 @@ const ESSENCES = [
     ]
   },
   {
-    id: 'non021', code: 'NON021', fam: 'non', name: 'Jasmine', img: 'non021',
+    id: 'non021', code: 'NON021', fam: 'non', also: ['cic'], name: 'Jasmine', img: 'non021',
     hue: 62, palette: ['#E7C53A', '#7FA33A', '#F4F0E2'], motion: 'petals',
     top: ['Limon', 'Greyfurt', 'Kavun', 'Yeşil elma'],
     heart: ['Gül', 'Neroli', 'Menekşe'],
@@ -578,7 +584,7 @@ const ESSENCES = [
     ]
   },
   {
-    id: 'non027', code: 'NON027', fam: 'non', name: 'Oud Malaki Conc.', img: 'non027',
+    id: 'non027', code: 'NON027', fam: 'non', also: ['prf'], name: 'Oud Malaki Conc.', img: 'non027',
     hue: 24, palette: ['#8C3A0E', '#D8801C', '#3E1F0C'], motion: 'ember',
     top: ['Baharat', 'Turunçgil', 'Aromatik'],
     heart: ['Reçine', 'Kuru odun', 'Baharat'],

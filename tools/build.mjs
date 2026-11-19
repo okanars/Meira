@@ -61,7 +61,7 @@ function loadData(files) {
   const ctx = {};
   vm.createContext(ctx);
   const src = files.map(f => fs.readFileSync(path.join(SITE, f), 'utf8')).join('\n;\n');
-  vm.runInContext(src + ';globalThis.__D={PRODUCTS,CATEGORIES,ESSENCES,ESSENCE_FAMILIES,ESSENCE_COVER,ESSENCES_LIVE,catalogOrder};', ctx);
+  vm.runInContext(src + ';globalThis.__D={PRODUCTS,CATEGORIES,ESSENCES,ESSENCE_FAMILIES,ESSENCE_COVER,ESSENCE_PRICE,ESSENCES_LIVE,catalogOrder};', ctx);
   return ctx.__D;
 }
 const DATA = { tr: loadData(['js/products.js']), en: loadData(['js/products.js', 'js/products.en.js']) };
@@ -74,10 +74,10 @@ const CAT_SHORT_ALL = {
   en: { wall: 'Wall-mounted', pro: 'Professional and HVAC', plug: 'Plug-in and passive', home: 'Tabletop and portable' }
 };
 
-let PRODUCTS, CATEGORIES, ESSENCES, ESSENCE_FAMILIES, ESSENCE_COVER, ESSENCES_LIVE, catalogOrder, CAT_LABEL, CAT_SHORT, POSTS, C;
+let PRODUCTS, CATEGORIES, ESSENCES, ESSENCE_FAMILIES, ESSENCE_COVER, ESSENCE_PRICE, ESSENCES_LIVE, catalogOrder, CAT_LABEL, CAT_SHORT, POSTS, C;
 function setLang(lang) {
   L = lang;
-  ({ PRODUCTS, CATEGORIES, ESSENCES, ESSENCE_FAMILIES, ESSENCE_COVER, ESSENCES_LIVE, catalogOrder } = DATA[lang]);
+  ({ PRODUCTS, CATEGORIES, ESSENCES, ESSENCE_FAMILIES, ESSENCE_COVER, ESSENCE_PRICE, ESSENCES_LIVE, catalogOrder } = DATA[lang]);
   CAT_LABEL = Object.fromEntries(CATEGORIES.map(c => [c.id, c.label]));
   CAT_SHORT = CAT_SHORT_ALL[lang];
   C = CONTENT[lang];
@@ -653,7 +653,17 @@ function essenceLockedHtml() {
 // Esanslar: ortak parçalar (products.js ESSENCES, ESSENCE_FAMILIES)
 // ---------------------------------------------------------------------------
 const famOf = id => ESSENCE_FAMILIES.find(f => f.id === id);
-const essencesOf = f => ESSENCES.filter(e => e.fam === f.id);
+// Esansın aileleri: asıl aile (kod ön eki) ve ayrıca listelendiği aileler (products.js also)
+const famsOf = e => [e.fam, ...(e.also || [])];
+const famLabels = e => famsOf(e).map(id => famOf(id).label).join(' · ');
+// Ailedeki esanslar: önce asıl üyeler, sonra ayrıca listelenenler
+const essencesOf = f => [...ESSENCES.filter(e => e.fam === f.id), ...ESSENCES.filter(e => (e.also || []).includes(f.id))];
+// Liste fiyatı (KDV dahil): esansın kendi fiyatı yoksa koleksiyon fiyatı
+const essencePrice = e => ({ price: e.price ?? ESSENCE_PRICE.price, size: e.size || ESSENCE_PRICE.size });
+function essencePriceHtml(e, cls) {
+  const { price, size } = essencePrice(e);
+  return `<p class="${cls}"><span class="${cls}-value">${fmt(price)} TL</span> <span class="${cls}-vat">${esc(size)} · ${tt('KDV dahil', 'incl. VAT')}</span></p>`;
+}
 // Renk küresi: esansın paletinden (components.js essenceOrb ile aynı değişkenler)
 const essencePal = e => `--c1:${e.palette[0]};--c2:${e.palette[1]};--c3:${e.palette[2]}`;
 const essenceOrb = (e, cls = '') => `<span class="essence-orb${cls ? ' ' + cls : ''}" style="${essencePal(e)}" aria-hidden="true"></span>`;
@@ -693,7 +703,7 @@ function essenceLinkHtml(p) {
             ${picks.map(e => `<li><a href="esanslar.html#esans-${e.id}" class="essence-mini">
               ${essenceOrb(e)}
               <span class="essence-mini__body">
-                <span class="essence-mini__meta">${esc(famOf(e.fam).label)} · ${esc(e.code)}</span>
+                <span class="essence-mini__meta">${esc(famLabels(e))} · ${esc(e.code)}</span>
                 <span class="essence-mini__name">${esc(e.name)}</span>
                 <span class="essence-mini__notes">${[e.top[0], e.heart[0], e.base[0]].map(esc).join(' · ')}</span>
               </span>
@@ -720,6 +730,7 @@ function essenceCard() {
               <p class="product-card__desc">${esc(famSentence())} ${tt('koku aileleri. Koku piramitlerini inceleyin, numune isteyin.', 'scent families. View the scent pyramids and ask for a sample.')}</p>
               <p class="product-card__orbs" aria-hidden="true">${ESSENCES.slice(0, 9).map(e => essenceOrb(e)).join('')}</p>
               <p class="product-card__meta">${ESSENCE_FAMILIES.map(f => `<span>${esc(f.label)}</span>`).join('')}</p>
+              <p class="product-card__price"><span class="product-card__price-value">${fmt(ESSENCE_PRICE.price)} TL</span> <span class="product-card__price-vat">${esc(ESSENCE_PRICE.size)} · ${tt('KDV dahil', 'incl. VAT')}</span></p>
               <div class="product-card__actions">
                 <span class="link-arrow" aria-hidden="true">${tt('Koleksiyonu incele', 'View the collection')} ${icon('arrow-right')}</span>
               </div>
@@ -1106,11 +1117,10 @@ function essencesPage() {
   const famBadge = f => `${f.prefix} · ${essencesOf(f).length} ${tt('esans', essencesOf(f).length === 1 ? 'fragrance' : 'fragrances')}`;
 
   const panel = e => {
-    const f = famOf(e.fam);
     const alt = tt(`${e.name} (${e.code}) koku piramidi. Üst notalar: ${e.top.join(', ')}. Orta notalar: ${e.heart.join(', ')}. Dip notalar: ${e.base.join(', ')}.`,
       `${e.name} (${e.code}) scent pyramid. Top notes: ${e.top.join(', ')}. Heart notes: ${e.heart.join(', ')}. Base notes: ${e.base.join(', ')}.`);
     const big = imageSize(`images/essences/${e.img}.jpg`) || { w: 1200, h: 1200 };
-    return `<article class="essence${e === first ? ' is-active' : ''}" id="esans-${e.id}" data-essence="${e.id}" data-fam="${e.fam}" data-hue="${e.hue}" data-motion="${e.motion}" data-palette="${e.palette.join(',')}" data-sprites="${e.sprites.join(',')}" aria-labelledby="esans-${e.id}-t">
+    return `<article class="essence${e === first ? ' is-active' : ''}" id="esans-${e.id}" data-essence="${e.id}" data-fam="${e.fam}" data-fams="${famsOf(e).join(' ')}" data-hue="${e.hue}" data-motion="${e.motion}" data-palette="${e.palette.join(',')}" data-sprites="${e.sprites.join(',')}" aria-labelledby="esans-${e.id}-t">
             <div class="essence__visual">
               <button type="button" class="essence__figure" data-image-open data-src="images/essences/${e.img}.jpg" data-webp="images/essences/${e.img}.webp" data-w="${big.w}" data-h="${big.h}" data-title="${esc(`${e.name} (${e.code}) · ${tt('koku piramidi', 'scent pyramid')}`)}" aria-label="${esc(tt(`${e.name} koku piramidini büyüt`, `Enlarge the ${e.name} scent pyramid`))}">
                 ${essencePicture(e, { alt, attrs: `${e === first ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async"` })}
@@ -1118,7 +1128,7 @@ function essencesPage() {
               </button>
             </div>
             <div class="essence__body">
-              <p class="essence__meta"><span class="essence__fam">${esc(f.label)}</span><span class="essence__code">${esc(e.code)}</span></p>
+              <p class="essence__meta"><span class="essence__fam">${esc(famLabels(e))}</span><span class="essence__code">${esc(e.code)}</span></p>
               <h2 id="esans-${e.id}-t">${esc(e.name)}</h2>
               <ul class="essence__mood" aria-label="${tt('Kokunun hissi', 'How it feels')}">
                 ${e.mood.map(m => `<li>${esc(m)}</li>`).join('')}
@@ -1126,6 +1136,7 @@ function essencesPage() {
               <ol class="note-pyramid" aria-label="${tt('Koku piramidi', 'Scent pyramid')}">
                 ${TIERS.map(([k, label, hint], i) => `<li class="np-tier np-tier--${k}" style="--t:${i}"><span class="np-tier__label">${label} <span class="np-tier__hint">· ${hint}</span></span><span class="np-tier__text">${story(e.story[i])}</span></li>`).join('\n                ')}
               </ol>
+              ${essencePriceHtml(e, 'essence__price')}
               <div class="btn-row essence__actions">
                 <button type="button" class="btn btn--primary" data-add-to-list="${e.id}">${icon('plus', 'icon--sm')}<span>${tt('Teklif listesine ekle', 'Add to quote list')}</span></button>
                 <button type="button" class="btn btn--quiet" data-quote-now="${e.id}" data-sample>${tt('Numune iste', 'Ask for a sample')}</button>
@@ -1153,12 +1164,12 @@ function essencesPage() {
         <p class="essence-fam-text" data-fam-text>${esc(firstFam.text)}</p>
 
         <div class="essence-picker" role="group" aria-label="${tt('Esans seçin', 'Choose a fragrance')}" data-picker>
-          ${ESSENCES.map(e => `<button type="button" class="essence-pick${e.fam === first.fam ? ' is-in-fam' : ''}" data-pick="${e.id}" data-fam="${e.fam}" aria-pressed="${e === first}" aria-controls="esans-${e.id}">${essenceOrb(e)}<span class="essence-pick__name">${esc(e.name)}</span><span class="essence-pick__code">${esc(e.code)}</span></button>`).join('\n          ')}
+          ${ESSENCES.map(e => `<button type="button" class="essence-pick${famsOf(e).includes(first.fam) ? ' is-in-fam' : ''}" data-pick="${e.id}" data-fam="${e.fam}" data-fams="${famsOf(e).join(' ')}" aria-pressed="${e === first}" aria-controls="esans-${e.id}">${essenceOrb(e)}<span class="essence-pick__name">${esc(e.name)}</span><span class="essence-pick__code">${esc(e.code)}</span></button>`).join('\n          ')}
         </div>
 
         <div class="essence-panels" aria-live="polite">
           ${ESSENCE_FAMILIES.map(f => `<h2 class="essence-fam-head" id="aile-${f.id}">${esc(f.label)}</h2>
-          ${essencesOf(f).map(panel).join('\n          ')}`).join('\n          ')}
+          ${ESSENCES.filter(e => e.fam === f.id).map(panel).join('\n          ')}`).join('\n          ')}
         </div>
 
         <div class="essence-step" data-step-nav hidden>
@@ -1205,7 +1216,7 @@ function essencesPage() {
             <h3>${esc(f.label)}</h3>
             <p>${esc(f.text)}</p>
             <div class="fam-card__orbs">
-              ${list.slice(0, 8).map(e => `<a href="#esans-${e.id}" class="fam-card__orb" data-pick-link="${e.id}" title="${esc(`${e.name} · ${e.code}`)}">${essenceOrb(e)}<span class="visually-hidden">${esc(`${e.name} (${e.code})`)}</span></a>`).join('')}${list.length > 8 ? `<span class="fam-card__more num">+${list.length - 8}</span>` : ''}
+              ${list.slice(0, 8).map(e => `<a href="#esans-${e.id}" class="fam-card__orb" data-pick-link="${e.id}" data-fam-ctx="${f.id}" title="${esc(`${e.name} · ${e.code}`)}">${essenceOrb(e)}<span class="visually-hidden">${esc(`${e.name} (${e.code})`)}</span></a>`).join('')}${list.length > 8 ? `<span class="fam-card__more num">+${list.length - 8}</span>` : ''}
             </div>
             <a href="#aile-${f.id}" class="link-arrow" data-fam-link="${f.id}">${tt('Esansları inceleyin', 'View the fragrances')} ${icon('arrow-right')}</a>
           </li>`;

@@ -3802,6 +3802,17 @@ html:not(.js) .essence-picker { display: none; }
   pointer-events: none;
 }
 
+/* Liste fiyatı (KDV dahil) ve ambalaj */
+.essence__price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 10px;
+  margin-top: var(--s-2);
+  font-variant-numeric: tabular-nums;
+}
+.essence__price-value { font-family: var(--font-serif); font-size: clamp(1.6rem, 1.4rem + 0.8vw, 2rem); line-height: 1.15; color: var(--c-ink); }
+.essence__price-vat { font-size: var(--fs-small); color: var(--c-ink-2); }
 .essence__actions { margin-top: var(--s-1); }
 
 /* Ailedeki önceki / sonraki esans (yalnızca JS ile, ailede birden fazla esans varsa) */
