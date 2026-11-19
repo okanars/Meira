@@ -39,7 +39,7 @@ export const SUSTAINABILITY = {
     {
       id: 'enerji',
       title: 'Energy and power supply',
-      html: `<p>Professional diffusers run on little power. According to the manufacturer, the ultrasonic wall models (CK-628, CK-638, CK-648) draw 2 W. They can run on 4 AA batteries or a Type-C 6V supply; for continuous use a mains supply creates less waste than frequent battery changes. Some tabletop models (for example ADS-622) charge via Type-C.</p>`
+      html: `<p>Professional diffusers run on little power. The ultrasonic wall models (CK-628, CK-638, CK-648) draw 2 W. They can run on 4 AA batteries or a Type-C 6V supply; for continuous use a mains supply creates less waste than frequent battery changes. Some tabletop models (for example ADS-622) charge via Type-C.</p>`
     },
     {
       id: 'atik',
@@ -58,7 +58,7 @@ export const SUSTAINABILITY = {
     {
       id: 'esans',
       title: 'Fragrance content',
-      html: `<p>According to the manufacturer, its fragrances use plant extracts; raw materials are sourced from the USA and France and compliance with IFRA standards has been tested by SGS. These are manufacturer statements; you can request the safety data sheet (SDS) and compliance documents during the quote process. We explain what IFRA is in <a href="blog-ifra-standartlari-nedir.html" class="text-link">this article</a>.</p>`
+      html: `<p>The fragrances use plant extracts; raw materials are sourced from the USA and France and compliance with IFRA standards has been tested by SGS. You can request the safety data sheet (SDS) and compliance documents during the quote process. We explain what IFRA is in <a href="blog-ifra-standartlari-nedir.html" class="text-link">this article</a>.</p>`
     },
     {
       id: 'olculmeyen',
@@ -95,8 +95,8 @@ export const FAQ = {
         ['Which device suits my space?', 'The first criterion is volume: floor area x ceiling height. Choose a model whose coverage meets that volume. The volume calculator (Solutions page) does this calculation and lists suitable models. Partitioned spaces, strong ventilation and heavy visitor traffic may need more than one unit.'],
         ['Why is coverage given in m³ rather than m²?', 'Scent fills a volume of air, not a floor. Of two spaces with the same floor area, the one with the higher ceiling has a larger volume and needs a stronger device. For a few tabletop models the manufacturer gives coverage in m²; this is stated on their product pages.'],
         ['What is the difference between ultrasonic and dual-fluid devices?', 'Ultrasonic devices turn fragrance into mist with a vibrating plate; they are very quiet and suit small spaces. Dual-fluid (compressed air) devices break the fragrance into very fine particles with an air stream; they cover larger spaces and some models connect to the HVAC system.'],
-        ['How loud are the devices?', 'According to the manufacturer, the ultrasonic wall models (CK-628, CK-638, CK-648) run below 8 dBA. Dual-fluid and professional models range from about 35 to 42 dB depending on the model. Each model\'s value is on its own product page.'],
-        ['Which models can be connected to the HVAC system?', 'According to the manufacturer, ADS-620B / 640B / 670B and CK-631 support HVAC connection, and the ADS-687 column diffuser supports connection to fresh-air systems. The connection point depends on the building\'s mechanical installation.']
+        ['How loud are the devices?', 'The ultrasonic wall models (CK-628, CK-638, CK-648) run below 8 dBA. Dual-fluid and professional models range from about 35 to 42 dB depending on the model. Each model\'s value is on its own product page.'],
+        ['Which models can be connected to the HVAC system?', 'ADS-620B / 640B / 670B and CK-631 support HVAC connection, and the ADS-687 column diffuser supports connection to fresh-air systems. The connection point depends on the building\'s mechanical installation.']
       ]
     },
     {
@@ -104,8 +104,8 @@ export const FAQ = {
       items: [
         ['How often do I need to refill?', 'Refill frequency depends on the reservoir capacity, operating hours, spray and pause times and the chosen intensity. Larger reservoirs and timed operation reduce how often you refill. We can estimate consumption together for your usage plan during the quote.'],
         ['Why does the scent seem to fade during the day?', 'People quickly get used to a scent they are constantly exposed to. Those who spend a long time in the space notice it less, while someone arriving notices it clearly. Before increasing the intensity, ask someone who has just come in.'],
-        ['Are the fragrances safe?', 'According to the manufacturer, its fragrances have been tested by SGS for compliance with IFRA standards. You can request the safety data sheet (SDS) and compliance documents during the quote process. We recommend not setting the intensity higher than needed and making sure the space is ventilated.'],
-        ['How are wall-mounted devices installed?', 'According to the manufacturer, the CK-628, CK-638 and CK-688 wall models mount with adhesive in about 3 seconds, without drilling. The plug-in CK-644 and CK-645 need no drilling. The mounting method of other models is confirmed during the quote.']
+        ['Are the fragrances safe?', 'The fragrances have been tested by SGS for compliance with IFRA standards. You can request the safety data sheet (SDS) and compliance documents during the quote process. We recommend not setting the intensity higher than needed and making sure the space is ventilated.'],
+        ['How are wall-mounted devices installed?', 'The CK-628, CK-638 and CK-688 wall models mount with adhesive in about 3 seconds, without drilling. The plug-in CK-644 and CK-645 need no drilling. The mounting method of other models is confirmed during the quote.']
       ]
     },
     {

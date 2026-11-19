@@ -371,7 +371,7 @@ export const POSTS = [
 </ol>
 
 <h2>About the fragrances in our range</h2>
-<p>The manufacturer states that its fragrances have been tested by SGS for compliance with IFRA standards. This is a manufacturer statement; you can request the test and compliance documents during the quote process. For scent options and documents, <a href="iletisim.html?konu=numune">write to us through the quote form</a>.</p>
+<p>Our fragrances have been tested by SGS for compliance with IFRA standards. You can request the test and compliance documents during the quote process. For scent options and documents, <a href="iletisim.html?konu=numune">write to us through the quote form</a>.</p>
 `,
     sources: [
       { label: 'IFRA. IFRA Code of Practice.', url: 'https://ifrafragrance.org/safe-use/code-of-practice-new' },

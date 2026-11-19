@@ -41,7 +41,7 @@ export const SUSTAINABILITY = {
     {
       id: 'enerji',
       title: 'Enerji ve güç kaynağı',
-      html: `<p>Profesyonel difüzörler düşük güçle çalışır. Üretici verisine göre ultrasonik duvar modellerinin (CK-628, CK-638, CK-648) güç tüketimi 2 W'tır. Bu modeller 4 adet AA pil ya da Type-C 6V güç kaynağıyla çalışabilir; sürekli kullanımda prize bağlı güç kaynağı, sık pil değişimine göre daha az atık oluşturur. Masaüstü modellerin bir kısmı (ör. ADS-622) Type-C ile şarj edilir.</p>`
+      html: `<p>Profesyonel difüzörler düşük güçle çalışır. Ultrasonik duvar modellerinin (CK-628, CK-638, CK-648) güç tüketimi 2 W'tır. Bu modeller 4 adet AA pil ya da Type-C 6V güç kaynağıyla çalışabilir; sürekli kullanımda prize bağlı güç kaynağı, sık pil değişimine göre daha az atık oluşturur. Masaüstü modellerin bir kısmı (ör. ADS-622) Type-C ile şarj edilir.</p>`
     },
     {
       id: 'atik',
@@ -60,8 +60,7 @@ export const SUSTAINABILITY = {
     {
       id: 'esans',
       title: 'Esans içeriği',
-      html: `<p>Üretici beyanına göre esanslarda bitkisel özler kullanılır; ham maddeler ABD ve Fransa'dan tedarik edilir ve IFRA standartlarına uygunluğu SGS tarafından test edilmiştir. Bunlar üretici beyanlarıdır; güvenlik bilgi formu (SDS) ve uygunluk belgelerini teklif sürecinde talep edebilirsiniz. IFRA'nın ne olduğunu <a href="blog-ifra-standartlari-nedir.html" class="text-link">bu yazıda</a> anlattık.</p>
-<!-- Ham madde kaynağı ve IFRA/SGS ifadeleri üretici beyanıdır. "Alerjen içermez" gibi sağlık iddiaları belge görülmeden kullanılmaz: koku karışımlarında bildirimi zorunlu alerjenler bulunabilir. -->`
+      html: `<p>Esanslarda bitkisel özler kullanılır; ham maddeler ABD ve Fransa'dan tedarik edilir ve IFRA standartlarına uygunluğu SGS tarafından test edilmiştir. Güvenlik bilgi formu (SDS) ve uygunluk belgelerini teklif sürecinde talep edebilirsiniz. IFRA'nın ne olduğunu <a href="blog-ifra-standartlari-nedir.html" class="text-link">bu yazıda</a> anlattık.</p>`
     },
     {
       id: 'olculmeyen',
@@ -99,8 +98,8 @@ export const FAQ = {
         ['Mekânım için hangi cihaz uygun?', 'İlk ölçüt hacimdir: taban alanı × tavan yüksekliği. Ardından kapsama değeri bu hacmi karşılayan bir model seçilir. Çözümler sayfasındaki hacim hesaplayıcı bu hesabı yapar ve uygun modelleri listeler. Bölmeli alanlar, güçlü havalandırma ve yoğun ziyaretçi trafiği birden fazla cihaz gerektirebilir.'],
         ['Kapsama değeri neden m² değil m³?', 'Koku bir zemini değil, bir hava hacmini doldurur. Aynı taban alanına sahip iki mekândan tavanı yüksek olanın hacmi daha büyüktür ve daha güçlü bir cihaz gerektirir. Birkaç masaüstü modelde üretici, kapsamayı m² olarak vermiştir; bu değerler ürün sayfalarında belirtilir.'],
         ['Ultrasonik ve çift akışkanlı cihaz arasındaki fark nedir?', 'Ultrasonik cihazlar esansı titreşen bir plakayla sise dönüştürür; çok sessizdir ve küçük alanlara uygundur. Çift akışkanlı (basınçlı hava) cihazlar esansı hava akımıyla çok ince parçacıklara ayırır; daha büyük alanları kapsar ve bazı modeller klima sistemine bağlanabilir.'],
-        ['Cihazlar ne kadar ses çıkarır?', 'Üretici verisine göre ultrasonik duvar modellerinin (CK-628, CK-638, CK-648) ses seviyesi 8 dBA\'nın altındadır. Çift akışkanlı ve profesyonel modellerde değerler modele göre yaklaşık 35 ile 42 dB arasındadır. Her modelin değeri kendi ürün sayfasında belirtilmiştir.'],
-        ['Klima sistemine bağlanabilen modeller hangileri?', 'Üretici verisine göre ADS-620B / 640B / 670B ve CK-631 klima bağlantısını, ADS-687 kolon difüzör taze hava sistemi bağlantısını destekler. Bağlantı noktası binanın mekanik tesisatına göre belirlenir.']
+        ['Cihazlar ne kadar ses çıkarır?', 'Ultrasonik duvar modellerinin (CK-628, CK-638, CK-648) ses seviyesi 8 dBA\'nın altındadır. Çift akışkanlı ve profesyonel modellerde değerler modele göre yaklaşık 35 ile 42 dB arasındadır. Her modelin değeri kendi ürün sayfasında belirtilmiştir.'],
+        ['Klima sistemine bağlanabilen modeller hangileri?', 'ADS-620B / 640B / 670B ve CK-631 klima bağlantısını, ADS-687 kolon difüzör taze hava sistemi bağlantısını destekler. Bağlantı noktası binanın mekanik tesisatına göre belirlenir.']
       ]
     },
     {
@@ -108,8 +107,8 @@ export const FAQ = {
       items: [
         ['Esansı ne sıklıkla doldurmam gerekir?', 'Dolum sıklığı; hazne kapasitesine, çalışma saatlerine, püskürtme ve bekleme sürelerine ve seçilen yoğunluğa bağlıdır. Büyük hazneli modeller ve zamanlı çalışma dolum sıklığını azaltır. Kullanım planınıza göre tahmini tüketimi teklif aşamasında birlikte hesaplayabiliriz.'],
         ['Koku gün içinde neden azalmış gibi geliyor?', 'İnsanlar sürekli maruz kaldıkları kokuya hızla alışır. Mekânda uzun süre bulunan kişiler kokuyu daha az algılar; yeni gelen biri ise belirgin biçimde fark eder. Yoğunluğu artırmadan önce mekâna yeni gelen birinin görüşünü alın.'],
-        ['Esanslar güvenli mi?', 'Üretici beyanına göre esanslar IFRA standartlarına uygunluk açısından SGS tarafından test edilmiştir. Güvenlik bilgi formu (SDS) ve uygunluk belgelerini teklif sürecinde talep edebilirsiniz. Koku yoğunluğunu gereğinden yüksek tutmamanızı ve mekânın havalandırmasının çalıştığından emin olmanızı öneririz.'],
-        ['Duvar tipi cihazlar nasıl monte edilir?', 'Üretici verisine göre CK-628, CK-638 ve CK-688 duvar modelleri yapışkan bantla, duvarı delmeden yaklaşık üç saniyede monte edilir. Prize takılan CK-644 ve CK-645 delme gerektirmez. Diğer modellerin montaj şekli teklif aşamasında teyit edilir.']
+        ['Esanslar güvenli mi?', 'Esanslar IFRA standartlarına uygunluk açısından SGS tarafından test edilmiştir. Güvenlik bilgi formu (SDS) ve uygunluk belgelerini teklif sürecinde talep edebilirsiniz. Koku yoğunluğunu gereğinden yüksek tutmamanızı ve mekânın havalandırmasının çalıştığından emin olmanızı öneririz.'],
+        ['Duvar tipi cihazlar nasıl monte edilir?', 'CK-628, CK-638 ve CK-688 duvar modelleri yapışkan bantla, duvarı delmeden yaklaşık üç saniyede monte edilir. Prize takılan CK-644 ve CK-645 delme gerektirmez. Diğer modellerin montaj şekli teklif aşamasında teyit edilir.']
       ]
     },
     {

@@ -1293,14 +1293,13 @@
   // =========================================================================
   // 7. CİHAZ KÜRATÖRÜ (Ana sayfa)
   // Cihazlar PRODUCTS'tan okunur; burada uydurma veri yok. Yalnızca satıştaki ürünler önerilir.
-  // Önerilen esans (essenceId) editoryal bir öneridir; esanslar yayında değilse gösterilmez.
+  // Esanslar için mekân önerisi yapılmaz (Meira'nın talebi, 2026-11-19).
   // =========================================================================
   const ATMOSPHERES = {
     hotel: {
       title: tt('Otel lobisi ve karşılama alanları', 'Hotel lobbies and reception areas'),
       desc: tt('Yüksek tavanlı, sürekli kullanılan alanlar için zeminde duran, taze hava sistemine bağlanabilen alüminyum gövdeli bir kolon difüzör.', 'A free-standing aluminium column diffuser that connects to the fresh-air system, for busy spaces with high ceilings.'),
       productId: 'ck686',
-      essenceId: 'non009',
       image: 'images/products/ck686.jpg',
       alt: tt('Modern bir salonda zemine yerleştirilmiş ADS-687 kolon difüzör', 'ADS-687 column diffuser standing on the floor in a modern living room')
     },
@@ -1308,7 +1307,6 @@
       title: tt('Ofis ve toplantı alanları', 'Offices and meeting rooms'),
       desc: tt('Çalışma alanları ve toplantı odaları için sessiz çalışan, uygulama ya da kablosuz kumandayla zamanlanabilen ince bir masaüstü cihaz.', 'A quiet, slim tabletop unit for workspaces and meeting rooms that can be scheduled from an app or wireless remote.'),
       productId: 'ck689',
-      essenceId: 'non020',
       image: 'images/products/ck689.jpg',
       alt: tt('Bir lobide ADS-689 difüzör ve telefon uygulaması', 'ADS-689 diffuser in a lobby, with the phone app')
     },
@@ -1316,7 +1314,6 @@
       title: tt('Mağaza ve showroom', 'Shops and showrooms'),
       desc: tt('Satış alanının büyüklüğüne göre üç kapasitede seçilebilen, zemine yerleştirilen ve klima sistemine bağlanabilen metal gövdeli seri.', 'A metal-bodied, floor-standing series in three capacities to suit the size of the sales floor; connects to the HVAC system.'),
       productId: 'ck620',
-      essenceId: 'prf006',
       image: 'images/products/ck620-g1.jpg',
       alt: tt('Butik bir iç mekânda zemine yerleştirilmiş siyah ADS-620B difüzör', 'Black ADS-620B diffuser standing on the floor in a boutique interior')
     },
@@ -1324,7 +1321,6 @@
       title: tt('Rezidans ve özel yaşam alanları', 'Residences and private spaces'),
       desc: tt('Salon ve giriş holü gibi yaşam alanları için masa ya da konsol üzerinde duran, alüminyum gövdeli ve sessiz çalışan bir difüzör.', 'A quiet, aluminium-bodied diffuser that sits on a table or console, for living spaces such as lounges and entrance halls.'),
       productId: 'ck683',
-      essenceId: 'non026',
       image: 'images/products/ck683.jpg',
       alt: tt('Bronz, yeşil, kahverengi ve siyah alüminyum gövdeli CK-683 difüzörler', 'CK-683 diffusers with bronze, green, brown and black aluminium bodies')
     }
@@ -1337,7 +1333,6 @@
 
     const coverage = specValue(p, RE_COV);
     const noise = specValue(p, RE_NOISE);
-    const scent = data.essenceId ? essenceItem(data.essenceId) : null;
 
     return `
       <div class="curator__panel">
@@ -1348,8 +1343,7 @@
           <dl class="spec-pairs">
             <div class="span-2"><dt>${tt('Önerilen cihaz', 'Recommended device')}</dt><dd>${esc(p.model)}, ${esc(p.title)}</dd></div>
             ${coverage ? `<div><dt>${tt('Kapsama alanı', 'Coverage')}</dt><dd>${esc(coverage)}</dd></div>` : ''}
-            ${noise ? `<div><dt>${tt('Ses seviyesi (üretici verisi)', 'Noise level (manufacturer data)')}</dt><dd>${esc(noise)}</dd></div>` : ''}
-            ${scent ? `<div class="span-2"><dt>${tt('Önerilen esans', 'Suggested fragrance')}</dt><dd class="curator__scent">${essenceOrb(scent.essence)}<a href="esanslar.html#esans-${esc(scent.id)}" class="text-link">${esc(scent.essence.name)}</a><span>${esc(scent.famLabel)} · ${esc(scent.model)}</span></dd></div>` : ''}
+            ${noise ? `<div><dt>${tt('Ses seviyesi', 'Noise level')}</dt><dd>${esc(noise)}</dd></div>` : ''}
           </dl>
           <div class="btn-row">
             <button type="button" class="btn btn--primary" data-add-product="${esc(p.id)}">${icon('plus', 'icon--sm')}<span>${tt('Listeye ekle', 'Add to list')}</span></button>
@@ -1451,7 +1445,7 @@
     const SIM_DATA = {
       nano: {
         status: tt('Çift akışkanlı (basınçlı hava) atomizasyon', 'Dual-fluid (compressed air) atomisation'),
-        desc: tt('Basınçlı hava esansı mikro parçacıklara ayırır; üreticinin açıklamasına göre iyonize, yüksek hızlı bir hızlandırıcı bu parçacıkları nano ölçeğe indirir. Çok ince parçacıklar yüzeye çarptığında dağılmadan geri seker.', 'Compressed air breaks the fragrance into micro particles; according to the manufacturer, an ionised high-speed accelerator reduces them to nano scale. Very fine particles bounce off surfaces without breaking.'),
+        desc: tt('Basınçlı hava esansı mikro parçacıklara ayırır; iyonize, yüksek hızlı bir hızlandırıcı bu parçacıkları nano ölçeğe indirir. Çok ince parçacıklar yüzeye çarptığında dağılmadan geri seker.', 'Compressed air breaks the fragrance into micro particles; an ionised high-speed accelerator reduces them to nano scale. Very fine particles bounce off surfaces without breaking.'),
         size: tt('Nano ölçekli parçacık', 'Nano-scale particles'),
         contact: tt('Yüzeyden seker, yapışmaz', 'Bounces off, does not stick'),
         residue: tt('Islak kalıntı bırakmaz', 'Leaves no wet residue')

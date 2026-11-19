@@ -1,6 +1,6 @@
 /* Ürün veritabanı: üreticinin (Dongguan Andusic Technology Co. Ltd.) 2025 ürün kataloğundan (İngilizce çeviri) derlenmiştir.
- * [DOĞRULANACAK] FDA, gıda sınıfı malzeme ve güvenlik standardı ifadeleri üretici beyanıdır;
- * sitede "üretici beyanına göre" kalıbıyla verilir. Belge talep edilmeden kesin ifade kullanmayın.
+ * FDA, gıda sınıfı malzeme ve güvenlik standardı ifadeleri üreticinin beyanıdır; Meira'nın talebiyle (2026-11-19)
+ * sitede "üretici verisine / beyanına göre" kalıbı olmadan, doğrudan yazılır. Dayanak belgeler üreticiden istenebilir.
  * Ürün videoları (videos): Meira'nın ilettiği üretici tanıtım videoları, images/products/videos/<file>.mp4
  * ve kapak karesi <file>.jpg / .webp. Başlık (title) ürün adı içermez; özet (summary) videoda gösterileni anlatır. Desenli panellerdeki yazı üreticinin markasıdır.
  * Koku adları: otel ve parfüm markası adları nötr, betimleyici adlarla değiştirildi (RAPOR.md).
@@ -46,7 +46,7 @@ const PRODUCTS = [
     id: 'ck628', model: 'CK-628', cat: 'wall', badge: 'Akıllı kumanda',
     title: 'Ultrasonik Akıllı Duvar Difüzörü',
     short: 'Ultrasonik teknolojiyle çalışan, 300 m³ kapsamalı kompakt duvar difüzörü; uzaktan kumandalı, ışık sensörlü ve LCD ekranlı seçenekleri bulunur.',
-    desc: 'Ultrasonik atomizasyon, esansı hızlı ve homojen biçimde havaya yayar. Cihaz dört adet AA pil ya da Type-C 6V adaptörle çalışır; uzaktan kumandalı, ışık sensörlü ve LCD dijital ekranlı seçenekleriyle farklı kullanım ihtiyaçlarına uyum sağlar. Gövde, yüksek sıcaklığa dayanıklı PP malzemeden üretilmiştir; üretici beyanına göre bu malzeme gıda sınıfındadır, koku yapmaz, toksik değildir ve FDA dahil uluslararası güvenlik standartlarına uygundur. Yapışkan bantla yaklaşık üç saniyede, duvarda iz bırakmadan monte edilir.',
+    desc: 'Ultrasonik atomizasyon, esansı hızlı ve homojen biçimde havaya yayar. Cihaz dört adet AA pil ya da Type-C 6V adaptörle çalışır; uzaktan kumandalı, ışık sensörlü ve LCD dijital ekranlı seçenekleriyle farklı kullanım ihtiyaçlarına uyum sağlar. Gövde, yüksek sıcaklığa dayanıklı PP malzemeden üretilmiştir; bu malzeme gıda sınıfındadır, koku yapmaz, toksik değildir ve FDA dahil uluslararası güvenlik standartlarına uygundur. Yapışkan bantla yaklaşık üç saniyede, duvarda iz bırakmadan monte edilir.',
     img: 'ck628', pos: '40% 50%', gallery: 7,
     features: ['Ultrasonik atomizasyon', 'Uzaktan kumanda ya da elle kontrol', 'Sessiz çalışma (<8 dBA)', 'Pil ya da Type-C ile çalışma', 'Duvarda ya da masada kullanım', 'Zamanlı püskürtme', 'Değiştirilebilir ultrasonik plaka'],
     variants: ['CK-628A (Beyaz)', 'CK-628B (Siyah)', 'Akıllı kumanda: CK-628-YK', 'LED ışık algılama: CK-628-LED', 'LCD dijital ekran: CK-628-LCD'],
@@ -70,7 +70,7 @@ const PRODUCTS = [
     id: 'ck638', model: 'CK-638', cat: 'wall',
     title: 'Ultrasonik Duvar Difüzörü (LED / LCD)',
     short: 'Korozyona dayanıklı PP gövdeli, ışık sensörlü ve LCD kontrol panelli seçenekleri bulunan ultrasonik difüzör; 300 m³ kapsama.',
-    desc: 'CK-638, ultrasonik atomizasyonla esansı hızla yayar. Uzaktan kumandalı, ışık sensörlü ve LCD dijital kontrol panelli seçenekleri bulunur. Gövdesi korozyona dayanıklı PP malzemeden üretilmiştir; üretici beyanına göre bu malzeme gıda sınıfındadır ve FDA standartlarına uygundur. İz bırakmayan yapışkan bantla yaklaşık üç saniyede monte edilir.',
+    desc: 'CK-638, ultrasonik atomizasyonla esansı hızla yayar. Uzaktan kumandalı, ışık sensörlü ve LCD dijital kontrol panelli seçenekleri bulunur. Gövdesi korozyona dayanıklı PP malzemeden üretilmiştir; bu malzeme gıda sınıfındadır ve FDA standartlarına uygundur. İz bırakmayan yapışkan bantla yaklaşık üç saniyede monte edilir.',
     img: 'ck638', pos: '40% 50%', gallery: 11,
     features: ['Ultrasonik atomizasyon', 'Uzaktan kumanda ya da elle kontrol', 'Sessiz çalışma', 'Pil ya da Type-C ile çalışma', 'Duvarda ya da masada kullanım', 'Zamanlı püskürtme', 'Değiştirilebilir ultrasonik plaka'],
     variants: ['CK-638A', 'CK-638B', 'Akıllı kumanda: CK-638-YK', 'LED: CK-638-LED', 'LCD: CK-638-LCD'],
@@ -82,7 +82,7 @@ const PRODUCTS = [
     id: 'ck648', model: 'CK-648', cat: 'wall',
     title: 'Ultrasonik Duvar Difüzörü (3 Renk)',
     short: 'Üç renk seçeneğiyle farklı iç mekânlara uyum sağlayan kompakt ultrasonik difüzör; 300 m³ kapsama.',
-    desc: 'Hafif ve taşınabilir tasarımı sayesinde kolayca konumlandırılır. Uzaktan kumandalı, ışık sensörlü ve LCD dijital ekranlı seçenekleri vardır. Gövde, yüksek sıcaklığa dayanıklı PP malzemeden üretilmiştir; üretici beyanına göre bu malzeme gıda sınıfındadır, koku yapmaz, toksik değildir ve FDA standartlarına uygundur.',
+    desc: 'Hafif ve taşınabilir tasarımı sayesinde kolayca konumlandırılır. Uzaktan kumandalı, ışık sensörlü ve LCD dijital ekranlı seçenekleri vardır. Gövde, yüksek sıcaklığa dayanıklı PP malzemeden üretilmiştir; bu malzeme gıda sınıfındadır, koku yapmaz, toksik değildir ve FDA standartlarına uygundur.',
     img: 'ck648', pos: '40% 50%', gallery: 9,
     features: ['Ultrasonik atomizasyon', 'Uzaktan kumanda ya da elle kontrol', 'Sessiz çalışma', 'Pil ya da Type-C ile çalışma', 'Duvarda ya da masada kullanım', 'Zamanlı püskürtme'],
     variants: ['CK-648A', 'CK-648B', 'CK-648C', 'Akıllı kumanda: CK-648-YK', 'LED: CK-648-LED', 'LCD: CK-648-LCD'],
@@ -93,7 +93,7 @@ const PRODUCTS = [
     id: 'ck688', model: 'CK-688', cat: 'wall', badge: 'Ultra İnce',
     title: 'Çift Akışkanlı Büyük Alan Difüzörü',
     short: 'Yalnızca 5,3 cm kalınlığındaki gövdesi, 500 ml haznesi ve uygulama kontrolüyle 800 m³ kapsama.',
-    desc: 'Çift akışkanlı atomizasyon, esansı hızlı ve homojen biçimde dağıtır. Dört adet AA pil ya da Type-C 6V adaptörle çalışır; uzaktan kumanda ve mobil uygulama ile yönetilir. Gövdesi yüksek sıcaklığa ve korozyona dayanıklı PP malzemeden üretilmiştir; üretici beyanına göre bu malzeme gıda sınıfındadır ve FDA standartlarına uygundur. Yaklaşık üç saniyede, duvarda iz bırakmadan monte edilir.',
+    desc: 'Çift akışkanlı atomizasyon, esansı hızlı ve homojen biçimde dağıtır. Dört adet AA pil ya da Type-C 6V adaptörle çalışır; uzaktan kumanda ve mobil uygulama ile yönetilir. Gövdesi yüksek sıcaklığa ve korozyona dayanıklı PP malzemeden üretilmiştir; bu malzeme gıda sınıfındadır ve FDA standartlarına uygundur. Yaklaşık üç saniyede, duvarda iz bırakmadan monte edilir.',
     img: 'ck688', pos: '35% 50%', gallery: 12,
     features: ['Çift akışkanlı atomizasyon', 'Uzaktan kumanda ve mobil uygulama', 'Sessiz çalışma (<36 dB)', 'Pil ya da adaptörle çalışma', 'İz bırakmayan duvar montajı', 'Zamanlı püskürtme', 'Yalnızca 5,3 cm kalınlık'],
     variants: ['CK-688A (Beyaz)', 'CK-688B (Siyah)'],
@@ -105,7 +105,7 @@ const PRODUCTS = [
     id: 'ck689', model: 'ADS-689B / ADS-689-YK', family: 'ADS-689', price: 20000, cat: 'home', pin: true,
     title: 'Çift Akışkanlı Ultra İnce Difüzör',
     short: 'Bluetooth uygulama ya da kablosuz kumandayla yönetilen ince gövdeli difüzör; 500 ml hazne, 600-800 m³ kapsama ve 35 dB’i aşmayan sessiz çalışma.',
-    desc: 'Çift akışkanlı atomizasyon, esansı hızlı ve homojen biçimde yayar. İki sürümü vardır: Bluetooth uygulamayla yönetilen ADS-689B ve kablosuz kumandalı ADS-689-YK. ABS ve PP gövde yüksek sıcaklığa dayanıklıdır; üretici beyanına göre malzeme koku yapmaz, toksik değildir ve FDA standartlarına uygundur. 500 ml esans haznesiyle 600-800 m³’lük alanlar için uygundur.',
+    desc: 'Çift akışkanlı atomizasyon, esansı hızlı ve homojen biçimde yayar. İki sürümü vardır: Bluetooth uygulamayla yönetilen ADS-689B ve kablosuz kumandalı ADS-689-YK. ABS ve PP gövde yüksek sıcaklığa dayanıklıdır; malzeme koku yapmaz, toksik değildir ve FDA standartlarına uygundur. 500 ml esans haznesiyle 600-800 m³’lük alanlar için uygundur.',
     img: 'ck689', pos: '35% 50%', gallery: 3,
     features: ['Çift akışkanlı atomizasyon', 'Bluetooth uygulama ya da kablosuz kumanda', 'Sessiz çalışma (≤35 dB)', 'Pil ya da adaptörle çalışma', 'Zamanlı püskürtme', 'Özel tasarım seçeneği'],
     variants: ['ADS-689B · Bluetooth uygulama (Beyaz / Siyah)', 'ADS-689-YK · Kablosuz kumanda (Beyaz / Siyah)'],
@@ -117,7 +117,7 @@ const PRODUCTS = [
     id: 'ck687', model: 'ADS-686A / ADS-686B', family: 'ADS-686', price: 15000, cat: 'home',
     title: 'Kompakt Çift Akışkanlı Difüzör',
     short: 'Yenilenmiş ekran paneline ve Bluetooth uygulama kontrolüne sahip, 150 ml hazneli kompakt difüzör; 300-600 m³ kapsama.',
-    desc: 'Çift akışkanlı atomizasyon, esansı hızlı ve eşit biçimde dağıtır. Bluetooth mobil uygulama ve yenilenmiş ekran paneli sayesinde kullanımı kolaydır. Gövde, yüksek sıcaklığa dayanıklı PP malzemeden üretilmiştir; üretici beyanına göre bu malzeme gıda sınıfındadır ve FDA dahil uluslararası standartlara uygundur.',
+    desc: 'Çift akışkanlı atomizasyon, esansı hızlı ve eşit biçimde dağıtır. Bluetooth mobil uygulama ve yenilenmiş ekran paneli sayesinde kullanımı kolaydır. Gövde, yüksek sıcaklığa dayanıklı PP malzemeden üretilmiştir; bu malzeme gıda sınıfındadır ve FDA dahil uluslararası standartlara uygundur.',
     img: 'ck687', pos: '40% 50%', gallery: 22,
     videos: [{ file: 'ck687-kurulum', duration: 65, title: 'Kurulumdan çalışma programına', teaser: 'Cihazın hazırlanmasını ve uygulamadan haftalık çalışma programı kurmayı adım adım izleyin.', summary: 'Pillerin ve esans şişesinin takılması gösteriliyor. Ardından ekrandaki ayar tuşları ve telefon uygulamasında haftalık çalışma programının nasıl oluşturulduğu adım adım anlatılıyor. Son bölümde cihaz masa üzerinde, prize bağlı olarak kullanılıyor.' }],
     features: ['Çift akışkanlı atomizasyon', 'Bluetooth uygulama kontrolü', 'Yenilenmiş ekran paneli', 'Sessiz çalışma (≤35 dB)', 'Zamanlı püskürtme'],
@@ -130,7 +130,7 @@ const PRODUCTS = [
     id: 'ck631', model: 'CK-631', cat: 'pro', badge: 'Profesyonel',
     title: 'Hava Pompalı Klima Bağlantılı Difüzör',
     short: 'Dahili hava pompası, 800 ml hazne ve 3.500 m³ kapsama; Bluetooth ya da WiFi ile kontrol.',
-    desc: 'Dahili hava pompasıyla çalışan ve klima (HVAC) sistemlerine entegre edilebilen bir difüzör. Çalışma saatleri ve koku yoğunluğu telefon üzerinden hassas biçimde ayarlanır. Kızılötesi yağ seviyesi algılama ve soğuk hava difüzyonu özellikleri sunar. Gövde gıda sınıfı PP malzemeden üretilmiştir; üretici beyanına göre FDA standartlarına uygundur.',
+    desc: 'Dahili hava pompasıyla çalışan ve klima (HVAC) sistemlerine entegre edilebilen bir difüzör. Çalışma saatleri ve koku yoğunluğu telefon üzerinden hassas biçimde ayarlanır. Kızılötesi yağ seviyesi algılama ve soğuk hava difüzyonu özellikleri sunar. Gövde gıda sınıfı PP malzemeden üretilmiştir; FDA standartlarına uygundur.',
     img: 'ck631', pos: '40% 50%', gallery: 3,
     features: ['Bluetooth / WiFi ile uzaktan kontrol', 'Güçlü atomizasyon', 'Dahili hava pompası', '24 saatlik akıllı zamanlayıcı', 'Klima (HVAC) bağlantısı', 'Kızılötesi yağ seviyesi algılama', 'Soğuk hava difüzyonu'],
     variants: ['CK-631A (Beyaz)', 'CK-631B (Siyah)'],
@@ -245,7 +245,7 @@ const PRODUCTS = [
     id: 'ads622', model: 'ADS-622', cat: 'home', badge: 'Dekoratif', soon: true,
     title: 'Masif Ahşap Tabanlı Aroma Difüzörü',
     short: 'Cam gövdeli, masif ahşap tabanlı ve yedi renkli gece lambalı aroma difüzörü; Type-C ile şarj edilir.',
-    desc: 'Sessiz çalışan ve zamanlayıcılı bu aroma difüzörü, masif ahşap tabanı ve renkli gece lambasıyla dekoratif bir obje olarak da öne çıkar. Type-C ile şarj edilir; telefon şarj adaptörü, powerbank ya da dizüstü bilgisayarla beslenebilir. Üretici beyanına göre güvenli malzemelerden üretilmiştir.',
+    desc: 'Sessiz çalışan ve zamanlayıcılı bu aroma difüzörü, masif ahşap tabanı ve renkli gece lambasıyla dekoratif bir obje olarak da öne çıkar. Type-C ile şarj edilir; telefon şarj adaptörü, powerbank ya da dizüstü bilgisayarla beslenebilir. Güvenli malzemelerden üretilmiştir.',
     img: 'ads622', pos: '50% 50%', gallery: 0,
     features: ['Sessiz çalışma ve zamanlayıcı', 'Type-C şarj', 'Güvenli malzeme', 'Masif ahşap taban', 'Renkli gece lambası'],
     variants: [],
@@ -313,8 +313,9 @@ const OILS = [
 //
 // Aileler müşterinin kod ön eklerinden: NON = non-alerjen, NTR = nötralizör (kötü koku giderici), PRF = parfüm,
 // CİC = çiçeksi, ORY = oryantal. [DOĞRULANACAK] PRF ve ORY ön eklerinin anlamı müşteriden teyit edilmeli
-// (PRF "parfüm su grubu" diye iletildi; ORY oryantal olarak yorumlandı). Non-alerjen ve nötralizör nitelikleri
-// üretici beyanıdır; sitede bu kalıpla verilir.
+// (PRF "parfüm su grubu" diye iletildi; ORY oryantal olarak yorumlandı). Meira'nın talebiyle (2026-11-19) non-alerjen
+// ve nötralizör nitelikleri "üretici beyanına göre" kalıbı olmadan, doğrudan özellik olarak yazılır; dayanak
+// belgeler (SDS, IFRA) teklif sürecinde paylaşılır. Esanslar için kullanım alanı / mekân örneği yazılmaz.
 // [DOĞRULANACAK] Müşterinin gönderdiği bazı görseller birebir aynı dosya: NON014, NON018, NTR001 ve NTR005 aynı
 // piramidi; NON008 ve NON024 aynı piramidi paylaşıyor (img alanı ortak). NON015'te üst ve dip notalar aynı yazılmış.
 // Doğru görseller gelince dosyayı koku_piramitleri/ klasörüne koyup betiği çalıştırın, notaları burada düzeltin.
@@ -344,28 +345,23 @@ const ESSENCES_LIVE = true;
 const ESSENCE_FAMILIES = [
   {
     id: 'non', prefix: 'NON', label: 'Non-alerjen',
-    text: 'Üretici beyanına göre alerjen içermeyecek şekilde formüle edilen esanslar. Kalabalık ve hassas kişilerin bulunduğu kapalı alanlarda temiz, yumuşak ve dengeli bir koku bırakır.',
-    spaces: ['Otel odası ve lobi', 'Klinik ve bekleme alanı', 'Ofis', 'Spa']
+    text: 'Alerjen içermeyen formüllerle hazırlanan esanslar; temiz, yumuşak ve dengeli bir koku bırakır.'
   },
   {
     id: 'ntr', prefix: 'NTR', label: 'Nötralizör',
-    text: 'Kötü kokuyu yalnızca örtmek yerine nötralize etmeye yönelik esanslar. Kokunun sorun olduğu alanlarda havayı temizlenmiş gibi ferah bırakır.',
-    spaces: ['Tuvalet ve lavabo', 'Otopark ve asansör', 'Mutfak ve atık alanı', 'Sigara alanı']
+    text: 'Kötü kokuyu yalnızca örtmek yerine nötralize eden esanslar; havayı temizlenmiş gibi ferah bırakır.'
   },
   {
     id: 'prf', prefix: 'PRF', label: 'Parfüm',
-    text: 'Parfüm karakterinde, katmanlı ve imza niteliğinde kokular. Markanın kendini anlattığı alanlarda akılda kalan bir iz bırakır.',
-    spaces: ['Mağaza ve showroom', 'Otel lobisi', 'Butik']
+    text: 'Parfüm karakterinde, katmanlı ve imza niteliğinde kokular; akılda kalan bir iz bırakır.'
   },
   {
     id: 'cic', prefix: 'CİC', label: 'Çiçeksi',
-    text: 'Beyaz çiçeklerin ve yeşil yaprakların zarif dünyası: aydınlık, yumuşak ve davetkâr.',
-    spaces: ['Butik mağaza', 'Spa', 'Karşılama alanı']
+    text: 'Beyaz çiçeklerin ve yeşil yaprakların zarif dünyası: aydınlık, yumuşak ve davetkâr.'
   },
   {
     id: 'ory', prefix: 'ORY', label: 'Oryantal',
-    text: 'Amber, vanilya ve sıcak odunsu notalarla derin ve sarıcı kokular; akşam saatlerine ve dinlenme alanlarına yakışır.',
-    spaces: ['Lounge ve bar', 'Restoran', 'Otel lobisi']
+    text: 'Amber, vanilya ve sıcak odunsu notalarla derin ve sarıcı kokular.'
   }
 ];
 

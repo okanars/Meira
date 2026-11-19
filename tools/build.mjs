@@ -585,8 +585,8 @@ function productFaq(p) {
         ` With a 3 m ceiling this corresponds to a floor area of about ${vals.map(r => floorArea(r, 3) + ' m²').join(' / ')}.`)
       : '';
     items.push(tt(
-      [`${fam(p)} ne kadar büyük bir alanı kokulandırır?`, `Üretici verisine göre kapsama alanı: ${cov}.${tail} Bölmeli alanlar, güçlü havalandırma ya da yoğun ziyaretçi trafiği birden fazla cihaz gerektirebilir.`],
-      [`How large an area does ${fam(p)} scent?`, `According to the manufacturer, its coverage is ${cov}.${tail} Partitioned spaces, strong ventilation or heavy visitor traffic may need more than one unit.`]));
+      [`${fam(p)} ne kadar büyük bir alanı kokulandırır?`, `${fam(p)}, ${cov} büyüklüğündeki alanları kokulandırır.${tail} Bölmeli alanlar, güçlü havalandırma ya da yoğun ziyaretçi trafiği birden fazla cihaz gerektirebilir.`],
+      [`How large an area does ${fam(p)} scent?`, `${fam(p)} is designed for spaces of ${cov}.${tail} Partitioned spaces, strong ventilation or heavy visitor traffic may need more than one unit.`]));
   }
   const tech = techOf(p);
   if (tech === 'ultrasonic') items.push(tt(
@@ -596,23 +596,23 @@ function productFaq(p) {
     [`${fam(p)} hangi yöntemle çalışır?`, 'Çift akışkanlı (basınçlı hava) atomizasyonla çalışır: hava akımı esansı çok ince parçacıklara ayırır. Su ve ısı kullanılmaz.'],
     [`How does ${fam(p)} work?`, 'It uses dual-fluid (compressed air) atomisation: an air stream breaks the fragrance into very fine particles. No water or heat is used.']));
   else if (tech === 'nano') items.push(tt(
-    [`${fam(p)} hangi yöntemle çalışır?`, 'Üretici, bu modelde nano atomizasyon kullanıldığını belirtmektedir: esans çok ince parçacıklar hâlinde havaya verilir.'],
-    [`How does ${fam(p)} work?`, 'The manufacturer states that this model uses nano atomisation: the fragrance is released into the air as very fine particles.']));
+    [`${fam(p)} hangi yöntemle çalışır?`, 'Nano atomizasyonla çalışır: esans çok ince parçacıklar hâlinde havaya verilir.'],
+    [`How does ${fam(p)} work?`, 'It uses nano atomisation: the fragrance is released into the air as very fine particles.']));
   const power = spec(p, RE.psu) || spec(p, /gerilim|güç|voltage|power/i);
   if (power) items.push(tt(
-    [`${fam(p)} hangi güç kaynağıyla çalışır?`, `Üretici verisine göre güç kaynağı: ${power}.`],
-    [`How is ${fam(p)} powered?`, `According to the manufacturer, the power supply is: ${power}.`]));
+    [`${fam(p)} hangi güç kaynağıyla çalışır?`, `${fam(p)}, ${power} ile çalışır.`],
+    [`How is ${fam(p)} powered?`, `${fam(p)} runs on ${power}.`]));
   const noise = spec(p, RE.noise);
   if (noise) items.push(tt(
-    [`${fam(p)} ne kadar ses çıkarır?`, `Üretici verisine göre ses seviyesi: ${noise}.`],
-    [`How loud is ${fam(p)}?`, `According to the manufacturer, the noise level is ${noise}.`]));
+    [`${fam(p)} ne kadar ses çıkarır?`, `Çalışırken ses seviyesi ${noise}.`],
+    [`How loud is ${fam(p)}?`, `Its noise level in operation is ${noise}.`]));
   const cap = spec(p, RE.cap);
   if (cap) items.push(tt(
     ['Esans kapasitesi ne kadar?', `${fam(p)} modelinin esans kapasitesi: ${cap}. Dolum sıklığı çalışma saatlerine, püskürtme ve bekleme sürelerine ve yoğunluk ayarına bağlıdır.`],
     ['What is the fragrance capacity?', `The fragrance capacity of ${fam(p)} is ${cap}. How often it needs refilling depends on operating hours, spray and pause times and the intensity setting.`]));
   if (/klima|taze hava|hvac|fresh-air/i.test(p.features.join(' '))) items.push(tt(
-    [`${fam(p)} klima sistemine bağlanabilir mi?`, 'Üretici verisine göre evet. Bağlantı noktası (dönüş havası kanalı ya da santral çıkışı) binanın mekanik tesisatına göre belirlenir.'],
-    [`Can ${fam(p)} be connected to the HVAC system?`, 'According to the manufacturer, yes. The connection point (return air duct or air handling unit outlet) depends on the building\'s mechanical installation.']));
+    [`${fam(p)} klima sistemine bağlanabilir mi?`, 'Evet. Bağlantı noktası (dönüş havası kanalı ya da santral çıkışı) binanın mekanik tesisatına göre belirlenir.'],
+    [`Can ${fam(p)} be connected to the HVAC system?`, 'Yes. The connection point (return air duct or air handling unit outlet) depends on the building\'s mechanical installation.']));
   if (p.soon) items.push(tt(
     [`${fam(p)} ne zaman satışa çıkacak?`, 'Bu model henüz satışta değil. Satışa çıktığında bu sayfadan teklif listesine eklenebilecek. Bilgi almak için teklif formundan bize yazabilirsiniz.'],
     [`When will ${fam(p)} be available?`, 'This model is not on sale yet. Once it is, you will be able to add it to your quote list from this page. You can write to us through the quote form for details.']));
@@ -671,10 +671,8 @@ function famSentence() {
   return a.length > 1 ? `${a.slice(0, -1).join(', ')}${tt(' ve ', ' and ')}${a[a.length - 1]}` : a[0];
 }
 
-// Ürün sayfasındaki esans bölümü: ürünün kullanıldığı mekânlara göre öne çıkan üç esans ve koleksiyon bağlantısı.
-// Seçim editoryal bir öneridir (uyumluluk iddiası değil): duvar tipi ve prize takılan cihazlar daha çok ıslak
-// hacim ve koridorlarda (nötralizör), profesyonel cihazlar lobi ve mağazada (parfüm, oryantal), masaüstü
-// cihazlar yaşam alanlarında (çiçeksi, non-alerjen) kullanılır.
+// Ürün sayfasındaki esans bölümü: ürün kategorisine göre öne çıkan üç esans ve koleksiyon bağlantısı.
+// Seçim editoryal bir vitrindir (uyumluluk iddiası değil); sayfada esanslar için kullanım alanı yazılmaz.
 const ESSENCE_PICKS = {
   wall: ['ntr002', 'ntr004', 'non001'],
   plug: ['ntr003', 'ntr005', 'non016'],
@@ -687,7 +685,7 @@ function essenceLinkHtml(p) {
       <div class="wrap split split--top">
         <div class="split__a">
           <h2 id="refill-title">${tt('Esans ve dolum', 'Fragrance and refills')}</h2>
-          <p class="mt-4 text-2">${tt(`Cihaz yeniden doldurulabilir. Koleksiyonda ${ESSENCE_FAMILIES.length} koku ailesinde ${ESSENCES.length} esans var: ${esc(famSentence())}. Yanda, bu modelin sık kullanıldığı mekânlar için öne çıkan esanslardan bazılarını görebilirsiniz; koku piramidini inceleyip esansı teklif listenize ekleyebilir ya da numune isteyebilirsiniz.`, `The device is refillable. The collection has ${ESSENCES.length} fragrances in ${ESSENCE_FAMILIES.length} scent families: ${esc(famSentence())}. Alongside are a few fragrances that suit the spaces this model is often used in; view their scent pyramids, add them to your quote list or ask for a sample.`)}</p>
+          <p class="mt-4 text-2">${tt(`Cihaz yeniden doldurulabilir. Koleksiyonda ${ESSENCE_FAMILIES.length} koku ailesinde ${ESSENCES.length} esans var: ${esc(famSentence())}. Yanda koleksiyondan öne çıkan esanslardan bazılarını görebilirsiniz; koku piramidini inceleyip esansı teklif listenize ekleyebilir ya da numune isteyebilirsiniz.`, `The device is refillable. The collection has ${ESSENCES.length} fragrances in ${ESSENCE_FAMILIES.length} scent families: ${esc(famSentence())}. Alongside are a few highlights from the collection; view their scent pyramids, add them to your quote list or ask for a sample.`)}</p>
           <a href="esanslar.html" class="link-arrow mt-5">${tt('Tüm esansları inceleyin', 'Browse all fragrances')} ${icon('arrow-right')}</a>
         </div>
         <div class="split__b">
@@ -744,7 +742,7 @@ function productPage(p) {
   if (vals.length) {
     const rows = vals.map(r => `<tr><td>${volRange(r)} m³</td><td>${floorArea(r, 3)} m²</td><td>${floorArea(r, 4)} m²</td><td>${floorArea(r, 6)} m²</td></tr>`).join('');
     fit = `<h2>${tt('Mekâna uygunluk', 'Suitability for your space')}</h2>
-            <p>${tt(`Üretici verisine göre kapsama alanı: ${esc(covText)}. Aşağıdaki tablo bu hacmin farklı tavan yüksekliklerinde yaklaşık hangi taban alanına karşılık geldiğini gösterir (açık ve tek parça bir alan için).`, `According to the manufacturer, coverage is ${esc(covText)}. The table below shows the approximate floor area this volume corresponds to at different ceiling heights (for an open, undivided space).`)}</p>
+            <p>${tt(`${esc(fam(p))} modelinin kapsama alanı ${esc(covText)}. Aşağıdaki tablo bu hacmin farklı tavan yüksekliklerinde yaklaşık hangi taban alanına karşılık geldiğini gösterir (açık ve tek parça bir alan için).`, `The coverage of ${esc(fam(p))} is ${esc(covText)}. The table below shows the approximate floor area this volume corresponds to at different ceiling heights (for an open, undivided space).`)}</p>
             <div class="table-wrap">
               <table>
                 <caption>${tt('Kapsama hacminin taban alanı karşılığı', 'Coverage volume as floor area')}</caption>
@@ -857,7 +855,7 @@ ${productVideoSection(p)}
           <dl class="spec-table">
             ${p.specs.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('\n            ')}
           </dl>
-          <p class="note mt-3">${tt('Teknik veriler üreticiye aittir; değerler varyanta göre değişebilir.', 'Manufacturer\'s catalogue data; values may vary by variant.')}</p>
+          <p class="note mt-3">${tt('Değerler varyanta göre değişebilir.', 'Values may vary by variant.')}</p>
         </div>
       </div>
     </section>
@@ -1196,8 +1194,8 @@ function essencesPage() {
     <section class="section section--deep" aria-labelledby="families-title">
       <div class="wrap">
         <div class="section-head reveal">
-          <h2 id="families-title">${tt('Beş koku ailesi, her mekâna bir karakter', 'Five scent families, a character for every space')}</h2>
-          <p class="lead">${tt('Aileler kokunun hangi ihtiyaca cevap verdiğini de anlatır: hassas ortamlar için non-alerjen formüller, kötü kokuya karşı nötralizörler, markanın imzası için parfüm karakterli kokular.', 'The families also tell you what a scent is for: non-allergen formulas for sensitive settings, neutralisers against bad odours, perfume-like scents as a brand signature.')}</p>
+          <h2 id="families-title">${tt('Beş koku ailesi, beş ayrı karakter', 'Five scent families, five distinct characters')}</h2>
+          <p class="lead">${tt('Aileler kokunun karakterini ve işlevini anlatır: alerjen içermeyen formüller, kötü kokuyu nötralize eden esanslar, parfüm karakterli imza kokular, çiçeksi ve oryantal notalar.', 'The families describe each scent\'s character and purpose: allergen-free formulas, odour-neutralising fragrances, perfume-like signature scents, and floral and oriental notes.')}</p>
         </div>
         <ul class="fam-grid">
           ${ESSENCE_FAMILIES.map(f => {
@@ -1206,7 +1204,6 @@ function essencesPage() {
             <p class="fam-card__code">${esc(famBadge(f))}</p>
             <h3>${esc(f.label)}</h3>
             <p>${esc(f.text)}</p>
-            <p class="fam-card__spaces">${notes(f.spaces)}</p>
             <div class="fam-card__orbs">
               ${list.slice(0, 8).map(e => `<a href="#esans-${e.id}" class="fam-card__orb" data-pick-link="${e.id}" title="${esc(`${e.name} · ${e.code}`)}">${essenceOrb(e)}<span class="visually-hidden">${esc(`${e.name} (${e.code})`)}</span></a>`).join('')}${list.length > 8 ? `<span class="fam-card__more num">+${list.length - 8}</span>` : ''}
             </div>
@@ -1214,7 +1211,7 @@ function essencesPage() {
           </li>`;
           }).join('\n          ')}
         </ul>
-        <p class="note mt-7">${tt('Non-alerjen ve nötralizör nitelikleri üretici beyanıdır. Esansların güvenlik bilgi formunu (SDS) ve IFRA uygunluk belgelerini teklif sürecinde isteyebilirsiniz; ayrıntılar için <a href="blog-ifra-standartlari-nedir.html" class="text-link">IFRA yazımıza</a> bakabilirsiniz.', 'The non-allergen and neutraliser properties are manufacturer statements. You can ask for the safety data sheet (SDS) and IFRA conformity documents during the quote process; see <a href="blog-ifra-standartlari-nedir.html" class="text-link">our IFRA article</a> for details.')}</p>
+        <p class="note mt-7">${tt('Esansların güvenlik bilgi formunu (SDS) ve IFRA uygunluk belgelerini teklif sürecinde isteyebilirsiniz; ayrıntılar için <a href="blog-ifra-standartlari-nedir.html" class="text-link">IFRA yazımıza</a> bakabilirsiniz.', 'You can ask for the safety data sheet (SDS) and IFRA conformity documents of the fragrances during the quote process; see <a href="blog-ifra-standartlari-nedir.html" class="text-link">our IFRA article</a> for details.')}</p>
       </div>
     </section>
 
@@ -1222,7 +1219,7 @@ function essencesPage() {
       <div class="wrap">
         <div class="section-head reveal">
           <h2 id="devices-title">${tt('Esansı cihazınızla buluşturun', 'Pair the fragrance with your device')}</h2>
-          <p class="lead">${tt('Esanslar Meira difüzörlerinde kullanılır. Teklif isterken cihaz modelinizi ve mekânınızı belirtin; esansı cihazınıza uygun form ve ambalajda sunalım.', 'The fragrances are used in Meira diffusers. When you request a quote, tell us your device model and space, and we will offer the fragrance in the right form and packaging for your device.')}</p>
+          <p class="lead">${tt('Esanslar Meira difüzörlerinde kullanılır. Teklif isterken cihaz modelinizi belirtin; esansı cihazınıza uygun form ve ambalajda sunalım.', 'The fragrances are used in Meira diffusers. When you request a quote, tell us your device model and we will offer the fragrance in the right form and packaging for your device.')}</p>
         </div>
         <div class="product-grid product-grid--3">
           ${catalogOrder(PRODUCTS).filter(p => !p.soon).slice(0, 3).map(p => productCard(p, 'h3')).join('\n          ')}
@@ -1237,7 +1234,7 @@ function essencesPage() {
         <p>${tt('Beğendiğiniz esansları teklif listenize ekleyin, numune isteyin; kararınızı kokuyu mekânınızda deneyerek verin.', 'Add the fragrances you like to your quote list and ask for samples; decide after trying the scent in your own space.')}</p>
         <div class="btn-row">
           <a href="iletisim.html?konu=numune&amp;numune=1&amp;teklif=1" class="btn btn--primary btn--lg">${tt('Numune isteyin', 'Ask for samples')} ${icon('arrow-right', 'icon--move')}</a>
-          <a href="cozumler.html" class="link-arrow">${tt('Mekâna göre çözümler', 'Solutions by space')} ${icon('arrow-right')}</a>
+          <a href="urunler.html" class="link-arrow">${tt('Difüzörleri inceleyin', 'Browse the diffusers')} ${icon('arrow-right')}</a>
         </div>
       </div>
     </section>

@@ -3931,7 +3931,6 @@ html:not(.js) .essence-picker { display: none; }
 .fam-card__code { font-size: var(--fs-label); font-weight: 600; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--c-ink-3); }
 .fam-card h3 { font-family: var(--font-serif); font-size: var(--fs-h2); font-weight: 400; line-height: 1.1; }
 .fam-card p { max-width: 56ch; color: var(--c-ink-2); }
-.fam-card .fam-card__spaces { font-size: var(--fs-small); color: var(--c-ink-3); }
 .fam-card__orbs { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: var(--s-1); }
 .fam-card__orb { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; }
 .fam-card__orb .essence-orb { width: 32px; height: 32px; transition: transform var(--t-base) var(--ease-out); }
@@ -3970,11 +3969,6 @@ html:not(.js) .essence-picker { display: none; }
 /* Katalogdaki esans kartı: üst üste binen renk küreleri */
 .product-card__orbs { display: flex; padding-left: 6px; }
 .product-card__orbs .essence-orb { width: 22px; height: 22px; margin-left: -6px; box-shadow: 0 0 0 2px var(--c-surface), inset 0 -3px 6px rgba(0, 0, 0, 0.18); }
-
-/* Ana sayfa küratörü: önerilen esans */
-.curator__scent { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-1) var(--s-3); }
-.curator__scent .essence-orb { width: 22px; height: 22px; }
-.curator__scent span:last-child { font-size: var(--fs-small); color: var(--c-ink-3); }
 
 /* Teklif listesi ve formdaki esans satırı: görsel yerine renk küresi */
 .essence-thumb { display: grid; place-items: center; background: var(--c-bg-deep); }

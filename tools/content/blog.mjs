@@ -372,8 +372,7 @@ export const POSTS = [
 </ol>
 
 <h2>Katalogdaki esanslar hakkında</h2>
-<p>Üretici, esanslarının IFRA standartlarına uygunluğunun SGS tarafından test edildiğini belirtmektedir. Bu bir üretici beyanıdır; test ve uygunluk belgelerini teklif sürecinde talep edebilirsiniz. Koku seçenekleri ve belgeler için <a href="iletisim.html?konu=numune">teklif formundan</a> bize yazabilirsiniz.</p>
-<!-- IFRA / SGS ifadesi üretici beyanıdır; belge görülmeden kesin ifade kullanılmamalı. -->
+<p>Esanslarımızın IFRA standartlarına uygunluğu SGS tarafından test edilmiştir. Test ve uygunluk belgelerini teklif sürecinde talep edebilirsiniz. Koku seçenekleri ve belgeler için <a href="iletisim.html?konu=numune">teklif formundan</a> bize yazabilirsiniz.</p>
 `,
     sources: [
       { label: 'IFRA. IFRA Code of Practice.', url: 'https://ifrafragrance.org/safe-use/code-of-practice-new' },
