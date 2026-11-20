@@ -39,7 +39,16 @@ import { CERTS, CERT_INFO } from './content/certs.mjs';
 const SITE_URL = 'https://www.meiraairscent.com';
 const BRAND = 'Meira';
 const EMAIL = 'info@meiraairscent.com';
-const TODAY = '2026-11-15';
+// Şirket kimliği (oda sicil kaydı ve faaliyet belgesi, 2026-11-20). Adres site-config.js ile aynı tutulmalı.
+const COMPANY = {
+  legalName: 'Meira Kozmetik İthalat İhracat Sanayi ve Ticaret Limited Şirketi',
+  mersis: '0614192536200001',
+  street: 'Karakuyu Mah. 92008 Sk. No: 42/7 İç Kapı No: 8',
+  district: 'Seyhan',
+  city: 'Adana'
+};
+const ADDRESS = () => `${COMPANY.street}, ${COMPANY.district} / ${COMPANY.city}${L === 'en' ? ', Türkiye' : ''}`;
+const TODAY = '2026-11-20';
 const DEFAULT_OG = 'images/brand/og-meira.jpg';
 // Üretici (ürünlerin geliştirildiği ve üretildiği şirket). Sitede bu adla anılır.
 const MANUFACTURER = 'Dongguan Andusic Technology Co. Ltd.';
@@ -104,7 +113,7 @@ const RE = {
 };
 const spec = (p, re) => (p.specs.find(s => re.test(s[0])) || [])[1] || '';
 const productUrl = p => `urun-${p.id}.html`;
-// Düzyazıdaki kısa ürün adı (model alanında renk başına kodlar olabilir: "ADS-687A / ADS-687B")
+// Düzyazıdaki kısa ürün adı (model alanında renk başına kodlar olabilir: "ADS-686A / ADS-686B")
 const fam = p => p.family || p.model;
 const postUrl = post => `blog-${post.slug}.html`;
 const MONTHS = {
@@ -222,7 +231,9 @@ const orgLd = () => ({
   description: tt(
     `${MANUFACTURER} koku difüzörleri ve esanslarının Türkiye distribütörü. Oteller, ofisler, mağazalar ve yaşam alanları için profesyonel mekân kokulandırma ürünleri ve teklif.`,
     `Turkish distributor of ${MANUFACTURER} scent diffusers and fragrances. Professional scenting products and quotes for hotels, offices, shops and homes.`),
-  address: { '@type': 'PostalAddress', addressLocality: 'İstanbul', addressCountry: 'TR' },
+  legalName: COMPANY.legalName,
+  identifier: { '@type': 'PropertyValue', propertyID: 'MERSİS', value: COMPANY.mersis },
+  address: { '@type': 'PostalAddress', streetAddress: COMPANY.street, addressLocality: COMPANY.district, addressRegion: COMPANY.city, addressCountry: 'TR' },
   areaServed: 'TR',
   logo: { '@type': 'ImageObject', url: abs('images/brand/logo-meira.png'), width: 1040, height: 600 },
   image: abs(DEFAULT_OG)
@@ -384,7 +395,7 @@ function footer() {
           <ul>
             <li><a href="mailto:${EMAIL}" data-site-href="email"><span data-site="email">${EMAIL}</span></a></li>
             <li><a href="tel:+905527771974" data-site-href="phone"><span data-site="phone">+90&nbsp;552&nbsp;777&nbsp;19&nbsp;74</span></a></li>
-            <li><span data-site="city">${tt('İstanbul, Türkiye', 'Istanbul, Türkiye')}</span></li>
+            <li><span data-site="address">${esc(ADDRESS())}</span></li>
           </ul>
         </div>
       </div>

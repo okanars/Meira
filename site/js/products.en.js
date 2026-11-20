@@ -78,7 +78,7 @@
       desc: 'Dual-fluid atomisation for fast, even scent distribution. Easy to use with a Bluetooth mobile app and a renewed display panel. Food-grade, heat-resistant PP body; compliant with international standards including FDA.',
       videos: [{ title: 'From set-up to a weekly schedule', teaser: 'Watch step by step how the unit is prepared and how to set a weekly schedule in the app.', summary: 'The batteries and the fragrance bottle are fitted. The display buttons and how to create a weekly schedule in the phone app are explained step by step. The last part shows the unit plugged in on a table.' }],
       features: ['Dual-fluid atomisation', 'Bluetooth app control', 'Renewed display panel', 'Low noise (≤35 dB)', 'Timed spraying'],
-      variants: ['ADS-686A (White)', 'ADS-686B (Black)'],
+      variants: ['ADS-687A (White)', 'ADS-687B (Black)'],
       specs: [['Size', '148 × 67 × 185 mm'], ['Colour', 'White / Black'], ['Material', 'PP'], ['Voltage / Power', 'DC 6V / 2W'], ['Noise level', '≤ 35 dB'], ['Fragrance capacity', '150 ml'], ['Coverage', '300-600 m³'], ['Control', 'Bluetooth app, renewed display panel'], ['Installation', 'Tabletop'], ['Net weight', '512 g'], ['Carton', '30 pcs · 465×385×490 mm · 19 kg gross']],
       use: USE_COMMERCIAL
     },
@@ -109,7 +109,7 @@
       desc: 'A free-standing commercial column diffuser that makes a design statement with its stone-textured atomiser head. Plug-in atomiser for easy oil changes and a magnetic lock. A 1000 ml reservoir and nano mist technology for 4,000 m³; connects to fresh-air systems.',
       videos: [{ title: 'Design details and mist output', teaser: 'See the aluminium body, the fragrance change and the dense mist output up close.', summary: 'The details of the aluminium body, the removable atomiser head and changing the fragrance bottle are shown up close. Then the dense and steady mist output of the unit is shown.' }],
       features: ['Nano atomisation', 'Low noise (≤35 dB)', 'Mains power (DC 12V)', 'Connects to fresh-air systems', '1000 ml reservoir'],
-      variants: ['ADS-687A (White)', 'ADS-687B (Black)'],
+      variants: ['ADS-686A (White)', 'ADS-686B (Black)'],
       specs: [['Size', '575 × 115 × 160 mm'], ['Colour', 'White / Black'], ['Material', 'Aluminium alloy'], ['Voltage / Power', 'DC 12V / 12W'], ['Noise level', '≤ 35 dB'], ['Fragrance capacity', '1000 ml'], ['Coverage', '4,000 m³'], ['Installation', 'Floor (free standing)']],
       use: USE_COMMERCIAL + ', sales floors'
     },
@@ -234,7 +234,7 @@
 
   // Renk adları ve İngilizce aile adı (kodlar ve renk tonları products.js'te kalır)
   const COLOURS_EN = { Beyaz: 'White', Siyah: 'Black', 'Gümüş': 'Silver', Bej: 'Beige', 'Rose Gold': 'Rose gold', Bronz: 'Bronze', Kahverengi: 'Brown', 'Yeşil': 'Green' };
-  const FAMILY_EN = { ck686: 'ADS-687 column' };
+  const FAMILY_EN = { ck686: 'ADS-686 column' };
   PRODUCTS.forEach(p => {
     (p.colors || []).forEach(c => { c.name = COLOURS_EN[c.name] || c.name; });
     if (FAMILY_EN[p.id]) p.family = FAMILY_EN[p.id];

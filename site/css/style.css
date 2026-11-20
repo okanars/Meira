@@ -2736,6 +2736,9 @@ a.media img,
 .legal-facts { display: grid; border-top: 1px solid var(--c-line); }
 .legal-facts > div { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: var(--s-4); padding: var(--s-3) 0; border-bottom: 1px solid var(--c-line); font-size: var(--fs-small); }
 .legal-facts dt { color: var(--c-ink-3); }
+/* Kurumsal sayfa girişindeki şirket kimliği (unvan, MERSİS no, adres) */
+.company-facts { max-width: 44rem; }
+@media (max-width: 559px) { .company-facts > div { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
 .legal-facts dd { color: var(--c-ink); font-weight: 600; overflow-wrap: anywhere; }
 .prose--article code { padding: 1px 6px; background: var(--c-bg-deep); border-radius: var(--r); font-size: 0.875em; }
 

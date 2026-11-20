@@ -99,7 +99,7 @@ export const FAQ = {
         ['Kapsama değeri neden m² değil m³?', 'Koku bir zemini değil, bir hava hacmini doldurur. Aynı taban alanına sahip iki mekândan tavanı yüksek olanın hacmi daha büyüktür ve daha güçlü bir cihaz gerektirir. Birkaç masaüstü modelde üretici, kapsamayı m² olarak vermiştir; bu değerler ürün sayfalarında belirtilir.'],
         ['Ultrasonik ve çift akışkanlı cihaz arasındaki fark nedir?', 'Ultrasonik cihazlar esansı titreşen bir plakayla sise dönüştürür; çok sessizdir ve küçük alanlara uygundur. Çift akışkanlı (basınçlı hava) cihazlar esansı hava akımıyla çok ince parçacıklara ayırır; daha büyük alanları kapsar ve bazı modeller klima sistemine bağlanabilir.'],
         ['Cihazlar ne kadar ses çıkarır?', 'Ultrasonik duvar modellerinin (CK-628, CK-638, CK-648) ses seviyesi 8 dBA\'nın altındadır. Çift akışkanlı ve profesyonel modellerde değerler modele göre yaklaşık 35 ile 42 dB arasındadır. Her modelin değeri kendi ürün sayfasında belirtilmiştir.'],
-        ['Klima sistemine bağlanabilen modeller hangileri?', 'ADS-620B / 640B / 670B ve CK-631 klima bağlantısını, ADS-687 kolon difüzör taze hava sistemi bağlantısını destekler. Bağlantı noktası binanın mekanik tesisatına göre belirlenir.']
+        ['Klima sistemine bağlanabilen modeller hangileri?', 'ADS-620B / 640B / 670B ve CK-631 klima bağlantısını, ADS-686 kolon difüzör taze hava sistemi bağlantısını destekler. Bağlantı noktası binanın mekanik tesisatına göre belirlenir.']
       ]
     },
     {
@@ -122,7 +122,8 @@ export const FAQ = {
 };
 
 // Gizlilik ve KVKK aydınlatma metni (6698 sayılı KVKK m.10 başlıklarına göre).
-// Şirket kimliği ISO sertifikalarındaki unvan ve adresten alınmıştır; ticaret sicilindeki adres değişirse güncelleyin.
+// Şirket kimliği (unvan, MERSİS no, adres) oda sicil kaydı ve faaliyet belgesinden alınmıştır (2026-11-20);
+// adres değişirse site-config.js ve tools/build.mjs COMPANY ile birlikte güncelleyin.
 // Formdaki kısa metin (iletisim.html, en/iletisim.html) bu metnin özetidir; ikisi birlikte güncellenmeli.
 // Hukuk danışmanınızca gözden geçirilmesi önerilir.
 export const PRIVACY = {
@@ -130,7 +131,7 @@ export const PRIVACY = {
   h1: 'Gizlilik ve KVKK aydınlatma metni',
   crumb: 'Gizlilik ve KVKK',
   description: 'Teklif ve iletişim formu aracılığıyla toplanan kişisel verilerin hangi amaçla işlendiği, kimlere aktarılabileceği, saklama süresi ve KVKK kapsamındaki haklarınız.',
-  updated: '2026-10-26',
+  updated: '2026-11-20',
   lead: 'Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında, web sitemizdeki teklif ve iletişim formu aracılığıyla paylaştığınız kişisel verilerin nasıl işlendiğini ve sitemizin tarayıcınızda hangi bilgileri sakladığını açıklar.',
   sections: [
     {
@@ -139,6 +140,7 @@ export const PRIVACY = {
       html: `<p>Kişisel verileriniz, veri sorumlusu sıfatıyla aşağıda bilgileri yer alan şirket tarafından işlenir.</p>
 <dl class="legal-facts">
   <div><dt>Ticaret unvanı</dt><dd>Meira Kozmetik İthalat İhracat Sanayi ve Ticaret Limited Şirketi</dd></div>
+  <div><dt>MERSİS no</dt><dd>0614192536200001</dd></div>
   <div><dt>Adres</dt><dd>Karakuyu Mah. 92008 Sk. No: 42/7 İç Kapı No: 8, Seyhan / Adana</dd></div>
   <div><dt>E-posta</dt><dd><a href="mailto:info@meiraairscent.com" data-site-href="email"><span data-site="email">info@meiraairscent.com</span></a></dd></div>
   <div><dt>Telefon</dt><dd><a href="tel:+905527771974" data-site-href="phone"><span data-site="phone">+90&nbsp;552&nbsp;777&nbsp;19&nbsp;74</span></a></dd></div>

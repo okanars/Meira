@@ -96,7 +96,7 @@ export const FAQ = {
         ['Why is coverage given in m³ rather than m²?', 'Scent fills a volume of air, not a floor. Of two spaces with the same floor area, the one with the higher ceiling has a larger volume and needs a stronger device. For a few tabletop models the manufacturer gives coverage in m²; this is stated on their product pages.'],
         ['What is the difference between ultrasonic and dual-fluid devices?', 'Ultrasonic devices turn fragrance into mist with a vibrating plate; they are very quiet and suit small spaces. Dual-fluid (compressed air) devices break the fragrance into very fine particles with an air stream; they cover larger spaces and some models connect to the HVAC system.'],
         ['How loud are the devices?', 'The ultrasonic wall models (CK-628, CK-638, CK-648) run below 8 dBA. Dual-fluid and professional models range from about 35 to 42 dB depending on the model. Each model\'s value is on its own product page.'],
-        ['Which models can be connected to the HVAC system?', 'ADS-620B / 640B / 670B and CK-631 support HVAC connection, and the ADS-687 column diffuser supports connection to fresh-air systems. The connection point depends on the building\'s mechanical installation.']
+        ['Which models can be connected to the HVAC system?', 'ADS-620B / 640B / 670B and CK-631 support HVAC connection, and the ADS-686 column diffuser supports connection to fresh-air systems. The connection point depends on the building\'s mechanical installation.']
       ]
     },
     {
@@ -124,7 +124,7 @@ export const PRIVACY = {
   h1: 'Privacy notice',
   crumb: 'Privacy',
   description: 'How data from the quote and contact form is processed, who it may be shared with, how long it is kept and your rights under Turkish law (KVKK).',
-  updated: '2026-10-26',
+  updated: '2026-11-20',
   lead: 'This notice explains how the personal data you share through the quote and contact form on our website is processed under Turkish Personal Data Protection Law No. 6698 (KVKK), and what the site stores in your browser. The Turkish version of this notice is the governing text.',
   sections: [
     {
@@ -133,6 +133,7 @@ export const PRIVACY = {
       html: `<p>Your personal data is processed by the company below as data controller.</p>
 <dl class="legal-facts">
   <div><dt>Trade name</dt><dd>Meira Kozmetik İthalat İhracat Sanayi ve Ticaret Limited Şirketi</dd></div>
+  <div><dt>MERSIS no.</dt><dd>0614192536200001</dd></div>
   <div><dt>Address</dt><dd>Karakuyu Mah. 92008 Sk. No: 42/7 İç Kapı No: 8, Seyhan / Adana, Türkiye</dd></div>
   <div><dt>Email</dt><dd><a href="mailto:info@meiraairscent.com" data-site-href="email"><span data-site="email">info@meiraairscent.com</span></a></dd></div>
   <div><dt>Phone</dt><dd><a href="tel:+905527771974" data-site-href="phone"><span data-site="phone">+90&nbsp;552&nbsp;777&nbsp;19&nbsp;74</span></a></dd></div>

@@ -1313,7 +1313,7 @@
       desc: tt('Yüksek tavanlı, sürekli kullanılan alanlar için zeminde duran, taze hava sistemine bağlanabilen alüminyum gövdeli bir kolon difüzör.', 'A free-standing aluminium column diffuser that connects to the fresh-air system, for busy spaces with high ceilings.'),
       productId: 'ck686',
       image: 'images/products/ck686.jpg',
-      alt: tt('Modern bir salonda zemine yerleştirilmiş ADS-687 kolon difüzör', 'ADS-687 column diffuser standing on the floor in a modern living room')
+      alt: tt('Modern bir salonda zemine yerleştirilmiş ADS-686 kolon difüzör', 'ADS-686 column diffuser standing on the floor in a modern living room')
     },
     office: {
       title: tt('Ofis ve toplantı alanları', 'Offices and meeting rooms'),

@@ -131,7 +131,7 @@ export const POSTS = [
     minutes: 5,
     image: 'images/products/ck686.jpg',
     imagePos: '38% 58%',
-    imageAlt: 'ADS-687 column diffuser standing on the floor in a modern living room',
+    imageAlt: 'ADS-686 column diffuser standing on the floor in a modern living room',
     tags: ['Guide', 'Choosing a device'],
     related: ['ck689', 'ck686', 'ck620'],
     body: `
@@ -156,9 +156,9 @@ export const POSTS = [
 <h2>Coverage ranges in the catalogue</h2>
 <p>According to the manufacturer, the devices in the catalogue cover a wide range, from small tabletop models to metal-bodied series connected to the HVAC system. A few examples:</p>
 <ul>
-  <li><a href="urun-ck687.html">ADS-686</a> tabletop diffuser: 300-600 m³ (meeting rooms, receptions, offices).</li>
+  <li><a href="urun-ck687.html">ADS-687</a> tabletop diffuser: 300-600 m³ (meeting rooms, receptions, offices).</li>
   <li><a href="urun-ck689.html">ADS-689</a> slim dual-fluid diffuser: 600-800 m³ (shops, showrooms).</li>
-  <li><a href="urun-ck686.html">ADS-687</a> column diffuser: 4,000 m³ (lobbies, restaurants).</li>
+  <li><a href="urun-ck686.html">ADS-686</a> column diffuser: 4,000 m³ (lobbies, restaurants).</li>
   <li><a href="urun-ck620.html">ADS-620B / 640B / 670B</a> series: 2,000-5,000, 4,000-8,000 and 7,000-12,000 m³ (large spaces, HVAC connection).</li>
 </ul>
 
@@ -268,7 +268,7 @@ export const POSTS = [
 <ul>
   <li>CK-631 air-pump HVAC-connected diffuser: 3,500 m³, infrared oil-level sensing.</li>
   <li><a href="urun-ck620.html">ADS-620B / 640B / 670B</a> series: 2,000-5,000, 4,000-8,000 and 7,000-12,000 m³; 1000 ml reservoir.</li>
-  <li><a href="urun-ck686.html">ADS-687</a> column diffuser: connection to fresh-air systems.</li>
+  <li><a href="urun-ck686.html">ADS-686</a> column diffuser: connection to fresh-air systems.</li>
 </ul>
 
 <h2>What to gather before a project</h2>
@@ -403,7 +403,7 @@ export const POSTS = [
   <caption>Area, scent family and device type</caption>
   <thead><tr><th scope="col">Area</th><th scope="col">Scent family</th><th scope="col">Device type</th></tr></thead>
   <tbody>
-    <tr><td>Lobby and reception</td><td>Fresh tea, white flowers, light woods</td><td>Column or HVAC-connected (<a href="urun-ck686.html">ADS-687 column</a>, CK-631)</td></tr>
+    <tr><td>Lobby and reception</td><td>Fresh tea, white flowers, light woods</td><td>Column or HVAC-connected (<a href="urun-ck686.html">ADS-686 column</a>, CK-631)</td></tr>
     <tr><td>Corridors and lifts</td><td>A lower-intensity continuation of the lobby scent</td><td>Ultrasonic wall model (CK-638)</td></tr>
     <tr><td>Rooms</td><td>Calm, powdery or lavender</td><td>Tabletop diffuser</td></tr>
     <tr><td>Spa</td><td>Lavender, sage, woods</td><td>Wall model, low noise</td></tr>

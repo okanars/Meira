@@ -132,7 +132,7 @@ export const POSTS = [
     minutes: 5,
     image: 'images/products/ck686.jpg',
     imagePos: '38% 58%',
-    imageAlt: 'Modern bir salonda zemine yerleştirilmiş ADS-687 kolon difüzör',
+    imageAlt: 'Modern bir salonda zemine yerleştirilmiş ADS-686 kolon difüzör',
     tags: ['Rehber', 'Cihaz seçimi'],
     related: ['ck689', 'ck686', 'ck620'],
     body: `
@@ -157,9 +157,9 @@ export const POSTS = [
 <h2>Katalogdaki kapsama aralıkları</h2>
 <p>Üretici verisine göre katalogdaki cihazlar masaüstü küçük modellerden klima sistemine bağlanan metal gövdeli serilere kadar geniş bir aralığı kapsar. Birkaç örnek:</p>
 <ul>
-  <li><a href="urun-ck687.html">ADS-686</a> masaüstü difüzör: 300-600 m³ (toplantı odası, resepsiyon, ofis).</li>
+  <li><a href="urun-ck687.html">ADS-687</a> masaüstü difüzör: 300-600 m³ (toplantı odası, resepsiyon, ofis).</li>
   <li><a href="urun-ck689.html">ADS-689</a> çift akışkanlı ince difüzör: 600-800 m³ (mağaza, showroom).</li>
-  <li><a href="urun-ck686.html">ADS-687</a> kolon difüzör: 4.000 m³ (lobi, restoran).</li>
+  <li><a href="urun-ck686.html">ADS-686</a> kolon difüzör: 4.000 m³ (lobi, restoran).</li>
   <li><a href="urun-ck620.html">ADS-620B / 640B / 670B</a> serisi: 2.000-5.000, 4.000-8.000 ve 7.000-12.000 m³ (büyük alanlar, klima bağlantısı).</li>
 </ul>
 
@@ -269,7 +269,7 @@ export const POSTS = [
 <ul>
   <li>CK-631 hava pompalı klima bağlantılı difüzör: 3.500 m³, kızılötesi yağ seviyesi algılama.</li>
   <li><a href="urun-ck620.html">ADS-620B / 640B / 670B</a> serisi: 2.000-5.000, 4.000-8.000 ve 7.000-12.000 m³; 1000 ml hazne.</li>
-  <li><a href="urun-ck686.html">ADS-687</a> kolon difüzör: taze hava sistemi bağlantısı.</li>
+  <li><a href="urun-ck686.html">ADS-686</a> kolon difüzör: taze hava sistemi bağlantısı.</li>
 </ul>
 
 <h2>Proje öncesi toplanacak bilgiler</h2>
@@ -404,7 +404,7 @@ export const POSTS = [
   <caption>Alan, koku ailesi ve cihaz tipi</caption>
   <thead><tr><th scope="col">Alan</th><th scope="col">Koku ailesi</th><th scope="col">Cihaz tipi</th></tr></thead>
   <tbody>
-    <tr><td>Lobi ve resepsiyon</td><td>Ferah çay, beyaz çiçekler, hafif odunsu</td><td>Kolon ya da klima bağlantılı (<a href="urun-ck686.html">ADS-687 kolon</a>, CK-631)</td></tr>
+    <tr><td>Lobi ve resepsiyon</td><td>Ferah çay, beyaz çiçekler, hafif odunsu</td><td>Kolon ya da klima bağlantılı (<a href="urun-ck686.html">ADS-686 kolon</a>, CK-631)</td></tr>
     <tr><td>Koridor ve asansör</td><td>Lobi kokusunun düşük yoğunluklu devamı</td><td>Duvar tipi ultrasonik (CK-638)</td></tr>
     <tr><td>Oda</td><td>Sakin, pudralı ya da lavantalı</td><td>Masaüstü difüzör</td></tr>
     <tr><td>Spa</td><td>Lavanta, adaçayı, odunsu</td><td>Duvar tipi, düşük ses</td></tr>
